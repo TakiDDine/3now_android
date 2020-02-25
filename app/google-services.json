@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "844414579061",
+    "firebase_url": "https://ilyft-1110f.firebaseio.com",
+    "project_id": "ilyft-1110f",
+    "storage_bucket": "ilyft-1110f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844414579061:android:2672781ef85dbed409233c",
+        "android_client_info": {
+          "package_name": "com.ilyft.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "844414579061-g4998gc945i739d2sulfgc4j03gflnbt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ilyft.user",
+            "certificate_hash": "10d1487424627c35cd157589b18c8242c8b8e32f"
+          }
+        },
+        {
+          "client_id": "844414579061-bfvm4ijqd484rl31jvf58hohfh5ubpug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_M2xv5df5wYQdVBiUOMNlxvJX0AUzlxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844414579061-bfvm4ijqd484rl31jvf58hohfh5ubpug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

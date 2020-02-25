@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayoutOfList"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_2sdp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/_2sdp"
+    android:paddingRight="@dimen/_2sdp">
+
+    <ImageView
+        android:id="@+id/serviceImg"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp" />
+
+
+    <FrameLayout
+        android:id="@+id/selector_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:paddingLeft="@dimen/_4sdp"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingRight="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_2sdp">
+
+        <TextView
+            android:id="@+id/serviceItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/muli_regular"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/serviceCapacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:padding="@dimen/_1sdp"
+        android:drawablePadding="@dimen/_1sdp"
+        android:drawableStart="@drawable/ic_passanfer"
+        android:fontFamily="@font/muli_regular"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_9sdp" />
+
+    <com.ilyft.user.Utils.MyTextView
+        android:id="@+id/serviceItemPrice"
+        android:layout_width="@dimen/_76sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/_10sdp"
+        android:visibility="visible" />
+
+
+</LinearLayout>

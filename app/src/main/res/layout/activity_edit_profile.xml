@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/text_color_white">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_190sdp"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="start"
+
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:gravity="center_vertical"
+                    android:background="@android:color/transparent">
+
+                    <ImageView
+                        android:id="@+id/backArrow"
+                        android:background="@drawable/back_icon"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_margin="10dp"
+                        android:backgroundTint="@color/text_color_white"
+                        android:padding="5dp"/>
+
+                    <TextView
+                        android:text="Edit Profile"
+                        android:gravity="center_vertical"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@android:color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/muli_semibold"
+                        />
+
+                </LinearLayout>
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:src="@drawable/ic_dummy_user"
+                    app:civ_border_color="#FFFFFF"
+                    app:civ_border_width="1dp"
+                    />
+
+                <TextView
+                    android:id="@+id/txtHeaderName"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color_white"
+                    android:textSize="@dimen/_15sdp"
+                    android:fontFamily="@font/muli_semibold"
+                    android:text="Rajan Kumar"/>
+                <TextView
+                    android:id="@+id/txtHeaderMob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:textColor="@color/text_color_white"
+                    android:textSize="@dimen/_11sdp"
+                    android:fontFamily="@font/muli_semibold"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:text="+917277834909"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:cardBackgroundColor="@color/text_color_white">
+            <LinearLayout
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/cancel_ride_color"/>
+                <LinearLayout
+                    android:id="@+id/layoutName"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="@dimen/_14sdp"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/muli_semibold"
+                        android:drawableTint="@color/view_grey_bg_"
+                        android:text="Name"
+                        />
+                    <TextView
+                        android:id="@+id/first_name"
+                        android:textSize="@dimen/_13sdp"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/muli_semibold"
+                        android:text="Name"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/cancel_ride_color"/>
+
+
+                <LinearLayout
+                    android:id="@+id/layoutEmail"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="@dimen/_14sdp"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/muli_semibold"
+                        android:drawableTint="@color/view_grey_bg_"
+                        android:text="Email"
+                        />
+                    <TextView
+                        android:id="@+id/email"
+                        android:textSize="@dimen/_13sdp"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/muli_semibold"
+                        android:text="Name"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/cancel_ride_color"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutMobile"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textSize="@dimen/_14sdp"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/muli_semibold"
+                        android:drawableTint="@color/view_grey_bg_"
+                        android:text="Mobile Number"
+                        />
+                    <TextView
+                        android:id="@+id/mobile_no"
+                        android:textSize="@dimen/_13sdp"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/muli_semibold"
+                        android:text="Name"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/cancel_ride_color"/>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/layoutService"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp">
+
+                    <TextView
+                        android:drawableLeft="@drawable/ic_name"
+                        android:textSize="@dimen/_13sdp"
+                        android:layout_weight="1"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/white"
+                        android:drawableTint="@color/done_disabled_dark"
+                        android:layout_height="wrap_content"
+                        android:text="Service type"
+                        />
+                    <TextView
+                        android:id="@+id/service"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:maxLines="1"
+
+                        android:textSize="@dimen/_11sdp"
+                        android:layout_weight="1"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:gravity="center_vertical|right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_15sdp"
+                        android:text=""
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/layoutUpdatePwd"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp">
+
+                    <TextView
+
+                        android:textSize="@dimen/_13sdp"
+                        android:layout_weight="1"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+
+                        android:textColor="@color/white"
+                        android:drawableTint="@color/cancel_ride_color"
+                        android:layout_height="wrap_content"
+                        android:text="Update Password"
+                        />
+                    <TextView
+                        android:id="@+id/changePasswordTxt"
+                        android:textSize="@dimen/_11sdp"
+                        android:layout_weight="2"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:gravity="center_vertical|right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/_15sdp"
+                        android:text=""
+                        />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cancel_ride_color"/>
+        <androidx.cardview.widget.CardView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp">
+
+                <com.ilyft.user.Utils.MyTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:drawableTint="@color/cancel_ride_color"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:text="Favorites"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <ImageView
+                        android:id="@+id/ivHome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/ic_home_black_24dp"
+                        android:backgroundTint="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.ilyft.user.Utils.MyTextView
+                        android:id="@+id/tvLocationHome"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Home"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@id/ivHome"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <com.ilyft.user.Utils.MyTextView
+                        android:id="@+id/tvLocationHomeAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="@dimen/_40sdp"
+
+                        android:hint="@string/enter_home_address"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/ivHome"
+                        app:layout_constraintStart_toEndOf="@id/ivHome"
+                        app:layout_constraintTop_toBottomOf="@+id/tvLocationHome" />
+
+                    <ImageView
+                        android:id="@+id/ivEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_18sdp"
+                        android:background="@drawable/ic_edit_black_24dp"
+                        android:backgroundTint="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/tvLocationHomeAddress"
+                        app:layout_constraintTop_toTopOf="@+id/tvLocationHomeAddress" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:id="@+id/ivWork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/ic_work_black_24dp"
+                        android:backgroundTint="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.ilyft.user.Utils.MyTextView
+                        android:id="@+id/tvLocationWork"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Work"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ivWork"
+
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.ilyft.user.Utils.MyTextView
+                        android:id="@+id/tvLocationWorkAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="@dimen/_40sdp"
+                        android:hint="@string/enter_home_address"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/ivWork"
+                        app:layout_constraintStart_toEndOf="@id/ivWork"
+                        app:layout_constraintTop_toBottomOf="@+id/tvLocationWork" />
+
+                    <ImageView
+                        android:id="@+id/ivEditWork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:background="@drawable/ic_edit_black_24dp"
+                        android:backgroundTint="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/tvLocationWorkAddress"
+                        app:layout_constraintTop_toTopOf="@+id/tvLocationWorkAddress" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cancel_ride_color"/>
+    </LinearLayout>
+
+</ScrollView>
+
+
+
+
