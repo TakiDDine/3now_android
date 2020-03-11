@@ -11,20 +11,20 @@
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/gradient"
         android:elevation="@dimen/_10sdp"
 
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/backArrow"
-            android:background="@drawable/back_icon"
+            android:background="@drawable/back_white"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:backgroundTint="@color/white"
             android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
             android:padding="5dp"/>
-        <com.ilyft.user.Utils.MyBoldTextView
+        <de.threenow.Utils.MyBoldTextView
             android:id="@+id/toolName"
             android:text="Update Name"
             android:textSize="18sp"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.ilyft.user.Utils.MyEditText
+                <de.threenow.Utils.MyEditText
 
                     android:id="@+id/editText"
                     android:layout_width="match_parent"
@@ -72,7 +72,7 @@
         </LinearLayout>
 
 
-        <com.ilyft.user.Utils.MyButton
+        <de.threenow.Utils.MyButton
             android:id="@+id/btnUpdate"
             android:layout_marginTop="@dimen/_30sdp"
             android:layout_width="match_parent"

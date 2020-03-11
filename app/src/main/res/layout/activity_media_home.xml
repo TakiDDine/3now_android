@@ -25,7 +25,7 @@
                 android:padding="5dp"
                 android:src="@drawable/back_white" />
 
-            <com.ilyft.user.Utils.MyBoldTextView
+            <de.threenow.Utils.MyBoldTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"

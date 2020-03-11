@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:elevation="@dimen/_10sdp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/gradient"
         android:orientation="horizontal">
 
         <ImageView
@@ -24,7 +24,7 @@
             android:padding="5dp"
             android:src="@drawable/back_white" />
 
-        <com.ilyft.user.Utils.MyBoldTextView
+        <de.threenow.Utils.MyBoldTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -65,7 +65,7 @@
             app:srcCompat="@drawable/appicon"
             tools:ignore="VectorDrawableCompat" />
 
-        <com.ilyft.user.Utils.MyBoldTextView
+        <de.threenow.Utils.MyBoldTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/error_image"

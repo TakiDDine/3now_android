@@ -21,8 +21,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:itemIconTint="@android:color/black"
-        app:itemTextColor="@android:color/black"
+        app:itemIconTint="@color/blue"
+        app:itemTextColor="@color/blue"
         app:itemBackground="@android:color/transparent"
         app:menu="@menu/activity_main_drawer"
         app:theme="@style/NavigationDrawerStyle">
@@ -47,7 +47,7 @@
            android:padding="@dimen/_3sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.ilyft.user.Utils.MyBoldTextView
+            <de.threenow.Utils.MyBoldTextView
                 android:layout_weight=".5"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:id="@+id/legal_id"
@@ -59,7 +59,7 @@
                 android:layout_gravity="center_vertical|left"
                 android:text="Legal" />
 
-            <com.ilyft.user.Utils.MyBoldTextView
+            <de.threenow.Utils.MyBoldTextView
                 android:layout_weight="1.5"
                 android:textColor="@color/done_disabled_dark"
                 android:layout_marginRight="@dimen/_10sdp"

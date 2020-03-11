@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ilyft.user">
+    package="de.threenow">
 
     <application
-        android:name="com.ilyft.user.IlyftApplication"
+        android:name="de.threenow.IlyftApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
@@ -17,10 +17,10 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup"
         tools:targetApi="m">
-        <activity android:name="com.ilyft.user.Activities.FullImage"
+        <activity android:name="de.threenow.Activities.FullImage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <activity android:name="com.ilyft.user.calender.AddOrEditCalendarActivity"></activity>
+        <activity android:name="de.threenow.calender.AddOrEditCalendarActivity"></activity>
         <!--
 <activity
             android:name=".calender.CalendarSampleActivity"
@@ -40,7 +40,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.ilyft.user.Activities.SplashScreen"
+            android:name="de.threenow.Activities.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="InnerclassSeparator">
@@ -52,7 +52,7 @@
         </activity>
 
         <activity
-            android:name="com.ilyft.user.Activities.Payment"
+            android:name="de.threenow.Activities.Payment"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -63,38 +63,38 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.UserReview"
+            android:name="de.threenow.Activities.UserReview"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.ilyft.user.Activities.MainActivity"
+            android:name="de.threenow.Activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.ilyft.user.Activities.EditProfile"
+            android:name="de.threenow.Activities.EditProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name="com.ilyft.user.Activities.ShowProfile"
+            android:name="de.threenow.Activities.ShowProfile"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.ilyft.user.Activities.AddCard"
+            android:name="de.threenow.Activities.AddCard"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.ilyft.user.Activities.HistoryDetails"
+            android:name="de.threenow.Activities.HistoryDetails"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -105,27 +105,27 @@
         <!-- android:theme="@style/AppTheme.NoActionBar" -->
         <!-- android:windowSoftInputMode="stateHidden" /> -->
         <activity
-            android:name="com.ilyft.user.Activities.HistoryActivity"
+            android:name="de.threenow.Activities.HistoryActivity"
             android:label="My Booking"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ilyft.user.Activities.ActivityWallet"
+            android:name="de.threenow.Activities.ActivityWallet"
             android:label="Wallet"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.ilyft.user.Activities.CouponActivity"
+            android:name="de.threenow.Activities.CouponActivity"
             android:label="Coupon"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.ilyft.user.Activities.ChangePassword"
+            android:name="de.threenow.Activities.ChangePassword"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.ilyft.user.Activities.NotificationTab"
+            android:name="de.threenow.Activities.NotificationTab"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
@@ -136,94 +136,94 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ilyft.user.chat.UserChatActivity"
+            android:name="de.threenow.chat.UserChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.Profile"
+            android:name="de.threenow.Activities.Profile"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.CustomGooglePlacesSearch"
+            android:name="de.threenow.Activities.CustomGooglePlacesSearch"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name="com.ilyft.user.Activities.ActivityHelp" />
+        <activity android:name="de.threenow.Activities.ActivityHelp" />
         <activity android:name="com.facebook.accountkit.ui.AccountKitActivity" />
         <activity
-            android:name="com.ilyft.user.Activities.SosCallActivity"
+            android:name="de.threenow.Activities.SosCallActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.ComplaintsAcivity"
+            android:name="de.threenow.Activities.ComplaintsAcivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- Firebase Notifications -->
         <activity
-            android:name="com.ilyft.user.Activities.LegalActivity"
+            android:name="de.threenow.Activities.LegalActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.ilyft.user.Activities.TermsOfUseActivity"
+            android:name="de.threenow.Activities.TermsOfUseActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.ilyft.user.Activities.PrivacyPolicyActivity"
+            android:name="de.threenow.Activities.PrivacyPolicyActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.UpdateProfile"
+            android:name="de.threenow.Activities.UpdateProfile"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.FavouritePlaceSearch"
+            android:name="de.threenow.Activities.FavouritePlaceSearch"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.ilyft.user.Activities.Login"
+            android:name="de.threenow.Activities.Login"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.ilyft.user.Activities.SignUp"
+            android:name="de.threenow.Activities.SignUp"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- <meta-data -->
         <!-- android:name="io.fabric.ApiKey" -->
         <!-- android:value="b7456bf4836fcad8f6ad95b6f17d2aef7a340ab7" /> -->
         <activity
-            android:name="com.ilyft.user.Activities.ForgotPassword"
+            android:name="de.threenow.Activities.ForgotPassword"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="com.ilyft.user.Activities.MediaHome"
+            android:name="de.threenow.Activities.MediaHome"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.RunningTrip"
+            android:name="de.threenow.Activities.RunningTrip"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.TrackActivity"
+            android:name="de.threenow.Activities.TrackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ilyft.user.Activities.PhoneNoUpdateActivity"
+            android:name="de.threenow.Activities.PhoneNoUpdateActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -251,7 +251,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <service android:name="com.ilyft.user.FCM.FCMService">
+        <service android:name="de.threenow.FCM.FCMService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

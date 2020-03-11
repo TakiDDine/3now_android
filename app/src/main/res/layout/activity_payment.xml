@@ -63,7 +63,7 @@
                 <ImageView
                     android:layout_width="@dimen/_48sdp"
                     android:layout_height="@dimen/_48sdp"
-                    android:src="@drawable/cash_icon"/>
+                    android:src="@drawable/ic_cash"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/muli_semibold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/_18sdp"
                         android:text="@string/cash"/>
 
@@ -117,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:gravity="center_vertical"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/_13sdp"
                         android:text="Paypal"
                         />
@@ -253,7 +253,7 @@
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
 <!--            android:text="@string/payment_methods"-->
-<!--            android:textColor="@color/black_text_color"-->
+<!--            android:textColor="@color/blue_text_color"-->
 <!--            android:textSize="18sp" />-->
 
 <!--        <LinearLayout-->
@@ -285,7 +285,7 @@
 <!--            android:layout_height="wrap_content"-->
 <!--            android:layout_marginTop="16dp"-->
 <!--            android:visibility="gone"-->
-<!--            android:textColor="@color/black_text_color"-->
+<!--            android:textColor="@color/blue_text_color"-->
 <!--            android:textSize="18sp" />-->
 
 <!--        <TextView-->

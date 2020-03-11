@@ -1,105 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/im_back"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/backArrow"
-            android:backgroundTint="@color/white"
-            android:background="@drawable/back_icon"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_margin="10dp"
-            />
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/back_white"
+            android:backgroundTint="@color/white" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical">
+
             <TextView
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_12sdp"
+                android:layout_weight="1"
                 android:fontFamily="@font/muli_semibold"
+                android:paddingStart="@dimen/_12sdp"
+                android:text="@string/phone_verification"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_25sdp"
-                android:text="@string/phone_verification"/>
+                android:textSize="@dimen/_20sdp"
+                android:paddingTop="@dimen/_27sdp"/>
+
             <TextView
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_12sdp"
-                android:paddingBottom="@dimen/_10sdp"
+                android:layout_weight="1"
                 android:fontFamily="@font/muli_semibold"
+                android:paddingStart="@dimen/_12sdp"
                 android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="@string/enter_your_otp_code_here"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_14sdp"
-                android:text="@string/enter_your_otp_code_here"/>
+                android:textSize="@dimen/_14sdp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <com.mukesh.OtpView
+        android:id="@+id/otp_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:inputType="number"
+        android:itemBackground="@color/white"
+        android:textColor="@color/black"
+        app:cursorColor="@color/colorPrimary"
+        app:itemCount="6"
+        app:itemSpacing="@dimen/_5sdp"
+        app:itemWidth="@dimen/_40sdp"
+        app:lineColor="@color/view_grey_bg_"
+        app:lineWidth="@dimen/_2sdp"
+        app:state_filled="true"
+        app:viewType="line" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/_44sdp"
         android:gravity="end"
-        android:padding="@dimen/_25sdp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/_25sdp">
 
 
-        <com.mukesh.OtpView
-            android:id="@+id/otp_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:inputType="number"
-            android:itemBackground="@color/white"
-            android:textColor="@color/black"
-            app:itemCount="6"
-            app:itemWidth="@dimen/_40sdp"
-            app:itemSpacing="@dimen/_5sdp"
-            app:cursorColor="@color/colorPrimary"
-            app:lineWidth="@dimen/_2sdp"
-            app:state_filled="true"
-            app:lineColor="@color/view_grey_bg_"
-            app:viewType="line"
-
-            />
         <TextView
             android:id="@+id/tvResend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/colorPrimary"
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/muli_semibold"
-            android:textSize="@dimen/_14sdp"
-            />
+            android:text=""
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_14sdp" />
 
 
         <Button
             android:id="@+id/btnverify"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
-         android:backgroundTint="@color/colorPrimary"
-            android:text="@string/verify_now"
+
+            android:layout_marginTop="@dimen/_50sdp"
+            android:background="@color/blue"
             android:enabled="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_16sdp"
             android:fontFamily="@font/muli_semibold"
-            android:layout_marginTop="@dimen/_50sdp"/>
+            android:text="@string/verify_now"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16sdp" />
 
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

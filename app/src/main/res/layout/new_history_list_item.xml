@@ -13,13 +13,13 @@
         android:paddingTop="@dimen/_10sdp"
         android:orientation="vertical">
 
-        <com.ilyft.user.Utils.MyTextView
+        <de.threenow.Utils.MyTextView
             android:id="@+id/datetime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:paddingBottom="@dimen/_7sdp"
-            android:text="January 10- 12:30 PM"
+            android:text="@string/january_10_12_30_pm"
             android:textColor="@color/white"
             android:textSize="@dimen/_12sdp" />
 
@@ -77,14 +77,14 @@
 
 
 
-                    <com.ilyft.user.Utils.MyTextView
+                    <de.threenow.Utils.MyTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Source location"
+                        android:text="@string/source_location"
                         android:textSize="@dimen/_12sdp"
                         android:textColor="@color/white"/>
 
-                    <com.ilyft.user.Utils.MyBoldTextView
+                    <de.threenow.Utils.MyBoldTextView
                         android:id="@+id/txtSource"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                         android:textColor="@color/white"
                         android:maxLines="1"
                         android:maxLength="40"
-                        android:text="Chhattarpur Road"/>
+                        android:text="@string/chhattarpur_road"/>
                     </LinearLayout>
                     <LinearLayout
                         android:orientation="vertical"
@@ -100,14 +100,14 @@
                         android:layout_marginTop="@dimen/_15sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.ilyft.user.Utils.MyTextView
+                        <de.threenow.Utils.MyTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Destination location"
+                            android:text="@string/destination_location"
                             android:textSize="@dimen/_12sdp"
                             android:textColor="@color/white"/>
 
-                        <com.ilyft.user.Utils.MyBoldTextView
+                        <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/txtDestination"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                             android:textColor="@color/white"
                             android:maxLines="1"
                             android:maxLength="40"
-                            android:text="My Home"/>
+                            android:text="@string/my_home"/>
                     </LinearLayout>
 
                 </LinearLayout>

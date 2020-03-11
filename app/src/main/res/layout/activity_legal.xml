@@ -26,7 +26,7 @@
             android:backgroundTint="@color/white"
             android:background="@drawable/back_icon" />
 
-        <com.ilyft.user.Utils.MyBoldTextView
+        <de.threenow.Utils.MyBoldTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <com.ilyft.user.Utils.MyTextView
+        <de.threenow.Utils.MyTextView
             android:id="@+id/copyrightTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             android:textColor="@color/black_text_color"
             android:textSize="@dimen/_15sdp" />
 
-        <com.ilyft.user.Utils.MyTextView
+        <de.threenow.Utils.MyTextView
             android:id="@+id/termsConditionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
             android:textColor="@color/black_text_color"
             android:textSize="@dimen/_15sdp" />
 
-        <com.ilyft.user.Utils.MyTextView
+        <de.threenow.Utils.MyTextView
             android:id="@+id/privacyPolicyTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

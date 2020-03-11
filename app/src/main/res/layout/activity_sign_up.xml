@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/im_back">
 
 
     <RelativeLayout
@@ -21,7 +22,9 @@
             android:gravity="center|start"
             android:orientation="vertical">
 
-            <com.ilyft.user.Utils.MyEditText
+            <de.threenow.Utils.MyEditText
+                android:drawableTint="@color/blue"
+                android:textColor="@color/blue"
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -32,13 +35,15 @@
                 android:paddingLeft="@dimen/_5sdp"
                 android:paddingRight="@dimen/_5sdp"
                 android:backgroundTint="@color/transparent"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/blue"
                 android:textSize="@dimen/_14sdp" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/view_grey_bg_"/>
-            <com.ilyft.user.Utils.MyEditText
+            <de.threenow.Utils.MyEditText
+                android:drawableTint="@color/blue"
+                android:textColor="@color/blue"
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -49,13 +54,13 @@
                 android:inputType="textPassword"
                 android:paddingLeft="@dimen/_5sdp"
                 android:paddingRight="@dimen/_5sdp"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/blue"
                 android:textSize="@dimen/_14sdp" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/view_grey_bg_"/>
-            <com.ilyft.user.Utils.MyEditText
+            <de.threenow.Utils.MyEditText
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -66,8 +71,10 @@
                 android:inputType="textEmailAddress"
                 android:paddingLeft="@dimen/_5sdp"
                 android:paddingRight="@dimen/_5sdp"
-                android:textColorHint="@color/black"
-                android:textSize="@dimen/_14sdp" />
+                android:textColorHint="@color/blue"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_14sdp"
+                android:drawableTint="@color/blue"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -91,27 +98,25 @@
     </RelativeLayout>
 
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/appicon"
-        android:layout_below="@+id/button2"
-        android:layout_marginTop="@dimen/_8sdp"
+<!--    <ImageView-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:src="@drawable/appicon"-->
+<!--        android:layout_below="@+id/button2"-->
+<!--        android:layout_marginTop="@dimen/_8sdp"-->
 
-        android:layout_centerHorizontal="true"/>
+<!--        android:layout_centerHorizontal="true"/>-->
 
-    <com.ilyft.user.Utils.MyBoldTextView
+    <de.threenow.Utils.MyBoldTextView
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/_16sdp"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="109dp"
         android:gravity="center"
         android:text="@string/register"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_18sdp" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/_18sdp"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
 
@@ -125,15 +130,14 @@
 
         <TextView
             android:id="@+id/txtSignIn"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="@dimen/_5sdp"
+            android:padding="@dimen/_1sdp"
             android:text="@string/login"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_21sdp" />
+            android:textColor="@color/blue"
+            android:textSize="@dimen/_18sdp" />
     </LinearLayout>
 
 

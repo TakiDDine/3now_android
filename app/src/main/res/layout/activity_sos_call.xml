@@ -12,7 +12,7 @@
         android:id="@+id/clHeader"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_55sdp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/gradient"
         android:elevation="@dimen/_7sdp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"

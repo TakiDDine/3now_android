@@ -23,7 +23,7 @@
             android:backgroundTint="@color/white"
             android:background="@drawable/back_icon" />
 
-        <com.ilyft.user.Utils.MyBoldTextView
+        <de.threenow.Utils.MyBoldTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"

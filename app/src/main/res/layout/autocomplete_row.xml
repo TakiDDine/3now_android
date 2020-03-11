@@ -13,7 +13,7 @@
             android:layout_alignParentLeft="true"
             android:orientation="vertical">
 
-            <com.ilyft.user.Utils.MyBoldTextView
+            <de.threenow.Utils.MyBoldTextView
                 android:id="@+id/place_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
                 android:textColor="@color/black_text_color"
                 android:textStyle="bold" />
 
-            <com.ilyft.user.Utils.MyBoldTextView
+            <de.threenow.Utils.MyBoldTextView
                 android:id="@+id/place_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

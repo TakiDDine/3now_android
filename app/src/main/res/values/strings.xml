@@ -395,6 +395,26 @@
 <!--    <string name="complete">Complete</string>-->
 <!--    <string name="pickup_address">Pickup Address</string>-->
 <!--    <string name="drop_address">Drop Address</string>-->
+
+<!--    <string name="wenn_du_ein_konto_erstellst_stimmst_du_unsere_agb_und_datenschutz_zu">Wenn Du ein Konto erstellst, stimmst Du unsere\n AGB und Datenschutz zu</string>-->
+
+<!--    <string name="oder">oder</string>-->
+<!--    <string name="give_a_compliment">Give a compliment</string>-->
+<!--    <string name="hero">Hero</string>-->
+<!--    <string name="_6_star_service">6-star service</string>-->
+<!--    <string name="great_conversation">Great Conversation</string>-->
+<!--    <string name="great_attitude">Great attitude</string>-->
+<!--    <string name="tidy_and_clean">Tidy and clean</string>-->
+<!--    <string name="great_amenties">Great Amenties</string>-->
+<!--    <string name="rate">RATE</string>-->
+<!--    <string name="skip">SKIP</string>-->
+
+<!--    <string name="edit_profile">Edit Profile</string>-->
+<!--    <string name="rajan_kumar">Rajan Kumar</string>-->
+<!--    <string name="service_type">Service type</string>-->
+<!--    <string name="update_password">Update Password</string>-->
+<!--    <string name="favorites">Favorites</string>-->
+
 <!--    <string-array name="nav_item_activity_titles">-->
 <!--        <item>Home</item>-->
 <!--        <item>Photos</item>-->
@@ -405,7 +425,7 @@
 
 
     <!-- -->
-    <string name="we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply">Wir senden Ihnen möglicherweise eine einmalige SMS-Gebühr</string>
+    <string name="we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply">Wir senden Ihnen möglicherweise eine \n einmalige SMS-Gebühr</string>
 
 
     <string name="navigation_drawer_open">Navigationsschublade öffnen</string>
@@ -678,8 +698,6 @@
 
     <!-- login -->
     <string name="user">Benutzer anmelden</string>
-    <string name="login_with_google">Melden Sie sich mit Google an</string>
-    <string name="login_with_facebook">Mit Facebook einloggen</string>
     <string name="register">Registrieren</string>
 
     <!-- sign Up -->
@@ -784,6 +802,31 @@
     <string name="complete">Komplett</string>
     <string name="pickup_address">Abholadresse</string>
     <string name="drop_address">Adresse löschen</string>
+    <string name="wenn_du_ein_konto_erstellst_stimmst_du_unsere_agb_und_datenschutz_zu">Wenn Du ein Konto erstellst, stimmst Du unsere\n AGB und Datenschutz zu</string>
+
+    <string name="oder">oder</string>
+    <string name="give_a_compliment">Machen Sie ein Kompliment</string>
+    <string name="hero">Held</string>
+    <string name="_6_star_service"> 6-Sterne Service</string>
+    <string name="great_conversation">Tolles Gespräch</string>
+    <string name="great_attitude">Großartige Einstellung</string>
+    <string name="tidy_and_clean">Ordentlich und sauber</string>
+    <string name="great_amenties">Tolle Ausstattung</string>
+    <string name="rate">BEWERTUNG</string>
+    <string name="skip">ÜBERSPRINGEN</string>
+
+    <string name="edit_profile">Profil bearbeiten</string>
+    <string name="rajan_kumar">Rajan Kumar</string>
+    <string name="service_type">Servicetyp</string>
+    <string name="update_password">Kennwort aktualisieren</string>
+    <string name="favorites">Liebling</string>
+
+    <string name="you_have_no_upcoming_trips">Sie haben keine bevorstehenden Reisen</string>
+    <string name="very_good_service">Sehr guter Service</string>
+    <string name="_10_jan_2019_08_45_pm_rajan_kumar">10. Januar 2019, 20:45 Uhr, Rajan Kumar</string>
+    <string name="january_10_12_30_pm">10. Januar - 12.30 Uhr</string>
+    <string name="chhattarpur_road">Chattarpur Road</string>
+    <string name="my_home">Mein Zuhause</string>
 
     <string-array name="nav_item_activity_titles">
         <item>Zuhause</item>

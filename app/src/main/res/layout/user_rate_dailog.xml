@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -7,15 +8,18 @@
 
     <LinearLayout
         android:layout_width="@dimen/_250sdp"
-        android:layout_height="@dimen/_270sdp"
+        android:layout_height="@dimen/_290sdp"
         android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/rate_dialog"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/_5sdp">
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivProviderImg"
@@ -23,7 +27,9 @@
                 android:layout_height="@dimen/_50sdp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_5sdp"
-                android:src="@drawable/ic_dummy_user" />
+                android:src="@drawable/ic_dummy_user"
+                app:civ_border_color="#fff"
+                app:civ_border_width="1dp" />
 
             <TextView
                 android:id="@+id/tvProviderName"
@@ -34,8 +40,22 @@
                 android:fontFamily="@font/muli_semibold"
                 android:maxLines="2"
                 android:text="Amit Tiwari"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
+
+            <RatingBar
+                android:id="@+id/rbProvider"
+                style="?attr/ratingBarStyleIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:stepSize="1"
+                android:progressTint="@color/white"
+                android:progressBackgroundTint="@color/black"/>
 
         </LinearLayout>
 
@@ -45,27 +65,18 @@
             android:layout_gravity="center"
             android:background="@color/white"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_10sdp">
 
-            <RatingBar
-                android:id="@+id/rbProvider"
-                style="?attr/ratingBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:isIndicator="false"
-                android:numStars="5"
-                android:stepSize="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/muli_semibold"
-                android:text="Give a compliment"
-                android:textColor="@color/black"
+                android:text="@string/give_a_compliment"
+                android:textColor="@color/blue"
                 android:textSize="@dimen/_12sdp" />
 
             <HorizontalScrollView
@@ -99,7 +110,7 @@
                             android:fontFamily="@font/muli_semibold"
                             android:gravity="center"
                             android:paddingTop="@dimen/_5sdp"
-                            android:text="Hero"
+                            android:text="@string/hero"
                             android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
 
@@ -121,7 +132,7 @@
                             android:fontFamily="@font/muli_semibold"
                             android:gravity="center"
                             android:paddingTop="@dimen/_5sdp"
-                            android:text="6-star service"
+                            android:text="@string/_6_star_service"
                             android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
 
@@ -144,7 +155,7 @@
                             android:fontFamily="@font/muli_semibold"
                             android:gravity="center"
                             android:paddingTop="@dimen/_5sdp"
-                            android:text="Great Conversation"
+                            android:text="@string/great_conversation"
                             android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
 
@@ -166,7 +177,7 @@
                             android:fontFamily="@font/muli_semibold"
                             android:gravity="center"
                             android:paddingTop="@dimen/_5sdp"
-                            android:text="Great attitude"
+                            android:text="@string/great_attitude"
                             android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
 
@@ -188,7 +199,7 @@
                             android:fontFamily="@font/muli_semibold"
                             android:gravity="center"
                             android:paddingTop="@dimen/_5sdp"
-                            android:text="Tidy and clean"
+                            android:text="@string/tidy_and_clean"
                             android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
 
@@ -210,7 +221,7 @@
                             android:fontFamily="@font/muli_semibold"
                             android:gravity="center"
                             android:paddingTop="@dimen/_5sdp"
-                            android:text="Great Amenties"
+                            android:text="@string/great_amenties"
                             android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
 
@@ -229,6 +240,7 @@
                 android:maxLines="2"
                 android:minLines="2"
                 android:padding="@dimen/_5sdp"
+                android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_13sdp" />
 
@@ -246,9 +258,9 @@
                 android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_weight="1"
+                android:background="#3EBAEC"
                 android:gravity="center"
-                android:background="@color/colorPrimary"
-                android:text="RATE"
+                android:text="@string/rate"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
 
@@ -260,10 +272,10 @@
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:visibility="gone"
-                android:text="SKIP"
+                android:text="@string/skip"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_12sdp"
+                android:visibility="gone" />
 
         </LinearLayout>
 

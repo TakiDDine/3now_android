@@ -26,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/karla"
-                android:text="@string/home" />
+                android:text="@string/home"
+                android:buttonTint="@color/colorPrimary"/>
 
             <RadioButton
                 android:id="@+id/rbWork"
@@ -35,14 +36,16 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/karla"
-                android:text="@string/work" />
+                android:text="@string/work"
+                android:buttonTint="@color/colorPrimary"/>
 
             <RadioButton
                 android:id="@+id/rbOther"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/karla"
-                android:text="@string/other" />
+                android:text="@string/other"
+                android:buttonTint="@color/colorPrimary"/>
 
 
         </RadioGroup>

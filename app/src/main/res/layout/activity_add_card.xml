@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ilyft.user.Activities.AddCard">
+    tools:context="de.threenow.Activities.AddCard">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:padding="5dp"
             android:src="@drawable/back_white" />
 
-        <com.ilyft.user.Utils.MyBoldTextView
+        <de.threenow.Utils.MyBoldTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -39,7 +39,7 @@
         android:layout_margin="20dp"
         app:theme="@style/NavigationDrawerStyle" />
 
-    <com.ilyft.user.Utils.MyButton
+    <de.threenow.Utils.MyButton
         android:id="@+id/addCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

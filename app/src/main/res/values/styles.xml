@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/blue</item>
         <item name="android:fontFamily">@font/muli_regular</item>
         <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
     </style>
@@ -35,7 +35,7 @@
         <item name="colorAccent">@color/text_color_white</item>
         <item name="colorControlNormal">#c5c5c5 </item>
         <item name="colorControlActivated">@color/colorPrimaryDark</item>
-        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/blue</item>
         <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
 
     </style>
@@ -50,7 +50,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@color/title_background</item>
+        <item name="android:background">@drawable/gradient</item>
     </style>
 
     <style name="TitleBarAction">

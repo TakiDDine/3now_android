@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-  >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/gradient"
 
             android:gravity="center_vertical">
 
@@ -78,8 +76,7 @@
                                 android:layout_marginBottom="@dimen/_5sdp"
                                 android:src="@drawable/ic_dummy_user"
                                 app:civ_border_color="@color/colorPrimary"
-                                app:civ_border_width="@dimen/_2sdp"
-                          />
+                                app:civ_border_width="@dimen/_2sdp" />
 
                             <TextView
                                 android:id="@+id/txtuserName"
@@ -88,7 +85,7 @@
                                 android:fontFamily="@font/muli_semibold"
                                 android:paddingTop="@dimen/_5sdp"
                                 android:text="John Smith"
-                                android:textColor="@color/black"
+                                android:textColor="@color/blue"
                                 android:textSize="@dimen/_14sdp" />
 
                             <TextView
@@ -98,9 +95,10 @@
                                 android:drawableRight="@drawable/ic_edit_black_24dp"
                                 android:drawableTint="@color/colorPrimaryDark"
                                 android:fontFamily="@font/muli_semibold"
-                                android:text="Edit"
+                                android:text="@string/edit"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_14sdp" />
+                                android:textSize="@dimen/_10sdp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <View
@@ -125,21 +123,21 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="@dimen/_15sdp"
                                 android:layout_marginBottom="@dimen/_5sdp"
-                                android:src="@drawable/becomedriver" />
+                                android:src="@drawable/becomedriver"
+                                android:tint="@color/blue" />
 
                             <TextView
                                 android:id="@+id/txtVehiclename"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/muli_semibold"
-                                android:paddingTop="@dimen/_5sdp"
                                 android:gravity="center"
+                                android:paddingTop="@dimen/_5sdp"
                                 android:text="Become a driver"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_14sdp" />
 
                             <TextView
-                                android:visibility="gone"
                                 android:id="@+id/txtvehicleEdit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -148,7 +146,8 @@
                                 android:fontFamily="@font/muli_semibold"
                                 android:text="@string/edit"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/_14sdp" />
+                                android:textSize="@dimen/_14sdp"
+                                android:visibility="gone" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -159,7 +158,6 @@
                         android:background="@color/colorPrimary" />
 
 
-
                     <TextView
                         android:id="@+id/txtReview"
                         android:layout_width="match_parent"
@@ -167,14 +165,14 @@
                         android:drawableLeft="@drawable/ic_review"
                         android:drawableRight="@mipmap/ic_right"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:drawableTint="@color/black"
+                        android:drawableTint="@color/blue"
                         android:fontFamily="@font/muli_regular"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/_10sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:paddingBottom="@dimen/_3sdp"
                         android:text="Review"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/_14sdp" />
 
                     <TextView
@@ -184,30 +182,30 @@
                         android:drawableLeft="@drawable/ic_pasword"
                         android:drawableRight="@mipmap/ic_right"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:drawableTint="@color/black"
+                        android:drawableTint="@color/blue"
                         android:fontFamily="@font/muli_regular"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/_10sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:paddingBottom="@dimen/_3sdp"
                         android:text="@string/password"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/_14sdp" />
 
 
                     <Switch
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_44sdp"
-                        android:backgroundTint="@color/black"
+                        android:backgroundTint="@color/blue"
                         android:checked="true"
                         android:drawableLeft="@drawable/ic_notification"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:drawableTint="@color/black"
+                        android:drawableTint="@color/blue"
                         android:fontFamily="@font/muli_regular"
                         android:paddingLeft="@dimen/_12sdp"
                         android:paddingRight="@dimen/_10sdp"
                         android:text="@string/notifications"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:textSize="@dimen/_14sdp" />
                 </LinearLayout>
 

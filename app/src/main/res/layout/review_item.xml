@@ -29,7 +29,8 @@
                 android:layout_height="@dimen/_9sdp"
                 android:layout_alignStart="@+id/txtComment"
                 android:layout_marginEnd="@dimen/_12sdp"
-                android:src="@drawable/comma" />
+                android:src="@drawable/comma"
+                android:tint="@color/blue"/>
 
             <TextView
                 android:id="@+id/txtComment"
@@ -41,7 +42,7 @@
                 android:paddingStart="@dimen/_10sdp"
                 android:paddingEnd="@dimen/_10sdp"
                 android:text="@string/very_good_service_provide_by_user_satisfied_the_user_service"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:textSize="@dimen/_12sdp" />
 
             <ImageView
@@ -50,7 +51,8 @@
                 android:layout_alignEnd="@+id/txtComment"
                 android:layout_alignBottom="@+id/txtComment"
                 android:rotation="180"
-                android:src="@drawable/comma" />
+                android:src="@drawable/comma"
+                android:tint="@color/blue"/>
 
         </RelativeLayout>
 

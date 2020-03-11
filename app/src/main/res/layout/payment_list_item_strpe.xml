@@ -20,10 +20,10 @@
         android:contentDescription="@string/app_name"
         android:layout_gravity="center_vertical"/>
 
-    <com.ilyft.user.Utils.MyTextView
+    <de.threenow.Utils.MyTextView
         android:longClickable="true"
         android:id="@+id/cardNumber"
-        android:textColor="@android:color/black"
+        android:textColor="@color/blue"
         android:textSize="@dimen/_11sdp"
         android:layout_weight="1"
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.864"
-
+        android:buttonTint="@color/colorPrimary"
         tools:ignore="UnknownId" />
 
 </LinearLayout>

@@ -30,13 +30,12 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:background="@drawable/white_color_rect_shape"
+            android:background="@drawable/gradient_color"
             android:elevation="@dimen/_5sdp"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:background="@drawable/light_grren_rect"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
@@ -215,7 +214,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:visibility="gone"
-            android:background="@drawable/white_color_rect_shape"
+            android:background="@drawable/gradient_color"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -432,7 +431,7 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
-        <com.ilyft.user.Utils.MyBoldTextView
+        <de.threenow.Utils.MyBoldTextView
             android:id="@+id/txtPickLocation"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
@@ -441,7 +440,7 @@
             android:drawablePadding="@dimen/_8sdp"
             android:gravity="center|start"
             android:text="@string/pin_location"
-            android:textColor="@color/black_text_color"
+            android:textColor="@color/blue"
             android:visibility="visible" />
 
         <View

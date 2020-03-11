@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ilyft.user.Activities.CouponActivity">
+    tools:context="de.threenow.Activities.CouponActivity">
 
     <LinearLayout
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.ilyft.user.Utils.MyBoldTextView
+            <de.threenow.Utils.MyBoldTextView
                 android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:inputType="textCapCharacters"
                 android:layout_marginTop="8dp" />
 
-            <com.ilyft.user.Utils.MyButton
+            <de.threenow.Utils.MyButton
                 android:id="@+id/apply_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
-            <com.ilyft.user.Utils.MyBoldTextView
+            <de.threenow.Utils.MyBoldTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/added_coupon"

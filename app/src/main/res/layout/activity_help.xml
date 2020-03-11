@@ -46,10 +46,10 @@
 
             android:layout_height="match_parent">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="@dimen/_64sdp"
                 android:layout_height="@dimen/_64sdp"
-                android:src="@drawable/appicon"/>
+                android:src="@mipmap/ic_launcher_round"/>
 
             <TextView
                 android:padding="@dimen/_5sdp"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_13sdp"
                 android:fontFamily="@font/muli_semibold"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:text="@string/welcome_text"/>
 
             <androidx.cardview.widget.CardView
@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_14sdp"
                         android:paddingTop="@dimen/_4sdp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:fontFamily="@font/muli_regular"
                         android:text="@string/call_support"/>
 
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_14sdp"
                         android:paddingTop="@dimen/_4sdp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:fontFamily="@font/muli_regular"
                         android:text="@string/chat_support"/>
 
@@ -144,7 +144,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_14sdp"
                         android:paddingTop="@dimen/_4sdp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/blue"
                         android:fontFamily="@font/muli_regular"
                         android:text="@string/weburl"/>
 
@@ -162,7 +162,7 @@
     <!--android:layout_marginTop="@dimen/_20sdp"-->
     <!--android:layout_below="@+id/lnrTitle"-->
     <!--android:text=""-->
-    <!--android:textColor="@color/black_text_color"-->
+    <!--android:textColor="@color/blue_text_color"-->
     <!--android:textSize="@dimen/_20sdp"-->
     <!--android:textStyle="bold" />-->
 
@@ -213,7 +213,7 @@
     <!--&lt;!&ndash;android:layout_below="@+id/img_web"&ndash;&gt;-->
     <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
     <!--&lt;!&ndash;android:text="@string/help_msg"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:textColor="@color/black_text_color"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:textColor="@color/blue_text_color"&ndash;&gt;-->
     <!--&lt;!&ndash;android:textSize="@dimen/_18sdp"&ndash;&gt;-->
     <!--&lt;!&ndash;android:textStyle="bold" />&ndash;&gt;-->
 
@@ -236,7 +236,7 @@
         <!--android:layout_centerHorizontal="true"-->
         <!--android:textSize="@dimen/_20sdp"-->
         <!--android:textStyle="bold"-->
-        <!--android:textColor="@color/black_text_color"/>-->
+        <!--android:textColor="@color/blue_text_color"/>-->
 
     <!--<ImageView-->
         <!--android:layout_width="@dimen/_100sdp"-->
@@ -286,6 +286,6 @@
         <!--&lt;!&ndash;android:text="@string/help_msg"&ndash;&gt;-->
         <!--&lt;!&ndash;android:textSize="@dimen/_18sdp"&ndash;&gt;-->
         <!--&lt;!&ndash;android:textStyle="bold"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:textColor="@color/black_text_color"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;android:textColor="@color/blue_text_color"/>&ndash;&gt;-->
 
 <!--</RelativeLayout>-->

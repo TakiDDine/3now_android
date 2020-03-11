@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="@dimen/_48sdp"
                 android:layout_height="@dimen/_48sdp"
                 android:src="@mipmap/ic_launcher"/>
@@ -38,7 +38,7 @@
                 android:paddingStart="@dimen/_10sdp"
                 android:gravity="center_vertical"
                 android:paddingEnd="@dimen/_10sdp"
-                android:text="Very good service "
+                android:text="@string/very_good_service"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_7sdp"
                 android:fontFamily="@font/muli_regular"
-                android:text="10 JAN 2019 08:45 PM, Rajan Kumar"
+                android:text="@string/_10_jan_2019_08_45_pm_rajan_kumar"
                 android:textSize="@dimen/_10sdp" />
         </LinearLayout>
 

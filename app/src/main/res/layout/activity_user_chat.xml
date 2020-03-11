@@ -11,7 +11,7 @@
         android:id="@+id/backLayout"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/gradient"
         android:orientation="horizontal">
 
         <ImageView
@@ -91,7 +91,7 @@
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/emoji_ios_category_smileysandpeople"
                     tools:ignore="ContentDescription"
-                    />
+                   android:tint="@color/blue" />
                 <com.vanniktech.emoji.EmojiEditText
                     android:id="@+id/editWriteMessage"
                     android:layout_width="match_parent"

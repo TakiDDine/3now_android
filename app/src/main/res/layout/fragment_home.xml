@@ -103,7 +103,7 @@
                                 android:layout_marginLeft="@dimen/_2sdp"
                                 android:visibility="gone"
                                 app:srcCompat="@drawable/money1" />
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblPaymentType"
                                 android:layout_width="@dimen/_150sdp"
                                 android:layout_height="@dimen/_30sdp"
@@ -125,7 +125,7 @@
                                 android:layout_toLeftOf="@+id/imgPaymentType"
                                 android:visibility="visible" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblPromo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_30sdp"
@@ -138,7 +138,7 @@
                                 android:textSize="@dimen/_12sdp"
                                 android:visibility="visible" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
@@ -157,7 +157,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
-                        android:background="@color/calbg" />
+                        android:background="@color/blue" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -169,11 +169,11 @@
                             android:layout_height="@dimen/_40sdp"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="@color/colorPrimary"
+                            app:cardBackgroundColor="@color/blue"
                             app:cardCornerRadius="0dp"
                             app:cardElevation="@dimen/_5sdp">
 
-                            <com.ilyft.user.Utils.MyTextView
+                            <de.threenow.Utils.MyTextView
                                 android:id="@+id/btnRequestRides"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -195,11 +195,11 @@
                             android:layout_height="@dimen/_40sdp"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            app:cardBackgroundColor="@color/colorPrimary"
+                            app:cardBackgroundColor="@color/blue"
                             app:cardCornerRadius="0dp"
                             app:cardElevation="@dimen/_5sdp">
 
-                            <com.ilyft.user.Utils.MyTextView
+                            <de.threenow.Utils.MyTextView
                                 android:id="@+id/schedule_ride"
                                 android:layout_width="match_parent"
                                 android:layout_height="55dp"
@@ -259,7 +259,7 @@
                         android:orientation="vertical"
                         android:padding="@dimen/_10sdp">
 
-                        <com.ilyft.user.Utils.MyBoldTextView
+                        <de.threenow.Utils.MyBoldTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_8sdp"
@@ -276,7 +276,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:src="@drawable/pickup_drop_icon" />
 
-                        <com.ilyft.user.Utils.MyBoldTextView
+                        <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/lblServiceName"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -301,7 +301,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -311,7 +311,7 @@
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_12sdp" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblBasePricePopup"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -330,7 +330,7 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:orientation="horizontal">
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -340,7 +340,7 @@
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_12sdp" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblPriceKm"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -360,7 +360,7 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:orientation="horizontal">
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -370,7 +370,7 @@
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_12sdp" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblPriceMin"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -388,7 +388,7 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:orientation="horizontal">
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -398,7 +398,7 @@
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_12sdp" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblCalculationType"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
@@ -416,7 +416,7 @@
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:orientation="horizontal">
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -440,7 +440,7 @@
                                         android:backgroundTint="@color/white"
                                         android:background="@drawable/people" />
 
-                                    <com.ilyft.user.Utils.MyBoldTextView
+                                    <de.threenow.Utils.MyBoldTextView
                                         android:id="@+id/lblCapacity"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -456,7 +456,7 @@
 
                         </LinearLayout>
 
-                        <com.ilyft.user.Utils.MyBoldTextView
+                        <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/lblProviderDesc"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -473,7 +473,7 @@
                         android:layout_height="0.5dp"
                         android:background="@color/white" />
 
-                    <com.ilyft.user.Utils.MyButton
+                    <de.threenow.Utils.MyButton
                         android:id="@+id/btnDonePopup"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_35sdp"
@@ -504,7 +504,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.ilyft.user.Utils.MyBoldTextView
+                        <de.threenow.Utils.MyBoldTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
@@ -521,7 +521,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/scheduleDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_25sdp"
@@ -530,7 +530,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_14sdp" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/scheduleTime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_25sdp"
@@ -548,7 +548,7 @@
                     <!--android:layout_marginRight="20dp"-->
                     <!--android:background="#1A1A1A" />-->
 
-                    <com.ilyft.user.Utils.MyButton
+                    <de.threenow.Utils.MyButton
                         android:id="@+id/scheduleBtn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -575,7 +575,7 @@
 <!--                    android:orientation="vertical"-->
 <!--                    android:visibility="v">-->
 
-<!--                    <com.ilyft.user.Utils.MyBoldTextView-->
+<!--                    <de.threenow.Utils.MyBoldTextView-->
 <!--                        android:id="@+id/surgeDiscount"-->
 <!--                        android:layout_width="@dimen/_50sdp"-->
 <!--                        android:layout_height="@dimen/_50sdp"-->
@@ -589,7 +589,7 @@
 <!--                        android:textStyle="bold"-->
 <!--                        android:visibility="gone" />-->
 
-<!--                    <com.ilyft.user.Utils.MyBoldTextView-->
+<!--                    <de.threenow.Utils.MyBoldTextView-->
 <!--                        android:id="@+id/surge_txt"-->
 <!--                        android:layout_width="match_parent"-->
 <!--                        android:layout_height="wrap_content"-->
@@ -654,7 +654,7 @@
 <!--                                    android:orientation="vertical"-->
 <!--                                    android:padding="5dp">-->
 
-<!--                                    <com.ilyft.user.Utils.MyTextView-->
+<!--                                    <de.threenow.Utils.MyTextView-->
 <!--                                        android:id="@+id/lblCmfrmSourceAddress"-->
 <!--                                        android:layout_width="match_parent"-->
 <!--                                        android:layout_height="wrap_content"-->
@@ -664,7 +664,7 @@
 <!--                                        android:textColor="@color/white"-->
 <!--                                        android:textSize="@dimen/_9sdp" />-->
 
-<!--                                    <com.ilyft.user.Utils.MyTextView-->
+<!--                                    <de.threenow.Utils.MyTextView-->
 <!--                                        android:id="@+id/lblCmfrmDestAddress"-->
 <!--                                        android:layout_width="match_parent"-->
 <!--                                        android:layout_height="wrap_content"-->
@@ -686,7 +686,7 @@
 <!--                                android:gravity="center"-->
 <!--                                android:orientation="horizontal">-->
 
-<!--                                <com.ilyft.user.Utils.MyBoldTextView-->
+<!--                                <de.threenow.Utils.MyBoldTextView-->
 <!--                                    android:layout_width="match_parent"-->
 <!--                                    android:layout_height="wrap_content"-->
 <!--                                    android:layout_weight="1"-->
@@ -694,7 +694,7 @@
 <!--                                    android:textColor="@color/white"-->
 <!--                                    android:textSize="@dimen/_10sdp" />-->
 
-<!--                                <com.ilyft.user.Utils.MyBoldTextView-->
+<!--                                <de.threenow.Utils.MyBoldTextView-->
 <!--                                    android:id="@+id/lblApproxAmount"-->
 <!--                                    android:layout_width="match_parent"-->
 <!--                                    android:layout_height="wrap_content"-->
@@ -714,7 +714,7 @@
 <!--                                android:gravity="center"-->
 <!--                                android:orientation="horizontal">-->
 
-<!--                                <com.ilyft.user.Utils.MyBoldTextView-->
+<!--                                <de.threenow.Utils.MyBoldTextView-->
 <!--                                    android:layout_width="match_parent"-->
 <!--                                    android:layout_height="wrap_content"-->
 <!--                                    android:layout_weight="1"-->
@@ -722,7 +722,7 @@
 <!--                                    android:textColor="@color/white"-->
 <!--                                    android:textSize="@dimen/_10sdp" />-->
 
-<!--                                <com.ilyft.user.Utils.MyBoldTextView-->
+<!--                                <de.threenow.Utils.MyBoldTextView-->
 <!--                                    android:id="@+id/lblEta"-->
 <!--                                    android:layout_width="match_parent"-->
 <!--                                    android:layout_height="wrap_content"-->
@@ -743,7 +743,7 @@
 <!--                                android:gravity="center"-->
 <!--                                android:orientation="horizontal">-->
 
-<!--                                <com.ilyft.user.Utils.MyBoldTextView-->
+<!--                                <de.threenow.Utils.MyBoldTextView-->
 <!--                                    android:layout_width="match_parent"-->
 <!--                                    android:layout_height="wrap_content"-->
 <!--                                    android:layout_weight="1"-->
@@ -756,7 +756,7 @@
 <!--                                    android:layout_width="@dimen/_20sdp"-->
 <!--                                    android:layout_height="@dimen/_20sdp" />-->
 
-<!--                                <com.ilyft.user.Utils.MyBoldTextView-->
+<!--                                <de.threenow.Utils.MyBoldTextView-->
 <!--                                    android:id="@+id/lblType"-->
 <!--                                    android:layout_width="match_parent"-->
 <!--                                    android:layout_height="wrap_content"-->
@@ -776,7 +776,7 @@
 <!--                            android:layout_height="0.5dp"-->
 <!--                            android:background="@color/view_grey_bg" />-->
 
-<!--                        <com.ilyft.user.Utils.MyCheckbox-->
+<!--                        <de.threenow.Utils.MyCheckbox-->
 <!--                            android:id="@+id/chkWallet"-->
 <!--                            android:layout_width="match_parent"-->
 <!--                            android:layout_height="wrap_content"-->
@@ -794,7 +794,7 @@
 <!--                            android:layout_marginBottom="@dimen/_5sdp"-->
 <!--                            android:orientation="horizontal">-->
 
-<!--                            <com.ilyft.user.Utils.MyButton-->
+<!--                            <de.threenow.Utils.MyButton-->
 <!--                                android:id="@+id/btnRequestRideConfirm"-->
 <!--                                android:layout_width="0dp"-->
 <!--                                android:layout_height="@dimen/_35sdp"-->
@@ -812,7 +812,7 @@
 <!--                                android:layout_height="match_parent"-->
 <!--                                android:layout_margin="@dimen/_2sdp" />-->
 
-<!--                            <com.ilyft.user.Utils.MyButton-->
+<!--                            <de.threenow.Utils.MyButton-->
 <!--                                android:id="@+id/imgSchedule"-->
 <!--                                android:layout_width="0dp"-->
 <!--                                android:layout_height="@dimen/_30sdp"-->
@@ -865,7 +865,7 @@
                                     android:layout_marginRight="@dimen/_8sdp"
                                     android:src="@drawable/round" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblStatus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -877,7 +877,7 @@
                                     android:textColor="@color/black_text_color"
                                     android:textSize="@dimen/_14sdp" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblETA"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -921,7 +921,7 @@
                                     app:civ_border_color="@color/button_text_color"
                                     app:civ_border_width="2dp" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblProvider"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -957,7 +957,7 @@
                                     android:padding="@dimen/_5sdp"
                                     android:src="@drawable/car_select" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblServiceRequested"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -966,7 +966,7 @@
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/_11sdp" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblModelNumber"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -988,7 +988,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.ilyft.user.Utils.MyButton
+                                <de.threenow.Utils.MyButton
                                     android:id="@+id/btnCall"
                                     android:layout_width="@dimen/_32sdp"
                                     android:layout_height="@dimen/_32sdp"
@@ -997,7 +997,7 @@
 
                         </LinearLayout>
 
-                        <com.ilyft.user.Utils.MyBoldTextView
+                        <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/lblSurgePrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -1019,7 +1019,7 @@
                             android:orientation="horizontal">
 
 
-                            <com.ilyft.user.Utils.MyButton
+                            <de.threenow.Utils.MyButton
                                 android:id="@+id/btnCancelTrip"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -1055,7 +1055,7 @@
                         android:layout_marginRight="@dimen/_10sdp"
                         android:orientation="vertical">
 
-                        <com.ilyft.user.Utils.MyBoldTextView
+                        <de.threenow.Utils.MyBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -1073,7 +1073,7 @@
                             android:gravity="center"
                             android:orientation="horizontal">
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -1083,7 +1083,7 @@
                                 android:textSize="@dimen/_12sdp" />
 
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/booking_id"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -1099,7 +1099,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:orientation="horizontal">
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -1108,7 +1108,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblBasePrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -1126,7 +1126,7 @@
                             android:orientation="horizontal"
                             android:visibility="gone">
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -1135,7 +1135,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblExtraPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -1152,7 +1152,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:orientation="horizontal">
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -1161,7 +1161,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblDistancePrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -1178,7 +1178,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:orientation="horizontal">
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -1187,7 +1187,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblTaxPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -1205,7 +1205,7 @@
                             android:orientation="horizontal"
                             android:visibility="gone">
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -1214,7 +1214,7 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -1241,7 +1241,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_16sdp" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblTotalPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -1283,7 +1283,7 @@
                                 android:layout_height="@dimen/_20sdp"
                                 app:srcCompat="@drawable/money_icon" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblPaymentTypeInvoice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -1293,7 +1293,7 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/_12sdp" />
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="right"
@@ -1305,7 +1305,7 @@
 
                     </LinearLayout>
 
-                    <com.ilyft.user.Utils.MyButton
+                    <de.threenow.Utils.MyButton
                         android:id="@+id/btnPayNow"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -1361,7 +1361,7 @@
                             app:civ_border_color="@color/white"
                             app:civ_border_width="2dp" />
 
-                        <com.ilyft.user.Utils.MyBoldTextView
+                        <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/lblProviderName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -1403,7 +1403,7 @@
                     </LinearLayout>
 
 
-                    <com.ilyft.user.Utils.MyButton
+                    <de.threenow.Utils.MyButton
                         android:id="@+id/btnSubmitReview"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
@@ -1708,7 +1708,7 @@
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:background="@drawable/menu_icon"
-                        android:backgroundTint="@color/colorPrimary" />
+                        android:backgroundTint="@color/blue" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -1843,7 +1843,7 @@
                                     android:src="@drawable/box"
                                     tools:ignore="ContentDescription,RtlHardcoded" />
 
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/destination"
                                     style="@style/Base.TextAppearance.AppCompat.Body1"
                                     android:layout_width="match_parent"
@@ -1960,7 +1960,7 @@
                             android:layout_marginTop="0dp"
                             android:layout_marginEnd="0dp"
                             android:focusable="true"
-                            android:background="@drawable/white_color_rect_shape"
+                            android:background="@drawable/gradient_color"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -1973,7 +1973,6 @@
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:background="@drawable/light_grren_rect"
                                 android:layout_height="wrap_content">
 
                                 <LinearLayout
@@ -2010,7 +2009,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@id/llLeftTop">
 
-                                    <com.ilyft.user.Utils.MyTextView
+                                    <de.threenow.Utils.MyTextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="4dp"
@@ -2020,7 +2019,7 @@
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/_10sdp" />
 
-                                    <com.ilyft.user.Utils.MyTextView
+                                    <de.threenow.Utils.MyTextView
                                         android:id="@+id/frmSource"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/_30sdp"
@@ -2060,7 +2059,6 @@
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
-                                android:background="@drawable/white_color_rect_shape"
                                 android:layout_height="wrap_content">
 
                                 <LinearLayout
@@ -2096,7 +2094,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@id/llLeftBottom">
 
-                                    <com.ilyft.user.Utils.MyTextView
+                                    <de.threenow.Utils.MyTextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="4dp"
@@ -2106,7 +2104,7 @@
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/_10sdp" />
 
-                                    <com.ilyft.user.Utils.MyTextView
+                                    <de.threenow.Utils.MyTextView
                                         android:id="@+id/frmDest"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/_30sdp"
@@ -2179,7 +2177,7 @@
                                 android:src="@mipmap/ic_cancel" />
 
 
-                            <com.ilyft.user.Utils.MyBoldTextView
+                            <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblNoMatch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -2195,7 +2193,7 @@
                                 android:textSize="@dimen/_13sdp"
                                 android:visibility="visible" />
 
-                            <com.ilyft.user.Utils.MyButton
+                            <de.threenow.Utils.MyButton
                                 android:id="@+id/btnCancelRide"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -2347,7 +2345,7 @@
                 android:elevation="@dimen/_7sdp"
                 android:background="@drawable/white_color_rect_shape"
                 android:orientation="vertical">
-                <com.ilyft.user.Utils.MyBoldTextView
+                <de.threenow.Utils.MyBoldTextView
                     android:id="@+id/surgeDiscount"
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="@dimen/_50sdp"
@@ -2361,7 +2359,7 @@
                     android:textStyle="bold"
                     android:visibility="gone" />
 
-                <com.ilyft.user.Utils.MyBoldTextView
+                <de.threenow.Utils.MyBoldTextView
                     android:id="@+id/surge_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -2428,7 +2426,7 @@
                                 android:orientation="vertical"
                                 android:padding="5dp">
 
-                                <com.ilyft.user.Utils.MyTextView
+                                <de.threenow.Utils.MyTextView
                                     android:id="@+id/lblCmfrmSourceAddress"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -2441,7 +2439,7 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12sdp" />
 
-                                <com.ilyft.user.Utils.MyTextView
+                                <de.threenow.Utils.MyTextView
                                     android:id="@+id/lblCmfrmDestAddress"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -2477,7 +2475,7 @@
                                     android:layout_width="@dimen/_48sdp"
                                     android:src="@drawable/car_select"
                                     android:layout_height="@dimen/_48sdp" />
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblType"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -2526,7 +2524,7 @@
                                     android:textColor="@color/cancel_ride_color"
                                     android:fontFamily="@font/muli_semibold"
                                     android:textSize="@dimen/_12sdp" />
-                                <com.ilyft.user.Utils.MyBoldTextView
+                                <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblEta"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -2575,7 +2573,7 @@
                         android:visibility="gone"
                         android:background="@color/view_grey_bg" />
 
-                    <com.ilyft.user.Utils.MyCheckbox
+                    <de.threenow.Utils.MyCheckbox
                         android:id="@+id/chkWallet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -2594,7 +2592,7 @@
                         android:layout_marginBottom="@dimen/_15sdp"
                         android:orientation="horizontal">
 
-                        <com.ilyft.user.Utils.MyButton
+                        <de.threenow.Utils.MyButton
                             android:id="@+id/btnRequestRideConfirm"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/_40sdp"
@@ -2613,7 +2611,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="@dimen/_2sdp" />
 
-                        <com.ilyft.user.Utils.MyButton
+                        <de.threenow.Utils.MyButton
                             android:id="@+id/imgSchedule"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/_30sdp"
