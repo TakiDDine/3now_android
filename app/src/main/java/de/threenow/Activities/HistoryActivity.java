@@ -28,12 +28,13 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.gradient_vertical));
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         String strTag = getIntent().getExtras().getString("tag");
-        tabTitles = new String[]{"Past", "Upcoming"};
+        tabTitles = new String[]{getString(R.string.past), getString(R.string.upcoming)};
 
         viewPager.setAdapter(new SampleFragmentPagerAdapter(tabTitles, getSupportFragmentManager(),
                 this));

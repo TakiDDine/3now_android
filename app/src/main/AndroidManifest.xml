@@ -106,7 +106,7 @@
         <!-- android:windowSoftInputMode="stateHidden" /> -->
         <activity
             android:name="de.threenow.Activities.HistoryActivity"
-            android:label="My Booking"
+            android:label="@string/my_booking"
             android:screenOrientation="portrait" />
         <activity
             android:name="de.threenow.Activities.ActivityWallet"

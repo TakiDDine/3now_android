@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "1045540452879",
-    "firebase_url": "https://threenowproject.firebaseio.com",
-    "project_id": "threenowproject",
-    "storage_bucket": "threenowproject.appspot.com"
+    "project_number": "618526825954",
+    "firebase_url": "https://taxi-user-542ae.firebaseio.com",
+    "project_id": "taxi-user-542ae",
+    "storage_bucket": "taxi-user-542ae.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1045540452879:android:3ea798c95368770db8417a",
+        "mobilesdk_app_id": "1:618526825954:android:45dac3b2c4dbdaf809adbb",
         "android_client_info": {
           "package_name": "de.threenow"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1045540452879-p835d5kudkp8msfpl65bibempcjpi9ea.apps.googleusercontent.com",
+          "client_id": "618526825954-hh387epfrhaj3qj85lleklam7e923g02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.threenow",
+            "certificate_hash": "c85ee404beb69199e425d29f3f16449c4b4a7b5c"
+          }
+        },
+        {
+          "client_id": "618526825954-uljpmvqh9mp0u5sf30v77obaonr12o55.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAC9035dctrdSn5riQP7_yKl8CkM9WjWyI"
+          "current_key": "AIzaSyB4fYZR1J3pRP4EZOiXQWp_JyUxig4aWvc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1045540452879-p835d5kudkp8msfpl65bibempcjpi9ea.apps.googleusercontent.com",
+              "client_id": "618526825954-uljpmvqh9mp0u5sf30v77obaonr12o55.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

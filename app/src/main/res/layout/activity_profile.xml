@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@drawable/gradient"
+            android:background="@drawable/gradient_vertical"
 
             android:gravity="center_vertical">
 
@@ -217,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/gradient"
                 android:text="Logout"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />

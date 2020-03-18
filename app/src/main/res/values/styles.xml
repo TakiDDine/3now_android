@@ -50,7 +50,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">@dimen/title_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/gradient</item>
+        <item name="android:background">@drawable/gradient_vertical</item>
     </style>
 
     <style name="TitleBarAction">

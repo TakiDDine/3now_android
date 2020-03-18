@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:elevation="@dimen/_10sdp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/gradient_vertical"
             android:orientation="horizontal">
 
             <ImageView

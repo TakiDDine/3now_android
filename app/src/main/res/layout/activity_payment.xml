@@ -8,7 +8,7 @@
         android:id="@+id/layoutTop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_148sdp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/gradient_vertical"
         android:orientation="vertical">
 
         <ImageView
@@ -149,10 +149,11 @@
         </androidx.cardview.widget.CardView>
 
         <Button
+            android:paddingStart="@dimen/_10sdp"
             android:id="@+id/addCard"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_48sdp"
-            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/rounded_button"
             android:layout_marginBottom="@dimen/_5sdp"
             android:text="@string/add_new_card"
             android:fontFamily="@font/muli_semibold"

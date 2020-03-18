@@ -827,6 +827,7 @@
     <string name="january_10_12_30_pm">10. Januar - 12.30 Uhr</string>
     <string name="chhattarpur_road">Chattarpur Road</string>
     <string name="my_home">Mein Zuhause</string>
+    <string name="my_booking">Meine Buchung</string>
 
     <string-array name="nav_item_activity_titles">
         <item>Zuhause</item>

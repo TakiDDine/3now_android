@@ -15,7 +15,7 @@
             android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@color/colorPrimaryDark"
+            app:tabBackground="@drawable/gradient_vertical"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/text_color_white"
             app:tabTextColor="#b0ffffff" />
@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"
+            />
 
     </LinearLayout>
 

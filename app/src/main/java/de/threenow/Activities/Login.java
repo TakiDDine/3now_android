@@ -80,7 +80,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
@@ -246,7 +248,7 @@ public class Login extends AppCompatActivity
                 object.put("grant_type", "password");
                 object.put("client_id", URLHelper.client_id);
                 object.put("client_secret", URLHelper.client_secret);
-                object.put("username", SharedHelper.getKey(getApplicationContext(), "email"));
+                object.put("email", SharedHelper.getKey(getApplicationContext(), "email"));
                 object.put("password", SharedHelper.getKey(getApplicationContext(), "password"));
                 object.put("scope", "");
                 object.put("device_type", "android");
@@ -283,6 +285,16 @@ public class Login extends AppCompatActivity
                                 NetworkResponse response = error.networkResponse;
                                 utils.print("MyTest", "" + error);
                                 utils.print("MyTestError", "" + error.networkResponse);
+
+                                String responseBody = null;
+                                try {
+                                    responseBody = new String(error.networkResponse.data, "utf-8");
+//                                    JSONObject data = new JSONObject(responseBody);
+//                                    String message = data.optString("msg");
+                                    utils.print("MyTestError1", "" +  responseBody);
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
 
                                 if (response != null && response.data != null) {
                                     try {

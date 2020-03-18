@@ -61,7 +61,7 @@
         android:layout_marginTop="@dimen/_30sdp"
         android:inputType="number"
         android:itemBackground="@color/white"
-        android:textColor="@color/black"
+        android:textColor="@color/blue"
         app:cursorColor="@color/colorPrimary"
         app:itemCount="6"
         app:itemSpacing="@dimen/_5sdp"
@@ -79,7 +79,8 @@
         android:layout_marginTop="@dimen/_44sdp"
         android:gravity="end"
         android:orientation="vertical"
-        android:padding="@dimen/_25sdp">
+        android:padding="@dimen/_25sdp"
+        android:clipToPadding="false">
 
 
         <TextView
@@ -89,22 +90,28 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/muli_semibold"
             android:text=""
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/white"
             android:textSize="@dimen/_14sdp" />
 
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="#fff"
+            android:elevation="4dp"
+            android:layout_marginTop="@dimen/_50sdp">
         <Button
             android:id="@+id/btnverify"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
-
-            android:layout_marginTop="@dimen/_50sdp"
-            android:background="@color/blue"
+            android:elevation="@dimen/_30sdp"
+            android:background="@drawable/gradient_vertical"
             android:enabled="false"
             android:fontFamily="@font/muli_semibold"
             android:text="@string/verify_now"
             android:textColor="@color/white"
             android:textSize="@dimen/_16sdp" />
+        </FrameLayout>
 
     </LinearLayout>
 </RelativeLayout>

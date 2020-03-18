@@ -22,7 +22,7 @@
             android:fontFamily="@font/muli_semibold"
             android:textSize="@dimen/_20sdp"
             android:layout_margin="@dimen/_10sdp"
-            android:textColor="@color/black"
+            android:textColor="@color/blue"
             android:text="@string/booking_successful"/>
 
         <TextView
