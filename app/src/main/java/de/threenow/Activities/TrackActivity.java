@@ -623,12 +623,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //        lnrRateProvider.setOnClickListener(new OnClick());
 //        lnrWaitingForProviders.setOnClickListener(new OnClick());
         lblPaymentChange = findViewById(R.id.lblPaymentChanges);
-        lblPaymentChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(TrackActivity.this, CouponActivity.class);
-                startActivity(intent1);
-            }
+        lblPaymentChange.setOnClickListener(v -> {
+            Intent intent1 = new Intent(TrackActivity.this, CouponActivity.class);
+            startActivity(intent1);
         });
     }
 
@@ -930,11 +927,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             }
                         });
         builder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                (dialog, id) -> dialog.cancel());
         AlertDialog alert1 = builder.create();
         alert1.show();
     }

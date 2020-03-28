@@ -248,7 +248,7 @@ public class Login extends AppCompatActivity
                 object.put("grant_type", "password");
                 object.put("client_id", URLHelper.client_id);
                 object.put("client_secret", URLHelper.client_secret);
-                object.put("email", SharedHelper.getKey(getApplicationContext(), "email"));
+                object.put("username", SharedHelper.getKey(getApplicationContext(), "email"));
                 object.put("password", SharedHelper.getKey(getApplicationContext(), "password"));
                 object.put("scope", "");
                 object.put("device_type", "android");

@@ -4,13 +4,13 @@ public class URLHelper {
 //        public static final String base = "http://gocab.97pixelsdev.com/";
    // public static final String base = "http://m-bebataxi.com/";
 //    public static final String base = "http://97pixelsdev.com/ilyft/";
-public static final String base = "https://3now.de/";
+public static final String base = "https://www.3now.de/";
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
     public static final String APP_URL = "https://play.google.com/store/apps/details?id=com.mbeba.mbeba&hl=en";
-    public static final int client_id = 1;
+    public static final int client_id = 2;
 
-    public static final String client_secret = "NvTN1CeLtNygzZFNPixRuUkDAo4knyz8RBqaNisS";
+    public static final String client_secret = "WifS1rMi3LvuorP1G2UdtKZairUNSH2iMqrKivPf";
     public static final String STRIPE_TOKEN = "pk_live_w4AMWANwKUQms0HOKOSLB5aH0035Lw8s3P";
    public static final String image_url_signature = base + "public/";
     public static final String CURRENT_TRIP = base + "api/user/trips/current";
