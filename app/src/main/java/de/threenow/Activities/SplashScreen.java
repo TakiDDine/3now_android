@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -35,12 +36,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.R;
-import de.threenow.chat.UserChatActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +43,16 @@ import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
+import de.threenow.chat.UserChatActivity;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
@@ -428,6 +432,26 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
 //    private void showDialog()
 //    {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);

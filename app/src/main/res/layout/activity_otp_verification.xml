@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/im_back"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/backArrow"
@@ -32,10 +33,10 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/muli_semibold"
                 android:paddingStart="@dimen/_12sdp"
+                android:paddingTop="@dimen/_27sdp"
                 android:text="@string/phone_verification"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_20sdp"
-                android:paddingTop="@dimen/_27sdp"/>
+                android:textSize="@dimen/_20sdp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -52,24 +53,57 @@
         </LinearLayout>
 
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bitte den 6-stelligen Code eingeben"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/ver_otp"
+        android:layout_marginBottom="@dimen/_18sdp"/>
+
+    <TextView
+        android:id="@+id/ver_otp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/otp_view"
+        android:layout_centerHorizontal="true"
+        android:text="verifizierungscode"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_18sdp" />
 
     <com.mukesh.OtpView
         android:id="@+id/otp_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:background="@drawable/rounded_button_gray"
         android:inputType="number"
-        android:itemBackground="@color/white"
-        android:textColor="@color/blue"
-        app:cursorColor="@color/colorPrimary"
+        android:paddingLeft="@dimen/_20sdp"
+        android:paddingRight="@dimen/_20sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:textColor="@color/black"
+        app:cursorColor="@color/black"
         app:itemCount="6"
         app:itemSpacing="@dimen/_5sdp"
-        app:itemWidth="@dimen/_40sdp"
-        app:lineColor="@color/view_grey_bg_"
-        app:lineWidth="@dimen/_2sdp"
+        app:itemWidth="@dimen/_30sdp"
+        app:lineColor="#707070"
+        app:lineWidth="@dimen/_1sdp"
         app:state_filled="true"
         app:viewType="line" />
+
+    <TextView
+        android:id="@+id/tvResend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/otp_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:fontFamily="@font/muli_semibold"
+        android:text="Code erneut senden"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,40 +111,30 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:layout_marginTop="@dimen/_44sdp"
+        android:clipToPadding="false"
         android:gravity="end"
         android:orientation="vertical"
-        android:padding="@dimen/_25sdp"
-        android:clipToPadding="false">
-
-
-        <TextView
-            android:id="@+id/tvResend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:fontFamily="@font/muli_semibold"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="@dimen/_14sdp" />
+        android:padding="@dimen/_25sdp">
 
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:background="#fff"
-            android:elevation="4dp"
-            android:layout_marginTop="@dimen/_50sdp">
-        <Button
-            android:id="@+id/btnverify"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:elevation="@dimen/_30sdp"
-            android:background="@drawable/gradient_vertical"
-            android:enabled="false"
-            android:fontFamily="@font/muli_semibold"
-            android:text="@string/verify_now"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_16sdp" />
+            android:layout_width="@dimen/_175sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:elevation="4dp">
+
+            <Button
+                android:id="@+id/btnverify"
+                android:layout_width="@dimen/_175sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/rounded_button_blue"
+                android:elevation="@dimen/_10sdp"
+                android:enabled="false"
+                android:fontFamily="@font/muli_semibold"
+                android:text="@string/verify_now"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp" />
         </FrameLayout>
 
     </LinearLayout>

@@ -31,7 +31,7 @@
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/muli_semibold"
                 android:gravity="center_vertical"
-                android:text="Profile"
+                android:text="@string/profile"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
         </LinearLayout>
@@ -133,7 +133,7 @@
                                 android:fontFamily="@font/muli_semibold"
                                 android:gravity="center"
                                 android:paddingTop="@dimen/_5sdp"
-                                android:text="Become a driver"
+                                android:text="@string/become_a_driver"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_14sdp" />
 
@@ -171,7 +171,7 @@
                         android:paddingLeft="@dimen/_10sdp"
                         android:paddingTop="@dimen/_3sdp"
                         android:paddingBottom="@dimen/_3sdp"
-                        android:text="Review"
+                        android:text="@string/review"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_14sdp" />
 
@@ -192,6 +192,22 @@
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_14sdp" />
 
+                    <TextView
+                        android:id="@+id/txtLanguage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_lang"
+                        android:drawableRight="@mipmap/ic_right"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:drawableTint="@color/blue"
+                        android:fontFamily="@font/muli_regular"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:paddingBottom="@dimen/_3sdp"
+                        android:text="@string/app_language"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_14sdp" />
 
                     <Switch
                         android:layout_width="match_parent"
@@ -207,6 +223,8 @@
                         android:text="@string/notifications"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_14sdp" />
+
+
                 </LinearLayout>
 
             </ScrollView>
@@ -218,7 +236,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/gradient"
-                android:text="Logout"
+                android:text="@string/action_logout"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16sdp" />
         </RelativeLayout>

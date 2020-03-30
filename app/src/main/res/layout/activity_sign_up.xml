@@ -2,100 +2,118 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/im_back">
+    android:background="@color/white">
+
+    <de.threenow.Utils.MyTextView
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:gravity="center"
+        android:text="@string/register"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_18sdp" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:background="@drawable/middle_box"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="@dimen/_230sdp"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_5sdp"
-            android:gravity="center|start"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <de.threenow.Utils.MyEditText
-                android:id="@+id/etName"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/transparent"
-                android:drawableLeft="@drawable/ic_user_name"
-                android:drawablePadding="@dimen/_10sdp"
-                android:drawableTint="@color/blue"
-                android:hint="@string/full_name"
-                android:inputType="textEmailAddress"
-                android:paddingLeft="@dimen/_5sdp"
-                android:paddingRight="@dimen/_5sdp"
-                android:textColor="@color/blue"
-                android:textColorHint="@color/blue"
-                android:textSize="@dimen/_14sdp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/view_grey_bg_" />
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="@dimen/_13sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button_gray"
+                    android:hint="@string/first_name"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textSize="@dimen/_12sdp" />
 
-            <de.threenow.Utils.MyEditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/transparent"
-                android:drawableLeft="@drawable/ic_pasword"
-                android:drawablePadding="@dimen/_10sdp"
-                android:drawableTint="@color/blue"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:paddingLeft="@dimen/_5sdp"
-                android:paddingRight="@dimen/_5sdp"
-                android:textColor="@color/blue"
-                android:textColorHint="@color/blue"
-                android:textSize="@dimen/_14sdp" />
+                <de.threenow.Utils.MyEditText
+                    android:id="@+id/etLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_button_gray"
+                    android:hint="@string/last_name"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/_20sdp"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:textColorHighlight="@color/colorAccent"
+                    android:textSize="@dimen/_12sdp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/view_grey_bg_" />
+
+            </LinearLayout>
 
             <de.threenow.Utils.MyEditText
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:backgroundTint="@color/transparent"
-                android:drawableLeft="@drawable/ic_mail"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:background="@drawable/rounded_button_gray"
+                android:drawableLeft="@drawable/mail"
                 android:drawablePadding="@dimen/_10sdp"
-                android:drawableTint="@color/blue"
-                android:hint="@string/email"
+                android:hint="@string/email_hint"
                 android:inputType="textEmailAddress"
-                android:paddingLeft="@dimen/_5sdp"
+                android:paddingLeft="@dimen/_10sdp"
                 android:paddingRight="@dimen/_5sdp"
-                android:textColor="@color/blue"
-                android:textColorHint="@color/blue"
-                android:textSize="@dimen/_14sdp" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
-            <View
+            <de.threenow.Utils.MyEditText
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/view_grey_bg_" />
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:background="@drawable/rounded_button_gray"
+                android:drawableLeft="@drawable/lock_1"
+                android:drawablePadding="@dimen/_10sdp"
+                android:hint="@string/enter_password_here"
+                android:inputType="textPassword"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:textSize="@dimen/_12sdp" />
+
+
+            <Button
+                android:id="@+id/btnSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/round_blue_new"
+                android:text="@string/lets_go"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_9sdp" />
+
         </LinearLayout>
-
-
-        <Button
-            android:id="@+id/btnSignUp"
-            android:layout_width="@dimen/_58sdp"
-            android:layout_height="@dimen/_58sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:background="@drawable/round_shape"
-            android:text="@string/next"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_9sdp" />
 
 
     </RelativeLayout>
@@ -110,16 +128,6 @@
 
     <!--        android:layout_centerHorizontal="true"/>-->
 
-    <de.threenow.Utils.MyBoldTextView
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:gravity="center"
-        android:text="@string/register"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_18sdp" />
 
     <LinearLayout
 
@@ -129,7 +137,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/_40sdp"
         android:background="@drawable/login_views"
-        android:gravity="right">
+        android:gravity="right"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/txtSignIn"
@@ -142,6 +151,45 @@
             android:textColor="@color/blue"
             android:textSize="@dimen/_18sdp" />
     </LinearLayout>
+
+    <de.threenow.Utils.MyTextView
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/ll_agb"
+        android:gravity="center"
+        android:text="@string/when_you_create_an_account_you_agree_to_ours"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp" />
+
+    <LinearLayout
+        android:id="@+id/ll_agb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_38sdp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:orientation="horizontal">
+        <de.threenow.Utils.MyTextView
+            android:id="@+id/txt_agb_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/_10sdp"
+            android:text="@string/btn_agb" />
+
+        <de.threenow.Utils.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/and_data_protection_too"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+    </LinearLayout>
+
 
 
 </RelativeLayout>

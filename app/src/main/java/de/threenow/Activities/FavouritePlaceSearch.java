@@ -2,8 +2,10 @@ package de.threenow.Activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +40,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import de.threenow.Constants.AutoCompleteAdapter;
 import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
@@ -53,6 +56,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -80,6 +84,28 @@ public class FavouritePlaceSearch extends AppCompatActivity implements View.OnCl
     private PlacePredictions placePredictions = new PlacePredictions();
     private Location mLastLocation;
     PlacesClient placesClient;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

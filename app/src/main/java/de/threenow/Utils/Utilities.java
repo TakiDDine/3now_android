@@ -198,7 +198,7 @@ public class Utilities {
                     .setTitle(context.getString(R.string.app_name))
                     .setCancelable(true)
                     .setIcon(R.mipmap.ic_launcher_round)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                         }

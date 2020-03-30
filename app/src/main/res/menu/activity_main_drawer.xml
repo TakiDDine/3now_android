@@ -42,7 +42,7 @@
         <item
             android:id="@+id/nav_payment"
 
-            android:icon="@drawable/ic_payment_method"
+            android:icon="@drawable/account_balance_wallet"
             android:title="@string/payment" />
 
 
@@ -58,13 +58,14 @@
  />
         <item
             android:id="@+id/nav_help"
-            android:icon="@drawable/ic_help_supports"
+            android:icon="@drawable/ic_hilfe"
             android:title="@string/help"
           />
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_share_icon"
-            android:title="@string/share" />
+            android:title="@string/share"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_sos"
             android:icon="@drawable/ic_sos"

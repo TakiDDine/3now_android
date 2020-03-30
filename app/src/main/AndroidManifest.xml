@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ndroid="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
     package="de.threenow">
 
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--
+     The following two permissions are not required to use
+     Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+
     <application
-        android:name="de.threenow.IlyftApplication"
+        android:name=".IlyftApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:hardwareAccelerated="true"
@@ -17,10 +44,17 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup"
         tools:targetApi="m">
-        <activity android:name="de.threenow.Activities.FullImage"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name="de.threenow.calender.AddOrEditCalendarActivity"></activity>
+        <activity
+            android:name=".Activities.AgbActivity"
+            android:configChanges="layoutDirection|locale"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.FullImage"
+            android:configChanges="layoutDirection|locale"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".calender.AddOrEditCalendarActivity"
+            android:configChanges="layoutDirection|locale" />
         <!--
 <activity
             android:name=".calender.CalendarSampleActivity"
@@ -38,11 +72,11 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="de.threenow.Activities.SplashScreen"
+            android:name=".Activities.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            ndroid:configChanges="layoutDirection|locale"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,51 +84,54 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="de.threenow.Activities.Payment"
+            android:name=".Activities.Payment"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.OtpVerification"
-
+            android:configChanges="layoutDirection|locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.UserReview"
+            android:name=".Activities.UserReview"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name="de.threenow.Activities.MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            ndroid:configChanges="layoutDirection|locale" />
         <activity
-            android:name="de.threenow.Activities.EditProfile"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name="de.threenow.Activities.ShowProfile"
+            android:name=".Activities.EditProfile"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="de.threenow.Activities.AddCard"
+            android:name=".Activities.ShowProfile"
+            android:configChanges="layoutDirection|locale"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activities.AddCard"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="de.threenow.Activities.HistoryDetails"
+            android:name=".Activities.HistoryDetails"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -105,128 +142,148 @@
         <!-- android:theme="@style/AppTheme.NoActionBar" -->
         <!-- android:windowSoftInputMode="stateHidden" /> -->
         <activity
-            android:name="de.threenow.Activities.HistoryActivity"
+            android:name=".Activities.HistoryActivity"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/my_booking"
             android:screenOrientation="portrait" />
         <activity
-            android:name="de.threenow.Activities.ActivityWallet"
+            android:name=".Activities.ActivityWallet"
+            android:configChanges="layoutDirection|locale"
             android:label="Wallet"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.CouponActivity"
+            android:name=".Activities.CouponActivity"
+            android:configChanges="layoutDirection|locale"
             android:label="Coupon"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="de.threenow.Activities.ChangePassword"
+            android:name=".Activities.ChangePassword"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="de.threenow.Activities.NotificationTab"
-            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:name=".Activities.NotificationTab"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize|layoutDirection|locale"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="com.quickridejadriver.providers.TARGETNOTIFICATION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="de.threenow.chat.UserChatActivity"
+            android:name=".chat.UserChatActivity"
+            android:configChanges="layoutDirection|locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.Profile"
+            android:name=".Activities.Profile"
+            android:configChanges="layoutDirection|locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.CustomGooglePlacesSearch"
+            android:name=".Activities.CustomGooglePlacesSearch"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name="de.threenow.Activities.ActivityHelp" />
+        <activity
+            android:name=".Activities.ActivityHelp"
+            android:configChanges="layoutDirection|locale" />
         <activity android:name="com.facebook.accountkit.ui.AccountKitActivity" />
         <activity
-            android:name="de.threenow.Activities.SosCallActivity"
+            android:name=".Activities.SosCallActivity"
+            android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.ComplaintsAcivity"
+            android:name=".Activities.ComplaintsAcivity"
+            android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- Firebase Notifications -->
         <activity
-            android:name="de.threenow.Activities.LegalActivity"
-            android:hardwareAccelerated="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name="de.threenow.Activities.TermsOfUseActivity"
-            android:hardwareAccelerated="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name="de.threenow.Activities.PrivacyPolicyActivity"
+            android:name=".Activities.LegalActivity"
+            android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.UpdateProfile"
+            android:name=".Activities.TermsOfUseActivity"
+            android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.FavouritePlaceSearch"
+            android:name=".Activities.PrivacyPolicyActivity"
+            android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name="de.threenow.Activities.Login"
+            android:name=".Activities.UpdateProfile"
+            android:configChanges="layoutDirection|locale"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.FavouritePlaceSearch"
+            android:configChanges="layoutDirection|locale"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.Login"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name="de.threenow.Activities.SignUp"
+            android:name=".Activities.SignUp"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- <meta-data -->
         <!-- android:name="io.fabric.ApiKey" -->
         <!-- android:value="b7456bf4836fcad8f6ad95b6f17d2aef7a340ab7" /> -->
         <activity
-            android:name="de.threenow.Activities.ForgotPassword"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name="de.threenow.Activities.MediaHome"
+            android:name=".Activities.ForgotPassword"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.RunningTrip"
+            android:name=".Activities.MediaHome"
+            android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.TrackActivity"
+            android:name=".Activities.RunningTrip"
+            android:configChanges="layoutDirection|locale"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="de.threenow.Activities.PhoneNoUpdateActivity"
+            android:name=".Activities.TrackActivity"
+            android:configChanges="layoutDirection|locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.PhoneNoUpdateActivity"
+            android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -251,42 +308,16 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <service android:name="de.threenow.FCM.FCMService">
+
+        <service android:name=".FCM.FCMService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--
-     The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended.
-    -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
 </manifest>

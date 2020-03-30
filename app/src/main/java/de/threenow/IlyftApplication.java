@@ -2,11 +2,14 @@ package de.threenow;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
 
 import androidx.multidex.MultiDex;
-
-import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,7 +24,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.Locale;
 
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
 import io.fabric.sdk.android.Fabric;
 //import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -42,13 +48,45 @@ public class IlyftApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+//        super.attachBaseContext(base);
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
         MultiDex.install(this);
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
+
+    public void setLocale(String lang) {
+        Log.e("language", Locale.getDefault().getDisplayLanguage());
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+//        SharedPrefrence.setLanguage(Profile.this,lang);
+        SharedHelper.putKey(this, "lang", lang);
+
+//        Intent refresh = new Intent(this, MainActivity.class);
+//        finish();
+//        startActivity(refresh);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        setLangFirstTime();
         mInstance = this;
         EmojiManager.install(new IosEmojiProvider());
 //        initCalligraphyConfig();
@@ -59,6 +97,23 @@ public class IlyftApplication extends Application {
 
         Fabric.with(fabric);
 
+    }
+
+    private void setLangFirstTime() {
+        final String PREFS_NAME = "MyPrefsFile";
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
+        if (settings.getBoolean("my_first_time", true)) {
+            //the app is being launched for first time, do something
+            Log.d("Comments", "First time");
+
+            // first time task
+            setLocale("de");
+
+            // record the fact that the app has been started at least once
+            settings.edit().putBoolean("my_first_time", false).commit();
+        }
     }
 
 //    private void initCalligraphyConfig() {
@@ -103,10 +158,10 @@ public class IlyftApplication extends Application {
     }
 
 
-    public static String trimMessage(String json){
+    public static String trimMessage(String json) {
         String trimmedString = "";
 
-        try{
+        try {
             JSONObject jsonObject = new JSONObject(json);
             Iterator<String> iter = jsonObject.keys();
             while (iter.hasNext()) {
@@ -114,23 +169,25 @@ public class IlyftApplication extends Application {
                 try {
                     JSONArray value = jsonObject.getJSONArray(key);
                     for (int i = 0, size = value.length(); i < size; i++) {
-                        Log.e("Errors in Form",""+value.getString(i));
+                        Log.e("Errors in Form", "" + value.getString(i));
                         trimmedString += value.getString(i);
-                        if(i < size-1) {
+                        if (i < size - 1) {
                             trimmedString += '\n';
                         }
                     }
                 } catch (JSONException e) {
 
-                     trimmedString += jsonObject.optString(key);
+                    trimmedString += jsonObject.optString(key);
                 }
             }
-        } catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
-        Log.e("Trimmed",""+trimmedString);
+        Log.e("Trimmed", "" + trimmedString);
 
         return trimmedString;
     }
+
+
 }

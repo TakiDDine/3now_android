@@ -4,6 +4,7 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.JsonObject;
+
+import de.threenow.Helper.LocaleManager;
 import de.threenow.IlyftApplication;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -43,6 +46,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
@@ -58,6 +62,27 @@ public class CouponActivity extends AppCompatActivity {
     ListAdapter couponAdapter;
     CustomDialog customDialog;
     Utilities utils = new Utilities();
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

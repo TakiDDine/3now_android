@@ -2,12 +2,17 @@ package de.threenow.Activities;
 
 import android.accounts.NetworkErrorException;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +23,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
@@ -27,17 +36,6 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.hbb20.CountryCodePicker;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.R;
-import de.threenow.Utils.Utilities;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -45,11 +43,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.accountkit.Account;
-import com.facebook.accountkit.AccountKit;
-import com.facebook.accountkit.AccountKitCallback;
-import com.facebook.accountkit.AccountKitError;
-import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.PhoneNumber;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
@@ -67,9 +60,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.JsonObject;
-
+import com.hbb20.CountryCodePicker;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -79,22 +75,28 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
+import de.threenow.Utils.Utilities;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener,
         GoogleApiClient.OnConnectionFailedListener {
     String TAG = "SignUp";
-    TextView txtSignIn;
-    EditText etName,etEmail,etPassword;
+    TextView txtSignIn, txtAgbBtn;
+    EditText etName, etLastName, etEmail, etPassword;
     Button btnSignUp;
 //    private MaterialSpinner spRegister;
 
@@ -106,7 +108,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
     AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder;
     UIManager uiManager;
 
-    Button btnFb,btnGoogle;
+    Button btnFb, btnGoogle;
 
     /*----------Facebook Login---------*/
     CallbackManager callbackManager;
@@ -119,20 +121,30 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
     GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 100;
     public static int APP_REQUEST_CODE = 99;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+        }
         setContentView(R.layout.activity_sign_up);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         helper = new ConnectionHelper(getApplicationContext());
         isInternet = helper.isConnectingToInternet();
-        txtSignIn=findViewById(R.id.txtSignIn);
-        etName=findViewById(R.id.etName);
-        etEmail=findViewById(R.id.etEmail);
-        etPassword=findViewById(R.id.etPassword);
-        btnSignUp=findViewById(R.id.btnSignUp);
-       // btnFb=findViewById(R.id.btnFb);
-       // btnGoogle=findViewById(R.id.btnGoogle);
+        txtSignIn = findViewById(R.id.txtSignIn);
+        etName = findViewById(R.id.etName);
+        etLastName = findViewById(R.id.etLastName);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnSignUp = findViewById(R.id.btnSignUp);
+        txtAgbBtn = findViewById(R.id.txt_agb_btn);
+        // btnFb=findViewById(R.id.btnFb);
+        // btnGoogle=findViewById(R.id.btnGoogle);
         txtSignIn.setOnClickListener(this);
         btnSignUp.setOnClickListener(this);
         //btnFb.setOnClickListener(this);
@@ -151,46 +163,57 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
+        SpannableString content = new SpannableString(getResources().getString(R.string.conditions));
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        txtAgbBtn.setText(content + " ");
+
+        txtAgbBtn.setOnClickListener(this);
+
         getToken();
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.txtSignIn)
-        {
-            startActivity(new Intent(SignUp.this,Login.class));
+        if (v.getId() == R.id.txtSignIn) {
+            startActivity(new Intent(SignUp.this, Login.class));
             finish();
         }
-        if (v.getId()==R.id.btnSignUp)
-        {
+        if (v.getId() == R.id.txt_agb_btn){
+            startActivity(new Intent(SignUp.this, AgbActivity.class));
+        }
+        if (v.getId() == R.id.btnSignUp) {
 
-                Pattern ps = Pattern.compile(".*[0-9].*");
-                Matcher firstName = ps.matcher(etName.getText().toString());
+            Pattern ps = Pattern.compile(".*[0-9].*");
+            Matcher firstName = ps.matcher(etName.getText().toString());
 
 
-                if (etName.getText().toString().equals("") ||
-                        etName.getText().toString().equalsIgnoreCase(getString(R.string.first_name))) {
-                    displayMessage(getString(R.string.first_name_empty));
-                } else if (firstName.matches()) {
-                    displayMessage(getString(R.string.first_name_no_number));
-                } else if (etEmail.getText().toString().equals("") ||
-                        etEmail.getText().toString().equalsIgnoreCase(getString(R.string.sample_mail_id))) {
-                    displayMessage(getString(R.string.email_validation));
-                } else if (!Utilities.isValidEmail(etEmail.getText().toString())) {
-                    displayMessage(getString(R.string.not_valid_email));
-                } else if (etPassword.getText().toString().equals("") ||
-                        etPassword.getText().toString().equalsIgnoreCase(getString(R.string.password_txt))) {
-                    displayMessage(getString(R.string.password_validation));
-                } else if (etPassword.length() < 6) {
-                    displayMessage(getString(R.string.password_size));
+            if (etName.getText().toString().equals("") ||
+                    etName.getText().toString().equalsIgnoreCase(getString(R.string.first_name))) {
+                displayMessage(getString(R.string.first_name_empty));
+            } else if (etLastName.getText().toString().equals("")||
+                    etLastName.getText().toString().equalsIgnoreCase(getString(R.string.last_name))) {
+                displayMessage(getString(R.string.last_name_empty));
+            } else if (firstName.matches()) {
+                displayMessage(getString(R.string.first_name_no_number));
+            } else if (etEmail.getText().toString().equals("") ||
+                    etEmail.getText().toString().equalsIgnoreCase(getString(R.string.sample_mail_id))) {
+                displayMessage(getString(R.string.email_validation));
+            } else if (!Utilities.isValidEmail(etEmail.getText().toString())) {
+                displayMessage(getString(R.string.not_valid_email));
+            } else if (etPassword.getText().toString().equals("") ||
+                    etPassword.getText().toString().equalsIgnoreCase(getString(R.string.password_txt))) {
+                displayMessage(getString(R.string.password_validation));
+            } else if (etPassword.length() < 6) {
+                displayMessage(getString(R.string.password_size));
+            } else {
+                if (isInternet) {
+                    openphonelogin();
+                } else {
+                    displayMessage(getString(R.string.something_went_wrong_net));
                 }
-                else {
-                    if (isInternet) {
-                        openphonelogin();
-                    } else {
-                        displayMessage(getString(R.string.something_went_wrong_net));
-                    }
-                }
+            }
         }
        /* if (v.getId()==R.id.btnFb)
         {
@@ -202,22 +225,24 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
         }*/
     }
 
-    public  void logInType(String loginType) {
+    public void logInType(String loginType) {
         Intent intent = new Intent(SignUp.this, Login.class);
         intent.putExtra("loginTypeSignUP", loginType);
         startActivity(intent);
 
     }
+
     private void googleLogIn() {
-        Log.e(TAG,"Google signin");
+        Log.e(TAG, "Google signin");
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        Log.e(TAG,"RC_SIGN_IN: "+RC_SIGN_IN);
+        Log.e(TAG, "RC_SIGN_IN: " + RC_SIGN_IN);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     private void facebookLogin() {
         if (isInternet) {
             LoginManager.getInstance().logInWithReadPermissions(SignUp.this,
-                    Arrays.asList("public_profile","email"));
+                    Arrays.asList("public_profile", "email"));
 
 
             LoginManager.getInstance().registerCallback(callbackManager,
@@ -232,10 +257,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
                                             @Override
                                             public void onCompleted(JSONObject user, GraphResponse graphResponse) {
                                                 try {
-                                                    Log.e(TAG,"id"+user.optString("id"));
-                                                    Log.e(TAG,"name"+user.optString("first_name"));
+                                                    Log.e(TAG, "id" + user.optString("id"));
+                                                    Log.e(TAG, "name" + user.optString("first_name"));
 
-                                                    String profileUrl="https://graph.facebook.com/v2.8/"+user.optString("id")+"/picture?width=1920";
+                                                    String profileUrl = "https://graph.facebook.com/v2.8/" + user.optString("id") + "/picture?width=1920";
 
 
                                                     final JsonObject json = new JsonObject();
@@ -248,7 +273,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
                                                     json.addProperty("last_name", user.optString("last_name"));
                                                     json.addProperty("id", user.optString("id"));
                                                     json.addProperty("email", user.optString("email"));
-                                                    json.addProperty("avatar",profileUrl);
+                                                    json.addProperty("avatar", profileUrl);
 
                                                     login(json, URLHelper.FACEBOOK_LOGIN, "facebook");
 
@@ -276,7 +301,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
 
                         @Override
                         public void onError(FacebookException exception) {
-                            Log.e("exceptionfacebook",exception.toString());
+                            Log.e("exceptionfacebook", exception.toString());
                             // App code
                         }
                     });
@@ -308,7 +333,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
         customDialog.setCancelable(false);
         if (customDialog != null)
             customDialog.show();
-        Log.e("url",URL+"");
+        Log.e("url", URL + "");
         Log.e(TAG, "login: Facebook" + json);
         Ion.with(SignUp.this)
                 .load(URL)
@@ -319,7 +344,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
-                        Log.e("result_data",result+"");
+                        Log.e("result_data", result + "");
                         // do stuff with the result or error
                         if ((customDialog != null) && customDialog.isShowing())
                             customDialog.dismiss();
@@ -361,22 +386,29 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
     }
 
     Dialog dialog;
+
     private void openphonelogin() {
 
-         dialog = new Dialog(SignUp.this,R.style.AppTheme_NoActionBar);
-
+        dialog = new Dialog(SignUp.this, R.style.AppTheme_NoActionBar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            dialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            dialog.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+            dialog.getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+        }
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT);
         dialog.setContentView(R.layout.mobileverification);
         dialog.setCancelable(true);
         dialog.show();
-        CountryCodePicker ccp=(CountryCodePicker)dialog.findViewById(R.id.ccp);
-        ImageButton nextIcon=dialog.findViewById(R.id.nextIcon);
+        CountryCodePicker ccp = (CountryCodePicker) dialog.findViewById(R.id.ccp);
+        Button nextIcon = dialog.findViewById(R.id.nextIcon);
         ImageView imgBack = dialog.findViewById(R.id.imgBack);
-        EditText mobile_no=dialog.findViewById(R.id.mobile_no);
-        final String countryCode=ccp.getDefaultCountryCode();
-        final String countryIso=ccp.getSelectedCountryNameCode();
+        EditText mobile_no = dialog.findViewById(R.id.mobile_no);
+        final String countryCode = ccp.getDefaultCountryCode();
+        final String countryIso = ccp.getSelectedCountryNameCode();
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -388,15 +420,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
             public void onClick(View v) {
                 String phone = ccp.getSelectedCountryCodeWithPlus() + mobile_no.getText().toString();
                 SharedHelper.putKey(getApplicationContext(), "mobile_number", phone);
-                Log.v("Phonecode",phone+" ");
-                Intent intent =new Intent(SignUp.this, OtpVerification.class);
-                intent.putExtra("phonenumber",phone);
-                startActivityForResult(intent,APP_REQUEST_CODE);
+                Log.v("Phonecode", phone + " ");
+                Intent intent = new Intent(SignUp.this, OtpVerification.class);
+                intent.putExtra("phonenumber", phone);
+                startActivityForResult(intent, APP_REQUEST_CODE);
                 dialog.dismiss();
             }
         });
 
     }
+
     public void phoneLogin(PhoneNumber phoneNumber) {
 
         final Intent intent = new Intent(this, AccountKitActivity.class);
@@ -435,7 +468,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
 //                handleSignInResult(result);
                 GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                 handleSignInResult(result);
-                Log.e(TAG,"If: "+result.toString());
+                Log.e(TAG, "If: " + result.toString());
 
             }
             if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
@@ -505,6 +538,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
 //            }
         }
     }
+
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d("Beginscreen", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
@@ -566,7 +600,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
             object.put("device_token", "" + device_token);
             object.put("login_by", "manual");
             object.put("first_name", etName.getText().toString());
-            object.put("last_name", etName.getText().toString());
+            object.put("last_name", etLastName.getText().toString());
             object.put("email", etEmail.getText().toString());
             object.put("password", etPassword.getText().toString());
             object.put("mobile", SharedHelper.getKey(getApplicationContext(), "mobile_number"));
@@ -585,13 +619,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
                         object,
                         response -> {
                             dialog.dismiss();
-                         try{
-                             displayMessage(response.getString("msg"));
-                         }catch (Exception e)
-                         {e.printStackTrace();}
+                            try {
+                                displayMessage(response.getString("msg"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             if ((customDialog != null) && (customDialog.isShowing()))
                                 customDialog.dismiss();
-                                utils.print("SignInResponse", response.toString());
+                            utils.print("SignInResponse", response.toString());
                             SharedHelper.putKey(getApplicationContext(), "email", etEmail.getText().toString());
                             SharedHelper.putKey(getApplicationContext(), "password", etPassword.getText().toString());
                             signIn();
@@ -902,6 +937,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
             displayMessage(getString(R.string.something_went_wrong_net));
         }
     }
+
     public void getToken() {
         try {
             if (!SharedHelper.getKey(SignUp.this, "device_token").equals("") &&
@@ -935,6 +971,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
             utils.print(TAG, "Failed to complete device UDID");
         }
     }
+
     private void refreshAccessToken() {
         JSONObject object = new JSONObject();
         try {
@@ -1002,16 +1039,18 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
         Intent mainIntent = new Intent(getApplicationContext(), SplashScreen.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mainIntent);
-      finish();
+        finish();
     }
+
     public void GoToMainActivity() {
         if (customDialog != null && customDialog.isShowing())
             customDialog.dismiss();
         Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mainIntent);
-       finish();
+        finish();
     }
+
     public void displayMessage(String toastString) {
         utils.print("displayMessage", "" + toastString);
         Snackbar.make(findViewById(R.id.etName), toastString, Snackbar.LENGTH_SHORT)
@@ -1021,5 +1060,26 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
     }
 }

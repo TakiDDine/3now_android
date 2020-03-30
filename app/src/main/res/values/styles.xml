@@ -27,16 +27,23 @@
 
 
     <!-- Base application theme. -->
-    <style name="Mytheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:textAppearance">@color/colorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+    <style name="Newtheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/text_color_white</item>
+        <item name="android:textAppearance">@color/text_color_white</item>
+        <item name="colorPrimaryDark">@color/text_color_white</item>
         <item name="android:windowBackground">@color/text_color_white</item>
         <item name="colorAccent">@color/text_color_white</item>
-        <item name="colorControlNormal">#c5c5c5 </item>
-        <item name="colorControlActivated">@color/colorPrimaryDark</item>
-        <item name="colorControlHighlight">@color/blue</item>
-        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/text_color_white</item>
+        <item name="colorControlHighlight">@color/text_color_white</item>
+        <item name="android:textColorPrimary">@color/text_color_white</item>
+        <item name="android:tint">@color/text_color_white</item>
+        <item name="android:textColorHint">@color/text_color_white</item>
+    </style>
+
+    <style name="TranslucentStatusBar" >
+        <item name="android:windowTranslucentNavigation">false</item>
 
     </style>
 

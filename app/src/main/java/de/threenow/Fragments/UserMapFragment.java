@@ -727,10 +727,10 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     private void exitConfirmation() {
         new AlertDialog.Builder(getContext())
-                .setTitle("Confirmation")
-                .setMessage("Do you really want to Exit Cab Services?")
+                .setTitle(getResources().getString(R.string.confirmation))
+                .setMessage(getResources().getString(R.string.do_you_really_want_to_exit_3now))
                 .setIcon(R.mipmap.ic_launcher_round)
-                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> getActivity().finish())
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> getActivity().finishAffinity())
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
@@ -1232,7 +1232,7 @@ String cancaltype="";
                 new AlertDialog.Builder(context)
                         .setTitle("Location Permission Needed")
                         .setMessage("This app needs the Location permission, please accept to use location functionality")
-                        .setPositiveButton("OK", (dialogInterface, i) -> {
+                        .setPositiveButton(getResources().getString(R.string.ok), (dialogInterface, i) -> {
                             //Prompt the user once explanation has been shown
                             ActivityCompat.requestPermissions(getActivity(),
                                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},

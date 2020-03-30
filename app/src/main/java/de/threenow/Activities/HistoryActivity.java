@@ -3,6 +3,7 @@ package de.threenow.Activities;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
@@ -10,10 +11,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.MenuItem;
+
+import java.util.Locale;
 
 import de.threenow.Fragments.OnGoingTrips;
 import de.threenow.Fragments.PastTrips;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
 import de.threenow.R;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -21,6 +28,27 @@ public class HistoryActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private String tabTitles[];
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

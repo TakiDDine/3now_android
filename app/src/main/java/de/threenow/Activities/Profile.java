@@ -3,13 +3,18 @@ package de.threenow.Activities;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -29,10 +34,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.R;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -42,25 +43,34 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
 
+import static de.threenow.Helper.LocaleManager.getLanguage;
 import static de.threenow.IlyftApplication.trimMessage;
 
 
 public class Profile extends AppCompatActivity implements View.OnClickListener {
     ImageView backArrow;
-    TextView txtuserName,txtEdituser,txtVehiclename,txtvehicleEdit,txtPassword;
+    TextView txtuserName, txtEdituser, txtVehiclename, txtvehicleEdit, txtPassword, txtLanguage;
     CircleImageView img_profile;
     ImageView img_car;
     Button btnLogout;
     GoogleApiClient mGoogleApiClient;
     Locale myLocale;
     TextView txtReview;
-    String currentLanguage = "en", currentLang;
+    String currentLanguage = "de", currentLang;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("language5", Locale.getDefault().getDisplayLanguage());
         setContentView(R.layout.activity_profile);
         currentLanguage = getIntent().getStringExtra(currentLang);
+        Log.e("language6", Locale.getDefault().getDisplayLanguage());
 
         findview();
 
@@ -73,16 +83,17 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void findview() {
-        img_profile= findViewById(R.id.img_profile);
-        img_car= findViewById(R.id.img_car);
+        img_profile = findViewById(R.id.img_profile);
+        img_car = findViewById(R.id.img_car);
         backArrow = findViewById(R.id.backArrow);
-        txtuserName= findViewById(R.id.txtuserName);
-        txtEdituser= findViewById(R.id.txtEdituser);
-        txtVehiclename= findViewById(R.id.txtVehiclename);
-        txtvehicleEdit= findViewById(R.id.txtvehicleEdit);
-        txtPassword= findViewById(R.id.txtPassword);
+        txtuserName = findViewById(R.id.txtuserName);
+        txtEdituser = findViewById(R.id.txtEdituser);
+        txtVehiclename = findViewById(R.id.txtVehiclename);
+        txtvehicleEdit = findViewById(R.id.txtvehicleEdit);
+        txtPassword = findViewById(R.id.txtPassword);
+        txtLanguage = findViewById(R.id.txtLanguage);
 
-        btnLogout= findViewById(R.id.btnLogout);
+        btnLogout = findViewById(R.id.btnLogout);
 
         txtReview = findViewById(R.id.txtReview);
         txtVehiclename.setOnClickListener(new View.OnClickListener() {
@@ -111,44 +122,109 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         }
         txtEdituser.setOnClickListener(this);
         txtPassword.setOnClickListener(this);
-
+        txtLanguage.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
 
         txtReview.setOnClickListener(this);
     }
 
 
-
-
-
-
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.txtEdituser)
-        {
-            startActivity(new Intent(Profile.this,EditProfile.class));
+        if (v.getId() == R.id.txtEdituser) {
+            startActivity(new Intent(Profile.this, EditProfile.class));
         }
-        if (v.getId()==R.id.txtPassword)
-        {
+        if (v.getId() == R.id.txtPassword) {
             startActivity(new Intent(Profile.this, ChangePassword.class));
         }
 
-        if (v.getId()==R.id.txtReview)
-        {
+        if (v.getId() == R.id.txtReview) {
             startActivity(new Intent(Profile.this, UserReview.class));
         }
-        if (v.getId()==R.id.btnLogout)
-        {
+        if (v.getId() == R.id.btnLogout) {
             showLogoutDialog();
+        }
+        if (v.getId() == R.id.txtLanguage) {
+            showRadioButtonDialog();
         }
 
 
     }
 
+    private void showRadioButtonDialog() {
+        int checked;
+        String langNow = getLanguage(Profile.this);
+
+        if (langNow.contains("en")) {
+            checked = 0;
+        } else {
+            checked = 1;
+        }
+
+        // custom dialog
+        final CharSequence[] items = {getResources().getString(R.string.English), getResources().getString(R.string.German)};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
+        builder.setTitle(getResources().getString(R.string.select_your_language));
+        builder.setIcon(R.drawable.ic_lang);
+        builder.setSingleChoiceItems(items, checked, (dialog, item) -> {
+            Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+//            setLocale("de");
+//            changeLanguage(Profile.this,"en");
+            dialog.dismiss();
+            if (item != checked) {
+                if (getLanguage(Profile.this).contains("en")) {
+                    setLocale("de");
+                } else {
+                    setLocale("en");
+                }
+            }
+//            else {
+
+//            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void changeLanguage(Context context, String language) {
+        Log.e("language1", Locale.getDefault().getDisplayLanguage());
+
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = context.getResources().getConfiguration();
+        config.setLocale(locale);
+        context.createConfigurationContext(config);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+        Log.e("language2", Locale.getDefault().getDisplayLanguage());
+
+        Intent refresh = new Intent(this, MainActivity.class);
+        finish();
+        startActivity(refresh);
+    }
+
+    public void setLocale(String lang) {
+        Log.e("language", Locale.getDefault().getDisplayLanguage());
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+//        SharedPrefrence.setLanguage(Profile.this,lang);
+        SharedHelper.putKey(this,"lang",lang);
+
+        Intent refresh = new Intent(this, MainActivity.class);
+        finish();
+        startActivity(refresh);
+    }
+
     private void showLogoutDialog() {
         if (!isFinishing()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Logout");
+            builder.setTitle(getString(R.string.action_logout));
             builder.setMessage(getString(R.string.logout_alert));
 
             builder.setPositiveButton(R.string.yes,
@@ -181,6 +257,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         }
         return false;
     }
+
     public void logout() {
         JSONObject object = new JSONObject();
         try {
@@ -204,7 +281,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                                 AccountKit.logOut();
                                 SharedHelper.putKey(Profile.this, "account_kit_token", "");
                             }
-
 
 
                             //SharedHelper.putKey(context, "email", "");
@@ -309,6 +385,27 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                 Log.d("MAin", "Google API Client Connection Suspended");
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
     }
 
 }

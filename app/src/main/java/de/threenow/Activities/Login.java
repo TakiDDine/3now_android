@@ -3,12 +3,17 @@ package de.threenow.Activities;
 import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -65,6 +70,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.JsonObject;
 import com.hbb20.CountryCodePicker;
+
+import de.threenow.Helper.LocaleManager;
 import de.threenow.IlyftApplication;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -84,6 +91,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
@@ -101,13 +109,13 @@ public class Login extends AppCompatActivity
     private static final int REQ_SIGN_IN_REQUIRED = 100;
     private static final int RC_SIGN_IN = 100;
     public static int APP_REQUEST_CODE = 99;
-    TextView txtSignUp, txtForget;
+    TextView txtSignUp, txtForget,txtAgbBtn;
     Button btnLogin;
     EditText etEmail, etPassword;
     //    Button btnFb,btnGoogle;
     MyTextView btnFb, btnGoogle;
     CustomDialog customDialog;
-    LinearLayout registerLayout;
+//    LinearLayout registerLayout;
     Boolean isInternet;
     ConnectionHelper helper;
     String device_token, device_UDID;
@@ -126,9 +134,36 @@ public class Login extends AppCompatActivity
     JsonObject socialJson;
     String socialUrl,loginType;
     String mobile="";
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        }
         setContentView(R.layout.activity_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -139,8 +174,8 @@ public class Login extends AppCompatActivity
         txtForget = findViewById(R.id.txtForget);
         btnLogin = findViewById(R.id.btnLogin);
         etEmail = findViewById(R.id.etEmail);
-        registerLayout = findViewById(R.id.registerLayout);
-        registerLayout.setOnClickListener(this);
+//        registerLayout = findViewById(R.id.registerLayout);
+//        registerLayout.setOnClickListener(this);
         btnFb = findViewById(R.id.btnFb);
         etPassword = findViewById(R.id.etPassword);
         btnGoogle=findViewById(R.id.btnGoogle);
@@ -185,6 +220,13 @@ public class Login extends AppCompatActivity
             e.printStackTrace();
         }
 //        GoToMainActivity();
+        txtAgbBtn = findViewById(R.id.txt_agb_btn);
+
+        SpannableString content = new SpannableString(getResources().getString(R.string.conditions) );
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        txtAgbBtn.setText(content+ " ");
+
+        txtAgbBtn.setOnClickListener(this);
 
     }
 
@@ -196,9 +238,12 @@ public class Login extends AppCompatActivity
         if (v.getId() == R.id.txtForget) {
             startActivity(new Intent(Login.this, ForgotPassword.class));
         }
-        if (v.getId() == R.id.registerLayout) {
-            startActivity(new Intent(Login.this, SignUp.class));
+        if (v.getId() == R.id.txt_agb_btn){
+            startActivity(new Intent(Login.this, AgbActivity.class));
         }
+//        if (v.getId() == R.id.registerLayout) {
+//            startActivity(new Intent(Login.this, SignUp.class));
+//        }
         if (v.getId() == R.id.btnLogin) {
             Pattern ps = Pattern.compile(".*[0-9].*");
             if (etEmail.getText().toString().equals("") ||
@@ -733,10 +778,17 @@ public class Login extends AppCompatActivity
                 WindowManager.LayoutParams.MATCH_PARENT);
         dialog.setContentView(R.layout.mobileverification);
         dialog.setCancelable(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            dialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            dialog.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+            dialog.getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+        }
         dialog.show();
         ImageView imgBack = dialog.findViewById(R.id.imgBack);
         CountryCodePicker ccp = (CountryCodePicker) dialog.findViewById(R.id.ccp);
-        ImageButton nextIcon = dialog.findViewById(R.id.nextIcon);
+        Button nextIcon = dialog.findViewById(R.id.nextIcon);
         EditText mobile_no = dialog.findViewById(R.id.mobile_no);
         final String countryCode = ccp.getDefaultCountryCode();
         final String countryIso = ccp.getSelectedCountryNameCode();

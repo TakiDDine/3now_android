@@ -5,9 +5,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -22,6 +25,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.braintreepayments.cardform.view.CardForm;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
+
+import de.threenow.Helper.LocaleManager;
 import de.threenow.IlyftApplication;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -41,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
@@ -62,9 +68,35 @@ public class AddCard extends AppCompatActivity {
     Utilities utils = new Utilities();
 
     @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Mytheme);
+        setTheme(R.style.Newtheme);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        }
         setContentView(R.layout.activity_add_card);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         findViewByIdAndInitialize();
@@ -160,64 +192,55 @@ public class AddCard extends AppCompatActivity {
 //
 //        });
 
+        backArrow.setOnClickListener(view -> onBackPressed());
 
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-        addCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                customDialog = new CustomDialog(AddCard.this);
-                customDialog.setCancelable(false);
-                if (customDialog != null)
-                    customDialog.show();
-                if (cardForm.getCardNumber() == null || cardForm.getExpirationMonth() == null || cardForm.getExpirationYear() == null || cardForm.getCvv() == null) {
+        addCard.setOnClickListener(view -> {
+            customDialog = new CustomDialog(AddCard.this);
+            customDialog.setCancelable(false);
+            if (customDialog != null)
+                customDialog.show();
+            if (cardForm.getCardNumber() == null || cardForm.getExpirationMonth() == null || cardForm.getExpirationYear() == null || cardForm.getCvv() == null) {
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
+                displayMessage(getString(R.string.enter_card_details));
+            } else {
+                if (cardForm.getCardNumber().equals("") || cardForm.getExpirationMonth().equals("") || cardForm.getExpirationYear().equals("") || cardForm.getCvv().equals("")) {
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
                     displayMessage(getString(R.string.enter_card_details));
                 } else {
-                    if (cardForm.getCardNumber().equals("") || cardForm.getExpirationMonth().equals("") || cardForm.getExpirationYear().equals("") || cardForm.getCvv().equals("")) {
-                        if ((customDialog != null) && (customDialog.isShowing()))
-                            customDialog.dismiss();
-                        displayMessage(getString(R.string.enter_card_details));
-                    } else {
-                        String cardNumber = cardForm.getCardNumber();
-                        int month = Integer.parseInt(cardForm.getExpirationMonth());
-                        int year = Integer.parseInt(cardForm.getExpirationYear());
-                        String cvv = cardForm.getCvv();
-                        utils.print("MyTest", "CardDetails Number: " + cardNumber + "Month: " + month + " Year: " + year);
+                    String cardNumber = cardForm.getCardNumber();
+                    int month = Integer.parseInt(cardForm.getExpirationMonth());
+                    int year = Integer.parseInt(cardForm.getExpirationYear());
+                    String cvv = cardForm.getCvv();
+                    utils.print("MyTest", "CardDetails Number: " + cardNumber + "Month: " + month + " Year: " + year);
 
 
-                        Card card = new Card(cardNumber, month, year, cvv);
-                        Stripe stripe = new Stripe(AddCard.this,
-                                URLHelper.STRIPE_TOKEN);
-                        stripe.createToken(
-                                card,
-                                new TokenCallback() {
-                                    public void onSuccess(Token token) {
-                                        // Send token to your server
-                                        utils.print("CardToken:", " " + token.getId());
-                                        utils.print("CardToken:", " " + token.getCard().getLast4());
-                                        Card_Token = token.getId();
+                    Card card = new Card(cardNumber, month, year, cvv);
+                    Stripe stripe = new Stripe(AddCard.this,
+                            URLHelper.STRIPE_TOKEN);
+                    stripe.createToken(
+                            card,
+                            new TokenCallback() {
+                                public void onSuccess(Token token) {
+                                    // Send token to your server
+                                    utils.print("CardToken:", " " + token.getId());
+                                    utils.print("CardToken:", " " + token.getCard().getLast4());
+                                    Card_Token = token.getId();
 
-                                        addCardToAccount(Card_Token);
-                                    }
-
-                                    public void onError(Exception error) {
-                                        // Show localized error message
-                                        displayMessage(getString(R.string.enter_card_details));
-                                        if ((customDialog != null) && (customDialog.isShowing()))
-                                            customDialog.dismiss();
-                                    }
+                                    addCardToAccount(Card_Token);
                                 }
-                        );
-                    }
 
+                                public void onError(Exception error) {
+                                    // Show localized error message
+                                    displayMessage(getString(R.string.enter_card_details));
+                                    if ((customDialog != null) && (customDialog.isShowing()))
+                                        customDialog.dismiss();
+                                }
+                            }
+                    );
                 }
+
             }
         });
 
@@ -260,46 +283,43 @@ public class AddCard extends AppCompatActivity {
                 .setJsonObjectBody(json)
                 .asString()
                 .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> response) {
-                        Log.e("addcardexception", e + "");
-                        Log.e("cardresponse", response + "");
-                        // response contains both the headers and the string result
-                        if ((customDialog != null) && (customDialog.isShowing()))
-                            customDialog.dismiss();
+                .setCallback((e, response) -> {
+                    Log.e("addcardexception", e + "");
+                    Log.e("cardresponse", response + "");
+                    // response contains both the headers and the string result
+                    if ((customDialog != null) && (customDialog.isShowing()))
+                        customDialog.dismiss();
 
 
-                        if (e != null) {
-                            if (e instanceof NetworkErrorException) {
-                                displayMessage(getString(R.string.please_try_again));
-                            }
-                            if (e instanceof TimeoutException) {
-                                addCardToAccount(cardToken);
-                            }
-                            return;
+                    if (e != null) {
+                        if (e instanceof NetworkErrorException) {
+                            displayMessage(getString(R.string.please_try_again));
                         }
+                        if (e instanceof TimeoutException) {
+                            addCardToAccount(cardToken);
+                        }
+                        return;
+                    }
 
-                        if (response != null) {
-                            if (response.getHeaders().code() == 200) {
-                                try {
-                                    utils.print("SendRequestResponse", response.toString());
+                    if (response != null) {
+                        if (response.getHeaders().code() == 200) {
+                            try {
+                                utils.print("SendRequestResponse", response.toString());
 
-                                    JSONObject jsonObject = new JSONObject(response.getResult());
-                                    Toast.makeText(AddCard.this, jsonObject.optString("message"), Toast.LENGTH_SHORT).show();
-                                    // onBackPressed();
-                                    Intent resultIntent = new Intent();
-                                    resultIntent.putExtra("isAdded", true);
-                                    setResult(Activity.RESULT_OK, resultIntent);
-                                    finish();
-                                } catch (Exception e1) {
-                                    e1.printStackTrace();
-                                }
-                                customDialog.dismiss();
-                            } else if (response.getHeaders().code() == 401) {
-                                customDialog.dismiss();
-                                refreshAccessToken();
+                                JSONObject jsonObject = new JSONObject(response.getResult());
+                                Toast.makeText(AddCard.this, jsonObject.optString("message"), Toast.LENGTH_SHORT).show();
+                                // onBackPressed();
+                                Intent resultIntent = new Intent();
+                                resultIntent.putExtra("isAdded", true);
+                                setResult(Activity.RESULT_OK, resultIntent);
+                                finish();
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
                             }
+                            customDialog.dismiss();
+                        } else if (response.getHeaders().code() == 401) {
+                            customDialog.dismiss();
+                            refreshAccessToken();
                         }
                     }
                 });
@@ -414,24 +434,21 @@ public class AddCard extends AppCompatActivity {
                 SharedHelper.putKey(context, "token_type", response.optString("token_type"));
                 addCardToAccount(Card_Token);
             }
-        }, new com.android.volley.Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String json = null;
-                String Message;
-                NetworkResponse response = error.networkResponse;
+        }, error -> {
+            String json = null;
+            String Message;
+            NetworkResponse response = error.networkResponse;
 
-                if (response != null && response.data != null) {
-                    SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
-                    GoToBeginActivity();
-                } else {
-                    if (error instanceof NoConnectionError) {
-                        displayMessage(getString(R.string.oops_connect_your_internet));
-                    } else if (error instanceof NetworkError) {
-                        displayMessage(getString(R.string.oops_connect_your_internet));
-                    } else if (error instanceof TimeoutError) {
-                        refreshAccessToken();
-                    }
+            if (response != null && response.data != null) {
+                SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                GoToBeginActivity();
+            } else {
+                if (error instanceof NoConnectionError) {
+                    displayMessage(getString(R.string.oops_connect_your_internet));
+                } else if (error instanceof NetworkError) {
+                    displayMessage(getString(R.string.oops_connect_your_internet));
+                } else if (error instanceof TimeoutError) {
+                    refreshAccessToken();
                 }
             }
         }) {

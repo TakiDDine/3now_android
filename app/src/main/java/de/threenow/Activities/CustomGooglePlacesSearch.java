@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +41,8 @@ import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.gson.Gson;
 import de.threenow.Constants.AutoCompleteAdapter;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
 import de.threenow.Models.PlacePredictions;
 import de.threenow.R;
 import de.threenow.IlyftApplication;
@@ -51,6 +54,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomGooglePlacesSearch extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,
@@ -81,6 +85,28 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
     TextView tvLocationTypeHome, tvLocationTypeWork, tvLocationTypeOther;
     TextView tvLocationAddressHome, tvLocationAddressWork, tvLocationAddressOther;
     PlacesClient placesClient;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -360,7 +386,7 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
                                 .setTitle(thisActivity.getString(R.string.app_name))
                                 .setCancelable(true)
                                 .setIcon(R.mipmap.ic_launcher_round)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         txtaddressSource.requestFocus();
                                         txtDestination.setText("");

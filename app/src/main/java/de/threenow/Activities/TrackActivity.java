@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -102,6 +103,7 @@ import de.threenow.Fragments.RoundCornerDrawable;
 import de.threenow.Helper.ConnectionHelper;
 import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.DataParser;
+import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
@@ -748,6 +750,28 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     private boolean mIsHiding;
 
     //    private TextView lblDistancePrice;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1187,7 +1211,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 new AlertDialog.Builder(context)
                         .setTitle("Location Permission Needed")
                         .setMessage("This app needs the Location permission, please accept to use location functionality")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //Prompt the user once explanation has been shown
@@ -2623,6 +2647,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 + "&d_longitude=" + source_lng
                 + "&service_type=" + SharedHelper.getKey(context, "service_type");
 
+        Log.e("constructedURL1", constructedURL1);
+
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, constructedURL1, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -2717,6 +2744,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 + "&d_latitude=" + source_lat
                 + "&d_longitude=" + source_lng
                 + "&service_type=" + SharedHelper.getKey(context, "service_type");
+
+        Log.e("constructedURL1", constructedURL1);
+
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, constructedURL1, object, new Response.Listener<JSONObject>() {
             @Override

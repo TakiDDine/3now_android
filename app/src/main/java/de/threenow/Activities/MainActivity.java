@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -39,15 +51,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-import de.threenow.Fragments.UserMapFragment;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.R;
-import de.threenow.Utils.CustomTypefaceSpan;
-import de.threenow.Utils.ResponseListener;
-import de.threenow.Utils.Utilities;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -55,18 +58,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import de.threenow.Fragments.UserMapFragment;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
+import de.threenow.Utils.CustomTypefaceSpan;
+import de.threenow.Utils.ResponseListener;
+import de.threenow.Utils.Utilities;
 import io.fabric.sdk.android.Fabric;
 
 import static de.threenow.IlyftApplication.trimMessage;
@@ -110,9 +114,11 @@ public class MainActivity extends AppCompatActivity implements
         if (SharedHelper.getKey(context, "login_by").equals("facebook"))
             FacebookSdk.sdkInitialize(getApplicationContext());
         Fabric.with(this, new Crashlytics());
+        Log.e("language3", Locale.getDefault().getDisplayLanguage());
+
         setContentView(R.layout.activity_main);
 //        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         String base64Key = Base64.encodeToString(keys.getBytes(), Base64.NO_WRAP);
 
         Intent intent = getIntent();
@@ -461,8 +467,8 @@ public class MainActivity extends AppCompatActivity implements
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("X-Requested-With", "XMLHttpRequest");
-               headers.put("Authorization",  "Bearer" + " " + SharedHelper.getKey(context, "access_token"));
-                Log.e("headers: Token", headers+" ");
+                headers.put("Authorization", "Bearer" + " " + SharedHelper.getKey(context, "access_token"));
+                Log.e("headers: Token", headers + " ");
 
                 return headers;
             }
@@ -652,7 +658,7 @@ public class MainActivity extends AppCompatActivity implements
                             response.optString("access_token"));
                     Log.e("paymentAccessToken", response.optString("access_token"));
                 },
-                error -> Log.e("errorPaymentToken", error+" ")) {
+                error -> Log.e("errorPaymentToken", error + " ")) {
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -665,4 +671,31 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+    public void logout(View view) {
+        drawer.closeDrawers();
+        // launch new intent instead of loading fragment
+        //startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
+        showLogoutDialog();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
 }

@@ -14,12 +14,19 @@
 package de.threenow.calender;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Locale;
+
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
 import de.threenow.R;
 
 /**
@@ -65,5 +72,26 @@ public class AddOrEditCalendarActivity extends Activity {
   public void onCancel(View view) {
     setResult(Activity.RESULT_CANCELED);
     finish();
+  }
+
+  @Override
+  protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+    if (SharedHelper.getKey(base, "lang") != null)
+      super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+    else
+      super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+    Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
   }
 }

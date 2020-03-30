@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -32,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.hbb20.CountryCodePicker;
 import de.threenow.Helper.ConnectionHelper;
 import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
@@ -55,6 +57,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,7 +70,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
     Dialog dialog;
     String TAG = "ForgetPassword";
     public Context context = ForgotPassword.this;
-    ImageButton backArrow,nextIcon;
+    ImageButton backArrow;
     TextInputLayout newPasswordLayout, confirmPasswordLayout, OtpLay;
     LinearLayout ll_resend;
     EditText newPassowrd, confirmPassword, OTP;
@@ -88,7 +91,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
     Boolean isInternet;
     TextView note_txt;
     Boolean fromActivity = false;
-    Button resend;
+    Button resend, nextIcon;
 
     Utilities utils = new Utilities();
     EditText number;
@@ -97,9 +100,36 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
     AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder;
     UIManager uiManager;
     String phoneNumberString;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+//        if (SharedPrefrence.getLanguage(base) != null)
+//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
+//        else
+
+        if (SharedHelper.getKey(base, "lang") != null)
+            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
+        else
+            super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
+        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleManager.setLocale(this);
+//        newConfig.setLayoutDirection(Locale.ENGLISH);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        }
         setContentView(R.layout.activity_forgot_password);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         findViewById();
@@ -501,9 +531,16 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                 WindowManager.LayoutParams.MATCH_PARENT);
         dialog.setContentView(R.layout.mobileverification);
         dialog.setCancelable(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            dialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            dialog.getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+            dialog.getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
+        }
         dialog.show();
         CountryCodePicker ccp=(CountryCodePicker)dialog.findViewById(R.id.ccp);
-        ImageButton nextIcon=dialog.findViewById(R.id.nextIcon);
+        Button nextIcon=dialog.findViewById(R.id.nextIcon);
         EditText mobile_no=dialog.findViewById(R.id.mobile_no);
         final String countryCode=ccp.getDefaultCountryCode();
         final String countryIso=ccp.getSelectedCountryNameCode();

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/im_back"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/imgBack"
@@ -37,88 +36,101 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txt_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/ll_mobile"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:text=""
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txt_tv"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:text="Bitte handynummer eingeben"
+        android:textColor="@color/black"/>
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_500sdp"
-        android:layout_weight="1"
-        android:background="@drawable/one_corner">
+        android:id="@+id/ll_mobile"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_22sdp"
+        android:background="@drawable/grey_border_bg"
+        android:gravity="center"
+        android:orientation="horizontal">
 
+        <FrameLayout
 
-        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="wrap_content"
+                app:ccp_contentColor="@color/black"
+                app:ccp_defaultNameCode="us"
+                app:ccp_showFlag="true"
+                app:ccp_showNameCode="false"
+                app:ccp_showPhoneCode="true"
+                app:ccp_textSize="@dimen/_10sdp" />
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/mobile_no"
+
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_36sdp"
-            android:layout_marginRight="@dimen/_36sdp"
-            android:elevation="@dimen/_10sdp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/grey_border_bg"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <FrameLayout
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <com.hbb20.CountryCodePicker
-                        android:id="@+id/ccp"
-                        android:layout_width="@dimen/_68sdp"
-                        android:layout_height="wrap_content"
-                        app:ccp_contentColor="@color/blue"
-                        app:ccp_defaultNameCode="us"
-                        app:ccp_showFlag="true"
-                        app:ccp_showNameCode="false"
-                        app:ccp_showPhoneCode="true"
-                        app:ccp_textSize="@dimen/_10sdp" />
-                </FrameLayout>
-
-                <EditText
-                    android:id="@+id/mobile_no"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_3sdp"
-                    android:layout_marginEnd="@dimen/_1sdp"
-                    android:backgroundTint="@color/transparent"
-                    android:fontFamily="@font/muli_semibold"
-                    android:hint="@string/mobile_number"
-                    android:inputType="number"
-                    android:maxLength="12"
-                    android:textColor="@color/blue"
-                    android:textSize="@dimen/_14sdp" />
-            </LinearLayout>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:gravity="center"
-                android:text="@string/we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/_10sdp" />
-
-            <ImageButton
-                android:id="@+id/nextIcon"
-                android:layout_width="@dimen/_47sdp"
-                android:layout_height="@dimen/_47sdp"
-                android:layout_below="@+id/text"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:background="@drawable/round_shape"
-                android:src="@drawable/ic_chevron_right_black_24dp"
-                android:tint="@color/white" />
-        </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_1sdp"
+            android:backgroundTint="@color/transparent"
+            android:fontFamily="@font/muli_semibold"
+            android:hint="@string/mobile_number"
+            android:inputType="number"
+            android:maxLength="12"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14sdp" />
     </LinearLayout>
 
-</LinearLayout>
+
+    <Button
+        android:id="@+id/nextIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_button_blue"
+        android:backgroundTint="#3ED4EC"
+        android:layout_above="@+id/tv2"
+        android:paddingLeft="@dimen/_45sdp"
+        android:paddingRight="@dimen/_45sdp"
+        android:text="Weiter"
+        android:textColor="@color/white"
+        android:gravity="center"/>
+
+
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:gravity="center"
+        android:text="@string/we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_40sdp"/>
+
+
+
+
+</RelativeLayout>
