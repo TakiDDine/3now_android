@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -17,10 +18,13 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -78,69 +82,83 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.black));
+        }
+        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//	View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
         setContentView(R.layout.activity_splash);
 
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
+        new Handler().postDelayed(() -> {
 //        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                firebaseAnalytics = FirebaseAnalytics.getInstance(SplashScreen.this);
-                Crashlytics.getInstance();
+            firebaseAnalytics = FirebaseAnalytics.getInstance(SplashScreen.this);
+            Crashlytics.getInstance();
 //        Crashlytics.getInstance().crash();
-                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                final NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                final NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-                helper = new ConnectionHelper(context);
-                isInternet = helper.isConnectingToInternet();
-                String base64Key = Base64.encodeToString(keys.getBytes(), Base64.NO_WRAP);
-                handleCheckStatus = new Handler();
-                //check status every 3 sec
-                SharedHelper.putKey(SplashScreen.this, "base64Key", base64Key);
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            final NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            final NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            helper = new ConnectionHelper(context);
+            isInternet = helper.isConnectingToInternet();
+            String base64Key = Base64.encodeToString(keys.getBytes(), Base64.NO_WRAP);
+            handleCheckStatus = new Handler();
+            //check status every 3 sec
+            SharedHelper.putKey(SplashScreen.this, "base64Key", base64Key);
 
 
-                if (Build.VERSION.SDK_INT > 9) {
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-                }
+            if (Build.VERSION.SDK_INT > 9) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
 
-                if (SharedHelper.getKey(context, "loggedIn").equalsIgnoreCase(getString(R.string.True))) {
+            if (SharedHelper.getKey(context, "loggedIn").equalsIgnoreCase("true")) {
 
 
-                    if (getIntent().getExtras() != null) {
-                        try {
-                            String msgType = getIntent().getExtras().get("msg_type").toString();
-                            String msg = getIntent().getExtras().get("msg").toString();
-                            String requestId = getIntent().getExtras().get("request_id").toString();
-                            String userName = getIntent().getExtras().get("user_name").toString();
-                            Log.v(TAG, "msgType: " + msgType);
-                            Log.v(TAG, "msg: " + msg);
-                            if (msgType.equalsIgnoreCase("chat")) {
-                                Intent intent = new Intent(SplashScreen.this, UserChatActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("message", msg);
-                                intent.putExtra("request_id", requestId);
-                                intent.putExtra("User_name", userName);
-                                startActivity(intent);
-                                finish();
-                            } else if (msgType.equalsIgnoreCase("admin")) {
-                                startActivity(new Intent(SplashScreen.this, NotificationTab.class));
-                                finish();
-                            } else {
-                                startActivity(new Intent(SplashScreen.this, MainActivity.class));
-                                finish();
-                            }
-                        } catch (Exception e) {
-                            GetToken();
-                            getProfile();
-                            e.printStackTrace();
+                if (getIntent().getExtras() != null) {
+                    try {
+                        String msgType = getIntent().getExtras().get("msg_type").toString();
+                        String msg = getIntent().getExtras().get("msg").toString();
+                        String requestId = getIntent().getExtras().get("request_id").toString();
+                        String userName = getIntent().getExtras().get("user_name").toString();
+                        Log.v(TAG, "msgType: " + msgType);
+                        Log.v(TAG, "msg: " + msg);
+                        if (msgType.equalsIgnoreCase("chat")) {
+                            Intent intent = new Intent(SplashScreen.this, UserChatActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("message", msg);
+                            intent.putExtra("request_id", requestId);
+                            intent.putExtra("User_name", userName);
+                            startActivity(intent);
+                            finish();
+                        } else if (msgType.equalsIgnoreCase("admin")) {
+                            startActivity(new Intent(SplashScreen.this, NotificationTab.class));
+                            finish();
+                        } else {
+                            startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                            finish();
                         }
-                    } else {
+                    } catch (Exception e) {
                         GetToken();
                         getProfile();
+                        e.printStackTrace();
                     }
                 } else {
-                    GoToBeginActivity();
-
+                    GetToken();
+                    getProfile();
                 }
+            } else {
+                GoToBeginActivity();
+
             }
         }, 1500);
         Log.e("printKeyHash", printKeyHash(SplashScreen.this) + "");
@@ -214,7 +232,7 @@ public class SplashScreen extends AppCompatActivity {
                                         SharedHelper.putKey(context, "currency", "$");
                                     SharedHelper.putKey(context, "sos", response.optString("sos"));
                                     Log.e(TAG, "onResponse: Sos Call" + response.optString("sos"));
-                                    SharedHelper.putKey(context, "loggedIn", getString(R.string.True));
+                                    SharedHelper.putKey(context, "loggedIn", "true");
 
                                     SharedHelper.putKey(context, "card", response.optString("card"));
                                     SharedHelper.putKey(context, "paypal", response.optString("paypal"));
@@ -285,14 +303,14 @@ public class SplashScreen extends AppCompatActivity {
         } else {
             //mProgressDialog.dismiss();
             AlertDialog.Builder builder = new AlertDialog.Builder(SplashScreen.this);
-            builder.setMessage("Check your Internet").setCancelable(false);
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setMessage(R.string.check_your_internet).setCancelable(false);
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Setting", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -346,7 +364,7 @@ public class SplashScreen extends AppCompatActivity {
                         NetworkResponse response = error.networkResponse;
 
                         if (response != null && response.data != null) {
-                            SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                            SharedHelper.putKey(context, "loggedIn", "false");
                             GoToBeginActivity();
                         } else {
                             if (error instanceof NoConnectionError) {

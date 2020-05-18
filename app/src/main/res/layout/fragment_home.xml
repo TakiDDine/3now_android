@@ -15,9 +15,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
             android:background="@color/white_trans"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <!-- Map frame -->
             <LinearLayout
@@ -32,7 +32,6 @@
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-
 
 
             </LinearLayout>
@@ -67,17 +66,19 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginBottom="@dimen/_7sdp"
-                            android:orientation="horizontal" />
+                            android:orientation="horizontal"
+                            tools:listitem="@layout/service_type_list_item"
+                            tools:itemCount="2"/>
 
                         <TextView
                             android:id="@+id/tvZoneMsg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:gravity="center"
                             android:padding="@dimen/_12sdp"
                             android:textColor="@color/black"
-                            android:visibility="gone"
-                            android:gravity="center"/>
+                            android:visibility="gone" />
 
                         <View
                             android:layout_width="match_parent"
@@ -103,6 +104,7 @@
                                 android:layout_marginLeft="@dimen/_2sdp"
                                 android:visibility="gone"
                                 app:srcCompat="@drawable/money1" />
+
                             <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/lblPaymentType"
                                 android:layout_width="@dimen/_150sdp"
@@ -174,11 +176,11 @@
                             app:cardElevation="@dimen/_5sdp">
 
                             <de.threenow.Utils.MyTextView
-                                android:background="@drawable/gradient_vertical"
                                 android:id="@+id/btnRequestRides"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
+                                android:background="@drawable/gradient_vertical"
                                 android:gravity="center"
                                 android:text="@string/request_ride"
                                 android:textColor="@color/button_text_color"
@@ -201,11 +203,11 @@
                             app:cardElevation="@dimen/_5sdp">
 
                             <de.threenow.Utils.MyTextView
-                                android:background="@drawable/gradient_vertical"
                                 android:id="@+id/schedule_ride"
                                 android:layout_width="match_parent"
                                 android:layout_height="55dp"
                                 android:layout_gravity="center"
+                                android:background="@drawable/gradient_vertical"
                                 android:clickable="true"
                                 android:gravity="center"
                                 android:paddingRight="@dimen/_8sdp"
@@ -236,8 +238,8 @@
                     android:id="@+id/lnrProviderPopup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom"
                     android:layout_margin="@dimen/_5sdp"
+                    android:gravity="bottom"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -439,8 +441,8 @@
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:backgroundTint="@color/white"
-                                        android:background="@drawable/people" />
+                                        android:background="@drawable/people"
+                                        android:backgroundTint="@color/white" />
 
                                     <de.threenow.Utils.MyBoldTextView
                                         android:id="@+id/lblCapacity"
@@ -464,9 +466,9 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/_15sdp"
                             android:layout_weight="1"
-                            android:textColor="@color/white"
                             android:lineSpacingMultiplier="1.3"
                             android:text="@string/the_fare_will_be_the_price_presented_upon_booking_or_if_the_journey_changes_the_fare_will_be_based_on_the_rates_provided_tap_fare_for_details"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
 
@@ -566,270 +568,269 @@
                 </LinearLayout>
 
 
-
                 <!--Approximate Rate ...-->
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/lnrApproximate"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="bottom"-->
-<!--                    android:background="@color/white_trans"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:visibility="v">-->
+                <!--                <LinearLayout-->
+                <!--                    android:id="@+id/lnrApproximate"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="bottom"-->
+                <!--                    android:background="@color/white_trans"-->
+                <!--                    android:orientation="vertical"-->
+                <!--                    android:visibility="v">-->
 
-<!--                    <de.threenow.Utils.MyBoldTextView-->
-<!--                        android:id="@+id/surgeDiscount"-->
-<!--                        android:layout_width="@dimen/_50sdp"-->
-<!--                        android:layout_height="@dimen/_50sdp"-->
-<!--                        android:layout_gravity="center_horizontal"-->
-<!--                        android:background="@drawable/round_shape"-->
-<!--                        android:gravity="center"-->
-<!--                        android:paddingTop="@dimen/_3sdp"-->
-<!--                        android:text="1"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textSize="@dimen/_22sdp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:visibility="gone" />-->
+                <!--                    <de.threenow.Utils.MyBoldTextView-->
+                <!--                        android:id="@+id/surgeDiscount"-->
+                <!--                        android:layout_width="@dimen/_50sdp"-->
+                <!--                        android:layout_height="@dimen/_50sdp"-->
+                <!--                        android:layout_gravity="center_horizontal"-->
+                <!--                        android:background="@drawable/round_shape"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:paddingTop="@dimen/_3sdp"-->
+                <!--                        android:text="1"-->
+                <!--                        android:textColor="@color/white"-->
+                <!--                        android:textSize="@dimen/_22sdp"-->
+                <!--                        android:textStyle="bold"-->
+                <!--                        android:visibility="gone" />-->
 
-<!--                    <de.threenow.Utils.MyBoldTextView-->
-<!--                        android:id="@+id/surge_txt"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:background="@color/white"-->
-<!--                        android:gravity="center"-->
-<!--                        android:padding="@dimen/_5sdp"-->
-<!--                        android:text="@string/surge_pricing_title"-->
-<!--                        android:textColor="@android:color/white"-->
-<!--                        android:textSize="@dimen/_13sdp"-->
-<!--                        android:visibility="gone" />-->
+                <!--                    <de.threenow.Utils.MyBoldTextView-->
+                <!--                        android:id="@+id/surge_txt"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_weight="1"-->
+                <!--                        android:background="@color/white"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:padding="@dimen/_5sdp"-->
+                <!--                        android:text="@string/surge_pricing_title"-->
+                <!--                        android:textColor="@android:color/white"-->
+                <!--                        android:textSize="@dimen/_13sdp"-->
+                <!--                        android:visibility="gone" />-->
 
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:background="@color/white_trans"-->
-<!--                        android:orientation="vertical">-->
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:background="@color/white_trans"-->
+                <!--                        android:orientation="vertical">-->
 
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_margin="@dimen/_4sdp"-->
-<!--                            android:background="@drawable/white_color_rect_shape"-->
-<!--                            android:orientation="vertical">-->
+                <!--                        <LinearLayout-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:layout_margin="@dimen/_4sdp"-->
+                <!--                            android:background="@drawable/white_color_rect_shape"-->
+                <!--                            android:orientation="vertical">-->
 
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                                android:layout_marginTop="@dimen/_5sdp"-->
-<!--                                android:layout_marginRight="@dimen/_10sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_5sdp"-->
-<!--                                android:gravity="center"-->
-<!--                                android:orientation="horizontal">-->
+                <!--                            <LinearLayout-->
+                <!--                                android:layout_width="match_parent"-->
+                <!--                                android:layout_height="wrap_content"-->
+                <!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+                <!--                                android:layout_marginTop="@dimen/_5sdp"-->
+                <!--                                android:layout_marginRight="@dimen/_10sdp"-->
+                <!--                                android:layout_marginBottom="@dimen/_5sdp"-->
+                <!--                                android:gravity="center"-->
+                <!--                                android:orientation="horizontal">-->
 
-<!--                                <LinearLayout-->
-<!--                                    android:layout_width="@dimen/_16sdp"-->
-<!--                                    android:layout_height="@dimen/_30sdp"-->
-<!--                                    android:gravity="center"-->
-<!--                                    android:orientation="vertical">-->
+                <!--                                <LinearLayout-->
+                <!--                                    android:layout_width="@dimen/_16sdp"-->
+                <!--                                    android:layout_height="@dimen/_30sdp"-->
+                <!--                                    android:gravity="center"-->
+                <!--                                    android:orientation="vertical">-->
 
-<!--                                    <ImageView-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:layout_weight="1"-->
-<!--                                        android:background="@drawable/source_icon" />-->
+                <!--                                    <ImageView-->
+                <!--                                        android:layout_width="wrap_content"-->
+                <!--                                        android:layout_height="wrap_content"-->
+                <!--                                        android:layout_weight="1"-->
+                <!--                                        android:background="@drawable/source_icon" />-->
 
-<!--                                    <ImageView-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:layout_weight="1"-->
-<!--                                        android:background="@drawable/dest_icon"-->
-<!--                                        android:backgroundTint="@color/white" />-->
+                <!--                                    <ImageView-->
+                <!--                                        android:layout_width="wrap_content"-->
+                <!--                                        android:layout_height="wrap_content"-->
+                <!--                                        android:layout_weight="1"-->
+                <!--                                        android:background="@drawable/dest_icon"-->
+                <!--                                        android:backgroundTint="@color/white" />-->
 
-<!--                                </LinearLayout>-->
+                <!--                                </LinearLayout>-->
 
-<!--                                <LinearLayout-->
-<!--                                    android:id="@+id/lblfrmConfrmRide"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:gravity="center"-->
-<!--                                    android:orientation="vertical"-->
-<!--                                    android:padding="5dp">-->
+                <!--                                <LinearLayout-->
+                <!--                                    android:id="@+id/lblfrmConfrmRide"-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    android:gravity="center"-->
+                <!--                                    android:orientation="vertical"-->
+                <!--                                    android:padding="5dp">-->
 
-<!--                                    <de.threenow.Utils.MyTextView-->
-<!--                                        android:id="@+id/lblCmfrmSourceAddress"-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                                        android:layout_weight="1"-->
-<!--                                        android:text="Anamika Enclave"-->
-<!--                                        android:textColor="@color/white"-->
-<!--                                        android:textSize="@dimen/_9sdp" />-->
+                <!--                                    <de.threenow.Utils.MyTextView-->
+                <!--                                        android:id="@+id/lblCmfrmSourceAddress"-->
+                <!--                                        android:layout_width="match_parent"-->
+                <!--                                        android:layout_height="wrap_content"-->
+                <!--                                        android:layout_marginBottom="@dimen/_10sdp"-->
+                <!--                                        android:layout_weight="1"-->
+                <!--                                        android:text="Anamika Enclave"-->
+                <!--                                        android:textColor="@color/white"-->
+                <!--                                        android:textSize="@dimen/_9sdp" />-->
 
-<!--                                    <de.threenow.Utils.MyTextView-->
-<!--                                        android:id="@+id/lblCmfrmDestAddress"-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:layout_weight="1"-->
-<!--                                        android:textColor="@color/white"-->
-<!--                                        android:textSize="@dimen/_9sdp" />-->
+                <!--                                    <de.threenow.Utils.MyTextView-->
+                <!--                                        android:id="@+id/lblCmfrmDestAddress"-->
+                <!--                                        android:layout_width="match_parent"-->
+                <!--                                        android:layout_height="wrap_content"-->
+                <!--                                        android:layout_weight="1"-->
+                <!--                                        android:textColor="@color/white"-->
+                <!--                                        android:textSize="@dimen/_9sdp" />-->
 
-<!--                                </LinearLayout>-->
+                <!--                                </LinearLayout>-->
 
-<!--                            </LinearLayout>-->
+                <!--                            </LinearLayout>-->
 
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                                android:layout_marginTop="@dimen/_2sdp"-->
-<!--                                android:layout_marginRight="@dimen/_10sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_2sdp"-->
-<!--                                android:gravity="center"-->
-<!--                                android:orientation="horizontal">-->
+                <!--                            <LinearLayout-->
+                <!--                                android:layout_width="match_parent"-->
+                <!--                                android:layout_height="wrap_content"-->
+                <!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+                <!--                                android:layout_marginTop="@dimen/_2sdp"-->
+                <!--                                android:layout_marginRight="@dimen/_10sdp"-->
+                <!--                                android:layout_marginBottom="@dimen/_2sdp"-->
+                <!--                                android:gravity="center"-->
+                <!--                                android:orientation="horizontal">-->
 
-<!--                                <de.threenow.Utils.MyBoldTextView-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:text="@string/approximate"-->
-<!--                                    android:textColor="@color/white"-->
-<!--                                    android:textSize="@dimen/_10sdp" />-->
+                <!--                                <de.threenow.Utils.MyBoldTextView-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    android:layout_weight="1"-->
+                <!--                                    android:text="@string/approximate"-->
+                <!--                                    android:textColor="@color/white"-->
+                <!--                                    android:textSize="@dimen/_10sdp" />-->
 
-<!--                                <de.threenow.Utils.MyBoldTextView-->
-<!--                                    android:id="@+id/lblApproxAmount"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:gravity="end"-->
-<!--                                    android:textColor="@color/white"-->
-<!--                                    android:textSize="@dimen/_10sdp" />-->
-<!--                            </LinearLayout>-->
+                <!--                                <de.threenow.Utils.MyBoldTextView-->
+                <!--                                    android:id="@+id/lblApproxAmount"-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    android:layout_weight="1"-->
+                <!--                                    android:gravity="end"-->
+                <!--                                    android:textColor="@color/white"-->
+                <!--                                    android:textSize="@dimen/_10sdp" />-->
+                <!--                            </LinearLayout>-->
 
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                                android:layout_marginTop="@dimen/_2sdp"-->
-<!--                                android:layout_marginRight="@dimen/_10sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_2sdp"-->
-<!--                                android:gravity="center"-->
-<!--                                android:orientation="horizontal">-->
+                <!--                            <LinearLayout-->
+                <!--                                android:layout_width="match_parent"-->
+                <!--                                android:layout_height="wrap_content"-->
+                <!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+                <!--                                android:layout_marginTop="@dimen/_2sdp"-->
+                <!--                                android:layout_marginRight="@dimen/_10sdp"-->
+                <!--                                android:layout_marginBottom="@dimen/_2sdp"-->
+                <!--                                android:gravity="center"-->
+                <!--                                android:orientation="horizontal">-->
 
-<!--                                <de.threenow.Utils.MyBoldTextView-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:text="@string/eta_time"-->
-<!--                                    android:textColor="@color/white"-->
-<!--                                    android:textSize="@dimen/_10sdp" />-->
+                <!--                                <de.threenow.Utils.MyBoldTextView-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    android:layout_weight="1"-->
+                <!--                                    android:text="@string/eta_time"-->
+                <!--                                    android:textColor="@color/white"-->
+                <!--                                    android:textSize="@dimen/_10sdp" />-->
 
-<!--                                <de.threenow.Utils.MyBoldTextView-->
-<!--                                    android:id="@+id/lblEta"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:gravity="end"-->
-<!--                                    android:textColor="@color/white"-->
-<!--                                    android:textSize="@dimen/_10sdp" />-->
+                <!--                                <de.threenow.Utils.MyBoldTextView-->
+                <!--                                    android:id="@+id/lblEta"-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    android:layout_weight="1"-->
+                <!--                                    android:gravity="end"-->
+                <!--                                    android:textColor="@color/white"-->
+                <!--                                    android:textSize="@dimen/_10sdp" />-->
 
-<!--                            </LinearLayout>-->
+                <!--                            </LinearLayout>-->
 
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginLeft="@dimen/_10sdp"-->
-<!--                                android:layout_marginTop="@dimen/_2sdp"-->
-<!--                                android:layout_marginRight="@dimen/_10sdp"-->
-<!--                                android:layout_marginBottom="@dimen/_2sdp"-->
-<!--                                android:gravity="center"-->
-<!--                                android:orientation="horizontal">-->
+                <!--                            <LinearLayout-->
+                <!--                                android:layout_width="match_parent"-->
+                <!--                                android:layout_height="wrap_content"-->
+                <!--                                android:layout_marginLeft="@dimen/_10sdp"-->
+                <!--                                android:layout_marginTop="@dimen/_2sdp"-->
+                <!--                                android:layout_marginRight="@dimen/_10sdp"-->
+                <!--                                android:layout_marginBottom="@dimen/_2sdp"-->
+                <!--                                android:gravity="center"-->
+                <!--                                android:orientation="horizontal">-->
 
-<!--                                <de.threenow.Utils.MyBoldTextView-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:text="Cab"-->
-<!--                                    android:textColor="@color/white"-->
-<!--                                    android:textSize="@dimen/_10sdp" />-->
+                <!--                                <de.threenow.Utils.MyBoldTextView-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    android:layout_weight="1"-->
+                <!--                                    android:text="Cab"-->
+                <!--                                    android:textColor="@color/white"-->
+                <!--                                    android:textSize="@dimen/_10sdp" />-->
 
-<!--                                <ImageView-->
-<!--                                    android:id="@+id/ImgConfrmCabType"-->
-<!--                                    android:layout_width="@dimen/_20sdp"-->
-<!--                                    android:layout_height="@dimen/_20sdp" />-->
+                <!--                                <ImageView-->
+                <!--                                    android:id="@+id/ImgConfrmCabType"-->
+                <!--                                    android:layout_width="@dimen/_20sdp"-->
+                <!--                                    android:layout_height="@dimen/_20sdp" />-->
 
-<!--                                <de.threenow.Utils.MyBoldTextView-->
-<!--                                    android:id="@+id/lblType"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_weight="1"-->
-<!--                                    android:gravity="end"-->
-<!--                                    android:textColor="@color/white"-->
-<!--                                    android:textSize="@dimen/_10sdp"-->
-<!--                                    android:visibility="gone" />-->
+                <!--                                <de.threenow.Utils.MyBoldTextView-->
+                <!--                                    android:id="@+id/lblType"-->
+                <!--                                    android:layout_width="match_parent"-->
+                <!--                                    android:layout_height="wrap_content"-->
+                <!--                                    android:layout_weight="1"-->
+                <!--                                    android:gravity="end"-->
+                <!--                                    android:textColor="@color/white"-->
+                <!--                                    android:textSize="@dimen/_10sdp"-->
+                <!--                                    android:visibility="gone" />-->
 
-<!--                            </LinearLayout>-->
+                <!--                            </LinearLayout>-->
 
-<!--                        </LinearLayout>-->
+                <!--                        </LinearLayout>-->
 
-<!--                        <View-->
-<!--                            android:id="@+id/lineView"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="0.5dp"-->
-<!--                            android:background="@color/view_grey_bg" />-->
+                <!--                        <View-->
+                <!--                            android:id="@+id/lineView"-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="0.5dp"-->
+                <!--                            android:background="@color/view_grey_bg" />-->
 
-<!--                        <de.threenow.Utils.MyCheckbox-->
-<!--                            android:id="@+id/chkWallet"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginLeft="@dimen/_15sdp"-->
-<!--                            android:layout_marginTop="@dimen/_5sdp"-->
-<!--                            android:text="@string/use_wallet_amount"-->
-<!--                            android:textSize="@dimen/_12sdp"-->
-<!--                            android:visibility="gone" />-->
+                <!--                        <de.threenow.Utils.MyCheckbox-->
+                <!--                            android:id="@+id/chkWallet"-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:layout_marginLeft="@dimen/_15sdp"-->
+                <!--                            android:layout_marginTop="@dimen/_5sdp"-->
+                <!--                            android:text="@string/use_wallet_amount"-->
+                <!--                            android:textSize="@dimen/_12sdp"-->
+                <!--                            android:visibility="gone" />-->
 
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="@dimen/_5sdp"-->
-<!--                            android:layout_marginEnd="@dimen/_5sdp"-->
-<!--                            android:layout_marginBottom="@dimen/_5sdp"-->
-<!--                            android:orientation="horizontal">-->
+                <!--                        <LinearLayout-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="wrap_content"-->
+                <!--                            android:layout_marginStart="@dimen/_5sdp"-->
+                <!--                            android:layout_marginEnd="@dimen/_5sdp"-->
+                <!--                            android:layout_marginBottom="@dimen/_5sdp"-->
+                <!--                            android:orientation="horizontal">-->
 
-<!--                            <de.threenow.Utils.MyButton-->
-<!--                                android:id="@+id/btnRequestRideConfirm"-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_height="@dimen/_35sdp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:background="@drawable/red_color_rect_shape"-->
-<!--                                android:backgroundTint="@color/confirmcolor"-->
-<!--                                android:text="CONFIRM RIDE"-->
-<!--                                android:textColor="@color/button_text_color"-->
-<!--                                android:textSize="@dimen/_11sdp" />-->
-
-
-<!--                            <TextView-->
-<!--                                android:layout_width="@dimen/_2sdp"-->
-<!--                                android:visibility="gone"-->
-<!--                                android:layout_height="match_parent"-->
-<!--                                android:layout_margin="@dimen/_2sdp" />-->
-
-<!--                            <de.threenow.Utils.MyButton-->
-<!--                                android:id="@+id/imgSchedule"-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_height="@dimen/_30sdp"-->
-<!--                                android:layout_weight="1"-->
-<!--                                android:background="@drawable/red_color_rect_shape"-->
-<!--                                android:text="@string/cancel"-->
-<!--                                android:textColor="@color/white"-->
-<!--                                android:visibility="gone" />-->
+                <!--                            <de.threenow.Utils.MyButton-->
+                <!--                                android:id="@+id/btnRequestRideConfirm"-->
+                <!--                                android:layout_width="0dp"-->
+                <!--                                android:layout_height="@dimen/_35sdp"-->
+                <!--                                android:layout_weight="1"-->
+                <!--                                android:background="@drawable/red_color_rect_shape"-->
+                <!--                                android:backgroundTint="@color/confirmcolor"-->
+                <!--                                android:text="CONFIRM RIDE"-->
+                <!--                                android:textColor="@color/button_text_color"-->
+                <!--                                android:textSize="@dimen/_11sdp" />-->
 
 
-<!--                        </LinearLayout>-->
+                <!--                            <TextView-->
+                <!--                                android:layout_width="@dimen/_2sdp"-->
+                <!--                                android:visibility="gone"-->
+                <!--                                android:layout_height="match_parent"-->
+                <!--                                android:layout_margin="@dimen/_2sdp" />-->
 
-<!--                    </LinearLayout>-->
+                <!--                            <de.threenow.Utils.MyButton-->
+                <!--                                android:id="@+id/imgSchedule"-->
+                <!--                                android:layout_width="0dp"-->
+                <!--                                android:layout_height="@dimen/_30sdp"-->
+                <!--                                android:layout_weight="1"-->
+                <!--                                android:background="@drawable/red_color_rect_shape"-->
+                <!--                                android:text="@string/cancel"-->
+                <!--                                android:textColor="@color/white"-->
+                <!--                                android:visibility="gone" />-->
 
-<!--                </LinearLayout>-->
+
+                <!--                        </LinearLayout>-->
+
+                <!--                    </LinearLayout>-->
+
+                <!--                </LinearLayout>-->
 
                 <!--Driver Accepted ...-->
                 <LinearLayout
@@ -848,10 +849,10 @@
                             android:id="@+id/lnrAfterAcceptedStatus"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_marginLeft="@dimen/_5sdp"
                             android:layout_marginRight="@dimen/_5sdp"
                             android:background="@drawable/white_color_rect_shape"
+                            android:orientation="vertical"
                             android:visibility="gone">
 
                             <LinearLayout
@@ -1421,7 +1422,6 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
         </LinearLayout>
@@ -1712,76 +1712,84 @@
                         android:background="@drawable/menu_icon"
                         android:backgroundTint="@color/blue" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgBack"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:src="@drawable/back_icon"
+                            android:visibility="gone" />
+
                         <LinearLayout
+                            android:id="@+id/layoutSrcDest"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                    <ImageView
-                        android:id="@+id/imgBack"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:src="@drawable/back_icon"
-                        android:visibility="gone" />
+                            android:layout_margin="@dimen/_12sdp"
+                            android:background="@drawable/rounded_button"
+                            android:backgroundTint="@color/white"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_12sdp"
+                            android:visibility="gone">
 
                             <LinearLayout
-                                android:id="@+id/layoutSrcDest"
-                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="@dimen/_12sdp"
-                                android:layout_margin="@dimen/_12sdp"
-                                android:backgroundTint="@color/white"
-                                android:background="@drawable/rounded_button">
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Pickup"
-                                        android:textColor="@color/cardview_dark_background"
-                                        android:textSize="@dimen/_10sdp"/>
-                                    <TextView
-                                        android:id="@+id/tvSourcePoint"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text=""
-                                        android:maxLines="1"
-                                        android:fontFamily="@font/muli_semibold"
-                                        android:textColor="@color/cardview_dark_background"
-                                        android:textSize="@dimen/_12sdp"/>
-                                </LinearLayout>
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_1sdp"
-                                    android:background="@color/cardview_shadow_start_color"/>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:text="@string/pickup"
+                                    android:textColor="@color/cardview_dark_background"
+                                    android:textSize="@dimen/_10sdp" />
+
+                                <TextView
+                                    android:id="@+id/tvSourcePoint"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Drop off"
-                                        android:textColor="@color/cardview_dark_background"
-                                        android:textSize="@dimen/_10sdp"/>
-                                    <TextView
-                                        android:id="@+id/tvDroppoint"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text=""
-                                        android:maxLines="1"
-                                        android:fontFamily="@font/muli_semibold"
-                                        android:textColor="@color/cardview_dark_background"
-                                        android:textSize="@dimen/_12sdp"/>
-                                </LinearLayout>
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:maxLines="1"
+                                    android:text=""
+                                    android:textColor="@color/cardview_dark_background"
+                                    android:textSize="@dimen/_12sdp" />
                             </LinearLayout>
 
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:background="@color/cardview_shadow_start_color" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/drop_off"
+                                    android:textColor="@color/cardview_dark_background"
+                                    android:textSize="@dimen/_10sdp" />
+
+                                <TextView
+                                    android:id="@+id/tvDroppoint"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:maxLines="1"
+                                    android:text=""
+                                    android:textColor="@color/cardview_dark_background"
+                                    android:textSize="@dimen/_12sdp" />
+                            </LinearLayout>
                         </LinearLayout>
+
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/mapfocus"
@@ -1961,15 +1969,15 @@
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="0dp"
                             android:layout_marginEnd="0dp"
-                            android:focusable="true"
                             android:background="@drawable/gradient_color"
+                            android:focusable="true"
                             android:orientation="vertical"
                             android:visibility="visible">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:orientation="horizontal"
-                                android:layout_height="match_parent">
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
 
                             </LinearLayout>
 
@@ -2009,7 +2017,8 @@
                                     android:gravity="center|start"
                                     android:orientation="vertical"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toEndOf="@id/llLeftTop">
+                                    app:layout_constraintStart_toEndOf="@id/llLeftTop"
+                                    app:layout_constraintTop_toTopOf="parent">
 
                                     <de.threenow.Utils.MyTextView
                                         android:layout_width="match_parent"
@@ -2055,9 +2064,9 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <!--<View-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="@dimen/_1sdp"-->
-                                <!--android:background="@drawable/top_shadow" />-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="@dimen/_1sdp"-->
+                            <!--android:background="@drawable/top_shadow" />-->
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -2094,7 +2103,8 @@
                                     android:gravity="center|start"
                                     android:orientation="vertical"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toEndOf="@id/llLeftBottom">
+                                    app:layout_constraintStart_toEndOf="@id/llLeftBottom"
+                                    app:layout_constraintTop_toTopOf="parent">
 
                                     <de.threenow.Utils.MyTextView
                                         android:layout_width="match_parent"
@@ -2227,8 +2237,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_15sdp"
                 android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/_15sdp"
                 app:cardCornerRadius="@dimen/_20sdp"
                 app:contentPadding="@dimen/_10sdp">
 
@@ -2237,21 +2247,22 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
-                        android:src="@drawable/backarrow"/>
+                        android:src="@drawable/backarrow" />
                     <!-- City and Country Selector -->
                     <TextView
 
                         android:id="@+id/txtSelectedAddressSource"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxWidth="@dimen/_164sdp"
-                        android:inputType="text"
-                        android:maxLines="2"
                         android:layout_marginStart="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
+                        android:inputType="text"
+                        android:maxWidth="@dimen/_164sdp"
+                        android:maxLines="2"
                         android:text="@string/source_location"
                         android:textColor="@color/text_color_black"
                         android:textSize="@dimen/_14sdp" />
@@ -2259,7 +2270,7 @@
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/cross_icon"/>
+                        android:src="@drawable/cross_icon" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -2277,30 +2288,31 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/_5sdp"
-                android:layout_gravity="bottom"
-                android:gravity="center"
                 android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary">
+                android:layout_gravity="bottom"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/_5sdp">
 
                 <TextView
+                    android:gravity="center"
                     android:id="@+id/btnDone"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Apply"
+                    android:fontFamily="@font/muli_semibold"
                     android:paddingTop="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_25sdp"
+                    android:text="@string/apply"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_14sdp"
-                    android:fontFamily="@font/muli_semibold"/>
+                    android:textSize="@dimen/_14sdp" />
 
                 <ImageView
                     android:layout_width="@dimen/_110sdp"
                     android:layout_height="@dimen/_5sdp"
                     android:scaleType="fitXY"
-                    android:tint="@color/white"
-                    android:src="@drawable/white_color_rect_shape"/>
+                    android:src="@drawable/white_color_rect_shape"
+                    android:tint="@color/white" />
 
             </LinearLayout>
 
@@ -2315,38 +2327,42 @@
             android:layout_margin="@dimen/_15sdp"
             android:orientation="vertical"
             android:visibility="gone">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_minus10sdp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/_35sdp"
                     android:layout_marginEnd="@dimen/_35sdp"
+                    android:background="@drawable/white_color_rect_shape"
                     android:backgroundTint="@color/white"
-                    android:elevation="@dimen/_2sdp"
-                    android:background="@drawable/white_color_rect_shape" />
+                    android:elevation="@dimen/_2sdp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_20sdp"
                     android:layout_marginBottom="@dimen/_minus5sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:elevation="@dimen/_5sdp"
-                    android:backgroundTint="@color/transwhite"
                     android:background="@drawable/white_color_rect_shape"
-                    />
+                    android:backgroundTint="@color/transwhite"
+                    android:elevation="@dimen/_5sdp" />
             </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
                 android:layout_gravity="bottom"
-                android:elevation="@dimen/_7sdp"
                 android:background="@drawable/white_color_rect_shape"
+                android:backgroundTint="@color/white"
+                android:elevation="@dimen/_7sdp"
                 android:orientation="vertical">
+
                 <de.threenow.Utils.MyBoldTextView
                     android:id="@+id/surgeDiscount"
                     android:layout_width="@dimen/_50sdp"
@@ -2384,8 +2400,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_4sdp"
-                        android:backgroundTint="@color/white"
                         android:background="@drawable/white_color_rect_shape"
+                        android:backgroundTint="@color/white"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -2414,8 +2430,7 @@
                                 <ImageView
                                     android:layout_width="@dimen/_20sdp"
                                     android:layout_height="@dimen/_20sdp"
-                                    android:background="@drawable/destination_location"
-                                    />
+                                    android:background="@drawable/destination_location" />
 
                             </LinearLayout>
 
@@ -2434,9 +2449,9 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="@dimen/_10sdp"
                                     android:layout_weight="1"
-                                    android:maxLines="2"
                                     android:ellipsize="end"
                                     android:fontFamily="@font/muli_regular"
+                                    android:maxLines="2"
                                     android:text="Anamika Enclave"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12sdp" />
@@ -2446,9 +2461,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:maxLines="2"
                                     android:ellipsize="end"
                                     android:fontFamily="@font/muli_regular"
+                                    android:maxLines="2"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12sdp" />
 
@@ -2459,15 +2474,15 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_marginTop="@dimen/_2sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_2sdp">
+                            android:gravity="center"
+                            android:layout_marginBottom="@dimen/_2sdp"
+                            android:orientation="horizontal">
+
                             <LinearLayout
-                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:gravity="center"
                                 android:orientation="vertical">
 
@@ -2475,8 +2490,9 @@
                                 <ImageView
                                     android:id="@+id/ImgConfrmCabType"
                                     android:layout_width="@dimen/_48sdp"
-                                    android:src="@drawable/car_select"
-                                    android:layout_height="@dimen/_48sdp" />
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:src="@drawable/car_select" />
+
                                 <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblType"
                                     android:layout_width="match_parent"
@@ -2488,20 +2504,22 @@
                                     android:visibility="gone" />
 
                             </LinearLayout>
+
                             <LinearLayout
-                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Distance"
-                                    android:textColor="@color/cancel_ride_color"
                                     android:fontFamily="@font/muli_semibold"
+                                    android:text="@string/distance"
+                                    android:textColor="@color/cancel_ride_color"
                                     android:textSize="@dimen/_12sdp" />
+
                                 <TextView
                                     android:id="@+id/lblDis"
                                     android:layout_width="wrap_content"
@@ -2512,20 +2530,22 @@
                                     android:textSize="@dimen/_12sdp" />
 
                             </LinearLayout>
+
                             <LinearLayout
-                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Time"
-                                    android:textColor="@color/cancel_ride_color"
                                     android:fontFamily="@font/muli_semibold"
+                                    android:text="@string/time"
+                                    android:textColor="@color/cancel_ride_color"
                                     android:textSize="@dimen/_12sdp" />
+
                                 <de.threenow.Utils.MyBoldTextView
                                     android:id="@+id/lblEta"
                                     android:layout_width="wrap_content"
@@ -2538,31 +2558,29 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:layout_weight="1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:gravity="center"
                                 android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Price"
-                                    android:textColor="@color/cancel_ride_color"
                                     android:fontFamily="@font/muli_semibold"
+                                    android:text="@string/price"
+                                    android:textColor="@color/cancel_ride_color"
                                     android:textSize="@dimen/_12sdp" />
 
                                 <TextView
                                     android:id="@+id/lblApproxAmount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:gravity="end"
                                     android:fontFamily="@font/muli_semibold"
+                                    android:gravity="end"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12sdp" />
                             </LinearLayout>
-
-
 
 
                         </LinearLayout>
@@ -2572,8 +2590,8 @@
                         android:id="@+id/lineView"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:visibility="gone"
-                        android:background="@color/view_grey_bg" />
+                        android:background="@color/view_grey_bg"
+                        android:visibility="gone" />
 
                     <de.threenow.Utils.MyCheckbox
                         android:id="@+id/chkWallet"
@@ -2589,8 +2607,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/_15sdp"
                         android:orientation="horizontal">
 
@@ -2601,7 +2619,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/red_color_rect_shape"
                             android:fontFamily="@font/muli_semibold"
-                            android:text="CONFIRM"
+                            android:text="@string/confirm"
 
                             android:textColor="@color/button_text_color"
                             android:textSize="@dimen/_12sdp" />
@@ -2609,9 +2627,9 @@
 
                         <TextView
                             android:layout_width="@dimen/_2sdp"
-                            android:visibility="gone"
                             android:layout_height="match_parent"
-                            android:layout_margin="@dimen/_2sdp" />
+                            android:layout_margin="@dimen/_2sdp"
+                            android:visibility="gone" />
 
                         <de.threenow.Utils.MyButton
                             android:id="@+id/imgSchedule"

@@ -596,7 +596,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 NetworkResponse response = error.networkResponse;
 
                 if (response != null && response.data != null) {
-                    SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                    SharedHelper.putKey(context, "loggedIn", "false");
                     utils.GoToBeginActivity(EditProfile.this);
                 } else {
                     if (error instanceof NoConnectionError) {

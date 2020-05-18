@@ -308,14 +308,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
         } else {
             //mProgressDialog.dismiss();
             AlertDialog.Builder builder = new AlertDialog.Builder(SignUp.this);
-            builder.setMessage("Check your Internet").setCancelable(false);
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setMessage(R.string.check_your_internet).setCancelable(false);
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Setting", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -409,23 +409,17 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
         EditText mobile_no = dialog.findViewById(R.id.mobile_no);
         final String countryCode = ccp.getDefaultCountryCode();
         final String countryIso = ccp.getSelectedCountryNameCode();
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        nextIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String phone = ccp.getSelectedCountryCodeWithPlus() + mobile_no.getText().toString();
-                SharedHelper.putKey(getApplicationContext(), "mobile_number", phone);
-                Log.v("Phonecode", phone + " ");
-                Intent intent = new Intent(SignUp.this, OtpVerification.class);
-                intent.putExtra("phonenumber", phone);
-                startActivityForResult(intent, APP_REQUEST_CODE);
-                dialog.dismiss();
-            }
+
+        imgBack.setOnClickListener(v -> dialog.dismiss());
+
+        nextIcon.setOnClickListener(v -> {
+            String phone = ccp.getSelectedCountryCodeWithPlus() + mobile_no.getText().toString();
+            SharedHelper.putKey(getApplicationContext(), "mobile_number", phone);
+            Log.v("Phonecode", phone + " ");
+            Intent intent = new Intent(SignUp.this, OtpVerification.class);
+            intent.putExtra("phonenumber", phone);
+            startActivityForResult(intent, APP_REQUEST_CODE);
+            dialog.dismiss();
         });
 
     }
@@ -488,7 +482,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
 //                        if (AccountKit.getCurrentAccessToken().getToken() != null) {
 //                            SharedHelper.putKey(getApplicationContext(), "account_kit_token",
 //                                    AccountKit.getCurrentAccessToken().getToken());
-//                            //SharedHelper.putKey(RegisterActivity.this, "loggedIn", getString(R.string.True));
+//                            //SharedHelper.putKey(RegisterActivity.this, "loggedIn", "true");
 //                            // Get phone number
 //                            PhoneNumber phoneNumber = account.getPhoneNumber();
 //                            String phoneNumberString = phoneNumber.toString();
@@ -496,7 +490,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
 //                            registerAPI();
 //                        } else {
 //                            SharedHelper.putKey(getApplicationContext(), "account_kit_token", "");
-//                            SharedHelper.putKey(getApplicationContext(), "loggedIn", getString(R.string.False));
+//                            SharedHelper.putKey(getApplicationContext(), "loggedIn", "false");
 //                            SharedHelper.putKey(getApplicationContext(), "email", "");
 //                            SharedHelper.putKey(getApplicationContext(), "login_by", "");
 //                            SharedHelper.putKey(getApplicationContext(), "account_kit_token", "");
@@ -513,9 +507,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
 //                    }
 //                });
 //                if (loginResult != null) {
-//                    SharedHelper.putKey(getApplicationContext(), "account_kit", getString(R.string.True));
+//                    SharedHelper.putKey(getApplicationContext(), "account_kit", "true");
 //                } else {
-//                    SharedHelper.putKey(getApplicationContext(), "account_kit", getString(R.string.False));
+//                    SharedHelper.putKey(getApplicationContext(), "account_kit", "false");
 //                }
 //                String toastMessage;
 //                if (loginResult.getError() != null) {
@@ -862,7 +856,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
                                 SharedHelper.putKey(getApplicationContext(), "sos",
                                         response.optString("sos"));
                                 SharedHelper.putKey(getApplicationContext(), "loggedIn",
-                                        getString(R.string.True));
+                                        "true");
                                 GoToMainActivity();
                             },
                             error -> {
@@ -1008,7 +1002,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
                         NetworkResponse response = error.networkResponse;
 
                         if (response != null && response.data != null) {
-                            SharedHelper.putKey(getApplicationContext(), "loggedIn", getString(R.string.False));
+                            SharedHelper.putKey(getApplicationContext(), "loggedIn", "false");
                             GoToBeginActivity();
                         } else {
                             if (error instanceof NoConnectionError) {

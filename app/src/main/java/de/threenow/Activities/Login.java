@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -160,10 +161,22 @@ public class Login extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
 
         }
+
+        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        if (Build.VERSION.SDK_INT >= 19) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+
         setContentView(R.layout.activity_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -440,7 +453,7 @@ public class Login extends AppCompatActivity
                                 else
                                     SharedHelper.putKey(getApplicationContext(), "currency", "$");
                                 SharedHelper.putKey(getApplicationContext(), "sos", response.optString("sos"));
-                                SharedHelper.putKey(getApplicationContext(), "loggedIn", getString(R.string.True));
+                                SharedHelper.putKey(getApplicationContext(), "loggedIn", "true");
                                 GoToMainActivity();
 
                             },
@@ -596,7 +609,7 @@ public class Login extends AppCompatActivity
                                 utils.print("MyTestError1", "" + response.statusCode);
 
                                 if (response != null && response.data != null) {
-                                    SharedHelper.putKey(getApplicationContext(), "loggedIn", getString(R.string.False));
+                                    SharedHelper.putKey(getApplicationContext(), "loggedIn", "false");
                                     GoToBeginActivity();
                                 } else {
                                     if (error instanceof NoConnectionError) {
@@ -698,14 +711,14 @@ public class Login extends AppCompatActivity
         } else {
             //mProgressDialog.dismiss();
             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-            builder.setMessage("Check your Internet").setCancelable(false);
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setMessage(R.string.check_your_internet).setCancelable(false);
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
-            builder.setPositiveButton("Setting", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
@@ -900,7 +913,7 @@ public class Login extends AppCompatActivity
 ////                            GoToMainActivity();
 //                        } else {
 //                            SharedHelper.putKey(Login.this, "account_kit_token", "");
-//                            SharedHelper.putKey(Login.this, "loggedIn", getString(R.string.False));
+//                            SharedHelper.putKey(Login.this, "loggedIn", "false");
 //                            SharedHelper.putKey(getApplicationContext(), "email", "");
 //                            SharedHelper.putKey(getApplicationContext(), "login_by", "");
 //                            SharedHelper.putKey(Login.this, "account_kit_token", "");

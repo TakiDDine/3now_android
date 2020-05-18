@@ -36,26 +36,29 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/layoutNotification"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="@dimen/_96sdp"
-                    android:layout_height="@dimen/_96sdp"
-                    android:src="@mipmap/ic_launcher_round"
-                    android:padding="@dimen/_10sdp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_14sdp"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:fontFamily="@font/muli_semibold"
-                    android:text="@string/no_notification_found"/>
+        <LinearLayout
+            android:id="@+id/layoutNotification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            </LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/_96sdp"
+                android:layout_height="@dimen/_96sdp"
+                android:padding="@dimen/_10sdp"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:fontFamily="@font/muli_semibold"
+                android:text="@string/no_notification_found"
+                android:textSize="@dimen/_14sdp" />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recReview"
             android:layout_width="match_parent"

@@ -59,10 +59,6 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void attachBaseContext(Context base) {
-//        if (SharedPrefrence.getLanguage(base) != null)
-//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
-//        else
-
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
@@ -75,7 +71,6 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
     }
 
     @Override
@@ -83,10 +78,20 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.help));
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle(getString(R.string.help));
         findviewById();
         setOnClickListener();
+
+        ImageView backArrow = findViewById(R.id.backArrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
         getHelp();
     }
 
@@ -292,7 +297,7 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
                 NetworkResponse response = error.networkResponse;
 
                 if (response != null && response.data != null) {
-                    SharedHelper.putKey(ActivityHelp.this, "loggedIn", getString(R.string.False));
+                    SharedHelper.putKey(ActivityHelp.this, "loggedIn", "false");
                     GoToBeginActivity();
                 } else {
                     if (error instanceof NoConnectionError) {
@@ -324,7 +329,7 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
     }
 
     public void GoToBeginActivity() {
-        SharedHelper.putKey(this, "loggedIn", getString(R.string.False));
+        SharedHelper.putKey(this, "loggedIn", "false");
         Intent mainIntent = new Intent(this, Login.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainIntent);

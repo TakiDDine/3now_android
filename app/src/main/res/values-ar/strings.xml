@@ -1,0 +1,463 @@
+<resources>
+
+    
+    <string name="we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply">سوف نرسل لك سعرًا لحامل رسالة SMS لمرة واحدة</string>
+
+    
+    <string name="navigation_drawer_open">افتح درج التنقل</string>
+    <string name="navigation_drawer_close">إغلاق درج التنقل</string>
+    <string name="action_settings">الإعدادات</string>
+
+    
+    <string name="action_coupon">قسيمة</string>
+    <string name="action_wallet">محفظة نقود</string>
+    <string name="action_logout">تسجيل خروج</string>
+    <string name="action_track">في رحلة الذهاب</string>
+    <string name="no_running_Trip">لا في رحلة الذهاب</string>
+
+    <string name="version">ضد</string>
+
+    
+
+    
+    <string name="sample_mail_id">اسم @ امتحان</string>
+
+    
+
+
+    
+    <string name="email">البريد الإلكتروني</string>
+    <string name="phone_number">رقم الهاتف</string>
+    <string name="first_name">الاسم الاول</string>
+    <string name="password_txt">******</string>
+
+    
+    <string name="recover_password">أدخل معرف البريد الخاص بك للاسترداد</string>
+
+    
+    <string name="enter_the_coupon">أدخل رمز القسيمة</string>
+    <string name="add_coupon">أضف عرض</string>
+
+    
+    <string name="update_success">تحديث الملف الشخصي</string>
+
+
+    
+    <string name="where_to_go">إلى أين؟</string>
+    <string name="selected_payment_mode">السيولة النقدية</string>
+    <string name="change">يتغيرون</string>
+
+
+    
+    <string name="schedule">جدولة رحلة</string>
+    <string name="sample_date">اختر تاريخًا</string>
+    <string name="sample_time">اختر الوقت</string>
+    <string name="next">طلب جدولة</string>
+    <string name="different_time">لا يمكنك تحديد موعد في المواعيد الماضية ، يرجى اختيار وقت مختلف</string>
+    <string name="choose_date_time">يرجى اختيار التاريخ والوقت للجدول الزمني</string>
+
+    
+    <string name="no_service">لم يتم العثور على خدمات</string>
+
+    
+
+    
+    <string name="done">منجز</string>
+
+    
+    <string name="looking_for_ride">إيجاد سائق</string>
+    <string name="cancel_ride">إلغاء الركوب</string>
+    <string name="share">شارك</string>
+    <string name="cancel_ride_alert">هل أنت متأكد أنك تريد إلغاء الرحلة؟</string>
+    <string name="no_drivers_found">لا يوجد سائقين متاحين للقيام برحلتك</string>
+    <string name="driver_busy">تم إلغاء رحلتك من قبل السائق ، يرجى الاتصال بنا للحصول على الدعم</string>
+
+
+    <string name="my_reason_is_not_listed">السبب ليس مدرج</string>
+    <string name="booked_another_cab">حجزت سيارة أجرة أخرى</string>
+    <string name="plan_changed">تم تغيير الخطة</string>
+    <string name="please_select_reason">يرجى تحديد السبب</string>
+    <string name="please_specify_reason">يرجى تحديد السبب</string>
+    <string name="driver_is_not_moving">السائق لا يتحرك</string>
+    <string name="driver_denied_to_come">رفض السائق القدوم</string>
+    
+    <string name="sample_name">ويل سميث</string>
+    <string name="sample_service">بي إم دبليو</string>
+    <string name="call_btn">مكالمة</string>
+    <string name="cancel_trip">إلغاء الركوب</string>
+    <string name="surge_pricing">بسبب ساعات الذروة ، ستختلف الرسوم بناءً على توفر مقدمي الخدمة</string>
+
+
+    
+    <string name="payment">دفع</string>
+    <string name="payment_methods">طرق الدفع</string>
+    <string name="add_payments">إضافة بطاقة للمدفوعات</string>
+    <string name="add">إضافة بطاقة</string>
+    <string name="enter_card_details">تفاصيل البطاقة غير صالحة</string>
+    <string name="are_you_sure">هل أنت متأكد من أنك تريد إزالة؟</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+
+
+    
+    <string name="arrived">وصل السائق إلى موقعك</string>
+    <string name="picked_up">أنت في رحلة</string>
+
+    
+    <string name="history">التاريخ</string>
+    <string name="comments">تعليقات</string>
+    <string name="no_trips">ليس لديك رحلات سابقة</string>
+    <string name="your_trips">رحلاتك</string>
+    <string name="upcoming">القادمة</string>
+    <string name="past">الماضي</string>
+
+
+    
+    <string name="invoice">فاتورة</string>
+    <string name="base_price">قاعدة تفعل</string>
+    <string name="booking_id">معرف الحجز</string>
+    <string name="sample_base_price">10000 دولار</string>
+    <string name="extra_price">إضافي</string>
+    <string name="tax">ضريبة</string>
+    <string name="total">مجموع</string>
+    <string name="pay_now">ادفع الآن</string>
+    <string name="distance_price">أجرة المسافة</string>
+
+    
+    <string name="rate_provider">قيم رحلتك مع</string>
+    <string name="write_your_comment">اكتب تعليقك</string>
+    <string name="submit">إرسال</string>
+
+
+    
+    <string name="source_location">موقعك</string>
+
+    
+    <string name="connect_to_network">اتصل بالشبكة أو استقال</string>
+    <string name="cencel_request">هل أنت متأكد أنك تريد إلغاء الرحلة؟</string>
+    <string name="connect_to_wifi">اتصل بشبكة WIFI</string>
+
+
+    
+    <string name="something_went_wrong">هناك خطأ ما</string>
+    <string name="something_went_wrong_net">حدث خطأ ، يرجى التحقق من اتصال الإنترنت</string>
+    <string name="oops_connect_your_internet">وجه الفتاة ! قم بتوصيل الإنترنت الخاص بك</string>
+    <string name="server_down">غير قادر على الوصول إلى الخادم</string>
+    <string name="please_try_again">حاول مرة اخرى</string>
+    <string name="email_validation">أدخل معرف البريد الإلكتروني الخاص بك</string>
+    <string name="not_valid_email">ليس معرف بريد إلكتروني صالح</string>
+    <string name="password_validation">لا يمكن ترك كلمة المرور فارغة</string>
+    <string name="first_name_empty">الاسم الأول مطلوب</string>
+    
+    <string name="not_vaild_coupon">القسيمة غير صالحة أو قد تنتهي صلاحيتها</string>
+    <string name="coupon_added">تم تطبيق القسيمة بنجاح</string>
+    <string name="add_coupon_txt">أضف عرض</string>
+    <string name="added_coupon">تطبيق القسيمة بواسطتك</string>
+    <string name="already_in_use_coupon">القسيمة مستخدمة من قبل</string>
+    <string name="expired_coupon">عذرا ، انتهت صلاحية القسيمة</string>
+    <string name="off">إيقاف</string>
+    <string name="the_applied_coupon">رمز القسيمة المطبقة هو</string>
+    <string name="valid_until">صالح حتى</string>
+
+
+    
+    <string name="wallet_balance">مبلغ محفظتك</string>
+
+
+    
+    <string name="change_password_title">تغيير كلمة المرور</string>
+    <string name="current_password">كلمة المرور الحالي</string>
+    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="confirm_password">تأكيد كلمة المرور الجديدة</string>
+    <string name="please_enter_current_pass">يرجى إدخال كلمة المرور الحالية</string>
+    <string name="please_enter_new_pass">يرجى إدخال كلمة المرور الجديدة</string>
+    <string name="please_enter_confirm_pass">يرجى إدخال كلمة مرور التأكيد</string>
+    <string name="different_passwords">كلمة المرور لا تتطابق</string>
+    <string name="commision">تكلفة الخدمة</string>
+    <string name="request_cancel">لقد ألغيت الطلب</string>
+
+    
+    <string name="hello_blank_fragment">مرحبًا بجزء فارغ</string>
+
+    
+    <string name="valid_image">لم يتم العثور على صورة</string>
+    <string name="confirm_password_validation">عدم تطابق كلمة المرور</string>
+    <string name="note">ملاحظة: الرجاء إدخال كلمة المرور OTP المرسلة إلى بريدك الإلكتروني المسجل</string>
+    <string name="secrete_code">أدخل OTP</string>
+    <string name="enter_mobile_no">أدخل رقم الجوال</string>
+    <string name="logout_alert">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
+    <string name="no_comments">لا يوجد تعليق</string>
+    <string name="pin_location">تعيين موقع الدبوس</string>
+    <string name="emaergeny_call">هل أنت متأكد أنك تريد المتابعة مع مكالمة الطوارئ؟</string>
+    <string name="user_no_mobile">لا يوجد رقم هاتف محمول</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="reason_to_cancel">سبب الالغاء</string>
+    <string name="surge_pricing_title">بسبب ارتفاع سعر الطلب قد تختلف</string>
+
+    
+    <string name="help">مساعدة</string>
+    <string name="book_name">معرف الحجز</string>
+    <string name="password_size">يجب أن يكون حجم كلمة المرور على الأقل 6</string>
+    <string name="sorry_for_inconvinent">نأسف للإزعاج ، مساعدونا مشغولون الآن</string>
+    <string name="email_exist">البريد الإلكتروني تم أخذه</string>
+    <string name="first_name_no_number">الاسم الأول لا يقبل الأرقام</string>
+    <string name="use_wallet_amount">استخدم مبلغ المحفظة</string>
+    <string name="arriving">قبل السائق طلبك.</string>
+    <string name="view_invoice">استلام عرض</string>
+    <string name="terms_of_Service">شروط الخدمة</string>
+
+    <string name="privacy_policy_">سياسة الخصوصية</string>
+    <string name="legal">قانوني</string>
+    <string name="about_page">من الحقائق الراسخة أن القارئ سيشتت انتباهه             المحتوى المقروء لصفحة ما عند النظر إلى تخطيطها. الهدف من استخدام Lorem Ipsum             هو أنه يحتوي على توزيع طبيعي أكثر أو أقل للحروف ، بدلاً من استخدامه             تطورت إصدارات مختلفة على مر السنين ، في بعض الأحيان عن طريق الصدفة ،             في بعض الأحيان عن قصد (الفكاهة المحقونة وما شابه).</string>
+    <string name="paid_driver">لقد دفعت لسائقك</string>
+
+
+    
+
+    <string name="i_forgot_my_password">نسيت؟</string>
+
+    
+
+    <string name="password">كلمه السر</string>
+    
+
+    <string name="welcome_text">مرحبًا بك في دعم Ilyft</string>
+
+    
+    <string name="call_support">اتصل بالدعم</string>
+    <string name="chat_support">دعم الدردشة</string>
+    <string name="weburl">عنوان URL على الويب</string>
+
+
+    <string name="trip_completed">اكتملت الرحلة</string>
+    <string name="change_destination">غير الوجهة</string>
+    <string name="add_stop">أضف إيقاف</string>
+    <string name="round_trip">جولة</string>
+    <string name="enter_destination">أدخل الوجهة</string>
+    <string name="pickup_location">عنوان الالتقاط</string>
+    <string name="destination_location">إسقاط العنوان</string>
+    <string name="driver_is_on_the_way">السائق في الطريق</string>
+    <string name="request_ride">طلب ركوب</string>
+    <string name="base_fare">الاجرة الاساسية</string>
+
+    <string name="fare">صنع /كم</string>
+    <string name="fare_min">الخطر /دقيقة</string>
+    <string name="fare_type">نوع عادل</string>
+    <string name="capacity">سعة</string>
+    <string name="cancel">إلغاء</string>
+
+    <string name="notifications">إشعارات</string>
+    <string name="accounts">حسابات</string>
+
+
+    <string name="description_add">أضف التقويم</string>
+    <string name="summary">عنوان</string>
+    <string name="summary_hint">أدخل عنوان التقويم</string>
+    <string name="save">حفظ</string>
+
+    <string name="icon_desc">رمز التطبيق</string>
+    <string name="title_separator_desc">فاصل العنوان</string>
+    <string name="refresh">تحديث</string>
+    <string name="batchadd">نسخ التقويم x3 (دفعة)</string>
+    <string name="edit">تحرير التقويم</string>
+    <string name="delete">حذف التقويم</string>
+    <string name="delete_title">حذف التقويم؟</string>
+    <string name="error">خطأ</string>
+
+    <string name="error_format">[خطأ]٪ s</string>
+    <string name="user">مستخدم تسجيل الدخول</string>
+
+    <string name="register">تسجيل</string>
+
+    
+    <string name="login">تسجيل الدخول</string>
+
+    <string name="ongoing_trip">رحلة جارية</string>
+    <string name="location">موقعك</string>
+    <string name="location_detail">تفاصيل الموقع</string>
+    <string name="copyright">حقوق النشر</string>
+    <string name="terms_and_conditions"><![CDATA[Terms &amp; Conditions]]></string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="android">ذكري المظهر</string>
+    <string name="loading">جار التحميل...</string>
+    <string name="home">الصفحة الرئيسية</string>
+    <string name="work">عمل</string>
+    <string name="other">آخر</string>
+    <string name="sukhrali">صخرالي</string>
+    <string name="cash">السيولة النقدية</string>
+    <string name="default_payment_method">طريقه تسديد خاطئه</string>
+    <string name="add_new_card">أضف بطاقة جديدة</string>
+    <string name="sos_call">نداء استغاثة</string>
+    <string name="no_notification_found">لم يتم العثور على إشعار</string>
+    <string name="add_amount">أضف المبلغ</string>
+    <string name="wallet">محفظة نقود</string>
+    <string name="add_money">إضافة المال</string>
+    <string name="click">انقر</string>
+    <string name="send">إرسال</string>
+    <string name="if_you_have_not_received_otp">إذا لم تستلم OTP</string>
+    <string name="update_name">اسم التحديث</string>
+    <string name="update">تحديث</string>
+    <string name="booking_id_123456789">رقم الحجز: 123456789</string>
+    <string name="sedan">منذ</string>
+    <string name="promo_code">رمز ترويجي</string>
+    <string name="schedule_ride">جدولة الرحلة</string>
+    <string name="media_player">مشغل وسائط</string>
+    <string name="rate_card">سعر البطاقة</string>
+    <string name="sec">ثانية</string>
+    <string name="phone_verification">التحقق من الهاتف</string>
+    <string name="enter_your_otp_code_here">أدخل رمز OTP الخاص بك هنا</string>
+    <string name="verify_now">تحقق الآن</string>
+    <string name="booking_successful">تم الحجز بنجاح</string>
+    <string name="your_booking_has_been_confirmed">تم تأكيد حجزك.</string>
+    <string name="driver_will_pickup_you_in_early">سوف يقلك السائق في وقت مبكر</string>
+    <string name="apply">تطبيق</string>
+    <string name="very_good_service_provide_by_user_satisfied_the_user_service">خدمة جيدة جدا تقدم من قبل المستخدم ، راضية عن خدمة المستخدم.</string>
+    <string name="image_title">عنوان الصورة</string>
+    <string name="the_fare_will_be_the_price_presented_upon_booking_or_if_the_journey_changes_the_fare_will_be_based_on_the_rates_provided_tap_fare_for_details">ستكون الأجرة هي السعر المعروض عند الحجز ، أو إذا تغيرت الرحلة ، فستعتمد الأجرة على الأسعار المقدمة. انقر على الأجرة للحصول على التفاصيل.</string>
+    <string name="driver">سائق</string>
+    <string name="verification_code_is_wrong">رمز التحقق خاطئ</string>
+    <string name="enter_the_correct_verification_code">أدخل رمز التحقق الصحيح</string>
+    <string name="send_to">ارسل إلى</string>
+    <string name="successfully_verified">تم التحقق بنجاح</string>
+    <string name="resend_in">إعادة إرسال</string>
+    <string name="resend">إعادة إرسال</string>
+    <string name="Please_grant_permission_for_using_this_app">يرجى منح الإذن لاستخدام هذا التطبيق!</string>
+    <string name="logout_user">مستخدم تسجيل الخروج!</string>
+    <string name="all_notifications_marked_as_read">تم وضع علامة على جميع الإشعارات كمقروءة!</string>
+    <string name="clear_all_notifications">مسح جميع الإخطارات!</string>
+    <string name="enter_an_amount_greater_than_0">أدخل مبلغًا أكبر من 0</string>
+    <string name="enter_a_coupon">أدخل قسيمة</string>
+    <string name="share_app_not_found">لم يتم العثور على مشاركة التطبيقات!</string>
+    <string name="coming_soon">قريبا...</string>
+    <string name="not_responding">mPesa لا يستجيب</string>
+    <string name="server_error">خطأ خادم mPesa</string>
+    <string name="no_map">لا خريطة</string>
+    <string name="map_not_ready">الخريطة غير جاهزة</string>
+    <string name="please_enter_both_pickup_and_drop_locations">الرجاء إدخال مواقع الالتقاط والإسقاط</string>
+    <string name="select_destination">حدد وجهتك</string>
+    <string name="both_source_and_destination_are_same">المصدر والوجهة متماثلان</string>
+    <string name="cant_get_address_try_again">لا يمكن الحصول على العنوان! الرجاء المحاولة مرة أخرى</string>
+    <string name="type_a_message">اكتب رسالة</string>
+    <string name="why_specify">لماذا تحدد؟</string>
+    <string name="enter_home_address">أدخل عنوان المنزل</string>
+    <string name="mobile_number">رقم الهاتف المحمول</string>
+    <string name="additional_comments">تعليقات اضافية ...</string>
+    <string name="past_trips">الرحلات السابقة</string>
+    <string name="upcoming_trips">الرحلات القادمة</string>
+    <string name="at">في</string>
+    <string name="address">عنوان</string>
+    <string name="update_mobile_no">تحديث رقم الجوال</string>
+    <string name="update_account_email">تحديث البريد الإلكتروني للحساب</string>
+    <string name="enter_email">أدخل البريد الإلكتروني</string>
+    <string name="mobie_no">رقم الموبايل</string>
+    <string name="no_comment">لا تعليق</string>
+    <string name="source_and_destination_address_should_not_be_same">يجب ألا يكون عنوان المصدر والوجهة متطابقين!</string>
+    <string name="this_name_will_be_shown_to_the_driver_during_ride_pickup">سيظهر هذا الاسم للسائق أثناء ركوب الركوب</string>
+    <string name="it_is_updates_to_the_your_account">يتم تحديثه لحسابك</string>
+    <string name="name">اسم</string>
+    <string name="enter_name">أدخل الاسم</string>
+    <string name="mobile_no">رقم الموبايل</string>
+    <string name="my_location">موقعي</string>
+    <string name="driver_will_pickup_you_in">سوف يقلك السائق في</string>
+    <string name="minutes">الدقائق.</string>
+    <string name="card">بطاقة</string>
+    <string name="cash_and_wallet">النقدية والمحفظة</string>
+    <string name="rate_your_trip_with">قيم رحلتك مع</string>
+    <string name="promo_code_applied">تم تطبيق الرمز الترويجي</string>
+    <string name="rajan_owes">راجان مدين</string>
+    <string name="complete">اكتمال</string>
+    <string name="pickup_address">عنوان الالتقاط</string>
+    <string name="drop_address">إسقاط العنوان</string>
+
+    <string name="oder">أو</string>
+    <string name="give_a_compliment">اعط اطراء</string>
+    <string name="hero">بطل</string>
+    <string name="_6_star_service">خدمة 6 نجوم</string>
+    <string name="great_conversation">محادثة رائعة</string>
+    <string name="great_attitude">موقف رائع</string>
+    <string name="tidy_and_clean">مرتبة ونظيفة</string>
+    <string name="great_amenties">Amenties العظمى</string>
+    <string name="rate">معدل</string>
+    <string name="skip">تخطى</string>
+
+    <string name="edit_profile">تعديل الملف الشخصي</string>
+    <string name="rajan_kumar">راجان كومار</string>
+    <string name="service_type">نوع الخدمة</string>
+    <string name="update_password">تطوير كلمة السر</string>
+    <string name="favorites">المفضلة</string>
+
+    <string name="you_have_no_upcoming_trips">ليس لديك رحلات قادمة</string>
+    <string name="very_good_service">خدمة جيدة للغاية</string>
+    <string name="_10_jan_2019_08_45_pm_rajan_kumar">10 an 2019 08 45 pm rajan kumar</string>
+    <string name="january_10_12_30_pm">10 يناير 30 م</string>
+    <string name="chhattarpur_road">طريق تشهاتاربور</string>
+    <string name="my_home">منزلي</string>
+    <string name="my_booking">الحجز</string>
+
+
+    <string name="last_name">الكنية</string>
+    <string name="enter_password_here">أدخل كلمة المرور هنا</string>
+    <string name="lets_go">ها نحن ذا</string>
+    <string name="email_hint">أدخل عنوان بريدك الالكتروني</string>
+    <string name="last_name_empty">اسم العائلة فارغ</string>
+    <string name="agb">نشكرك على استخدام منتجاتنا وخدماتنا ("الخدمات"). إذا كان لديك محل إقامتك المعتاد في المنطقة الاقتصادية الأوروبية أو سويسرا ، فسيتم تزويدك بخدمات Google Ireland Limited ("Google") ، وهي شركة مسجلة وتعمل بموجب القانون الأيرلندي (رقم التسجيل) ، ما لم يتم تحديد خلاف ذلك في أي الشروط: 368047) ، وتقع في Gordon House، Barrow Street، Dublin 4، Ireland.  يتطلب استخدام الخدمات موافقتك على شروط الاستخدام هذه. يرجى قراءتها بعناية.  نحن نقدم مجموعة متنوعة من الخدمات المختلفة. لهذا السبب ، قد يتم تطبيق شروط إضافية أو متطلبات المنتج (مثل الحد الأدنى للسن). يتم توفير هذه الشروط الإضافية فيما يتعلق بالخدمات ذات الصلة وتصبح جزءًا من علاقتك معنا بمجرد استخدامك لهذه الخدمات. نشكرك على استخدام منتجاتنا وخدماتنا ("الخدمات"). إذا كان لديك محل إقامتك المعتاد في المنطقة الاقتصادية الأوروبية أو سويسرا ، فسيتم تزويدك بخدمات Google Ireland Limited ("Google") ، وهي شركة مسجلة وتعمل بموجب القانون الأيرلندي (رقم التسجيل) ، ما لم يتم تحديد خلاف ذلك في أي الشروط: 368047) ، وتقع في Gordon House، Barrow Street، Dublin 4، Ireland.  يتطلب استخدام الخدمات موافقتك على شروط الاستخدام هذه. يرجى قراءتها بعناية.  نحن نقدم مجموعة متنوعة من الخدمات المختلفة. لهذا السبب ، قد يتم تطبيق شروط إضافية أو متطلبات المنتج (مثل الحد الأدنى للسن). يتم توفير هذه الشروط الإضافية فيما يتعلق بالخدمات ذات الصلة وتصبح جزءًا من علاقتك معنا بمجرد استخدامك لهذه الخدمات. نشكرك على استخدام منتجاتنا وخدماتنا ("الخدمات"). إذا كان لديك محل إقامتك المعتاد في المنطقة الاقتصادية الأوروبية أو سويسرا ، فسيتم تزويدك بخدمات Google Ireland Limited ("Google") ، وهي شركة مسجلة وتعمل بموجب القانون الأيرلندي (رقم التسجيل) ، ما لم يتم تحديد خلاف ذلك في أي الشروط: 368047) ، وتقع في Gordon House، Barrow Street، Dublin 4، Ireland.  يتطلب استخدام الخدمات موافقتك على شروط الاستخدام هذه. يرجى قراءتها بعناية.  نحن نقدم مجموعة متنوعة من الخدمات المختلفة. لهذا السبب ، قد يتم تطبيق شروط إضافية أو متطلبات المنتج (مثل الحد الأدنى للسن). يتم توفير هذه الشروط الإضافية فيما يتعلق بالخدمات ذات الصلة وتصبح جزءًا من علاقتك معنا بمجرد استخدامك لهذه الخدمات. نشكرك على استخدام منتجاتنا وخدماتنا ("الخدمات"). إذا كان لديك محل إقامتك المعتاد في المنطقة الاقتصادية الأوروبية أو سويسرا ، فسيتم تزويدك بخدمات Google Ireland Limited ("Google") ، وهي شركة مسجلة وتعمل بموجب القانون الأيرلندي (رقم التسجيل) ، ما لم يتم تحديد خلاف ذلك في أي الشروط: 368047) ، وتقع في Gordon House، Barrow Street، Dublin 4، Ireland.  يتطلب استخدام الخدمات موافقتك على شروط الاستخدام هذه. يرجى قراءتها بعناية.  نحن نقدم مجموعة متنوعة من الخدمات المختلفة. لهذا السبب ، قد يتم تطبيق شروط إضافية أو متطلبات المنتج (مثل الحد الأدنى للسن). يتم توفير هذه الشروط الإضافية فيما يتعلق بالخدمات المقابلة وتصبح جزءًا من علاقة الاستخدام الخاصة بك معنا بمجرد استخدامك لهذه الخدمات.</string>
+    <string name="btn_agb">الظروف</string>
+    <string name="confirmation">التأكيد</string>
+    <string name="do_you_really_want_to_exit_3now">هل تريد حقاً الخروج من 3now؟</string>
+    <string name="become_a_driver">كن سائقًا</string>
+    <string name="app_language">لغة التطبيق</string>
+    <string name="German">ألمانية</string>
+    <string name="English">الإنجليزية</string>
+    <string name="select_your_language">اختر لغتك</string>
+    <string name="splash_txt">قم بدعوة أصدقائك إلينا وسوف يستقبلون بعضهم البعض</string>
+    <string name="review">مراجعة</string>
+    <string name="when_you_create_an_account_you_agree_to_ours">عندما تقوم بإنشاء حساب ، فإنك توافق على حسابنا</string>
+    <string name="and_data_protection_too">وحماية البيانات أيضًا</string>
+    <string name="conditions">الظروف</string>
+    <string name="ok">حسنا</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="cannot_provide_service_location">Sorry in this Source location,We cannot provide service.</string>
+    <string name="distance">Distance</string>
+    <string name="time">Time</string>
+    <string name="price">Price</string>
+    <string name="pickup">Pickup</string>
+    <string name="drop_off">Drop off</string>
+    <string name="discount">Discount</string>
+    <string name="promocode">Promocode</string>
+    <string name="how_is_your_trip">How is your trip?</string>
+    <string name="your_feedback_will_help">Your feedback will help</string>
+    <string name="improve_driving_experience">improve driving experience</string>
+    <string name="submit_review">Submit Review</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="location_permission_needed">Location Permission Needed</string>
+    <string name="please_accept_to_use_location_functionality">This app needs the Location permission, please accept to use location functionality</string>
+    <string name="please_choose_pickup_location">Please choose pickup location</string>
+    <string name="contact">contact</string>
+    <string name="special_trips">Special trips</string>
+    <string name="for_individual_requests_please_contact_us">For individual requests, please contact us</string>
+    <string name="check_your_internet">Check your Internet</string>
+    <string name="setting">Setting</string>
+    <string name="date_firest_error">Please choose a date for the schedule first!</string>
+    <string name="find_a_goal">Find a goal</string>
+    <string name="pick_up_date">PICK UP DATE</string>
+    <string name="additional_wishes">Additional wishes</string>
+    <string name="child_seat">Child seat</string>
+    <string name="Kindersitz_txt">In the event that more\nrequested as a seat\nwill have to pay € 5.</string>
+    <string name="baby_car_seat">Baby car seat</string>
+    <string name="baby_car_seat_txt">In the event that more\nrequested as a shell\nwill have to pay € 10.</string>
+    <string name="name_tag">Name Tag</string>
+    <string name="Name_tag_txt">When ordering the name tag\na fee of € 15 will be charged.</string>
+    <string name="remarks">Remarks</string>
+    <string name="note_txt">Here you can send us special requests,Notes or creation.</string>
+    <string name="continu">Continue</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>الصفحة الرئيسية</item>
+        <item>الصور</item>
+        <item>أفلام</item>
+        <item>إشعارات</item>
+        <item>الإعدادات</item>
+    </string-array>
+
+
+</resources>

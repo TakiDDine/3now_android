@@ -57,13 +57,15 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp">
 
-        <ImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/error_image"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/appicon"
-            tools:ignore="VectorDrawableCompat" />
+            android:src="@mipmap/ic_launcher_round"
+            android:layout_gravity="center"
+            />
 
         <de.threenow.Utils.MyBoldTextView
             android:layout_width="wrap_content"

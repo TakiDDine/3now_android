@@ -118,6 +118,7 @@ public class Utilities {
         }
     }
 
+
     public void GoToBeginActivity(Activity activity) {
         Intent mainIntent = new Intent(activity, Login.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

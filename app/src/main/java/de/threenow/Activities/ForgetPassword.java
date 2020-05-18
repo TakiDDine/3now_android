@@ -214,7 +214,7 @@
 //                        if (AccountKit.getCurrentAccessToken().getToken() != null) {
 //                            SharedHelper.putKey(ForgetPassword.this, "account_kit_token",
 //                                    AccountKit.getCurrentAccessToken().getToken());
-//                            //SharedHelper.putKey(RegisterActivity.this, "loggedIn", getString(R.string.True));
+//                            //SharedHelper.putKey(RegisterActivity.this, "loggedIn", "true");
 //                            // Get phone number
 //                            PhoneNumber phoneNumber = account.getPhoneNumber();
 //                            String phoneNumberString = phoneNumber.toString();
@@ -242,7 +242,7 @@
 //                            Log.e(TAG, "Verified");
 //                        } else {
 //                            SharedHelper.putKey(ForgetPassword.this, "account_kit_token", "");
-//                            SharedHelper.putKey(ForgetPassword.this, "loggedIn", getString(R.string.False));
+//                            SharedHelper.putKey(ForgetPassword.this, "loggedIn", "false");
 //                            SharedHelper.putKey(context, "email", "");
 //                            SharedHelper.putKey(context, "login_by", "");
 //                            SharedHelper.putKey(ForgetPassword.this, "account_kit_token", "");
@@ -259,9 +259,9 @@
 //                    }
 //                });
 //                if (loginResult != null) {
-//                    SharedHelper.putKey(this, "account_kit", getString(R.string.True));
+//                    SharedHelper.putKey(this, "account_kit", "true");
 //                } else {
-//                    SharedHelper.putKey(this, "account_kit", getString(R.string.False));
+//                    SharedHelper.putKey(this, "account_kit", "false");
 //                }
 //                String toastMessage;
 //                if (loginResult.getError() != null) {
@@ -614,7 +614,7 @@
 //                        NetworkResponse response = error.networkResponse;
 //
 //                        if (response != null && response.data != null) {
-//                            SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+//                            SharedHelper.putKey(context, "loggedIn", "false");
 //                            utils.GoToBeginActivity(ForgetPassword.this);
 //                        } else {
 //                            if (error instanceof NoConnectionError) {

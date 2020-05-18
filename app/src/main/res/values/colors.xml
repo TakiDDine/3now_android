@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#307DD4</color>
-    <color name="colorPrimaryDark">#3EBAEC</color>
+    <color name="colorPrimaryDark">#54CAFA</color>
     <color name="colorAccent">#307DD4</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
@@ -22,7 +22,6 @@
     <color name="test">#f5f5f5</color>
 
     <color name="cpb_white">@android:color/white</color>
-    <color name="theme">#307DD4</color>
 
 
     <color name="confirmcolor">#00a328</color>
@@ -32,4 +31,5 @@
 
     <color name="title_separator">#40ffffff</color>
     <color name="blue">#307DD4</color>
+    <color name="blue_ligt">#3EBAEC</color>
 </resources>

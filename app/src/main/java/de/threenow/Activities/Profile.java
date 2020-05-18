@@ -168,7 +168,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         builder.setTitle(getResources().getString(R.string.select_your_language));
         builder.setIcon(R.drawable.ic_lang);
         builder.setSingleChoiceItems(items, checked, (dialog, item) -> {
-            Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
 //            setLocale("de");
 //            changeLanguage(Profile.this,"en");
             dialog.dismiss();
@@ -186,22 +186,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
         AlertDialog alert = builder.create();
         alert.show();
-    }
-
-    public void changeLanguage(Context context, String language) {
-        Log.e("language1", Locale.getDefault().getDisplayLanguage());
-
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
-        Configuration config = context.getResources().getConfiguration();
-        config.setLocale(locale);
-        context.createConfigurationContext(config);
-        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
-        Log.e("language2", Locale.getDefault().getDisplayLanguage());
-
-        Intent refresh = new Intent(this, MainActivity.class);
-        finish();
-        startActivity(refresh);
     }
 
     public void setLocale(String lang) {
@@ -285,6 +269,13 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
                             //SharedHelper.putKey(context, "email", "");
                             SharedHelper.clearSharedPreferences(Profile.this);
+
+                            if (Locale.getDefault().getDisplayLanguage().length() > 0)
+                                if (Locale.getDefault().getDisplayLanguage().contains("De"))
+                                    SharedHelper.putKey(Profile.this, "lang", "de");
+                                else
+                                    SharedHelper.putKey(Profile.this, "lang", "en");
+
                             Intent goToLogin = new Intent(Profile.this, Login.class);
                             goToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(goToLogin);
@@ -389,23 +380,16 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void attachBaseContext(Context base) {
-//        if (SharedPrefrence.getLanguage(base) != null)
-//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
-//        else
-
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-        Log.e("language4", Locale.getDefault().getDisplayLanguage());
-
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
     }
 
 }

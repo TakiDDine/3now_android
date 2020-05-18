@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [<!ENTITY appName "GoCab "><!ENTITY Provider "Driver"><!ENTITY provider "driver"><!ENTITY Service "Ride"><!ENTITY service "ride">]>
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY appName "GoCab "><!ENTITY Provider "Driver"><!ENTITY provider "driver"><!ENTITY Service "Ride"><!ENTITY service "ride">]>
 <resources>
 
     <!--<string name="app_name">mBeba</string>-->
@@ -8,12 +7,12 @@
     <!--<string name="google_map_api">AIzaSyCiR3M2il0s1yH8UTHfS7NLNmk8aW-4VtI</string>-->
     <!--<string name="google_map_api">AIzaSyD1RH49BjncMZxBWueOxjUkRqgAFP1vr4k</string>-->
     <!--<string name="google_map_api">AIzaSyBkPIRVGK0n_Svj0C5XD115G7N_0Dxxaw0</string>-->
-    <string name="google_map_api">AIzaSyD0gzQ43R7S8iiJLL-oUjesnc6hu-EvCII</string>
+    <string name="google_map_api" translatable="false">AIzaSyD0gzQ43R7S8iiJLL-oUjesnc6hu-EvCII</string>
     <!--<string name="facebook_app_id">294885378036669</string>-->
-    <string name="facebook_app_id">3127828963956256</string>
+    <string name="facebook_app_id" translatable="false">3127828963956256</string>
 
     <!--  <string name="ACCOUNT_KIT_CLIENT_TOKEN">ffd72f24ef7591cbb2ad35beae2812e9</string>-->
-    <string name="ACCOUNT_KIT_CLIENT_TOKEN">734b50c746a9e545f9c6d307a1cc49c9</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN" translatable="false">734b50c746a9e545f9c6d307a1cc49c9</string>
 
     <!--    from here translate-->
     <string name="we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply">We will send you a One time SMS message carrier rate may apply</string>
@@ -164,11 +163,6 @@
     <string name="password_validation">Password could not be left empty</string>
     <string name="first_name_empty">First name required</string>
 
-    <!--True or False -->
-    <string name="True">true</string>
-    <string name="False">false</string>
-
-
     <!--Coupon Activity-->
     <string name="not_vaild_coupon">Coupon is not valid or may expired</string>
     <string name="coupon_added">Coupon applied successfully</string>
@@ -246,7 +240,7 @@
     <string name="password">Password</string>
     <!--Activity Register-->
 
-    <string name="welcome_text">Welcome to Ilyft support</string>
+    <string name="welcome_text">Welcome to 3Now support</string>
 
     <!--Driver Accepted-->
     <string name="call_support">Call Support</string>
@@ -418,7 +412,7 @@
     <string name="chhattarpur_road">chhattarpur road</string>
     <string name="my_home">my home</string>
     <string name="my_booking">my booking</string>
-<!--    -->
+    <!--    -->
 
     <string name="last_name">Last_name</string>
     <string name="enter_password_here">Enter password here</string>
@@ -458,6 +452,41 @@ We offer a variety of different services. For this reason, additional conditions
     <string name="and_data_protection_too">and data protection too</string>
     <string name="conditions">Conditions</string>
     <string name="ok">ok</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="cannot_provide_service_location">Sorry in this Source location,We cannot provide service.</string>
+    <string name="distance">Distance</string>
+    <string name="time">Time</string>
+    <string name="price">Price</string>
+    <string name="pickup">Pickup</string>
+    <string name="drop_off">Drop off</string>
+    <string name="discount">Discount</string>
+    <string name="promocode">Promocode</string>
+    <string name="how_is_your_trip">How is your trip?</string>
+    <string name="your_feedback_will_help">Your feedback will help</string>
+    <string name="improve_driving_experience">improve driving experience</string>
+    <string name="submit_review">Submit Review</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="location_permission_needed">Location Permission Needed</string>
+    <string name="please_accept_to_use_location_functionality">This app needs the Location permission, please accept to use location functionality</string>
+    <string name="please_choose_pickup_location">Please choose pickup location</string>
+    <string name="contact">contact</string>
+    <string name="special_trips">Special trips</string>
+    <string name="for_individual_requests_please_contact_us">For individual requests, please contact us</string>
+    <string name="check_your_internet">Check your Internet</string>
+    <string name="setting">Setting</string>
+    <string name="date_firest_error">Please choose a date for the schedule first!</string>
+    <string name="find_a_goal">Find a goal</string>
+    <string name="pick_up_date">PICK UP DATE</string>
+    <string name="additional_wishes">Additional wishes</string>
+    <string name="child_seat">Child seat</string>
+    <string name="Kindersitz_txt">In the event that more\nrequested as a seat\nwill have to pay € 5.</string>
+    <string name="baby_car_seat">Baby car seat</string>
+    <string name="baby_car_seat_txt">In the event that more\nrequested as a shell\nwill have to pay € 10.</string>
+    <string name="name_tag">Name Tag</string>
+    <string name="Name_tag_txt">When ordering the name tag\na fee of € 15 will be charged.</string>
+    <string name="remarks">Remarks</string>
+    <string name="note_txt">Here you can send us special requests,Notes or creation.</string>
+    <string name="continu">Continue</string>
 
     <string-array name="nav_item_activity_titles">
         <item>Home</item>

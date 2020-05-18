@@ -158,7 +158,7 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
         add_fund_button.setOnClickListener(this);
         loadingDialog = new ProgressDialog(this);
         loadingDialog.setIndeterminate(true);
-        loadingDialog.setMessage("Please wait...");
+        loadingDialog.setMessage(getString(R.string.please_wait));
 
         session_token = SharedHelper.getKey(this, "access_token");
 
@@ -253,7 +253,7 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
                 NetworkResponse response = error.networkResponse;
 
                 if (response != null && response.data != null) {
-                    SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                    SharedHelper.putKey(context, "loggedIn", "false");
                     utils.GoToBeginActivity(ActivityWallet.this);
                 } else {
                     if (error instanceof NoConnectionError) {

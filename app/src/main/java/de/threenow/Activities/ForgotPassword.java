@@ -63,6 +63,7 @@ import java.util.Map;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import static de.threenow.Activities.AgbActivity.setWindowFlag;
 import static de.threenow.IlyftApplication.trimMessage;
 
 
@@ -127,8 +128,9 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
         }
         setContentView(R.layout.activity_forgot_password);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -317,14 +319,14 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                                         if (json != "" && json != null) {
                                             displayMessage(json);
                                         } else {
-                                            displayMessage("Please try again.");
+                                            displayMessage(getString(R.string.please_try_again));
                                         }
                                     } else {
-                                        displayMessage("Please try again.");
+                                        displayMessage(getString(R.string.please_try_again));
                                     }
 
                                 } catch (Exception e) {
-                                    displayMessage("Something went wrong.");
+                                    displayMessage(getString(R.string.something_went_wrong));
                                 }
 
                             } else {
@@ -429,15 +431,15 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                                 if (json != "" && json != null) {
                                     displayMessage(json);
                                 } else {
-                                    displayMessage("Please try again.");
+                                    displayMessage(getString(R.string.please_try_again));
                                 }
 
                             } else {
-                                displayMessage("Please try again.");
+                                displayMessage(getString(R.string.please_try_again));
                             }
 
                         } catch (Exception e) {
-                            displayMessage("Something went wrong.");
+                            displayMessage(getString(R.string.something_went_wrong));
                         }
 
 
@@ -499,7 +501,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                         NetworkResponse response = error.networkResponse;
 
                         if (response != null && response.data != null) {
-                            SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                            SharedHelper.putKey(context, "loggedIn", "false");
                             utils.GoToBeginActivity(ForgotPassword.this);
                         } else {
                             if (error instanceof NoConnectionError) {
@@ -636,7 +638,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 //                        if (AccountKit.getCurrentAccessToken().getToken() != null) {
 //                            SharedHelper.putKey(ForgotPassword.this, "account_kit_token",
 //                                    AccountKit.getCurrentAccessToken().getToken());
-//                            //SharedHelper.putKey(RegisterActivity.this, "loggedIn", getString(R.string.True));
+//                            //SharedHelper.putKey(RegisterActivity.this, "loggedIn", "true");
 //                            // Get phone number
 //                            dialog.dismiss();
 //                            PhoneNumber phoneNumber = account.getPhoneNumber();
@@ -667,7 +669,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 //                            Log.e(TAG, "Verified");
 //                        } else {
 //                            SharedHelper.putKey(ForgotPassword.this, "account_kit_token", "");
-//                            SharedHelper.putKey(ForgotPassword.this, "loggedIn", getString(R.string.False));
+//                            SharedHelper.putKey(ForgotPassword.this, "loggedIn", "false");
 //                            SharedHelper.putKey(context, "email", "");
 //                            SharedHelper.putKey(context, "login_by", "");
 //                            SharedHelper.putKey(ForgotPassword.this, "account_kit_token", "");
@@ -684,9 +686,9 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 //                    }
 //                });
 //                if (loginResult != null) {
-//                    SharedHelper.putKey(this, "account_kit", getString(R.string.True));
+//                    SharedHelper.putKey(this, "account_kit", "true");
 //                } else {
-//                    SharedHelper.putKey(this, "account_kit", getString(R.string.False));
+//                    SharedHelper.putKey(this, "account_kit", "false");
 //                }
 //                String toastMessage;
 //                if (loginResult.getError() != null) {
@@ -1117,7 +1119,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 //                        NetworkResponse response = error.networkResponse;
 //
 //                        if (response != null && response.data != null) {
-//                            SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+//                            SharedHelper.putKey(context, "loggedIn", "false");
 //                            utils.GoToBeginActivity(ForgotPassword.this);
 //                        } else {
 //                            if (error instanceof NoConnectionError) {
@@ -1210,7 +1212,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 //                        if (AccountKit.getCurrentAccessToken().getToken() != null) {
 //                            SharedHelper.putKey(ForgotPassword.this, "account_kit_token",
 //                                    AccountKit.getCurrentAccessToken().getToken());
-//                            //SharedHelper.putKey(RegisterActivity.this, "loggedIn", getString(R.string.True));
+//                            //SharedHelper.putKey(RegisterActivity.this, "loggedIn", "true");
 //                            // Get phone number
 //                            dialog.dismiss();
 //                            PhoneNumber phoneNumber = account.getPhoneNumber();
@@ -1241,7 +1243,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 //                            Log.e(TAG, "Verified");
 //                        } else {
 //                            SharedHelper.putKey(ForgotPassword.this, "account_kit_token", "");
-//                            SharedHelper.putKey(ForgotPassword.this, "loggedIn", getString(R.string.False));
+//                            SharedHelper.putKey(ForgotPassword.this, "loggedIn", "false");
 //                            SharedHelper.putKey(context, "email", "");
 //                            SharedHelper.putKey(context, "login_by", "");
 //                            SharedHelper.putKey(ForgotPassword.this, "account_kit_token", "");
@@ -1258,9 +1260,9 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 //                    }
 //                });
 //                if (loginResult != null) {
-//                    SharedHelper.putKey(this, "account_kit", getString(R.string.True));
+//                    SharedHelper.putKey(this, "account_kit", "true");
 //                } else {
-//                    SharedHelper.putKey(this, "account_kit", getString(R.string.False));
+//                    SharedHelper.putKey(this, "account_kit", "false");
 //                }
 //                String toastMessage;
 //                if (loginResult.getError() != null) {

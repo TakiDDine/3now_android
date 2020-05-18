@@ -299,10 +299,19 @@ public class MainActivity extends AppCompatActivity implements
                     startActivity(new Intent(MainActivity.this, SosCallActivity.class));
 //                        finish();
                     break;
-                case R.id.nav_share:
+//                case R.id.nav_share:
+                case R.id.nav_contact:
                     // launch new intent instead of loading fragment
-                    //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
-                    navigateToShareScreen(URLHelper.APP_URL);
+//                    //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
+//                    navigateToShareScreen(URLHelper.APP_URL);
+
+                    // launch new intent instead of loading fragment
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/html");
+                    i.putExtra(Intent.EXTRA_EMAIL    , new String[]{"Hassanalfakhre@gmail.com"});
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Contact 3Now");
+                    startActivity(Intent.createChooser(i, "Send Email"));
+
                     drawer.closeDrawers();
                     return true;
                 case R.id.nav_logout:
@@ -416,6 +425,14 @@ public class MainActivity extends AppCompatActivity implements
                     SharedHelper.putKey(MainActivity.this, "account_kit_token", "");
                 }
                 SharedHelper.clearSharedPreferences(context);
+
+                if (Locale.getDefault().getDisplayLanguage().length() > 0)
+                    if (Locale.getDefault().getDisplayLanguage().contains("De"))
+                        SharedHelper.putKey(MainActivity.this, "lang", "de");
+                    else
+                        SharedHelper.putKey(MainActivity.this, "lang", "en");
+
+
                 Intent goToLogin = new Intent(activity, Login.class);
                 goToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(goToLogin);
@@ -515,7 +532,7 @@ public class MainActivity extends AppCompatActivity implements
             NetworkResponse response = error.networkResponse;
 
             if (response != null && response.data != null) {
-                SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                SharedHelper.putKey(context, "loggedIn", "false");
                 GoToBeginActivity();
             }
         }) {

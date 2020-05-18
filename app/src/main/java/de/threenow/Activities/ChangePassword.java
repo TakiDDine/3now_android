@@ -214,7 +214,7 @@ public class ChangePassword extends AppCompatActivity {
     }
 
     public void GoToBeginActivity(){
-        SharedHelper.putKey(activity,"loggedIn",getString(R.string.False));
+        SharedHelper.putKey(activity,"loggedIn","false");
         Intent mainIntent = new Intent(activity, Login.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainIntent);
@@ -258,7 +258,7 @@ public class ChangePassword extends AppCompatActivity {
                 NetworkResponse response = error.networkResponse;
 
                 if (response != null && response.data != null) {
-                    SharedHelper.putKey(ChangePassword.this, "loggedIn", getString(R.string.False));
+                    SharedHelper.putKey(ChangePassword.this, "loggedIn", "false");
                     GoToBeginActivity();
                 } else {
                     if (error instanceof NoConnectionError) {

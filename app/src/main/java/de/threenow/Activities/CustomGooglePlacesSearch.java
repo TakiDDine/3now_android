@@ -382,7 +382,7 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
                     try {
                         AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
                         LayoutInflater inflater = (LayoutInflater) thisActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        builder.setMessage("Please choose pickup location")
+                        builder.setMessage(thisActivity.getString(R.string.please_choose_pickup_location))
                                 .setTitle(thisActivity.getString(R.string.app_name))
                                 .setCancelable(true)
                                 .setIcon(R.mipmap.ic_launcher_round)

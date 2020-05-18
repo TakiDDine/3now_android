@@ -138,11 +138,6 @@
     <string name="password_validation">Das Passwort konnte nicht leer gelassen werden</string>
     <string name="first_name_empty">Vorname erforderlich</string>
 
-
-    <string name="True">wahr</string>
-    <string name="False">falsch</string>
-
-
     <string name="not_vaild_coupon">Der Gutschein ist ungültig oder möglicherweise abgelaufen</string>
     <string name="coupon_added">Gutschein erfolgreich angewendet</string>
     <string name="add_coupon_txt">Gutschein hinzufügen</string>
@@ -210,7 +205,7 @@
     <string name="password">Passwort</string>
 
 
-    <string name="welcome_text">Willkommen bei Ilyft Support</string>
+    <string name="welcome_text">Willkommen bei 3Now Support</string>
 
 
     <string name="call_support">Rufen Sie den Support an</string>
@@ -427,12 +422,45 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="English">Englisch</string>
     <string name="splash_txt" >lade Deine Freunde an uns und sie erhalten jeweils</string>
     <string name="review">Rezension</string>
-    <string name="google_map_api">AIzaSyD0gzQ43R7S8iiJLL-oUjesnc6hu-EvCII</string>
-    <string name="facebook_app_id">3127828963956256</string>
-    <string name="ACCOUNT_KIT_CLIENT_TOKEN">734b50c746a9e545f9c6d307a1cc49c9</string>
     <string name="when_you_create_an_account_you_agree_to_ours">Wenn Du ein Konto erstellst, stimmst Du unsere</string>
     <string name="and_data_protection_too">und Datenschutz zu</string>
     <string name="conditions">AGB</string>
     <string name="ok">okay</string>
+    <string name="confirm">BESTÄTIGEN</string>
+    <string name="cannot_provide_service_location">Entschuldigung an diesem Quellspeicherort. Wir können keinen Service anbieten.</string>
+    <string name="distance">Entfernung</string>
+    <string name="time">Zeit</string>
+    <string name="price">Preis</string>
+    <string name="pickup">Abholen</string>
+    <string name="drop_off">Steigen Sie aus</string>
+    <string name="discount">Rabatt</string>
+    <string name="promocode">Gutscheincode</string>
+    <string name="how_is_your_trip">Wie ist deine Reise?</string>
+    <string name="your_feedback_will_help">Ihr Feedback wird helfen</string>
+    <string name="improve_driving_experience">Fahrerlebnis verbessern</string>
+    <string name="submit_review">Bewertung abschicken</string>
+    <string name="please_wait">Warten Sie mal...</string>
+
+    <string name="location_permission_needed">Standortgenehmigung erforderlich</string>
+    <string name="please_accept_to_use_location_functionality">Diese App benötigt die Standortberechtigung. Bitte akzeptieren Sie die Standortfunktionalität</string>
+    <string name="please_choose_pickup_location">Bitte wählen Sie den Abholort</string>
+    <string name="contact">Kontakt</string>
+    <string name="special_trips">Spezieller Fahrten</string>
+    <string name="for_individual_requests_please_contact_us">Bei individuellen wünschen, bitte kontaktieren Sie uns</string>
+    <string name="check_your_internet">Überprüfen Sie Ihr Internet</string>
+    <string name="setting">Rahmen</string>
+    <string name="date_firest_error">Bitte wählen Sie zuerst einen Termin für den Zeitplan!</string>
+    <string name="find_a_goal">Suche nach einem Ziel</string>
+    <string name="pick_up_date">ABHOLDATUM</string>
+    <string name="additional_wishes">Zusätzliche Wünsche</string>
+    <string name="child_seat">Kindersitz</string>
+    <string name="Kindersitz_txt">Für den Fall, dass mehr\nals ein sitz angefordert\nwird, sind 5€ zu zahlen.</string>
+    <string name="baby_car_seat">Babyschale</string>
+    <string name="baby_car_seat_txt">Für den Fall, dass mehr\nals einen schale angefordert\nwird, sind 10€ zu zahlen.</string>
+    <string name="name_tag">Namenschield</string>
+    <string name="Name_tag_txt">Bei Bestellung des Namensschild\nwird eine Gebühr von 15€ fällig.</string>
+    <string name="remarks">Bemerkungen</string>
+    <string name="note_txt">Hier könen Sie uns Besoder wünsche,Hienweise oder anlegung.</string>
+    <string name="continu">Weiter</string>
 
 </resources>

@@ -276,7 +276,7 @@ public class RunningTrip extends AppCompatActivity {
                 NetworkResponse response = error.networkResponse;
 
                 if (response != null && response.data != null) {
-                    SharedHelper.putKey(getApplicationContext(), "loggedIn", getString(R.string.False));
+                    SharedHelper.putKey(getApplicationContext(), "loggedIn", "false");
                     GoToBeginActivity();
                 } else {
                     if (error instanceof NoConnectionError) {

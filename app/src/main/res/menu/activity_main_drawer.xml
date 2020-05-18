@@ -62,10 +62,10 @@
             android:title="@string/help"
           />
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_contact"
             android:icon="@drawable/ic_share_icon"
-            android:title="@string/share"
-            android:visible="false"/>
+            android:title="@string/contact"
+           />
         <item
             android:id="@+id/nav_sos"
             android:icon="@drawable/ic_sos"

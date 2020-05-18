@@ -99,26 +99,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.ui.IconGenerator;
-import de.threenow.Fragments.RoundCornerDrawable;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.DataParser;
-import de.threenow.Helper.LocaleManager;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.Models.CardInfo;
-import de.threenow.Models.Driver;
-import de.threenow.Models.PaymentRequest;
-import de.threenow.Models.PaymentResponse;
-import de.threenow.Models.RestInterface;
-import de.threenow.Models.ServiceGenerator;
-import de.threenow.R;
-import de.threenow.Utils.MapAnimator;
-import de.threenow.Utils.ResponseListener;
-import de.threenow.Utils.Utilities;
-import de.threenow.Utils.Utils;
-import de.threenow.chat.UserChatActivity;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -147,6 +127,26 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import de.threenow.Fragments.RoundCornerDrawable;
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.DataParser;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.Models.CardInfo;
+import de.threenow.Models.Driver;
+import de.threenow.Models.PaymentRequest;
+import de.threenow.Models.PaymentResponse;
+import de.threenow.Models.RestInterface;
+import de.threenow.Models.ServiceGenerator;
+import de.threenow.R;
+import de.threenow.Utils.MapAnimator;
+import de.threenow.Utils.ResponseListener;
+import de.threenow.Utils.Utilities;
+import de.threenow.Utils.Utils;
+import de.threenow.chat.UserChatActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -1209,8 +1209,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(context)
-                        .setTitle("Location Permission Needed")
-                        .setMessage("This app needs the Location permission, please accept to use location functionality")
+                        .setTitle(getString(R.string.location_permission_needed))
+                        .setMessage(getString(R.string.please_accept_to_use_location_functionality))
                         .setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -1965,7 +1965,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 NetworkResponse response = error.networkResponse;
 
                 if (response != null && response.data != null) {
-                    SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                    SharedHelper.putKey(context, "loggedIn", "false");
                     utils.GoToBeginActivity(TrackActivity.this);
                 }
             }
@@ -3182,130 +3182,135 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     @Override
                     public void onDirectionSuccess(Direction direction, String rawBody) {
                         if (direction.isOK()) {
+                            try {
+                                Log.v("rawBody", rawBody + "");
+                                Log.v("direction", direction + "");
 
-                            Log.v("rawBody", rawBody + "");
-                            Log.v("direction", direction + "");
+                                float totalDistance = 0;
+                                int totalDuration = 0;
+                                mMap.clear();
+                                Route route = direction.getRouteList().get(0);
+                                int legCount = route.getLegList().size();
+                                for (int index = 0; index < legCount; index++) {
+                                    Leg leg = route.getLegList().get(index);
 
-                            float totalDistance = 0;
-                            int totalDuration = 0;
-                            mMap.clear();
-                            Route route = direction.getRouteList().get(0);
-                            int legCount = route.getLegList().size();
-                            for (int index = 0; index < legCount; index++) {
-                                Leg leg = route.getLegList().get(index);
-                                totalDistance = totalDistance + Float.parseFloat(leg.getDistance().getText().replace("km", "").replace("m", "").trim());
+                                    totalDistance = totalDistance + Float.parseFloat(leg.getDistance().getText().replace("km", "").replace("m", "").trim());
+
 //                                totalDistance =0;
-                                if (leg.getDuration().getText().contains("hour")) {
-                                    Log.v("splithour", leg.getDuration().getText().split("hour")[0] + " ");
-                                    totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
-                                            .split("hour")[0].trim());
+                                    if (leg.getDuration().getText().contains("hour")) {
+                                        Log.v("splithour", leg.getDuration().getText().split("hour")[0] + " ");
+                                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
+                                                .split("hour")[0].trim());
 
-                                } else if (leg.getDuration().getText().contains("hours")) {
-                                    totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
-                                            .split("hours")[0].trim().replace("m", ""));
-                                } else if (leg.getDuration().getText().contains("mins")) {
-                                    totalDuration = totalDuration + Integer.parseInt(leg.getDuration().getText()
-                                            .replace("hour", "").replace("mins", "").replace("m", "").trim());
-                                } else {
-                                    totalDuration = totalDuration + 0;
-                                }
-
-
-                                if (reqStatus.equals("PICKEDUP") || reqStatus.equals("DROPPED")) {
-                                    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.user_markers);
-                                    Bitmap icon1 = BitmapFactory.decodeResource(getResources(), R.drawable.provider);
-                                    mMap.addMarker(new MarkerOptions()
-                                            .icon(BitmapDescriptorFactory.fromBitmap(icon1))
-                                            .rotation(360)
-                                            .flat(true)
-                                            .anchor(0.5f, 0.5f)
-                                            .position(leg.getStartLocation().getCoordination()));
-                                    if (index == legCount - 1) {
-                                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon)).position(leg.getEndLocation().getCoordination()));
-                                    }
-                                    List<Step> stepList = leg.getStepList();
-                                    ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(TrackActivity.this, stepList, 3, Color.BLACK, 2, Color.GRAY);
-                                    for (PolylineOptions polylineOption : polylineOptionList) {
-                                        mMap.addPolyline(polylineOption);
-                                    }
-                                    if (pickUpLocationName != null) {
+                                    } else if (leg.getDuration().getText().contains("hours")) {
+                                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
+                                                .split("hours")[0].trim().replace("m", ""));
+                                    } else if (leg.getDuration().getText().contains("mins")) {
+                                        totalDuration = totalDuration + Integer.parseInt(leg.getDuration().getText()
+                                                .replace("hour", "").replace("mins", "").replace("m", "").trim());
+                                    } else {
+                                        totalDuration = totalDuration + 0;
                                     }
 
-                                    if (dest_address != null) {
-                                        View marker_view2 = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(com.gsanthosh91.decoderoutekey.R.layout.custom_marker, null);
-                                        TextView addressDes = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.addressTxt);
-                                        TextView etaTxt = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.etaTxt);
-                                        etaTxt.setVisibility(View.VISIBLE);
-                                        addressDes.setText(dropLocationName);
-                                        if (totalDuration > 60) {
-                                            etaTxt.setText(convertHours(totalDuration));
-                                        } else {
-                                            etaTxt.setText(totalDuration + " mins");
+
+                                    if (reqStatus.equals("PICKEDUP") || reqStatus.equals("DROPPED")) {
+                                        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.user_markers);
+                                        Bitmap icon1 = BitmapFactory.decodeResource(getResources(), R.drawable.provider);
+                                        mMap.addMarker(new MarkerOptions()
+                                                .icon(BitmapDescriptorFactory.fromBitmap(icon1))
+                                                .rotation(360)
+                                                .flat(true)
+                                                .anchor(0.5f, 0.5f)
+                                                .position(leg.getStartLocation().getCoordination()));
+                                        if (index == legCount - 1) {
+                                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon)).position(leg.getEndLocation().getCoordination()));
                                         }
-                                        etaDur = totalDuration + "";
-                                        MarkerOptions marker_opt_des = new MarkerOptions().position(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
-                                        marker_opt_des.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_view2))).anchor(0.00f, 0.20f);
-                                        destinationMarker = mMap.addMarker(marker_opt_des);
-                                    }
-                                } else {
-                                    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.destination_marker);
-                                    Bitmap icon1 = BitmapFactory.decodeResource(getResources(), R.drawable.user_markers);
-                                    mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon1)).position(leg.getStartLocation().getCoordination()));
-                                    if (index == legCount - 1) {
-                                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon)).position(leg.getEndLocation().getCoordination()));
-                                    }
-                                    List<Step> stepList = leg.getStepList();
-                                    ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(TrackActivity.this, stepList, 3, Color.BLACK, 2, Color.GRAY);
-                                    for (PolylineOptions polylineOption : polylineOptionList) {
-                                        mMap.addPolyline(polylineOption);
-                                    }
-                                    if (pickUpLocationName != null) {
-                                    }
-
-                                    if (dest_address != null) {
-                                        View marker_view2 = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(com.gsanthosh91.decoderoutekey.R.layout.custom_marker, null);
-                                        TextView addressDes = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.addressTxt);
-                                        TextView etaTxt = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.etaTxt);
-                                        etaTxt.setVisibility(View.VISIBLE);
-                                        addressDes.setText(pickUpLocationName);
-                                        if (totalDuration > 60) {
-                                            etaTxt.setText(convertHours(totalDuration));
-                                        } else {
-                                            etaTxt.setText(totalDuration + " mins");
+                                        List<Step> stepList = leg.getStepList();
+                                        ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(TrackActivity.this, stepList, 3, Color.BLACK, 2, Color.GRAY);
+                                        for (PolylineOptions polylineOption : polylineOptionList) {
+                                            mMap.addPolyline(polylineOption);
+                                        }
+                                        if (pickUpLocationName != null) {
                                         }
 
-                                        etaDur = totalDuration + "";
-                                        MarkerOptions marker_opt_des = new MarkerOptions().position(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
-                                        marker_opt_des.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_view2))).anchor(0.00f, 0.20f);
-                                        destinationMarker = mMap.addMarker(marker_opt_des);
+                                        if (dest_address != null) {
+                                            View marker_view2 = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(com.gsanthosh91.decoderoutekey.R.layout.custom_marker, null);
+                                            TextView addressDes = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.addressTxt);
+                                            TextView etaTxt = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.etaTxt);
+                                            etaTxt.setVisibility(View.VISIBLE);
+                                            addressDes.setText(dropLocationName);
+                                            if (totalDuration > 60) {
+                                                etaTxt.setText(convertHours(totalDuration));
+                                            } else {
+                                                etaTxt.setText(totalDuration + " mins");
+                                            }
+                                            etaDur = totalDuration + "";
+                                            MarkerOptions marker_opt_des = new MarkerOptions().position(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
+                                            marker_opt_des.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_view2))).anchor(0.00f, 0.20f);
+                                            destinationMarker = mMap.addMarker(marker_opt_des);
+                                        }
+                                    } else {
+                                        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.destination_marker);
+                                        Bitmap icon1 = BitmapFactory.decodeResource(getResources(), R.drawable.user_markers);
+                                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon1)).position(leg.getStartLocation().getCoordination()));
+                                        if (index == legCount - 1) {
+                                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon)).position(leg.getEndLocation().getCoordination()));
+                                        }
+                                        List<Step> stepList = leg.getStepList();
+                                        ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(TrackActivity.this, stepList, 3, Color.BLACK, 2, Color.GRAY);
+                                        for (PolylineOptions polylineOption : polylineOptionList) {
+                                            mMap.addPolyline(polylineOption);
+                                        }
+                                        if (pickUpLocationName != null) {
+                                        }
+
+                                        if (dest_address != null) {
+                                            View marker_view2 = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(com.gsanthosh91.decoderoutekey.R.layout.custom_marker, null);
+                                            TextView addressDes = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.addressTxt);
+                                            TextView etaTxt = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.etaTxt);
+                                            etaTxt.setVisibility(View.VISIBLE);
+                                            addressDes.setText(pickUpLocationName);
+                                            if (totalDuration > 60) {
+                                                etaTxt.setText(convertHours(totalDuration));
+                                            } else {
+                                                etaTxt.setText(totalDuration + " mins");
+                                            }
+
+                                            etaDur = totalDuration + "";
+                                            MarkerOptions marker_opt_des = new MarkerOptions().position(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
+                                            marker_opt_des.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_view2))).anchor(0.00f, 0.20f);
+                                            destinationMarker = mMap.addMarker(marker_opt_des);
+                                        }
                                     }
+
                                 }
 
+                                mMap.setOnCameraIdleListener(() -> {
+                                    if (sourceMarker != null) {
+                                        String lat = String.valueOf(sourceLatLng.latitude);
+                                        String lng = String.valueOf(sourceLatLng.longitude);
+                                        if (((lat != null) && !lat.equals("") && !lat.isEmpty() && !lat.equalsIgnoreCase("0,0")) &&
+                                                ((lng != null) && !lng.equals("") && !lng.isEmpty() && !lng.equalsIgnoreCase("0,0"))) {
+                                            Point PickupPoint = mMap.getProjection().toScreenLocation(new LatLng(sourceLatLng.latitude, sourceLatLng.longitude));
+                                            sourceMarker.setAnchor(PickupPoint.x < dpToPx(context, 200) ? 0.00f : 1.00f, PickupPoint.y < dpToPx(context, 100) ? 0.20f : 1.20f);
+                                        }
+
+                                    }
+                                    if (destinationMarker != null) {
+                                        if (((dest_lat != null) && !dest_lat.equals("") && !dest_lat.isEmpty() && !dest_lat.equalsIgnoreCase("0,0")) &&
+                                                ((dest_lng != null) && !dest_lng.equals("") && !dest_lng.isEmpty() && !dest_lng.equalsIgnoreCase("0,0"))) {
+                                            Point PickupPoint = mMap.getProjection().toScreenLocation(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
+                                            destinationMarker.setAnchor(PickupPoint.x < dpToPx(context, 200) ? 0.00f : 1.00f, PickupPoint.y < dpToPx(context, 100) ? 0.20f : 1.20f);
+                                        }
+                                    }
+                                });
+                                lblCmfrmSourceAddress.setText(pickUpLocationName);
+                                lblDis.setText(totalDistance + " km");
+                                lblEta.setText(totalDuration + " min");
+                                setCameraWithCoordinationBounds(route);
+                            } catch (Exception e) {
+                                Log.e("error", e.getMessage());
                             }
-
-                            mMap.setOnCameraIdleListener(() -> {
-                                if (sourceMarker != null) {
-                                    String lat = String.valueOf(sourceLatLng.latitude);
-                                    String lng = String.valueOf(sourceLatLng.longitude);
-                                    if (((lat != null) && !lat.equals("") && !lat.isEmpty() && !lat.equalsIgnoreCase("0,0")) &&
-                                            ((lng != null) && !lng.equals("") && !lng.isEmpty() && !lng.equalsIgnoreCase("0,0"))) {
-                                        Point PickupPoint = mMap.getProjection().toScreenLocation(new LatLng(sourceLatLng.latitude, sourceLatLng.longitude));
-                                        sourceMarker.setAnchor(PickupPoint.x < dpToPx(context, 200) ? 0.00f : 1.00f, PickupPoint.y < dpToPx(context, 100) ? 0.20f : 1.20f);
-                                    }
-
-                                }
-                                if (destinationMarker != null) {
-                                    if (((dest_lat != null) && !dest_lat.equals("") && !dest_lat.isEmpty() && !dest_lat.equalsIgnoreCase("0,0")) &&
-                                            ((dest_lng != null) && !dest_lng.equals("") && !dest_lng.isEmpty() && !dest_lng.equalsIgnoreCase("0,0"))) {
-                                        Point PickupPoint = mMap.getProjection().toScreenLocation(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
-                                        destinationMarker.setAnchor(PickupPoint.x < dpToPx(context, 200) ? 0.00f : 1.00f, PickupPoint.y < dpToPx(context, 100) ? 0.20f : 1.20f);
-                                    }
-                                }
-                            });
-                            lblCmfrmSourceAddress.setText(pickUpLocationName);
-                            lblDis.setText(totalDistance + " km");
-                            lblEta.setText(totalDuration + " min");
-                            setCameraWithCoordinationBounds(route);
                         }
                     }
 

@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/backArrow"
+            android:id="@+id/im_back"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_gravity="center_vertical"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/_90sdp"
-        android:layout_marginBottom="@dimen/_35sdp"
+
         app:layout_constraintBottom_toTopOf="@+id/view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,6 +68,7 @@
     </ScrollView>
 
     <View
+        android:visibility="gone"
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_35sdp"

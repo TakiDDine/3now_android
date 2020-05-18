@@ -92,6 +92,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.maps.android.ui.IconGenerator;
+
+import de.threenow.Activities.ChoseServiceActivity;
 import de.threenow.IlyftApplication;
 import com.koushikdutta.ion.Ion;
 import de.threenow.Activities.CouponActivity;
@@ -769,6 +771,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
+//        location.setLatitude(52.5230588);
+//        location.setLongitude(13.4699208);
 
         if (marker != null) {
             marker.remove();
@@ -871,7 +875,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         builder.setTitle(context.getString(R.string.app_name))
-                .setIcon(R.drawable.appicon)
+                .setIcon(R.mipmap.ic_launcher_round)
                 .setMessage(getString(R.string.emaergeny_call))
                 .setCancelable(false);
         builder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
@@ -1230,8 +1234,8 @@ String cancaltype="";
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 new AlertDialog.Builder(context)
-                        .setTitle("Location Permission Needed")
-                        .setMessage("This app needs the Location permission, please accept to use location functionality")
+                        .setTitle(R.string.location_permission_needed)
+                        .setMessage(R.string.please_accept_to_use_location_functionality)
                         .setPositiveButton(getResources().getString(R.string.ok), (dialogInterface, i) -> {
                             //Prompt the user once explanation has been shown
                             ActivityCompat.requestPermissions(getActivity(),
@@ -1553,7 +1557,7 @@ String cancaltype="";
             lblCmfrmSourceAddress.setText(source_address);
             lblCmfrmDestAddress.setText(dest_address);
             lblApproxAmount.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
-            lblEta.setText(SharedHelper.getKey(context, "eta_time"));
+            lblEta.setText(SharedHelper.getKey(context, "eta_time") + "");
             lblDis.setText(SharedHelper.getKey(context, "distance")+"km");
             if (!SharedHelper.getKey(context, "name").equalsIgnoreCase("")
                     && !SharedHelper.getKey(context, "name").equalsIgnoreCase(null)
@@ -2086,7 +2090,12 @@ String cancaltype="";
 
                                 if(response.toString().contains("error"))
                                 {
-                                    Toast.makeText(getActivity(),response.optString("error"),Toast.LENGTH_LONG).show();
+                                    String msg = response.optString("error");
+                                    if (msg.contains("Sorry in this Source location,We ")){
+                                        msg = getString(R.string.cannot_provide_service_location);
+                                    }
+
+                                    Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
                                 }
                                else if (response.optString("request_id", "").equals("")) {
                                     utils.displayMessage(getView(), response.optString("message"));
@@ -2340,7 +2349,7 @@ String cancaltype="";
                     if (response != null && response.data != null) {
                         Activity activity = getActivity();
                         if (activity != null && isAdded()) {
-                            SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                            SharedHelper.putKey(context, "loggedIn", "false");
                             utils.GoToBeginActivity(getActivity());
                         }
                     }
@@ -2377,7 +2386,7 @@ String cancaltype="";
             SharedHelper.putKey(context, "card_id", cardInfo.getCardId());
 //            SharedHelper.putKey(context, "payment_mode", "M-Pesa");
             SharedHelper.putKey(context, "payment_mode", "CARD");
-            imgPaymentType.setImageResource(R.drawable.appicon);
+            imgPaymentType.setImageResource(R.mipmap.ic_launcher_round);
             lblPaymentType.setText("xxxx"+cardInfo.getLastFour());
         }
     }
@@ -3437,8 +3446,31 @@ String cancaltype="";
                             !destination.getText().toString().equalsIgnoreCase("") &&
                             !frmDest.getText().toString().equalsIgnoreCase("")) {
 //                        getApproximateFare();
-                        flowValue = 7;
-                        layoutChanges();
+                       /*  flowValue = 7;
+                        layoutChanges(); */
+
+                        Intent i = new Intent(getApplicationContext(), ChoseServiceActivity.class);
+                        if (chkWallet.isChecked()) {
+                            i.putExtra("use_wallet", 1);
+                        } else {
+                            i.putExtra("use_wallet", 0);
+                        }
+                        if (SharedHelper.getKey(context, "payment_mode").equals("CASH")) {
+                            i.putExtra("payment_mode", SharedHelper.getKey(context, "payment_mode"));
+                        } else {
+                            i.putExtra("payment_mode", SharedHelper.getKey(context, "payment_mode"));
+                            i.putExtra("card_id", SharedHelper.getKey(context, "card_id"));
+                        }
+                        i.putExtra("s_latitude", source_lat);
+                        i.putExtra("s_longitude", source_lng);
+                        i.putExtra("d_latitude", dest_lat);
+                        i.putExtra("d_longitude", dest_lng);
+                        i.putExtra("s_address", source_address);
+                        i.putExtra("d_address", dest_address);
+                        i.putExtra("distance", SharedHelper.getKey(context, "distance"));
+
+
+                        startActivity(i);
                     } else {
                         Toast.makeText(context, getResources().getString(R.string.please_enter_both_pickup_and_drop_locations),
                                 Toast.LENGTH_SHORT).show();

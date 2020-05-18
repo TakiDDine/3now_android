@@ -185,23 +185,20 @@ public class OtpVerification extends AppCompatActivity implements OnOtpCompletio
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         fbAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
 
-                            Toast.makeText(OtpVerification.this, getResources().getString(R.string.successfully_verified), Toast.LENGTH_LONG).show();
-                            Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_OK, returnIntent);
-                            finish();
-                            // get the user info to know that user is already login or not
+                        Toast.makeText(OtpVerification.this, getResources().getString(R.string.successfully_verified), Toast.LENGTH_LONG).show();
+                        Intent returnIntent = new Intent();
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                        // get the user info to know that user is already login or not
 
-                        } else {
-                            if (task.getException() instanceof
-                                    FirebaseAuthInvalidCredentialsException) {
-                                Toast.makeText(OtpVerification.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        if (task.getException() instanceof
+                                FirebaseAuthInvalidCredentialsException) {
+                            Toast.makeText(OtpVerification.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
-                            }
                         }
                     }
                 });

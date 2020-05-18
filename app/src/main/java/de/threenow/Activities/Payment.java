@@ -440,7 +440,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
                 NetworkResponse response = error.networkResponse;
 
                 if (response != null && response.data != null) {
-                    SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+                    SharedHelper.putKey(context, "loggedIn", "false");
                     GoToBeginActivity();
                 } else {
                     if (error instanceof NoConnectionError) {
@@ -971,7 +971,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
 //                NetworkResponse response = error.networkResponse;
 //
 //                if (response != null && response.data != null) {
-//                    SharedHelper.putKey(context, "loggedIn", getString(R.string.False));
+//                    SharedHelper.putKey(context, "loggedIn", "false");
 //                    GoToBeginActivity();
 //                } else {
 //                    if (error instanceof NoConnectionError) {

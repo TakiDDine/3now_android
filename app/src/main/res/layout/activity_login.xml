@@ -86,7 +86,7 @@
                     android:drawableLeft="@drawable/ic_pasword"
                     android:drawablePadding="@dimen/_10sdp"
                     android:hint="@string/password"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textWebPassword"
                     android:paddingLeft="@dimen/_10sdp"
                     android:paddingRight="@dimen/_5sdp"
                     android:textColor="@color/black"

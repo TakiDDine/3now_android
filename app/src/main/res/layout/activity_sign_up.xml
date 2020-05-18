@@ -94,7 +94,7 @@
                 android:drawableLeft="@drawable/lock_1"
                 android:drawablePadding="@dimen/_10sdp"
                 android:hint="@string/enter_password_here"
-                android:inputType="textPassword"
+                android:inputType="textWebPassword"
                 android:paddingLeft="@dimen/_10sdp"
                 android:paddingRight="@dimen/_5sdp"
                 android:textSize="@dimen/_12sdp" />
