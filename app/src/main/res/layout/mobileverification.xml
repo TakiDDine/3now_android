@@ -74,7 +74,7 @@
                 android:layout_width="@dimen/_68sdp"
                 android:layout_height="wrap_content"
                 app:ccp_contentColor="@color/black"
-                app:ccp_defaultNameCode="us"
+                app:ccp_defaultNameCode="de"
                 app:ccp_showFlag="true"
                 app:ccp_showNameCode="false"
                 app:ccp_showPhoneCode="true"

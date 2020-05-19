@@ -343,9 +343,13 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                                     customDialog.dismiss();
 
                                 if (response.toString().contains("error")) {
+
                                     Toast.makeText(this, response.optString("error"), Toast.LENGTH_LONG).show();
+
                                 } else if (response.optString("request_id").equals("")) {
+
                                     Toast.makeText(this, response.optString("request_id"), Toast.LENGTH_LONG).show();
+
                                 } else {
                                     SharedHelper.putKey(this, "current_status", "");
                                     SharedHelper.putKey(this, "request_id", "" + response.optString("request_id"));

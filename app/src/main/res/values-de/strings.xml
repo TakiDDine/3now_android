@@ -12,7 +12,6 @@
     <string name="action_settings">die Einstellungen</string>
 
 
-    <string name="action_coupon">Coupon</string>
     <string name="action_wallet">Brieftasche</string>
     <string name="action_logout">Ausloggen</string>
     <string name="action_track">Auf Reisen</string>
@@ -211,6 +210,7 @@
     <string name="call_support">Rufen Sie den Support an</string>
     <string name="chat_support">Chat-Unterstützung</string>
     <string name="weburl">Web-URL</string>
+    <string name="faq">Fragen &amp; Antworten</string>
 
 
     <string name="trip_completed">Reise abgeschlossen</string>
@@ -441,6 +441,91 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="submit_review">Bewertung abschicken</string>
     <string name="please_wait">Warten Sie mal...</string>
 
+    <string name="question1">Wie kann ich ein 3 Now-Konto erstellen?</string>
+    <string name="question2">Welche Informationen sind bei der Kontoregistrierung nötig?</string>
+    <string name="question3">Wie verwenden wir Ihre Daten?</string>
+    <string name="question4">Welche nützlichen Erfahrungen bietet Ihnen die 3 Now-Plattform?</string>
+    <string name="question5">Wie kann ich meine Reservierungen sehen?</string>
+    <string name="question6">Was kann ich tun, wenn ich mit dem Fahrer unzufrieden war?</string>
+    <string name="question7">Was kann ich tun, wenn die App meinen Standort nicht richtig liest?</string>
+    <string name="question8">Was passiert, wenn ich am Abholpunktnichtauftauche?</string>
+    <string name="question9">DieApp stellt keine ordnungsgemäße Verbindung her oder wird immer wieder unterbrochen</string>
+    <string name="question10">Wie viel Gepäck kann ich mit 3 Nowmitnehmen?</string>
+    <string name="question11">Kann ich Kartons mit3 Now-Fahrzeugtransportieren?</string>
+    <string name="question12">Wie kann ich eine frühere Reise bewerten?</string>
+    <string name="question13">Wie kann ich mit 3 Now Fahrer sein?</string>
+    <string name="question14">Wie viel kann ich mit 3 Now verdienen?</string>
+    <string name="question15">Wie kann ich mit 3 Now arbeiten?</string>
+    <string name="question16">Was sind unserenotwendigenMaßnahmenbezüglich unserer Kunden?</string>
+    <string name="question17">An wen kann ich mich im Falle eines Vorfalls wenden?</string>
+    <string name="questions_and_answers">Fragen und Antworten</string>
+
+    <string-array name="question1">
+        <item>Wir würden uns freuen, Sie an Bord zu haben! Führen Sie die folgenden einfachen Schritte aus, um ein Konto zu eröffnen:</item>
+        <item>Sie können Sie über unsere Website ein Konto erstellen, indem Sie auf "Registrieren" klicken und die Details eingeben.</item>
+        <item>Alternativ über die App:</item>
+        <item>Laden Sie die 3Now-Anwendung für Android und iOS aus Ihrem App Store herunter. Öffnen Sie die App und tippen Sie auf "Registrieren". Befolgen Sie die einfachen Anweisungen und Sie können 3Now verwenden!</item>
+    </string-array>
+    <string-array name="question2">
+        <item>Wenn Sie ein Konto bei 3 Now erstellen, erfassen wir die von Ihnen angegebenen Informationen wie Ihren Namen, Ihre E-Mail-Adresse, Ihre Telefonnummer, und Ihr Geburtsdatum. Sie können uns auch andere Einstellungen vornehmen.</item>
+    </string-array>
+    <string-array name="question3">
+        <item>Wir verwenden Ihre persönlichen Daten, um:</item>
+        <item>Kundenunterstützung zu bieten, unsere Plattform zu verbessern und Sicherheit der 3 Now-Plattform und ihrer Benutzer zu gewährleisten.</item>
+    </string-array>
+    <string-array name="question4">
+        <item>Sie können: </item>
+        <item>• \t Ihre Identitätüberprüfen und Ihr Konto und Ihre Einstellungen pflegen</item>
+        <item>• \t Sich mit Ihren Fahrten verbinden und deren Fortschritt verfolgen. </item>
+        <item>• \t Zahlungen verarbeitenundPreise berechnen</item>
+        <item>• \t Zu Ihren ErfahrungenFeedbacksammeln.</item>
+    </string-array>
+    <string-array name="question5">
+        <item>Über unsere Appkönnen Sie die aktiven 3 Now-Reservierungen schnell und einfach überprüfen.</item>
+    </string-array>
+    <string-array name="question6">
+        <item>Wenn Sie eine Reise beendet haben, können Sie sich mit uns in Verbindung setzen und erklären, was schief gelaufen ist. Geben Sie uns die Reisedetails an, damit wir überprüfen können, welchen Fahrer Sie hatten. Wir werden Ihren Fall untersuchen und uns bei Ihnen melden.</item>
+    </string-array>
+    <string-array name="question7">
+        <item>Wenn Sie Ihr 3 Nowbestellen, können Sie Ihren Abholpunkt am zuverlässigsten eingeben, indem Sie entweder eine Adresse eingeben oder über den Ortsnamen suchen.</item>
+    </string-array>
+    <string-array name="question8">
+        <item>Wenn Ihr Fahrer am Abholpunkt ankommt und Sie dort nicht findet, wartet er 5 Minuten auf Sie. Er wird  dann  versuchen,  Sie  zu  kontaktieren,  aber  wenn  er  keine  weiteren  Anweisungen  von  Ihnen erhalten hat, wird er gehen. In diesem Fall wird Ihnen der Mindestreisepreis berechnet.</item>
+        <item>Wenn Sie feststellen, dass Sie den Abholzeitpunkt nicht erreichen können, rufen Sie am  besten den Fahrer an und sagen Sie ihm, wo Sie sich befinden, damit er Sie abholen kann. Ihr Standort wird zum neuen Abholpunkt. Beachten Sie, dass der Preis Ihrer Reise möglicherweise beeinflusst wird.</item>
+    </string-array>
+    <string-array name="question9">
+        <item>Damit die 3 Now-Appfunktioniert, muss sie  viele Informationen senden und  empfangen. Wenn die Verbindung  nicht  ordnungsgemäß  hergestellt  wird,  ist  es  wahrscheinlich  so,  dass  Sie  kein  starkes Internet-Signal haben. Versuchen Sie, an einen Ort mit besserer Abdeckung zu ziehen.</item>
+        <item>Ein weiterer Grund könnte sein, dass Sie eine veraltete Version der App verwenden. Ihre App sollte automatisch aktualisiert werden. Andernfalls können Sie in Ihrem App Store (Play Store auf Android und  App  Store  auf  iOS)  nach  3  Now  suchen.  Sie  sollten  dann  die  Option  zum  Aktualisieren  der  App sehen.</item>
+    </string-array>
+    <string-array name="question10">
+        <item>In den meisten unserer Kategorien können Sie zwei große Koffer und eine oder zwei kleinere Taschen mitnehmen.  In  \'Gruppe\'  können  Sie  insgesamt  bis  zu  6  Koffer  mitnehmen.  Die  Kapazitäten  unserer Fahrzeuge variieren je nach Klasse.</item>
+    </string-array>
+    <string-array name="question11">
+        <item>Ja, Sie können Kartons mitnehmen, solange sie ordnungsgemäß verpackt sind und in den Kofferraum passen. Denken Sie daran, dass immerauch ein Platz füreinenPassagier sein sollte.</item>
+    </string-array>
+    <string-array name="question12">
+        <item>Sobald eine Reise beendet ist, können Sie eine Bewertung zwischen einem und fünf Sternen abgeben. Wenn Sie den Fahrer mit drei oder weniger  Sternen bewerten, dann  werden wir uns bemühen, die weiteren Einzelheiten zu den Fehlern zu verfolgen. Auf diese Weise helfen uns die Fahrerbewertungen sicherzustellen, dass Ihnen ein ausgezeichneter Fünf-Sterne-Service angeboten wird.</item>
+        <item>Bitte beachten Sie, dass die Bewertung eine Beurteilung des Fahrers sein soll, nicht unser Service als Ganzes. Wenn Sie nicht glücklich waren und nichts mit dem Fahrer zu tun hatten, schreiben Sie uns bitte.</item>
+    </string-array>
+    <string-array name="question13">
+        <item>Wir  sind  immer  bemüht,  neue  Fahrer  auf  unserer  Plattform  willkommen  zu  heißen.  Dies  ist  eine großartige Gelegenheit, um qualitativ hochwertige Kunden für einige der weltweit führenden Marken zu gewinnen. So können Sie sich bewerben, indem Sie auf unserer WebsiteIhre Bewerbungsunterlagen schicken und wir werden uns mit Ihnen in Verbindung setzen.</item>
+    </string-array>
+    <string-array name="question14">
+        <item>Wir sind immer bemüht, mehr Fahrer auf unserer Plattform willkommen zu heißen. Wie viel Sie  mit 3  Nowverdienen  können,  hängt  von  den  Arbeitsstunden  ab,  die  Sie  für  Ihre  Arbeit wählen.  Wir  bieten  regelmäßige  Zahlungen,  die  Möglichkeit,  in  Spitzenzeiten  mehr  zu verdienen, und noch eine Reihe anderer Vorteile.</item>
+    </string-array>
+    <string-array name="question15">
+        <item>Wenn Sie in unserem Unternehmenarbeiten möchten, besuchen Sie einfach unsereWebsite, um dieaktuellen Stellenangebote anzuzeigen. Wir wachsen schnell, daher ergeben sich ,0S0tändig neue Möglichkeiten. Viel Sehr. Für uns ist Ihre Sicherheit das Wichtigste. Jede Reise, die  Sie  mit  uns unternehmen,  wird  in  Echtzeit  verfolgt  und Sie  können  diese  Informationen sowie den Fahrzeugtyp, die Fahrerdaten und das Kennzeichen mit Ihren Freunden und Ihrer Familie  teilen.  Wir  verwenden  moderne  Fahrzeuge  und  unsere  Fahrer  haben  jeweils  einen sorgfältigen Auswahlprozess und ein Schulungsprogramm durchlaufen und verfügen über alle erforderlichen Lizenzen und Versicherungen.</item>
+    </string-array>
+    <string-array name="question16">
+        <item>Um  die  Sicherheit  unserer  Kunden  und  auch  unserer3  Now-Plattformaufrechtzuerhalten, wird:</item>
+        <item>• \t Sichergestellt, dass Fahrer und ihre Fahrzeuge die Sicherheitsanforderungen erfüllen.</item>
+        <item>• \t Lösung von Vorfällen, Unfällen und Versicherungsansprüchenuntersucht.</item>
+        <item>• \t Eines sicheren Fahrverhaltensgefördert und unsicherer Aktivitätenvermieden.</item>
+    </string-array>
+    <string-array name="question17">
+        <item>Wenn  Sie einen  Vorfall  auf  einer  Reise  hatten, kontaktieren  Sie  uns  bitte  über  unsere Kundendienstkanäle. Unser Team wird sein Bestes tun, um Ihr Problem zu lösen.</item>
+    </string-array>
+
     <string name="location_permission_needed">Standortgenehmigung erforderlich</string>
     <string name="please_accept_to_use_location_functionality">Diese App benötigt die Standortberechtigung. Bitte akzeptieren Sie die Standortfunktionalität</string>
     <string name="please_choose_pickup_location">Bitte wählen Sie den Abholort</string>
@@ -462,5 +547,8 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="remarks">Bemerkungen</string>
     <string name="note_txt">Hier könen Sie uns Besoder wünsche,Hienweise oder anlegung.</string>
     <string name="continu">Weiter</string>
+    <string name="_3_now_economy">3 Jetzt Wirtschaft</string>
+    <string name="_3_now_vip">3 Jetzt Vip</string>
+    <string name="_3_now_special">3 Jetzt etwas Besonderes</string>
 
 </resources>

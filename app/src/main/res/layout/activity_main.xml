@@ -12,91 +12,99 @@
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+<!--    app:headerLayout="@layout/nav_header_main"-->
+<!--    app:menu="@menu/activity_main_drawer"-->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
         app:itemBackground="@android:color/transparent"
         app:itemIconSize="@dimen/_14sdp"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
-        app:menu="@menu/activity_main_drawer"
         app:theme="@style/NavigationDrawerStyle">
-
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="@dimen/_60sdp">
-
-            <View
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="0.5dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/done_disabled_dark" />
-
-            <TextView
-                android:layout_marginTop="@dimen/_3sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="logout"
-                android:text="@string/action_logout"
-                android:textColor="#FF0000" />
-        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:clickable="true"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/done_disabled_dark"></View>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="@dimen/_3sdp"
-                android:weightSum="2">
-
-                <de.threenow.Utils.MyBoldTextView
-                    android:id="@+id/legal_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_weight=".5"
-                    android:gravity="left"
-                    android:text="Legal"
-                    android:textColor="@color/done_disabled_dark"
-                    android:textSize="@dimen/_10sdp" />
-
-                <de.threenow.Utils.MyBoldTextView
-                    android:id="@+id/footer_item_version"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|right"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_weight="1.5"
-                    android:gravity="right"
-                    android:text="v1.0"
-                    android:textColor="@color/done_disabled_dark"
-                    android:textSize="@dimen/_10sdp" />
-
-            </LinearLayout>
+            <include layout="@layout/nav_body" />
 
         </LinearLayout>
+
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal|bottom"-->
+<!--            android:layout_marginBottom="@dimen/_60sdp">-->
+
+<!--            <View-->
+<!--                android:layout_width="@dimen/_90sdp"-->
+<!--                android:layout_height="0.5dp"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:background="@color/done_disabled_dark" />-->
+
+<!--            <TextView-->
+<!--                android:layout_marginTop="@dimen/_3sdp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:onClick="logout"-->
+<!--                android:text="@string/action_logout"-->
+<!--                android:textColor="#FF0000" />-->
+<!--        </FrameLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:clickable="true"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0.5dp"-->
+<!--                android:background="@color/done_disabled_dark"></View>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="@dimen/_3sdp"-->
+<!--                android:weightSum="2">-->
+
+<!--                <de.threenow.Utils.MyBoldTextView-->
+<!--                    android:id="@+id/legal_id"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical|left"-->
+<!--                    android:layout_marginLeft="@dimen/_10sdp"-->
+<!--                    android:layout_weight=".5"-->
+<!--                    android:gravity="left"-->
+<!--                    android:text="Legal"-->
+<!--                    android:textColor="@color/done_disabled_dark"-->
+<!--                    android:textSize="@dimen/_10sdp" />-->
+
+<!--                <de.threenow.Utils.MyBoldTextView-->
+<!--                    android:id="@+id/footer_item_version"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_horizontal|right"-->
+<!--                    android:layout_marginRight="@dimen/_10sdp"-->
+<!--                    android:layout_weight="1.5"-->
+<!--                    android:gravity="right"-->
+<!--                    android:text="v1.0"-->
+<!--                    android:textColor="@color/done_disabled_dark"-->
+<!--                    android:textSize="@dimen/_10sdp" />-->
+
+<!--            </LinearLayout>-->
+
+<!--        </LinearLayout>-->
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayoutOfList"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_2sdp"
     android:gravity="center_horizontal"
@@ -9,58 +9,108 @@
     android:paddingLeft="@dimen/_2sdp"
     android:paddingRight="@dimen/_2sdp">
 
-    <ImageView
-        android:id="@+id/serviceImg"
-        android:layout_width="@dimen/_45sdp"
-        android:layout_height="@dimen/_45sdp" />
-
-
-    <FrameLayout
-        android:id="@+id/selector_background"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:paddingLeft="@dimen/_4sdp"
-        android:paddingTop="@dimen/_2sdp"
-        android:paddingRight="@dimen/_4sdp"
-        android:paddingBottom="@dimen/_2sdp">
-
-        <TextView
-            android:id="@+id/serviceItem"
-            android:layout_width="wrap_content"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:weightSum="10">
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/muli_regular"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/_10sdp" />
+            android:layout_weight="7"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <FrameLayout
+                    android:id="@+id/selector_background"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:paddingLeft="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingRight="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:layout_marginBottom="3dp">
 
+                    <TextView
+                        android:text="small"
+                        android:id="@+id/serviceItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/muli_regular"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_15sdp"/>
+                </FrameLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_height="fill_parent"
+                    android:layout_width="0dp">
+                    <TextView
+                        android:text="4"
+                        android:id="@+id/serviceCapacity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:padding="@dimen/_1sdp"
+                        android:drawablePadding="@dimen/_1sdp"
+                        android:paddingRight="@dimen/_4sdp"
+                        android:drawableStart="@drawable/ic_passanfer"
+                        android:drawableTint="@color/blue"
+                        android:fontFamily="@font/muli_regular"
+                        android:gravity="center"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
 
-    </FrameLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_height="fill_parent"
+                    android:layout_width="0dp">
+                    <de.threenow.Utils.MyTextView
+                        android:id="@+id/serviceItemPrice"
+                        android:layout_width="@dimen/_76sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:padding="@dimen/_1sdp"
+                        android:drawablePadding="@dimen/_1sdp"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_15sdp"
+                        android:visibility="visible" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/serviceCapacity"
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
+            <ImageView
+                android:id="@+id/serviceImg"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:padding="@dimen/_1sdp"
-        android:drawablePadding="@dimen/_1sdp"
-        android:drawableStart="@drawable/ic_passanfer"
-        android:drawableTint="@color/blue"
-        android:fontFamily="@font/muli_regular"
-        android:gravity="center"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/_9sdp" />
-
-    <de.threenow.Utils.MyTextView
-        android:id="@+id/serviceItemPrice"
-        android:layout_width="@dimen/_76sdp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/_10sdp"
-        android:visibility="visible" />
-
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginLeft="@dimen/_25sdp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/black" />
+    </LinearLayout>
 
 </LinearLayout>

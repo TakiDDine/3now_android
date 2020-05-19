@@ -52,6 +52,7 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
     ImageView imgEmail;
     ImageView imgPhone;
     ImageView imgWeb;
+    ImageView imgfaq;
     TextView titleTxt;
 
     String phone = "";
@@ -77,20 +78,15 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setTitle(getString(R.string.help));
+
         findviewById();
         setOnClickListener();
 
         ImageView backArrow = findViewById(R.id.backArrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
+        backArrow.setOnClickListener(v -> finish());
 
         getHelp();
     }
@@ -99,14 +95,14 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
         imgEmail =  findViewById(R.id.img_mail);
         imgPhone =  findViewById(R.id.img_phone);
         imgWeb =  findViewById(R.id.img_web);
-//        titleTxt =  findViewById(R.id.title_txt);
-//        titleTxt.setText(getString(R.string.app_name) +" "+ getString(R.string.help));
+        imgfaq=findViewById(R.id.img_faq);
     }
 
     private void setOnClickListener() {
         imgEmail.setOnClickListener(this);
         imgPhone.setOnClickListener(this);
         imgWeb.setOnClickListener(this);
+        imgfaq.setOnClickListener(this);
     }
 
     @Override
@@ -146,6 +142,10 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
         if (v == imgWeb) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URLHelper.REDIRECT_URL));
             startActivity(browserIntent);
+        }
+        if (v == imgfaq) {
+            Intent intentqa=new Intent(this, QuestionandanswerActivity.class);
+            startActivity(intentqa);
         }
     }
 

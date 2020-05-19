@@ -19,6 +19,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
     <!--
      The following two permissions are not required to use
      Google Maps Android API v2, but are recommended.
@@ -46,7 +47,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".IlyftApplication"
@@ -67,6 +69,10 @@
         <activity android:name=".Activities.SpecialTripsActivity" />
 
         <activity android:name=".Activities.ChoseServiceActivity" />
+
+        <activity android:name=".Activities.QuestionandanswerActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="layoutDirection|locale"/>
 
         <activity
             android:name=".Activities.AgbActivity"

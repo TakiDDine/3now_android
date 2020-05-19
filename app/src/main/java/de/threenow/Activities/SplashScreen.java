@@ -468,8 +468,7 @@ public class SplashScreen extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
-    }
+}
 //    private void showDialog()
 //    {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);

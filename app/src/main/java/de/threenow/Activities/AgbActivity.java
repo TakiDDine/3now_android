@@ -70,8 +70,7 @@ public class AgbActivity extends AppCompatActivity implements View.OnClickListen
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
-    }
+}
 
     @Override
     public void onClick(View view) {

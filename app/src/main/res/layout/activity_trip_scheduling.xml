@@ -354,7 +354,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_16sdp"
                 android:layout_marginRight="@dimen/_16sdp"
@@ -386,7 +386,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_baby_car_seat"
-                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toLeftOf="@+id/ll_spin1"
                     android:layout_toRightOf="@+id/im_baby_car_seat"
                     android:text="@string/baby_car_seat_txt"
                     android:textSize="@dimen/_10sdp" />
@@ -413,6 +414,7 @@
 <!--                    app:rd_style="@style/Material.Drawable.Ripple.Wave" />-->
 
                 <LinearLayout
+                    android:id="@+id/ll_spin1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -471,6 +473,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_toLeftOf="@+id/nameschieldCheckbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_name_tag"

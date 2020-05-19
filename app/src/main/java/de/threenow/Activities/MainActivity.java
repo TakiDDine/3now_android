@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,7 +78,7 @@ import static de.threenow.IlyftApplication.trimMessage;
 
 public class MainActivity extends AppCompatActivity implements
         UserMapFragment.HomeFragmentListener,
-        ResponseListener {
+        ResponseListener, View.OnClickListener {
 
 
     // tags used to attach the fragments
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements
     CustomDialog customDialog;
     Utilities careUtilities = Utilities.getUtilityInstance();
     GoogleApiClient mGoogleApiClient;
-    String keys = "ojBHda1ppwq9Fdc8lTJ507dNQkfBWAG1" + ":" + "Ixy9QVRAnoDrmT1I";
+    String keys;
     FirebaseAnalytics firebaseAnalytics;
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -108,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements
     private TextView legal_id;
     private TextView footer_item_version;
 
+    LinearLayout home_ll_id, prfile_header_menu, ll_payment, ll_track, ll_notification, ll_yourtrips, ll_wallet, ll_help, ll_contact;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,10 +118,10 @@ public class MainActivity extends AppCompatActivity implements
             FacebookSdk.sdkInitialize(getApplicationContext());
         Fabric.with(this, new Crashlytics());
         Log.e("language3", Locale.getDefault().getDisplayLanguage());
-
         setContentView(R.layout.activity_main);
-//        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        keys = getString(R.string.keyPaymetGetWayTokenServer);
         String base64Key = Base64.encodeToString(keys.getBytes(), Base64.NO_WRAP);
 
         Intent intent = getIntent();
@@ -140,11 +143,31 @@ public class MainActivity extends AppCompatActivity implements
 
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
-        txtName = navHeader.findViewById(R.id.usernameTxt);
-        txtWebsite = navHeader.findViewById(R.id.status_txt);
-        imgProfile = navHeader.findViewById(R.id.img_profile);
+        txtName = findViewById(R.id.usernameTxt);
+        txtWebsite = findViewById(R.id.status_txt);
+        imgProfile = findViewById(R.id.img_profile);
+        home_ll_id = findViewById(R.id.home_ll_id);
+        prfile_header_menu = findViewById(R.id.prfile_header_menu);
+        ll_payment = findViewById(R.id.ll_payment);
+        ll_track = findViewById(R.id.ll_track);
+        ll_notification = findViewById(R.id.ll_notification);
+        ll_yourtrips = findViewById(R.id.ll_yourtrips);
+        ll_wallet = findViewById(R.id.ll_wallet);
+        ll_help = findViewById(R.id.ll_help);
+        ll_contact = findViewById(R.id.ll_contact);
 
-        navHeader.setOnClickListener(view -> startActivity(new Intent(activity, Profile.class)));
+
+        ll_payment.setOnClickListener(this);
+        ll_track.setOnClickListener(this);
+        ll_notification.setOnClickListener(this);
+        ll_yourtrips.setOnClickListener(this);
+        ll_wallet.setOnClickListener(this);
+        ll_help.setOnClickListener(this);
+        ll_contact.setOnClickListener(this);
+        prfile_header_menu.setOnClickListener(this);
+        home_ll_id.setOnClickListener(this);
+
+//        navHeader.setOnClickListener(view -> startActivity(new Intent(activity, Profile.class)));
 
         getPaymetGetWayToken(base64Key);
 
@@ -241,93 +264,93 @@ public class MainActivity extends AppCompatActivity implements
                 //navItemIndex = 0;
                 //CURRENT_TAG = TAG_HOME;
                 //break;
-                case R.id.nav_payment:
-                    drawer.closeDrawers();
-                    startActivity(new Intent(MainActivity.this, Payment.class));
+//                case R.id.nav_payment:
+//                    drawer.closeDrawers();
+//                    startActivity(new Intent(MainActivity.this, Payment.class));
+////                    finish();
+//
+//                    break;
+//                case R.id.nav_home:
+//                    drawer.closeDrawers();
+//                    startActivity(new Intent(MainActivity.this, MainActivity.class));
 //                    finish();
-
-                    break;
-                case R.id.nav_home:
-                    drawer.closeDrawers();
-                    startActivity(new Intent(MainActivity.this, MainActivity.class));
-                    finish();
-
-                    break;
-
-                case R.id.nav_track:
-                    drawer.closeDrawers();
-                    //navigateToShareScreen(URLHelper.APP_URL);
-                    startActivity(new Intent(MainActivity.this, RunningTrip.class));
-                    break;
-                case R.id.nav_profile:
-                    drawer.closeDrawers();
-                    startActivity(new Intent(MainActivity.this, EditProfile.class));
-
-                    break;
-                case R.id.nav_notification:
-                    drawer.closeDrawers();
-                    startActivity(new Intent(MainActivity.this, NotificationTab.class));
-
-                    break;
-
-                case R.id.nav_yourtrips:
-                    drawer.closeDrawers();
-                    SharedHelper.putKey(context, "current_status", "");
-                    Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-                    intent.putExtra("tag", "past");
-                    startActivity(intent);
-                    return true;
-                // break;
-                case R.id.nav_coupon:
-                    drawer.closeDrawers();
-                    SharedHelper.putKey(context, "current_status", "");
-                    startActivity(new Intent(MainActivity.this, CouponActivity.class));
-                    return true;
-                case R.id.nav_wallet:
-                    drawer.closeDrawers();
-                    SharedHelper.putKey(context, "current_status", "");
-                    startActivity(new Intent(MainActivity.this, ActivityWallet.class));
-                    return true;
-                case R.id.nav_help:
-                    drawer.closeDrawers();
-                    SharedHelper.putKey(context, "current_status", "");
-                    startActivity(new Intent(MainActivity.this, ActivityHelp.class));
-//                        finish();
-                    break;
-                case R.id.nav_sos:
-                    drawer.closeDrawers();
-                    startActivity(new Intent(MainActivity.this, SosCallActivity.class));
-//                        finish();
-                    break;
-//                case R.id.nav_share:
-                case R.id.nav_contact:
-                    // launch new intent instead of loading fragment
-//                    //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
-//                    navigateToShareScreen(URLHelper.APP_URL);
-
-                    // launch new intent instead of loading fragment
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setType("text/html");
-                    i.putExtra(Intent.EXTRA_EMAIL    , new String[]{"Hassanalfakhre@gmail.com"});
-                    i.putExtra(Intent.EXTRA_SUBJECT, "Contact 3Now");
-                    startActivity(Intent.createChooser(i, "Send Email"));
-
-                    drawer.closeDrawers();
-                    return true;
-                case R.id.nav_logout:
-                    drawer.closeDrawers();
-                    // launch new intent instead of loading fragment
-                    //startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
-                    showLogoutDialog();
-                    return true;
-
-
-                case R.id.nav_media:
-                    drawer.closeDrawers();
-                    startActivity(new Intent(MainActivity.this, MediaHome.class));
-                    break;
-                default:
-                    navItemIndex = 0;
+//
+//                    break;
+//
+//                case R.id.nav_track:
+//                    drawer.closeDrawers();
+//                    //navigateToShareScreen(URLHelper.APP_URL);
+//                    startActivity(new Intent(MainActivity.this, RunningTrip.class));
+//                    break;
+//                case R.id.nav_profile:
+//                    drawer.closeDrawers();
+//                    startActivity(new Intent(MainActivity.this, EditProfile.class));
+//
+//                    break;
+//                case R.id.nav_notification:
+//                    drawer.closeDrawers();
+//                    startActivity(new Intent(MainActivity.this, NotificationTab.class));
+//
+//                    break;
+//
+//                case R.id.nav_yourtrips:
+//                    drawer.closeDrawers();
+//                    SharedHelper.putKey(context, "current_status", "");
+//                    Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+//                    intent.putExtra("tag", "past");
+//                    startActivity(intent);
+//                    return true;
+//                // break;
+//                case R.id.nav_coupon:
+//                    drawer.closeDrawers();
+//                    SharedHelper.putKey(context, "current_status", "");
+//                    startActivity(new Intent(MainActivity.this, CouponActivity.class));
+//                    return true;
+//                case R.id.nav_wallet:
+//                    drawer.closeDrawers();
+//                    SharedHelper.putKey(context, "current_status", "");
+//                    startActivity(new Intent(MainActivity.this, ActivityWallet.class));
+//                    return true;
+//                case R.id.nav_help:
+//                    drawer.closeDrawers();
+//                    SharedHelper.putKey(context, "current_status", "");
+//                    startActivity(new Intent(MainActivity.this, ActivityHelp.class));
+////                        finish();
+//                    break;
+//                case R.id.nav_sos:
+//                    drawer.closeDrawers();
+//                    startActivity(new Intent(MainActivity.this, SosCallActivity.class));
+////                        finish();
+//                    break;
+////                case R.id.nav_share:
+//                case R.id.nav_contact:
+//                    // launch new intent instead of loading fragment
+////                    //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
+////                    navigateToShareScreen(URLHelper.APP_URL);
+//
+//                    // launch new intent instead of loading fragment
+//                    Intent i = new Intent(Intent.ACTION_SEND);
+//                    i.setType("text/html");
+//                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{"Hassanalfakhre@gmail.com"});
+//                    i.putExtra(Intent.EXTRA_SUBJECT, "Contact 3Now");
+//                    startActivity(Intent.createChooser(i, "Send Email"));
+//
+//                    drawer.closeDrawers();
+//                    return true;
+//                case R.id.nav_logout:
+//                    drawer.closeDrawers();
+//                    // launch new intent instead of loading fragment
+//                    //startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
+//                    showLogoutDialog();
+//                    return true;
+//
+//
+//                case R.id.nav_media:
+//                    drawer.closeDrawers();
+//                    startActivity(new Intent(MainActivity.this, MediaHome.class));
+//                    break;
+//                default:
+//                    navItemIndex = 0;
             }
             loadHomeFragment();
 
@@ -697,12 +720,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void attachBaseContext(Context base) {
-//        if (SharedPrefrence.getLanguage(base) != null)
-//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
-//        else
-        Log.e("language4", Locale.getDefault().getDisplayLanguage());
-
-        if (SharedHelper.getKey(base, "lang") != null)
+if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
@@ -713,6 +731,94 @@ public class MainActivity extends AppCompatActivity implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
+}
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.home_ll_id:
+                drawer.closeDrawers();
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                finish();
+
+                break;
+
+            case R.id.prfile_header_menu:
+                drawer.closeDrawers();
+                startActivity(new Intent(activity, Profile.class));
+                break;
+
+
+            case R.id.ll_payment:
+                drawer.closeDrawers();
+                startActivity(new Intent(MainActivity.this, Payment.class));
+                break;
+
+
+            case R.id.ll_track:
+                drawer.closeDrawers();
+                startActivity(new Intent(MainActivity.this, RunningTrip.class));
+                break;
+
+//            case R.id.ll_profile:
+//                drawer.closeDrawers();
+//                startActivity(new Intent(MainActivity.this, EditProfile.class));
+//                break;
+
+            case R.id.ll_notification:
+                drawer.closeDrawers();
+                startActivity(new Intent(MainActivity.this, NotificationTab.class));
+                break;
+
+            case R.id.ll_yourtrips:
+                drawer.closeDrawers();
+                SharedHelper.putKey(context, "current_status", "");
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                intent.putExtra("tag", "past");
+                startActivity(intent);
+                break;
+
+//            case R.id.ll_coupon:
+//                drawer.closeDrawers();
+//                SharedHelper.putKey(context, "current_status", "");
+//                startActivity(new Intent(MainActivity.this, CouponActivity.class));
+//                break;
+
+            case R.id.ll_wallet:
+                drawer.closeDrawers();
+                SharedHelper.putKey(context, "current_status", "");
+                startActivity(new Intent(MainActivity.this, ActivityWallet.class));
+                break;
+
+            case R.id.ll_help:
+                drawer.closeDrawers();
+                SharedHelper.putKey(context, "current_status", "");
+                startActivity(new Intent(MainActivity.this, ActivityHelp.class));
+                break;
+
+//            case R.id.ll_sos:
+//                drawer.closeDrawers();
+//                startActivity(new Intent(MainActivity.this, SosCallActivity.class));
+//                break;
+
+            case R.id.ll_contact:
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/html");
+                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"Hassanalfakhre@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Contact 3Now");
+                startActivity(Intent.createChooser(i, "Send Email"));
+                drawer.closeDrawers();
+                break;
+
+//            case R.id.ll_logout:
+//                drawer.closeDrawers();
+//                showLogoutDialog();
+//                break;
+
+//            case R.id.ll_media:
+//                drawer.closeDrawers();
+//                startActivity(new Intent(MainActivity.this, MediaHome.class));
+//                break;
+        }
     }
 }

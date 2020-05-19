@@ -1058,12 +1058,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
 
     @Override
     protected void attachBaseContext(Context base) {
-//        if (SharedPrefrence.getLanguage(base) != null)
-//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
-//        else
-        Log.e("language4", Locale.getDefault().getDisplayLanguage());
-
-        if (SharedHelper.getKey(base, "lang") != null)
+if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
@@ -1074,6 +1069,5 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
-    }
+}
 }

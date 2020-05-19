@@ -63,8 +63,7 @@ public class IlyftApplication extends Application {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
-    }
+}
 
     public void setLocale(String lang) {
         Log.e("language", Locale.getDefault().getDisplayLanguage());

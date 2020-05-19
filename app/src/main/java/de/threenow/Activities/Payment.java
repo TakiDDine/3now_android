@@ -605,8 +605,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
-    }
+}
 //    private final int ADD_CARD_CODE = 435;
 //    Activity activity;
 //    Context context;

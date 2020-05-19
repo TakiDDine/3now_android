@@ -42,8 +42,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-//        newConfig.setLayoutDirection(Locale.ENGLISH);
-    }
+}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

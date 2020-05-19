@@ -47,7 +47,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:ccp_defaultNameCode="us"/>
+            app:ccp_defaultNameCode="de"/>
 
         <LinearLayout
             android:layout_marginTop="@dimen/_5sdp"

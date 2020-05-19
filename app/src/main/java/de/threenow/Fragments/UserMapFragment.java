@@ -1644,7 +1644,7 @@ String cancaltype="";
                                 currentPostion = 0;
                                 ServiceListAdapter serviceListAdapter = new ServiceListAdapter(response);
                                 rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
-                                        LinearLayoutManager.HORIZONTAL, false));
+                                        LinearLayoutManager.VERTICAL, false));
                                 rcvServiceTypes.setAdapter(serviceListAdapter);
                                 getProvidersList(SharedHelper.getKey(context, "service_type"));
                             } else {
@@ -3056,7 +3056,7 @@ String cancaltype="";
 
 
         // Sensor enabled
-        String sensor = "sensor=false" + "&key=" + "AIzaSyD0gzQ43R7S8iiJLL-oUjesnc6hu-EvCII";
+        String sensor = "sensor=false" + "&key=" + getString(R.string.google_map_api);
 
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + sensor;
@@ -3216,7 +3216,7 @@ String cancaltype="";
 
                 ServiceListAdapter serviceListAdapter = new ServiceListAdapter(response);
                 rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
-                        LinearLayoutManager.HORIZONTAL, false));
+                        LinearLayoutManager.VERTICAL, false));
                 rcvServiceTypes.setAdapter(serviceListAdapter);
                 getProvidersList(SharedHelper.getKey(context, "service_type"));
             } else {
@@ -3836,6 +3836,10 @@ String cancaltype="";
             @SuppressLint("InflateParams")
             View view = LayoutInflater.from(getActivity())
                     .inflate(R.layout.service_type_list_item, null);
+
+            RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(lp);
+
             return new MyViewHolder(view);
         }
 
@@ -3853,15 +3857,27 @@ String cancaltype="";
             if (position == 0) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
+                Picasso.get().load(URLHelper.base+jsonArray
+                        .optJSONObject(position).optString("image"))
+                        .placeholder(R.drawable.car1)
+                        .error(R.drawable.car1).into(holder.serviceImg);
             }
 
             if (position == 1) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
+                Picasso.get().load(URLHelper.base+jsonArray
+                        .optJSONObject(position).optString("image"))
+                        .placeholder(R.drawable.car2)
+                        .error(R.drawable.car2).into(holder.serviceImg);
             }
             if (position == 2) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
+                Picasso.get().load(URLHelper.base+jsonArray
+                        .optJSONObject(position).optString("image"))
+                        .placeholder(R.drawable.car3)
+                        .error(R.drawable.car3).into(holder.serviceImg);
             }
             if (position == 3) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
@@ -3876,24 +3892,21 @@ String cancaltype="";
             if (position == currentPostion) {
                 SharedHelper.putKey(context, "service_type", "" +
                         jsonArray.optJSONObject(position).optString("id"));
-                Picasso.get().load(URLHelper.base+jsonArray
-                        .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car_select)
-                        .error(R.drawable.car_select).into(holder.serviceImg);
+
                 holder.selector_background.setBackgroundResource(R.drawable.selected_service_item);
                 holder.serviceItem.setTextColor(getResources().getColor(R.color.text_color_white));
                 holder.serviceCapacity.setText(jsonArray.optJSONObject(position).optString("capacity"));
 //                holder.serviceCapacity.setBackgroundResource(R.drawable.normal_service_item);
-                Picasso.get().load(URLHelper.base+jsonArray.optJSONObject(position).optString("image"))
+                /*Picasso.get().load(URLHelper.base+jsonArray.optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car_select)
-                        .error(R.drawable.car_select).into(ImgConfrmCabType);
+                        .error(R.drawable.car_select).into(ImgConfrmCabType);*/
 //                getApproximateFareSchedule();
 
             } else {
                 //SharedHelper.putKey(context, "service_type", "" + jsonArray.optJSONObject(position).optString("id"));
-                Picasso.get().load(URLHelper.base+jsonArray.optJSONObject(position).optString("image"))
+                /*Picasso.get().load(URLHelper.base+jsonArray.optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car_select)
-                        .error(R.drawable.car_select).into(holder.serviceImg);
+                        .error(R.drawable.car_select).into(holder.serviceImg);*/
                 holder.selector_background.setBackgroundResource(R.drawable.normal_service_item);
 //                holder.selector_background.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 holder.serviceItem.setTextColor(getResources().getColor(R.color.black));

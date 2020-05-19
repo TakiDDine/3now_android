@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/im_economy"
             android:gravity="center"
-            android:text="3 Now Economy"
+            android:text="@string/_3_now_economy"
             android:textColor="@color/blue_ligt"
             android:textSize="@dimen/_19sdp"
             android:textStyle="bold" />
@@ -49,7 +49,7 @@
             android:layout_marginBottom="@dimen/_8sdp"
             android:background="@drawable/im_vip"
             android:gravity="center"
-            android:text="3 Now Vip"
+            android:text="@string/_3_now_vip"
             android:textColor="@color/blue_ligt"
             android:textSize="@dimen/_19sdp"
             android:textStyle="bold" />
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/im_special"
             android:gravity="center"
-            android:text="3 Now special"
+            android:text="@string/_3_now_special"
             android:textColor="@color/blue_ligt"
             android:textSize="@dimen/_19sdp"
             android:textStyle="bold" />
