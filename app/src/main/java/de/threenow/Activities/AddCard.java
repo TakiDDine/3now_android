@@ -14,29 +14,19 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.braintreepayments.cardform.view.CardForm;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
-
-import de.threenow.Helper.LocaleManager;
-import de.threenow.IlyftApplication;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.R;
-import de.threenow.Utils.MyButton;
-import de.threenow.Utils.Utilities;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
@@ -51,7 +41,14 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
-import androidx.appcompat.app.AppCompatActivity;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
+import de.threenow.Utils.MyButton;
+import de.threenow.Utils.Utilities;
 
 public class AddCard extends AppCompatActivity {
 
@@ -69,15 +66,10 @@ public class AddCard extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context base) {
-//        if (SharedPrefrence.getLanguage(base) != null)
-//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
-//        else
-
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-        Log.e("language4", Locale.getDefault().getDisplayLanguage());
 
     }
 
@@ -85,7 +77,7 @@ public class AddCard extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -283,8 +275,9 @@ public class AddCard extends AppCompatActivity {
                 .asString()
                 .withResponse()
                 .setCallback((e, response) -> {
-                    Log.e("addcardexception", e + "");
-                    Log.e("cardresponse", response + "");
+                    if (e != null)
+                        Log.e("addcardexception", e.getMessage() + "");
+                    Log.e("cardresponse", response.getResult() + "");
                     // response contains both the headers and the string result
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();

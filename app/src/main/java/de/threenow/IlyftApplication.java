@@ -54,7 +54,7 @@ public class IlyftApplication extends Application {
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
 
-        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
         MultiDex.install(this);
     }
 

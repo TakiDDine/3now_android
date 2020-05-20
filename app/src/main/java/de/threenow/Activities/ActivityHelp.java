@@ -64,7 +64,7 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
 
     }
 

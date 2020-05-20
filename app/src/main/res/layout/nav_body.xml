@@ -340,6 +340,7 @@
                     android:background="#EBEBEB" />
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="@dimen/_135sdp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -385,6 +386,7 @@
                 </LinearLayout>
 
                 <FrameLayout
+                    android:layout_marginTop="@dimen/_30sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|bottom">
@@ -392,7 +394,7 @@
 
                     <View
                         android:layout_width="@dimen/_90sdp"
-                        android:layout_height="0.5dp"
+                        android:layout_height="0.1dp"
                         android:layout_gravity="center_horizontal"
                         android:background="@color/done_disabled_dark" />
 

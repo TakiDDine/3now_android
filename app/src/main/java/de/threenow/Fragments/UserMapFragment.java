@@ -93,6 +93,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.maps.android.ui.IconGenerator;
 
+import butterknife.OnClick;
 import de.threenow.Activities.ChoseServiceActivity;
 import de.threenow.IlyftApplication;
 import com.koushikdutta.ion.Ion;
@@ -701,15 +702,21 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                         }
                     } else if (lnrApproximate.getVisibility() == View.VISIBLE) {
-                        mMap.setPadding(50, 50, 50, 50);
-                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                        builder.include(sourceMarker.getPosition());
-                        builder.include(destinationMarker.getPosition());
-                        LatLngBounds bounds = builder.build();
-                        int padding = 0; // offset from edges of the map in pixels
-                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
-                        mMap.moveCamera(cu);
-                        flowValue = 1;
+                        try {
+
+
+                            mMap.setPadding(50, 50, 50, 50);
+                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                            builder.include(sourceMarker.getPosition());
+                            builder.include(destinationMarker.getPosition());
+                            LatLngBounds bounds = builder.build();
+                            int padding = 0; // offset from edges of the map in pixels
+                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
+                            mMap.moveCamera(cu);
+                            flowValue = 1;
+                        }catch (Exception e){
+                            Log.e("exption", e.getMessage());
+                        }
                     } else if (lnrWaitingForProviders.getVisibility() == View.VISIBLE) {
                         sourceDestLayout.setVisibility(View.GONE);
                         flowValue = 1;
@@ -3859,8 +3866,8 @@ String cancaltype="";
                         .optString("id"), holder.serviceItemPrice);
                 Picasso.get().load(URLHelper.base+jsonArray
                         .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car1)
-                        .error(R.drawable.car1).into(holder.serviceImg);
+                        .placeholder(R.drawable.car11)
+                        .error(R.drawable.car11).into(holder.serviceImg);
             }
 
             if (position == 1) {
@@ -3868,16 +3875,16 @@ String cancaltype="";
                         .optString("id"), holder.serviceItemPrice);
                 Picasso.get().load(URLHelper.base+jsonArray
                         .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car2)
-                        .error(R.drawable.car2).into(holder.serviceImg);
+                        .placeholder(R.drawable.car22)
+                        .error(R.drawable.car22).into(holder.serviceImg);
             }
             if (position == 2) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
                 Picasso.get().load(URLHelper.base+jsonArray
                         .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car3)
-                        .error(R.drawable.car3).into(holder.serviceImg);
+                        .placeholder(R.drawable.car33)
+                        .error(R.drawable.car33).into(holder.serviceImg);
             }
             if (position == 3) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)

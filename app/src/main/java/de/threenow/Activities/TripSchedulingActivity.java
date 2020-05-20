@@ -344,11 +344,19 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
                                 if (response.toString().contains("error")) {
 
-                                    Toast.makeText(this, response.optString("error"), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(this, response.optString("error") , Toast.LENGTH_LONG).show();
 
                                 } else if (response.optString("request_id").equals("")) {
 
-                                    Toast.makeText(this, response.optString("request_id"), Toast.LENGTH_LONG).show();
+                                    if (response.optString("request_id").length() == 0) {
+                                        String msg = response.toString();
+
+                                        if (msg.contains("No Drivers Found"))
+                                            msg = getString(R.string.no_drivers_found);
+
+                                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                                    } else
+                                        Toast.makeText(this, response.optString("request_id"), Toast.LENGTH_LONG).show();
 
                                 } else {
                                     SharedHelper.putKey(this, "current_status", "");
@@ -367,7 +375,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
                     String json = null;
-                    Log.v("sendrequestresponse", error.toString() + " ");
+                    Log.e("sendrequestresponse", error.toString() + " ");
                     String Message;
                     NetworkResponse response = error.networkResponse;
                     if (response != null && response.data != null) {

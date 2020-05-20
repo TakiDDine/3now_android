@@ -21,7 +21,7 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_margin="10dp"
-                android:background="@drawable/ic_back_icon"
+                android:background="@drawable/back_icon"
                 android:backgroundTint="@color/text_color_white"
                 android:padding="5dp" />
 

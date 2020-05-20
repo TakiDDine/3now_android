@@ -1,18 +1,19 @@
 package de.threenow.Helper;
 
 public class URLHelper {
-//        public static final String base = "http://gocab.97pixelsdev.com/";
-   // public static final String base = "http://m-bebataxi.com/";
+    //        public static final String base = "http://gocab.97pixelsdev.com/";
+    // public static final String base = "http://m-bebataxi.com/";
 //    public static final String base = "http://97pixelsdev.com/ilyft/";
-public static final String base = "https://www.3now.de/";
+    public static final String base = "https://www.3now.de/";
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
     public static final String APP_URL = "https://play.google.com/store/apps/details?id=com.mbeba.mbeba&hl=en";
     public static final int client_id = 2;
 
     public static final String client_secret = "WifS1rMi3LvuorP1G2UdtKZairUNSH2iMqrKivPf";
-    public static final String STRIPE_TOKEN = "pk_live_w4AMWANwKUQms0HOKOSLB5aH0035Lw8s3P";
-   public static final String image_url_signature = base + "public/";
+    public static final String STRIPE_TOKEN = "pk_test_69WkPQ5i5k0KwuG08mEazMPO";
+
+    public static final String image_url_signature = base + "public/";
     public static final String CURRENT_TRIP = base + "api/user/trips/current";
     String GET_RATE = "api/user/check/rate/provider";
     public static final String login = base + "oauth/token";
@@ -30,7 +31,7 @@ public static final String base = "https://www.3now.de/";
     public static final String CANCEL_REQUEST_API = base + "api/user/cancel/request";
     public static final String PAY_NOW_API = base + "api/user/payment";
     public static final String RATE_PROVIDER_API = base + "api/user/rate/provider";
-    public static final String GET_USERREVIEW = base+"api/user/review";
+    public static final String GET_USERREVIEW = base + "api/user/review";
 
     public static final String DELETE_CARD_FROM_ACCOUNT_API = base + "api/user/card/destory";
     public static final String GET_HISTORY_API = base + "api/user/trips";
@@ -60,10 +61,10 @@ public static final String base = "https://www.3now.de/";
 
     public static final String ADD_CARD_TO_ACCOUNT_API = base + "api/user/card";
     public static final String CARD_PAYMENT_LIST = base + "api/user/card";
-    public static final String GET_PAYMENT_CONFIRMATION=  "api/user/payment/now?total_amount=";
-    public static final String GET_DEFAULT_CARD= base+ "api/user/makeCard_default?card_id=";
+    public static final String GET_PAYMENT_CONFIRMATION = "api/user/payment/now?total_amount=";
+    public static final String GET_DEFAULT_CARD = base + "api/user/makeCard_default?card_id=";
 
-    public static final  String ChatGetMessage = base + "api/user/firebase/getChat?request_id=";
-    public static final  String GET_USER_CHAT_LIST = base + "api/user/firebase/chatHistory";
-    public static final  String NOTIFICATION_URL = base + "api/user/notification";
+    public static final String ChatGetMessage = base + "api/user/firebase/getChat?request_id=";
+    public static final String GET_USER_CHAT_LIST = base + "api/user/firebase/chatHistory";
+    public static final String NOTIFICATION_URL = base + "api/user/notification";
 }

@@ -66,15 +66,13 @@ public class RunningTrip extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context base) {
-//        if (SharedPrefrence.getLanguage(base) != null)
-//            super.attachBaseContext(LocaleManager.setNewLocale(base, SharedPrefrence.getLanguage(base)));
-//        else
+
 
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-        Log.e("language4", Locale.getDefault().getDisplayLanguage());
+
 
     }
 
