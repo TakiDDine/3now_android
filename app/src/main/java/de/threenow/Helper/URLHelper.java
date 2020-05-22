@@ -25,11 +25,15 @@ public class URLHelper {
     public static final String REQUEST_STATUS_CHECK_API = base + "api/user/request/check";
     public static final String ESTIMATED_FARE_DETAILS_API = base + "api/user/estimated/fare";
     public static final String SEND_REQUEST_API = base + "api/user/send/request";
+    // new
+    public static final String SEND_REQUEST_API_NEW =  base + "api/new/send/request";
     public static final String SEND_REQUEST_Later_API = base + "api/user/save/later";
 
     public static final String VALIDZONE = base + "api/user/getvalidzone";
     public static final String CANCEL_REQUEST_API = base + "api/user/cancel/request";
     public static final String PAY_NOW_API = base + "api/user/payment";
+    // new
+    public static final String PAY_NOW_SCHEDUL_API = base + "api/user/payment/price";
     public static final String RATE_PROVIDER_API = base + "api/user/rate/provider";
     public static final String GET_USERREVIEW = base + "api/user/review";
 

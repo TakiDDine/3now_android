@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY appName "GoCab "><!ENTITY Provider "Driver"><!ENTITY provider "driver"><!ENTITY Service "Ride"><!ENTITY service "ride">]>
 <resources>
 
-    <!--<string name="app_name">mBeba</string>-->
     <string name="app_name">3Now</string>
+
     <!--Google map-->
-    <!--<string name="google_map_api">AIzaSyCiR3M2il0s1yH8UTHfS7NLNmk8aW-4VtI</string>-->
-    <!--<string name="google_map_api">AIzaSyD1RH49BjncMZxBWueOxjUkRqgAFP1vr4k</string>-->
-    <!--<string name="google_map_api">AIzaSyBkPIRVGK0n_Svj0C5XD115G7N_0Dxxaw0</string>-->
-    <!--    <string name="google_map_api" translatable="false">AIzaSyD0gzQ43R7S8iiJLL-oUjesnc6hu-EvCII</string>-->
     <string name="google_map_api" translatable="false">AIzaSyB4fYZR1J3pRP4EZOiXQWp_JyUxig4aWvc</string>
-    <!--<string name="facebook_app_id">294885378036669</string>-->
+
+    <!--facebook-->
     <string name="facebook_app_id" translatable="false">3127828963956256</string>
 
-    <!--  <string name="ACCOUNT_KIT_CLIENT_TOKEN">ffd72f24ef7591cbb2ad35beae2812e9</string>-->
     <string name="ACCOUNT_KIT_CLIENT_TOKEN" translatable="false">734b50c746a9e545f9c6d307a1cc49c9</string>
+
+    <!--Paypal-->
+    <string name="client_id_paypal" translatable="false">AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n</string>
+    <string name="paypal_secret" translatable="false">PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n</string>
+    <string name="paypal_mode" translatable="false">PAYPAL_MODE=sandbox</string>
 
     <!--    from here translate-->
     <string name="we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply">We will send you a One time SMS message carrier rate may apply</string>
@@ -522,6 +523,7 @@ We offer a variety of different services. For this reason, additional conditions
     <string name="_3_now_economy">3 Now Economy</string>
     <string name="_3_now_vip">3 Now Vip</string>
     <string name="_3_now_special">3 Now special</string>
+
 
     <string-array name="question1">
         <item>Wir würden uns freuen, Sie an Bord zu haben! Führen Sie die folgenden einfachen Schritte aus, um ein Konto zu eröffnen:</item>

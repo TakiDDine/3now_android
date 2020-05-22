@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -24,18 +25,27 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,8 +60,15 @@ import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
+import de.threenow.Models.PaymentRequest;
+import de.threenow.Models.PaymentResponse;
+import de.threenow.Models.RestInterface;
+import de.threenow.Models.ServiceGenerator;
 import de.threenow.R;
 import de.threenow.Utils.Utilities;
+import de.threenow.Utils.Utils;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
@@ -85,6 +102,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     ImageView im_back, im_swap_location;
     Spinner baby_car_spinner, child_seat_spinner;
 
+    Context context;
+    private String paymentId, request_id, Price = "";
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -119,6 +138,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setContentView(R.layout.activity_trip_scheduling);
 
+        context = TripSchedulingActivity.this;
 
         btnSheduleRideConfirm = findViewById(R.id.btnSheduleRideConfirm);
         nameschieldCheckbox = findViewById(R.id.nameschieldCheckbox);
@@ -287,6 +307,175 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         datePickerDialog.show();
     }
 
+    public void showDialog() {
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View DialogViewLayout = factory.inflate(R.layout.confirm_payment_schedul, null);
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+
+        dialog.setView(DialogViewLayout);
+        dialog.setCancelable(false);
+
+        Button dialogButtonCancel = (Button) DialogViewLayout.findViewById(R.id.btnPayCancel);
+        Button btnPayNowDialog = (Button) DialogViewLayout.findViewById(R.id.btnPayNowDialog);
+
+        TextView totalPrice = DialogViewLayout.findViewById(R.id.lblTotalPrice);
+
+        totalPrice.setText(Price);
+
+        dialogButtonCancel.setOnClickListener(v -> dialog.dismiss());
+
+
+        btnPayNowDialog.setOnClickListener(v -> {
+//            Toast.makeText(context, "soon", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            sendRequest();
+//            payNowPaypalOrCard();
+        });
+
+        dialog.show();
+
+    }
+
+
+    public void sendRequestPrice() {
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("s_latitude", Double.parseDouble(s_latitude));
+            object.put("s_longitude", Double.parseDouble(s_longitude));
+            object.put("d_latitude", Double.parseDouble(d_latitude));
+            object.put("d_longitude", Double.parseDouble(d_longitude));
+            object.put("service_type", Integer.parseInt(serviceId));
+            object.put("distance", Integer.parseInt(distance));
+            object.put("payment_mode", payment_mode);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            URLEncoder.encode(URLHelper.PAY_NOW_SCHEDUL_API, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.e("222 object", object.toString());
+
+        IlyftApplication.getInstance().cancelRequestInQueue("send_request");
+        JsonObjectRequest jsonObjectRequest = new
+                JsonObjectRequest(Request.Method.POST,
+                        URLHelper.PAY_NOW_SCHEDUL_API,
+                        object,
+                        response -> {
+                            if (response != null) {
+                                Log.e("222 response", response.toString());
+
+                                if ((customDialog != null) && (customDialog.isShowing()))
+                                    customDialog.dismiss();
+
+                                if (response.toString().contains("error")) {
+
+                                    Toast.makeText(this, response.optString("error"), Toast.LENGTH_LONG).show();
+
+                                } else if (response.optString("price").equals("")) {
+
+                                    if (response.optString("price").length() == 0) {
+                                        String msg = response.toString();
+
+                                        if (msg.contains("No Drivers Found"))
+                                            msg = getString(R.string.no_drivers_found);
+
+                                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                                    } else
+                                        Toast.makeText(this, response.optString("price"), Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    Price = response.optString("price");
+                                    Log.e("222 response", "price: " + Price);
+
+                                    showDialog();
+                                }
+                            }
+                        }, error -> {
+                    try {
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null) {
+                            String errorString = new String(response.data);
+                            Log.i("log error", errorString);
+                        }
+
+
+                        Log.e("222 error", "data: " + new JSONObject(new String(error.networkResponse.data)));
+
+//                        String msg = "statusCode: " + error.networkResponse.statusCode + "\n" +
+//                                URLHelper.PAY_NOW_SCHEDUL_API + "\n\n" +
+//                                trimMessage(new String(error.networkResponse.data));
+//
+//
+//                        utils.showAlert(this, msg);
+                    } catch (Exception e) {
+//                        if (error.networkResponse != null)
+//                            utils.showAlert(this, "statusCode: " + error.networkResponse.statusCode + "\n" +
+//                                    URLHelper.PAY_NOW_SCHEDUL_API);
+                    }
+                    if (error.networkResponse != null) {
+                        Log.e("222 error", "networkTimeMs: " + error.networkResponse.networkTimeMs);
+                        Log.e("222 error", "notModified: " + error.networkResponse.notModified);
+                        Log.e("222 error", "statusCode: " + error.networkResponse.statusCode);
+                    }
+
+
+                    if ((customDialog != null) && (customDialog.isShowing()))
+                        customDialog.dismiss();
+                    String json = null;
+                    Log.e("222 sendrequestresponse", error.toString() + " ");
+                    String Message;
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.data != null) {
+                        try {
+                            Log.e("222 sendrequestresponse", new String(response.data) + " ");
+                            JSONObject errorObj = new JSONObject(new String(response.data));
+                            if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                                try {
+                                    utils.showAlert(this, errorObj.optString("error"));
+                                } catch (Exception e) {
+                                    Log.e("222 sendrequestresponse", e.getMessage());
+//                                    utils.showAlert(this, this.getString(R.string.something_went_wrong));         ----------------------
+                                }
+                            } else if (response.statusCode == 401) {
+                                Log.e("222 sendrequestresponse", "if (response.statusCode == 401)");
+//                                refreshAccessToken("SEND_REQUEST");
+                            } else if (response.statusCode == 422) {
+                                json = trimMessage(new String(response.data));
+                                if (json != "" && json != null) {
+                                    utils.showAlert(this, json);
+                                } else {
+                                    utils.showAlert(this, this.getString(R.string.please_try_again));
+                                }
+                            } else if (response.statusCode == 503) {
+                                utils.showAlert(this, this.getString(R.string.server_down));
+                            } else {
+                                utils.showAlert(this, this.getString(R.string.please_try_again));
+                            }
+                        } catch (Exception e) {
+//                            utils.showAlert(this, this.getString(R.string.something_went_wrong));         ----------------
+                        }
+                    } else {
+                        utils.showAlert(this, this.getString(R.string.please_try_again));
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("X-Requested-With", "XMLHttpRequest");
+                        headers.put("Authorization", "" + SharedHelper.getKey(TripSchedulingActivity.this, "token_type") + " " + SharedHelper.getKey(TripSchedulingActivity.this, "access_token"));
+                        return headers;
+                    }
+                };
+
+        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+    }
 
     public void sendRequest() {
         note = noteEditText.getText().toString();
@@ -313,6 +502,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             object.put("babyschale", Integer.parseInt(babySeat));
             object.put("nameschield", Boolean.parseBoolean(nameschield));
             object.put("note", note);
+
             if (card_id != null) {
                 object.put("card_id", card_id);
             }
@@ -329,7 +519,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
 
-        Log.e("111 object", object.toString());
+        Log.e("222 object", object.toString());
 
         IlyftApplication.getInstance().cancelRequestInQueue("send_request");
         JsonObjectRequest jsonObjectRequest = new
@@ -338,13 +528,14 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                         object,
                         response -> {
                             if (response != null) {
-                                utils.print("SendRequestResponse", response.toString());
+                                Log.e("222 response", response.toString());
+
                                 if ((customDialog != null) && (customDialog.isShowing()))
                                     customDialog.dismiss();
 
                                 if (response.toString().contains("error")) {
 
-                                    Toast.makeText(this, response.optString("error") , Toast.LENGTH_LONG).show();
+                                    Toast.makeText(this, response.optString("error"), Toast.LENGTH_LONG).show();
 
                                 } else if (response.optString("request_id").equals("")) {
 
@@ -359,33 +550,70 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                                         Toast.makeText(this, response.optString("request_id"), Toast.LENGTH_LONG).show();
 
                                 } else {
+                                    request_id = response.optString("request_id");
+                                    Log.e("222 response", "request_id: " + request_id);
+
                                     SharedHelper.putKey(this, "current_status", "");
-                                    SharedHelper.putKey(this, "request_id", "" + response.optString("request_id"));
+                                    SharedHelper.putKey(this, "request_id", "" + request_id);
 
                                     // flowValue = 3;
                                     //layoutChanges();
+                                    // نجاح تسجيل الجددولة
 
+                                    // سجل الدفع
+                                    Price = response.optString("price") + "";
+                                    payNowPaypalOrCard();
+//                                    pay();
 
-                                    Intent intent = new Intent(this, TrackActivity.class);
-                                    intent.putExtra("flowValue", 3);
-                                    startActivity(intent);
+//                                    Intent intent = new Intent(this, TrackActivity.class);
+//                                    intent.putExtra("flowValue", 3);
+//                                    startActivity(intent);
                                 }
                             }
                         }, error -> {
+                    try {
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null) {
+                            String errorString = new String(response.data);
+                            Log.i("log error", errorString);
+                        }
+
+
+                        Log.e("222 error", "data: " + new JSONObject(new String(error.networkResponse.data)));
+
+//                        String msg = "statusCode: " + error.networkResponse.statusCode + "\n" +
+//                                URLHelper.SEND_REQUEST_Later_API + "\n\n" +
+//                                trimMessage(new String(error.networkResponse.data));
+//
+//
+//                        utils.showAlert(this, msg);
+                    } catch (Exception e) {
+//                        if (error.networkResponse != null)
+//                            utils.showAlert(this, "statusCode: " + error.networkResponse.statusCode + "\n" +
+//                                    URLHelper.SEND_REQUEST_Later_API);
+                    }
+                    if (error.networkResponse != null) {
+                        Log.e("222 error", "networkTimeMs: " + error.networkResponse.networkTimeMs);
+                        Log.e("222 error", "notModified: " + error.networkResponse.notModified);
+                        Log.e("222 error", "statusCode: " + error.networkResponse.statusCode);
+                    }
+
+
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
                     String json = null;
-                    Log.e("sendrequestresponse", error.toString() + " ");
+                    Log.e("222 sendrequestresponse", error.toString() + " ");
                     String Message;
                     NetworkResponse response = error.networkResponse;
                     if (response != null && response.data != null) {
                         try {
+                            Log.e("222 sendrequestresponse", new String(response.data) + " ");
                             JSONObject errorObj = new JSONObject(new String(response.data));
                             if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
                                 try {
                                     utils.showAlert(this, errorObj.optString("error"));
                                 } catch (Exception e) {
-                                    utils.showAlert(this, this.getString(R.string.something_went_wrong));
+//                                    utils.showAlert(this, this.getString(R.string.something_went_wrong));         ----------------------
                                 }
                             } else if (response.statusCode == 401) {
                                 refreshAccessToken("SEND_REQUEST");
@@ -402,7 +630,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                                 utils.showAlert(this, this.getString(R.string.please_try_again));
                             }
                         } catch (Exception e) {
-                            utils.showAlert(this, this.getString(R.string.something_went_wrong));
+//                            utils.showAlert(this, this.getString(R.string.something_went_wrong));         ----------------
                         }
                     } else {
                         utils.showAlert(this, this.getString(R.string.please_try_again));
@@ -421,6 +649,188 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     }
 
 
+    void payNowPaypalOrCard() {
+        if (payment_mode.equalsIgnoreCase("CARD")) {
+            payNowCard("CARD");
+        } else {
+            Log.e("222 payNowPaypal", "btnPayNowClick: " + Price);
+
+            PayPalConfiguration config = new PayPalConfiguration()
+                    //                 // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+                    //               // or live (ENVIRONMENT_PRODUCTION)
+//     //               .clientId("AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n" +
+//       //                     "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
+//         //                   "PAYPAL_MODE=sandbox");
+                    .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+                    .clientId(getString(R.string.client_id_paypal) +
+                            getString(R.string.paypal_secret) +
+                            getString(R.string.paypal_mode));
+
+            PayPalPayment payment = new PayPalPayment(new BigDecimal(Price.replace("€", "")), "EUR", " ",
+                    PayPalPayment.PAYMENT_INTENT_SALE);
+            Intent intent = new Intent(TripSchedulingActivity.this, PaymentActivity.class);
+            // send the same configuration for restart resiliency
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+            startActivityForResult(intent, 0);
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e(TripSchedulingActivity.class.getName(), "222 onActivityResult: " + requestCode + " result code " + resultCode + " ");
+
+        if (requestCode == 0) { // paypal done pay
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirm != null) {
+                    try {
+//                        Log.e("222 paymentExample", confirm.toJSONObject().toString(4));
+                        Log.e("222 paymentExample", confirm.toJSONObject().getJSONObject("response").toString());
+
+// //                     TODO: send 'confirm' to your server for verification.
+// //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+// //                     for more details.
+                        String paymentType = "PAYPAL";
+                        paymentId = confirm.getProofOfPayment().getPaymentId();
+                        payNowCard(paymentType);
+// //                   JSONObject jsonObject=confirm.toJSONObject().getJSONObject("response");
+// //                   addPayment(jsonObject.getString("id"));
+                    } catch (JSONException e) {
+                        Log.e("222 paymentExample", "an extremely unlikely failure occurred: ", e);
+                    }
+                }
+            }
+        }
+    }
+
+    public void payNowCard(String paymentType) {
+        customDialog = new CustomDialog(context);
+        customDialog.setCancelable(false);
+        if (customDialog != null)
+            customDialog.show();
+
+        JSONObject object = new JSONObject();
+        try {
+            Log.e("222", "paymentType: " + paymentType);
+
+            object.put("request_id", request_id + "");
+            object.put("total_payment", Price.replace("$", ""));
+            if (paymentType.contains("PAYPAL")) {
+                object.put("payment_id", paymentId);
+            }
+//              object.put("payment_mode", SharedHelper.getKey(getApplicationContext(),"payment_mode"));
+//              object.put("is_paid", isPaid);
+            Log.e("222", "payNowCard: " + object.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_NOW_SCHEDUL_API, object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("222 onResponse", "PayNowRequestResponse: " + response.toString());
+
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
+                SharedHelper.putKey(context, "total_amount", "");
+
+                new AlertDialog.Builder(context).setMessage(getString(R.string.booking_successful) + "!")
+                        .setTitle(context.getString(R.string.app_name))
+                        .setCancelable(true)
+                        .setIcon(R.mipmap.ic_launcher_round)
+                        .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, id) -> {
+                            dialog.dismiss();
+
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+
+                        }).create().show();
+
+
+            }
+        }, error -> {
+
+            try {
+
+                String msg = "statusCode: " + error.networkResponse.statusCode + "\n" +
+                        URLHelper.PAY_NOW_SCHEDUL_API + "\n\n" +
+                        trimMessage(new String(error.networkResponse.data));
+
+                utils.showAlert(context, msg);
+            } catch (Exception e) {
+                if (error.networkResponse != null)
+                    utils.showAlert(context, "statusCode: " + error.networkResponse.statusCode + "\n" +
+                            URLHelper.PAY_NOW_SCHEDUL_API);
+            }
+
+            try {
+                if (error.networkResponse != null)
+                    Log.e("222 onResponse", "data: " + new JSONObject(new String(error.networkResponse.data)));
+            } catch (Exception e) {
+
+            }
+            if (error.networkResponse != null) {
+                Log.e("222 onResponse", "networkTimeMs: " + error.networkResponse.networkTimeMs);
+                Log.e("222 onResponse", "notModified: " + error.networkResponse.notModified);
+                Log.e("222 onResponse", "statusCode: " + error.networkResponse.statusCode);
+            }
+            if ((customDialog != null) && (customDialog.isShowing()))
+                customDialog.dismiss();
+            String json = "";
+            NetworkResponse response = error.networkResponse;
+            if (response != null && response.data != null) {
+                try {
+                    JSONObject errorObj = new JSONObject(new String(response.data));
+
+                    if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                        try {
+                            utils.displayMessage(getCurrentFocus(), errorObj.optString("message"));
+                        } catch (Exception e) {
+//                                utils.displayMessage(getCurrentFocus(), getString(R.string.something_went_wrong));    -----------
+                        }
+                    } else if (response.statusCode == 401) {
+                        refreshAccessToken("PAY_NOW");
+                        Log.e("222", "refreshAccessToken(PAY_NOW)");
+                    } else if (response.statusCode == 422) {
+
+                        json = trimMessage(new String(response.data));
+                        if (json != "" && json != null) {
+                            utils.displayMessage(getCurrentFocus(), json);
+                        } else {
+                            utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                        }
+                    } else if (response.statusCode == 503) {
+                        utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.server_down));
+                    } else {
+                        utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    View parentLayout = findViewById(android.R.id.content);
+//                        utils.displayMessage(parentLayout, getString(R.string.something_went_wrong)); ------------
+                }
+            } else {
+                utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+    }
+
+
     private void refreshAccessToken(final String tag) {
         JSONObject object = new JSONObject();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -434,12 +844,16 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Log.e("222", "refreshAccessToken" + object.toString());
         JsonObjectRequest jsonObjectRequest = new
                 JsonObjectRequest(Request.Method.POST,
                         URLHelper.login,
                         object,
                         response -> {
                             utils.print("SignUpResponse", response.toString());
+                            Log.e("222", "refreshAccessToken response" + response.toString());
+
                             SharedHelper.putKey(this, "access_token", response.optString("access_token"));
                             SharedHelper.putKey(this, "refresh_token", response.optString("refresh_token"));
                             SharedHelper.putKey(this, "token_type", response.optString("token_type"));
@@ -456,13 +870,15 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                             } else if (tag.equalsIgnoreCase("SUBMIT_REVIEW")) {
                                 // submitReviewCall();
                             } else if (tag.equalsIgnoreCase("PAY_NOW")) {
-                                // payNow();
+                                Log.e("222", "else if PAY_NOW");
+                                payNow();
                             }
                         }, error -> {
                     String json = "";
                     NetworkResponse response = error.networkResponse;
 
                     if (response != null && response.data != null) {
+                        Log.e("222", "error.networkResponse" + response.data);
                         Activity activity = this;
                         if (activity != null) {
                             SharedHelper.putKey(this, "loggedIn", "false");
@@ -481,6 +897,162 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
+    void payNow() {
+        Log.e("222", " payNow()");
+
+        String timestamp = Utils.getTimestamp();
+        customDialog = new CustomDialog(context);
+        customDialog.setCancelable(false);
+        if (customDialog != null)
+            customDialog.show();
+        PaymentRequest paymentRequest = new PaymentRequest();
+        paymentRequest.setAccountReference("test");
+        paymentRequest.setAmount("32");
+        paymentRequest.setBusinessShortCode("174379");
+        paymentRequest.setCallBackURL("https://spurquoteapp.ga/pusher/pusher.php?title=stk_push&message=result&push_type=individual&regId=null");
+        paymentRequest.setPartyA("254700000000");
+        paymentRequest.setPartyB("174379");
+        paymentRequest.setPassword("MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMTAxMTkyODQz");
+        paymentRequest.setPhoneNumber("254700000000");
+        paymentRequest.setTimestamp("20190101192843");
+        paymentRequest.setTransactionDesc("test");
+        paymentRequest.setTransactionType("CustomerPayBillOnline");
+
+        String auth = "Bearer " + SharedHelper.getKey(context,
+                "paymentAccessToken");
+        String requestWith = "XMLHttpRequest";
+        String CONTENT_TYPE = "application/json";
+        Call<PaymentResponse> paymentResponseCall;
+
+        RestInterface restInterface = ServiceGenerator.createService(RestInterface.class);
+
+        paymentResponseCall = restInterface.createSocialLogin(requestWith, CONTENT_TYPE,
+                auth, paymentRequest);
+        paymentResponseCall.enqueue(new Callback<PaymentResponse>() {
+            @Override
+            public void onResponse(Call<PaymentResponse> call, retrofit2.Response<PaymentResponse> response) {
+                Log.e("222", " payNow()" + response.body() + " " + response.message());
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
+                if (response.code() == 200) {
+                    String cId = response.body().getMerchantRequestID();
+                    String mId = response.body().getCheckoutRequestID();
+
+                    Log.e("222", " cId: " + cId + " mId: " + mId);
+
+
+                    payNowBacked(mId, cId);
+                } else {
+                    Toast.makeText(context, getResources().getString(R.string.not_responding), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PaymentResponse> call, Throwable t) {
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
+                Toast.makeText(context, getResources().getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void payNowBacked(String merchantReqId,
+                             String checkOutReqId) {
+        Log.e("222", "payNowBacked");
+
+        customDialog = new CustomDialog(context);
+        customDialog.setCancelable(false);
+        if (customDialog != null)
+            customDialog.show();
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("request_id", SharedHelper.getKey(context, "request_id"));
+            object.put("m_id", merchantReqId);
+            object.put("c_id", checkOutReqId);
+//            object.put("total_payment", SharedHelper.getKey(context, "total_amount"));
+            //object.put("payment_mode", paymentMode);
+            // object.put("is_paid", isPaid);
+
+            Log.e("222", "object" + object.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new
+                JsonObjectRequest(Request.Method.POST,
+                        URLHelper.PAY_NOW_SCHEDUL_API,
+                        object,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.e("222", "response.toString()" + response.toString());
+                                utils.print("PayNowRequestResponse", response.toString());
+                                if ((customDialog != null) && (customDialog.isShowing()))
+                                    customDialog.dismiss();
+                                SharedHelper.putKey(context, "total_amount", "");
+                               /* flowValue = 6;
+                                layoutChanges();*/
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if ((customDialog != null) && (customDialog.isShowing()))
+                            customDialog.dismiss();
+                        String json = "";
+                        NetworkResponse response = error.networkResponse;
+                        if (response != null && response.data != null) {
+                            try {
+                                Log.e("222", "response.data " + response.data.toString());
+
+                                JSONObject errorObj = new JSONObject(new String(response.data));
+
+                                if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                                    try {
+//                                utils.displayMessage(getCurrentFocus(), errorObj.optString("message"));
+                                    } catch (Exception e) {
+//                                utils.displayMessage(getCurrentFocus(), getString(R.string.something_went_wrong));
+                                    }
+                                } else if (response.statusCode == 401) {
+                                    refreshAccessToken("PAY_NOW");
+                                    Log.e("222", "(response.statusCode == 401) " + " refreshAccessToken");
+                                } else if (response.statusCode == 422) {
+
+                                    json = trimMessage(new String(response.data));
+                                    if (json != "" && json != null) {
+//                                utils.displayMessage(getCurrentFocus(), json);
+                                    } else {
+//                                utils.displayMessage(getCurrentFocus(), getString(R.string.please_try_again));
+                                    }
+                                } else if (response.statusCode == 503) {
+//                            utils.displayMessage(getCurrentFocus(), getString(R.string.server_down));
+                                } else {
+//                            utils.displayMessage(getCurrentFocus(), getString(R.string.please_try_again));
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+//                        utils.displayMessage(getCurrentFocus(), getString(R.string.something_went_wrong));
+                            }
+
+                        } else {
+//                    utils.displayMessage(getCurrentFocus(), getString(R.string.please_try_again));
+                        }
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type")
+                                + " " + SharedHelper.getKey(context, "access_token"));
+                        headers.put("X-Requested-With", "XMLHttpRequest");
+                        return headers;
+                    }
+                };
+
+        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+
+    }
 
     @Override
     public void onClick(View view) {
@@ -490,7 +1062,9 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                 if (btnTimePicker.getText().toString().matches("[a-zA-Z]+")) {
                     Toast.makeText(TripSchedulingActivity.this, getString(R.string.choose_date_time), Toast.LENGTH_SHORT).show();
                 } else {
-                    sendRequest();
+//                    sendRequest();
+                    customDialog.show();
+                    sendRequestPrice();
                 }
                 break;
 

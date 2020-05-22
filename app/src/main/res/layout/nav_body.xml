@@ -90,6 +90,7 @@
                 </LinearLayout>
                 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/home_ll_id"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_33sdp"
@@ -115,6 +116,7 @@
                 </LinearLayout>
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="@dimen/_135sdp"
                     android:layout_height="@dimen/_1sdp"
                     android:layout_marginStart="@dimen/_20sdp"

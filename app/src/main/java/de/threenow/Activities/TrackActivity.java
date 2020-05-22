@@ -487,9 +487,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //                            "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
 //                            "PAYPAL_MODE=sandbox");
                     .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
-                    .clientId("AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n" +
-                            "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
-                            "PAYPAL_MODE=sandbox");
+                    .clientId(getString(R.string.client_id_paypal) +
+                            getString(R.string.paypal_secret) +
+                            getString(R.string.paypal_mode));
 
             PayPalPayment payment = new PayPalPayment(new BigDecimal(lblTotalPrice.getText().toString().replace("€", "")), "EUR", " ",
                     PayPalPayment.PAYMENT_INTENT_SALE);
@@ -776,12 +776,14 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
+
         context = TrackActivity.this;
         activity = TrackActivity.this;
         ButterKnife.bind(this);
         lnrFlow.getBackground().setAlpha(127);
         restInterface = ServiceGenerator.createService(RestInterface.class);
         SharedHelper.putKey(context, "AUTO_CARETAKER_REQ", "");
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -797,6 +799,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 }
             }
         }, 500);
+
         reqStatus = SharedHelper.getKey(context, "req_status");
         lblPaymentType = findViewById(R.id.lblPaymentType);
         txtpaiddriver = findViewById(R.id.txtpaiddriver);
@@ -3508,7 +3511,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             }
 //              object.put("payment_mode", SharedHelper.getKey(getApplicationContext(),"payment_mode"));
 //              object.put("is_paid", isPaid);
-            Log.d(TAG, "payNowCard: " + object.toString(1));
+            Log.d(TAG, "2223 payNowCard: " + object.toString(1));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3516,8 +3519,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_NOW_API, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "onResponse: " + response.toString());
-                utils.print("PayNowRequestResponse", response.toString());
+                Log.d(TAG, "2223 onResponse: " + response.toString());
+                utils.print("2223 PayNowRequestResponse", response.toString());
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
                 SharedHelper.putKey(context, "total_amount", "");

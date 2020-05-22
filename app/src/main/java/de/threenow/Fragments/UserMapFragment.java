@@ -54,6 +54,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
@@ -74,7 +86,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-//import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -92,35 +103,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.maps.android.ui.IconGenerator;
-
-import butterknife.OnClick;
-import de.threenow.Activities.ChoseServiceActivity;
-import de.threenow.IlyftApplication;
 import com.koushikdutta.ion.Ion;
-import de.threenow.Activities.CouponActivity;
-import de.threenow.Activities.CustomGooglePlacesSearch;
-import de.threenow.Activities.Payment;
-import de.threenow.Activities.ShowProfile;
-import de.threenow.Activities.TrackActivity;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.DataParser;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.Models.CardInfo;
-import de.threenow.Models.Driver;
-import de.threenow.Models.GetUserRate;
-import de.threenow.Models.PlacePredictions;
-import de.threenow.Models.PostUserRate;
-import de.threenow.Models.RestInterface;
-import de.threenow.Models.ServiceGenerator;
-import de.threenow.R;
-import de.threenow.Utils.MapAnimator;
-import de.threenow.Utils.MapRipple;
-
-import de.threenow.Utils.MyTextView;
-import de.threenow.Utils.ResponseListener;
-import de.threenow.Utils.Utilities;
 import com.skyfishjy.library.RippleBackground;
 import com.squareup.picasso.Picasso;
 
@@ -144,26 +127,42 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import de.threenow.Activities.ChoseServiceActivity;
+import de.threenow.Activities.CouponActivity;
+import de.threenow.Activities.CustomGooglePlacesSearch;
+import de.threenow.Activities.Payment;
+import de.threenow.Activities.ShowProfile;
+import de.threenow.Activities.TrackActivity;
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.DataParser;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.Models.CardInfo;
+import de.threenow.Models.Driver;
+import de.threenow.Models.GetUserRate;
+import de.threenow.Models.PlacePredictions;
+import de.threenow.Models.PostUserRate;
+import de.threenow.Models.RestInterface;
+import de.threenow.Models.ServiceGenerator;
+import de.threenow.R;
+import de.threenow.Utils.MapAnimator;
+import de.threenow.Utils.MapRipple;
+import de.threenow.Utils.MyTextView;
+import de.threenow.Utils.ResponseListener;
+import de.threenow.Utils.Utilities;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 import static de.threenow.IlyftApplication.trimMessage;
+
+//import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 public class UserMapFragment extends Fragment implements OnMapReadyCallback, LocationListener,
         GoogleMap.OnMarkerDragListener, GoogleApiClient.ConnectionCallbacks,
@@ -220,7 +219,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     ImageView imgPaymentType;
 
 
-//       <!--1. Request to providers -->
+    //       <!--1. Request to providers -->
     ImageView imgSos;
     ImageView imgShareRide;
     TextView lblPaymentType, lblPromo, booking_id;
@@ -233,19 +232,19 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     RelativeLayout lnrSearchAnimation;
     ImageView imgProviderPopup;
 
-//        <!--1. Driver Details-->
+    //        <!--1. Driver Details-->
     TextView lblPriceMin, lblBasePricePopup, lblCapacity,
             lblServiceName, lblPriceKm, lblCalculationType, lblProviderDesc;
     Button btnDonePopup;
     LinearLayout lnrApproximate;
     Button btnRequestRideConfirm;
     Button imgSchedule;
-    TextView tvPickUpAddres,tvDropAddres;
+    TextView tvPickUpAddres, tvDropAddres;
     LinearLayout layoutSrcDest;
 
-//         <!--2. Approximate Rate ...-->
+    //         <!--2. Approximate Rate ...-->
     CheckBox chkWallet;
-    TextView lblEta,lblDis;
+    TextView lblEta, lblDis;
     TextView lblType;
     TextView lblApproxAmount, surgeDiscount, surgeTxt;
     View lineView;
@@ -259,7 +258,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     TextView lblNoMatch;
     ImageView imgCenter;
 
-//         <!--3. Waiting For Providers ...-->
+    //         <!--3. Waiting For Providers ...-->
     Button btnCancelRide;
     RippleBackground rippleBackground;
     LinearLayout lnrProviderAccepted, lnrAfterAcceptedStatus, AfterAcceptButtonLayout;
@@ -269,7 +268,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     Button btnCall, btnCancelTrip;
     LinearLayout lnrInvoice;
 
-//         <!--4. Driver Accepted ...-->
+    //         <!--4. Driver Accepted ...-->
     TextView lblBasePrice, lblExtraPrice, lblDistancePrice,
             lblTaxPrice, lblTotalPrice, lblPaymentTypeInvoice;
     ImageView imgPaymentTypeInvoice;
@@ -277,13 +276,13 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     LinearLayout lnrRateProvider;
     TextView lblProviderNameRate;
 
-//          <!--5. Invoice Layout ...-->
+    //          <!--5. Invoice Layout ...-->
     ImageView imgProviderRate;
     RatingBar ratingProviderRate;
     EditText txtCommentsRate;
     Button btnSubmitReview;
 
-//          <!--6. Rate provider Layout ...-->
+    //          <!--6. Rate provider Layout ...-->
     RelativeLayout rtlStaticMarker;
     ImageView imgDestination;
     TextView btnDone;
@@ -294,7 +293,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     //Internet
     ConnectionHelper helper;
 
-//            <!-- Static marker-->
+    //            <!-- Static marker-->
     Boolean isInternet;
     //RecylerView
     int currentPostion = 0;
@@ -338,9 +337,11 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public static UserMapFragment newInstance() {
         return new UserMapFragment();
     }
+
     Call<ResponseBody> responseBodyCall;
     RestInterface restInterface;
     Call<GetUserRate> getUserRateCall;
+
     @Override
     public void onCameraMove() {
         utils.print("Current marker", "Zoom Level " + mMap.getCameraPosition().zoom);
@@ -385,7 +386,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         }
         restInterface = ServiceGenerator.createService(RestInterface.class);
-        customDialog=new CustomDialog(getActivity());
+        customDialog = new CustomDialog(getActivity());
         if (activity != null && isAdded()) {
             if (customDialog != null) {
                 customDialog.show();
@@ -513,7 +514,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         lnrApproximate = rootView.findViewById(R.id.lnrApproximate);
         imgSchedule = rootView.findViewById(R.id.imgSchedule);
         tvPickUpAddres = rootView.findViewById(R.id.tvSourcePoint);
-       tvDropAddres= rootView.findViewById(R.id.tvDroppoint);
+        tvDropAddres = rootView.findViewById(R.id.tvDroppoint);
         layoutSrcDest = rootView.findViewById(R.id.layoutSrcDest);
         chkWallet = (CheckBox) rootView.findViewById(R.id.chkWallet);
         lblEta = rootView.findViewById(R.id.lblEta);
@@ -714,7 +715,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 100);
                             mMap.moveCamera(cu);
                             flowValue = 1;
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Log.e("exption", e.getMessage());
                         }
                     } else if (lnrWaitingForProviders.getVisibility() == View.VISIBLE) {
@@ -768,9 +769,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             mMap.setOnCameraMoveListener(this);
             mMap.getUiSettings().setRotateGesturesEnabled(false);
             mMap.getUiSettings().setTiltGesturesEnabled(false);
-        }else {
+        } else {
 
-            Toast.makeText(activity,  getResources().getString(R.string.no_map), Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, getResources().getString(R.string.no_map), Toast.LENGTH_SHORT).show();
         }
 
 
@@ -778,8 +779,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-//        location.setLatitude(52.5230588);
-//        location.setLongitude(13.4699208);
+        location.setLatitude(52.5230588);
+        location.setLongitude(13.4699208);
 
         if (marker != null) {
             marker.remove();
@@ -827,7 +828,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     customDialog.dismiss();
             }
 
-            updateLocationToAdmin(location.getLatitude()+"",location.getLongitude()+"");
+            updateLocationToAdmin(location.getLatitude() + "", location.getLongitude() + "");
         }
     }
 
@@ -836,7 +837,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         try {
             object.put("latitude", latitude);
             object.put("longitude", longitude);
-            utils.print("SendRequestUpdate", "" + object.toString());
+//            utils.print("SendRequestUpdate", "" + object.toString()); ---------- abood
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -844,10 +845,10 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         IlyftApplication.getInstance().cancelRequestInQueue("send_request");
         JsonObjectRequest jsonObjectRequest = new
                 JsonObjectRequest(Request.Method.POST,
-                        URLHelper.base+"api/user/update/location",
+                        URLHelper.base + "api/user/update/location",
                         object,
                         response -> {
-                        Log.v("uploadRes",response+" ");
+//                            Log.v("uploadRes", response + " ");---------------------------------- abood
                         }, error -> {
 
                 }) {
@@ -887,9 +888,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 .setCancelable(false);
         builder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
 
-                Intent intentCall = new Intent(Intent.ACTION_DIAL);
-                intentCall.setData(Uri.parse("tel:" + SharedHelper.getKey(context, "sos")));
-                startActivity(intentCall);
+            Intent intentCall = new Intent(Intent.ACTION_DIAL);
+            intentCall.setData(Uri.parse("tel:" + SharedHelper.getKey(context, "sos")));
+            startActivity(intentCall);
 
         });
         builder.setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss());
@@ -910,7 +911,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-String cancaltype="";
+
+    String cancaltype = "";
+
     private void showreasonDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
@@ -1091,7 +1094,7 @@ String cancaltype="";
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
-                       mMap.setPadding(0,0,0,lnrApproximate.getHeight());
+                        mMap.setPadding(0, 0, 0, lnrApproximate.getHeight());
                     }
                 });
                 if (sourceMarker != null && destinationMarker != null) {
@@ -1388,12 +1391,14 @@ String cancaltype="";
         AlertDialog alert1 = builder.create();
         alert1.show();
     }
+
     PlacePredictions placePredictions;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d(TAG, "onActivityResult: "+requestCode+" Result Code "+resultCode);
+        Log.d(TAG, "onActivityResult: " + requestCode + " Result Code " + resultCode);
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST) {
             if (parserTask != null) {
                 parserTask = null;
@@ -1514,7 +1519,7 @@ String cancaltype="";
                         layoutChanges();
                     }
                 }
-            }  else if (resultCode == Activity.RESULT_CANCELED) {
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 // The user canceled the operation.
             }
         }
@@ -1528,7 +1533,7 @@ String cancaltype="";
         }
         if (requestCode == 0000) {
             if (resultCode == Activity.RESULT_OK) {
-              lblPromo.setText(getResources().getString(R.string.promo_code_applied));
+                lblPromo.setText(getResources().getString(R.string.promo_code_applied));
             }
         }
         if (requestCode == 5555) {
@@ -1538,7 +1543,7 @@ String cancaltype="";
             }
         }
 
-        if(requestCode == 10){
+        if (requestCode == 10) {
             String result = data.getStringExtra("paymentSuccessful");
         }
         if (requestCode == REQUEST_LOCATION) {
@@ -1565,7 +1570,7 @@ String cancaltype="";
             lblCmfrmDestAddress.setText(dest_address);
             lblApproxAmount.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
             lblEta.setText(SharedHelper.getKey(context, "eta_time") + "");
-            lblDis.setText(SharedHelper.getKey(context, "distance")+"km");
+            lblDis.setText(SharedHelper.getKey(context, "distance") + "km");
             if (!SharedHelper.getKey(context, "name").equalsIgnoreCase("")
                     && !SharedHelper.getKey(context, "name").equalsIgnoreCase(null)
                     && !SharedHelper.getKey(context, "name").equalsIgnoreCase("null")) {
@@ -1628,7 +1633,7 @@ String cancaltype="";
     }
 
     public void getServiceList() {
-       
+
         customDialog.setCancelable(false);
 
         if (customDialog != null)
@@ -1731,7 +1736,7 @@ String cancaltype="";
     }
 
     public void getApproximateFare() {
-       
+
         customDialog.setCancelable(false);
         if (customDialog != null)
             customDialog.show();
@@ -1776,7 +1781,7 @@ String cancaltype="";
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.v("approxerrorcode",error.toString()+" "+error.getMessage());
+                        Log.v("approxerrorcode", error.toString() + " " + error.getMessage());
                         if ((customDialog != null) && (customDialog.isShowing()))
                             customDialog.dismiss();
                         String json = null;
@@ -2045,7 +2050,7 @@ String cancaltype="";
 
     public void sendRequest() {
 
-       
+
         customDialog.setCancelable(false);
         if (customDialog != null)
             customDialog.show();
@@ -2063,7 +2068,6 @@ String cancaltype="";
 
             object.put("schedule_date", scheduledDate);
             object.put("schedule_time", scheduledTime);
-
 
 
             if (chkWallet.isChecked()) {
@@ -2095,16 +2099,14 @@ String cancaltype="";
                                 if ((customDialog != null) && (customDialog.isShowing()))
                                     customDialog.dismiss();
 
-                                if(response.toString().contains("error"))
-                                {
+                                if (response.toString().contains("error")) {
                                     String msg = response.optString("error");
-                                    if (msg.contains("Sorry in this Source location,We ")){
+                                    if (msg.contains("Sorry in this Source location,We ")) {
                                         msg = getString(R.string.cannot_provide_service_location);
                                     }
 
-                                    Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
-                                }
-                               else if (response.optString("request_id", "").equals("")) {
+                                    Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+                                } else if (response.optString("request_id", "").equals("")) {
                                     utils.displayMessage(getView(), response.optString("message"));
                                 } else {
                                     SharedHelper.putKey(context, "current_status", "");
@@ -2127,14 +2129,14 @@ String cancaltype="";
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
                     String json = null;
-                    Log.v("sendrequestresponse",error.toString()+" ");
+                    Log.v("sendrequestresponse", error.toString() + " ");
                     String Message;
                     NetworkResponse response = error.networkResponse;
                     if (response != null && response.data != null) {
                         btnRequestRideConfirm.setEnabled(true);
                         try {
                             JSONObject errorObj = new JSONObject(new String(response.data));
-                             if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                            if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
                                 try {
                                     utils.showAlert(context, errorObj.optString("error"));
                                 } catch (Exception e) {
@@ -2174,7 +2176,7 @@ String cancaltype="";
     }
 
     public void cancelRequest() {
-       
+
         customDialog.setCancelable(false);
         if (customDialog != null)
             customDialog.show();
@@ -2380,26 +2382,23 @@ String cancaltype="";
     private void getCardDetailsForPayment(CardInfo cardInfo) {
         if (cardInfo.getLastFour().equals("CASH")) {
             SharedHelper.putKey(context, "payment_mode", "CASH");
-         //   imgPaymentType.setImageResource(R.drawable.money1);
+            //   imgPaymentType.setImageResource(R.drawable.money1);
             lblPaymentType.setText(getResources().getString(R.string.cash));
-        }
-        else if (cardInfo.getLastFour().equals("PAYPAL"))
-        {
+        } else if (cardInfo.getLastFour().equals("PAYPAL")) {
             SharedHelper.putKey(context, "payment_mode", "PAYPAL");
             //   imgPaymentType.setImageResource(R.drawable.money1);
             lblPaymentType.setText("PAYPAL");
-        }
-        else {
+        } else {
             SharedHelper.putKey(context, "card_id", cardInfo.getCardId());
 //            SharedHelper.putKey(context, "payment_mode", "M-Pesa");
             SharedHelper.putKey(context, "payment_mode", "CARD");
             imgPaymentType.setImageResource(R.mipmap.ic_launcher_round);
-            lblPaymentType.setText("xxxx"+cardInfo.getLastFour());
+            lblPaymentType.setText("xxxx" + cardInfo.getLastFour());
         }
     }
 
     public void payNow() {
-        Log.d(TAG, "payNow: "+lblTotalPrice.getText().toString());
+        Log.d(TAG, "payNow: " + lblTotalPrice.getText().toString());
         confirmFinalPayment(lblTotalPrice.getText().toString());
 //       
 //        customDialog.setCancelable(false);
@@ -2745,7 +2744,7 @@ String cancaltype="";
     }
 
     public void submitReviewCall() {
-       
+
         customDialog.setCancelable(false);
         if (customDialog != null)
             customDialog.show();
@@ -2993,7 +2992,6 @@ String cancaltype="";
         // distance = distance.toUpperCase();
 
 
-
         if (isMyLocation) {
 
             info_window_time.setVisibility(View.VISIBLE);
@@ -3108,7 +3106,9 @@ String cancaltype="";
 
         getPastTripRate();
     }
+
     String requestWith = "XMLHttpRequest";
+
     void getPastTripRate() {
         String auth = "Bearer " + SharedHelper.getKey(context, "access_token");
         getUserRateCall = restInterface.getUserRate(requestWith, auth);
@@ -3116,6 +3116,12 @@ String cancaltype="";
             @Override
             public void onResponse(Call<GetUserRate> call,
                                    retrofit2.Response<GetUserRate> response) {
+                try {
+                    Log.e("2225", response.code() + " " + response.message() + " getPaid: " + response.body().getPaid() + " getRequest_id: " + response.body().getRequest_id() + " getUser_rated: " + response.body().getUser_rated());
+                } catch (Exception e) {
+                    Log.e(UserMapFragment.class.getName(), e.getMessage());
+
+                }
                 if (response.code() == 200) {
                     String requestId = response.body().getRequest_id();
                     String providerImage = response.body().getProvider_picture();
@@ -3134,7 +3140,9 @@ String cancaltype="";
             }
         });
     }
+
     Dialog userRateDialog;
+
     void showTripRateDialog(String requestId, String proName, String proImage) {
         userRateDialog = new Dialog(getActivity());
         userRateDialog.setContentView(R.layout.user_rate_dailog);
@@ -3208,6 +3216,7 @@ String cancaltype="";
             }
         });
     }
+
     @Override
     public void getJSONArrayResult(String strTag, JSONArray response) {
         if (strTag.equalsIgnoreCase("Get Services")) {
@@ -3453,8 +3462,8 @@ String cancaltype="";
                             !destination.getText().toString().equalsIgnoreCase("") &&
                             !frmDest.getText().toString().equalsIgnoreCase("")) {
 //                        getApproximateFare();
-                       /*  flowValue = 7;
-                        layoutChanges(); */
+                        /*flowValue = 7;
+                        layoutChanges();*/
 
                         Intent i = new Intent(getApplicationContext(), ChoseServiceActivity.class);
                         if (chkWallet.isChecked()) {
@@ -3539,9 +3548,9 @@ String cancaltype="";
                     break;
                 case R.id.btnCall:
 
-                        Intent intentCall = new Intent(Intent.ACTION_DIAL);
-                        intentCall.setData(Uri.parse("tel:" + SharedHelper.getKey(context, "provider_mobile_no")));
-                        startActivity(intentCall);
+                    Intent intentCall = new Intent(Intent.ACTION_DIAL);
+                    intentCall.setData(Uri.parse("tel:" + SharedHelper.getKey(context, "provider_mobile_no")));
+                    startActivity(intentCall);
 
                     break;
                 case R.id.btnDone:
@@ -3605,7 +3614,7 @@ String cancaltype="";
                                 intentDest.putExtra("s_address", frmSource.getText().toString());
                                 startActivityForResult(intentDest, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
                             } else {
-                                if(placePredictions!=null) {
+                                if (placePredictions != null) {
                                     if (!placePredictions.strSourceAddress.equalsIgnoreCase("")) {
                                         source_lat = "" + placePredictions.strSourceLatitude;
                                         source_lng = "" + placePredictions.strSourceLongitude;
@@ -3864,7 +3873,7 @@ String cancaltype="";
             if (position == 0) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
-                Picasso.get().load(URLHelper.base+jsonArray
+                Picasso.get().load(URLHelper.base + jsonArray
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car11)
                         .error(R.drawable.car11).into(holder.serviceImg);
@@ -3873,7 +3882,7 @@ String cancaltype="";
             if (position == 1) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
-                Picasso.get().load(URLHelper.base+jsonArray
+                Picasso.get().load(URLHelper.base + jsonArray
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car22)
                         .error(R.drawable.car22).into(holder.serviceImg);
@@ -3881,7 +3890,7 @@ String cancaltype="";
             if (position == 2) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
-                Picasso.get().load(URLHelper.base+jsonArray
+                Picasso.get().load(URLHelper.base + jsonArray
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car33)
                         .error(R.drawable.car33).into(holder.serviceImg);
@@ -4044,59 +4053,60 @@ String cancaltype="";
             String duration = "";
             isDragging = false;
             // Traversing through all the routes
-            for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList<>();
-                lineOptions = new PolylineOptions();
+            if (result != null)
+                for (int i = 0; i < result.size(); i++) {
+                    points = new ArrayList<>();
+                    lineOptions = new PolylineOptions();
 
-                // Fetching i-th route
-                List<HashMap<String, String>> path = result.get(i);
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    // Fetching i-th route
+                    List<HashMap<String, String>> path = result.get(i);
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-                // Fetching all the points in i-th route
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
+                    // Fetching all the points in i-th route
+                    for (int j = 0; j < path.size(); j++) {
+                        HashMap<String, String> point = path.get(j);
 
-                    if (j == 0) {
-                        distance = (String) point.get("distance");
-                        continue;
-                    } else if (j == 1) {
-                        duration = (String) point.get("duration");
-                        continue;
+                        if (j == 0) {
+                            distance = (String) point.get("distance");
+                            continue;
+                        } else if (j == 1) {
+                            duration = (String) point.get("duration");
+                            continue;
+                        }
+
+
+                        double lat = Double.parseDouble(point.get("lat"));
+                        double lng = Double.parseDouble(point.get("lng"));
+                        LatLng position = new LatLng(lat, lng);
+                        points.add(position);
+                        builder.include(position);
                     }
 
+                    if (!source_lat.equalsIgnoreCase("") &&
+                            !source_lng.equalsIgnoreCase("")) {
+                        LatLng location = new LatLng(Double.parseDouble(source_lat),
+                                Double.parseDouble(source_lng));
+                        //mMap.clear();
+                        if (sourceMarker != null)
+                            sourceMarker.remove();
+                        MarkerOptions markerOptions = new MarkerOptions()
+                                .anchor(0.5f, 0.75f)
+                                .position(location).draggable(true)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.round_source));
+                        marker = mMap.addMarker(markerOptions);
+                        sourceMarker = mMap.addMarker(markerOptions);
 
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-                    points.add(position);
-                    builder.include(position);
-                }
-
-                if (!source_lat.equalsIgnoreCase("") &&
-                        !source_lng.equalsIgnoreCase("")) {
-                    LatLng location = new LatLng(Double.parseDouble(source_lat),
-                            Double.parseDouble(source_lng));
-                    //mMap.clear();
-                    if (sourceMarker != null)
-                        sourceMarker.remove();
-                    MarkerOptions markerOptions = new MarkerOptions()
-                            .anchor(0.5f, 0.75f)
-                            .position(location).draggable(true)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.round_source));
-                    marker = mMap.addMarker(markerOptions);
-                    sourceMarker = mMap.addMarker(markerOptions);
-
-                }
-                if (!dest_lat.equalsIgnoreCase("") &&
-                        !dest_lng.equalsIgnoreCase("")) {
-                    destLatLng = new LatLng(Double.parseDouble(dest_lat),
-                            Double.parseDouble(dest_lng));
-                    if (destinationMarker != null)
-                        destinationMarker.remove();
-                    MarkerOptions destMarker = new MarkerOptions()
-                            .position(destLatLng).draggable(true)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.square_desti));
-                    destinationMarker = mMap.addMarker(destMarker);
+                    }
+                    if (!dest_lat.equalsIgnoreCase("") &&
+                            !dest_lng.equalsIgnoreCase("")) {
+                        destLatLng = new LatLng(Double.parseDouble(dest_lat),
+                                Double.parseDouble(dest_lng));
+                        if (destinationMarker != null)
+                            destinationMarker.remove();
+                        MarkerOptions destMarker = new MarkerOptions()
+                                .position(destLatLng).draggable(true)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.square_desti));
+                        destinationMarker = mMap.addMarker(destMarker);
 //                    if (sourceLatLng != null && destLatLng != null) {
 //                        View infoWindow = getInfoWindow(distance, duration, true);
 //                        addIcon(infoWindow, true, sourceLatLng, destLatLng);
@@ -4105,27 +4115,27 @@ String cancaltype="";
 //                        addIcon(infoWindow, false, sourceLatLng, destLatLng);
 //                    }
 
-                    mMap.setPadding(20, 20, 20, 20);
+                        mMap.setPadding(20, 20, 20, 20);
 
-                    builder.include(sourceMarker.getPosition());
-                    builder.include(destinationMarker.getPosition());
-                    LatLngBounds bounds = builder.build();
-                    int padding = 0; // offset from edges of the map in pixels
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
-                    mMap.moveCamera(cu);
+                        builder.include(sourceMarker.getPosition());
+                        builder.include(destinationMarker.getPosition());
+                        LatLngBounds bounds = builder.build();
+                        int padding = 0; // offset from edges of the map in pixels
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
+                        mMap.moveCamera(cu);
 
+
+                    }
+
+                    // Adding all the points in the route to LineOptions
+                    lineOptions.addAll(points);
+                    lineOptions.width(5);
+                    lineOptions.color(Color.BLACK);
+
+
+                    Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 
                 }
-
-                // Adding all the points in the route to LineOptions
-                lineOptions.addAll(points);
-                lineOptions.width(5);
-                lineOptions.color(Color.BLACK);
-
-
-                Log.d("onPostExecute", "onPostExecute lineoptions decoded");
-
-            }
             tvPickUpAddres.setText(source_address);
             tvDropAddres.setText(dest_address);
             if (lineOptions != null && points != null) {
@@ -4136,8 +4146,9 @@ String cancaltype="";
             }
         }
     }
+
     private void confirmFinalPayment(String totalFee) {
-       
+
         customDialog.setCancelable(false);
         if (customDialog != null)
             customDialog.show();
@@ -4149,7 +4160,9 @@ String cancaltype="";
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-        String constructedURL1 = URLHelper.base + URLHelper.GET_PAYMENT_CONFIRMATION+totalFee+"?req_id="+SharedHelper.getKey(getApplicationContext(),"request_id");
+        String constructedURL1 = URLHelper.base + URLHelper.GET_PAYMENT_CONFIRMATION + totalFee +
+                "?req_id=" + SharedHelper.getKey(getApplicationContext(), "request_id");
+
         Log.e("paymentConfirmationApi:", constructedURL1);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, constructedURL1, object, new Response.Listener<JSONObject>() {
             @Override
@@ -4262,8 +4275,7 @@ String cancaltype="";
                                     rcvServiceTypes.setVisibility(View.VISIBLE);
                                     tvZoneMsg.setVisibility(View.GONE);
                                     getServiceList();
-                                }
-                                else {
+                                } else {
                                     rcvServiceTypes.setVisibility(View.GONE);
                                     tvZoneMsg.setVisibility(View.VISIBLE);
                                     tvZoneMsg.setText(response.optString("error"));
@@ -4273,7 +4285,7 @@ String cancaltype="";
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
                     String json = null;
-                    Log.v("sendrequestresponse",error.toString()+" ");
+                    Log.v("sendrequestresponse", error.toString() + " ");
                     String Message;
                     NetworkResponse response = error.networkResponse;
                     if (response != null && response.data != null) {

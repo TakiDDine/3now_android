@@ -9,10 +9,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -21,8 +17,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -32,20 +33,11 @@ import com.android.volley.Request;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
-
-import de.threenow.Helper.LocaleManager;
-import de.threenow.IlyftApplication;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.Models.CardInfo;
-import de.threenow.R;
-import de.threenow.Utils.MyBoldTextView;
-import de.threenow.Utils.Utilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,9 +45,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
+
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.Models.CardInfo;
+import de.threenow.R;
+import de.threenow.Utils.MyBoldTextView;
+import de.threenow.Utils.Utilities;
 
 public class ActivityWallet extends AppCompatActivity implements View.OnClickListener {
 
@@ -82,6 +83,8 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
 
     boolean loading;
 
+    ImageView backArrow;
+
     @Override
     protected void attachBaseContext(Context base) {
 
@@ -98,29 +101,32 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cardInfoArrayList = new ArrayList<>();
-        add_fund_button =  findViewById(R.id.add_fund_button);
+        add_fund_button = findViewById(R.id.add_fund_button);
         wallet_card = (CardView) findViewById(R.id.wallet_card);
         add_money_card = (CardView) findViewById(R.id.add_money_card);
         balance_tv = (MyBoldTextView) findViewById(R.id.balance_tv);
-        currencySymbol =  findViewById(R.id.currencySymbol);
+        currencySymbol = findViewById(R.id.currencySymbol);
         context = this;
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
 
         currencySymbol.setText(SharedHelper.getKey(context, "currency"));
-        money_et =  findViewById(R.id.money_et);
-        one =  findViewById(R.id.one);
-        two =  findViewById(R.id.two);
-        three =  findViewById(R.id.three);
+        money_et = findViewById(R.id.money_et);
+        one = findViewById(R.id.one);
+        two = findViewById(R.id.two);
+        three = findViewById(R.id.three);
+        backArrow = findViewById(R.id.backArrow);
+
+        backArrow.setOnClickListener(this);
         one.setOnClickListener(this);
         two.setOnClickListener(this);
         three.setOnClickListener(this);
@@ -374,6 +380,9 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
                 two.setBackground(getResources().getDrawable(R.drawable.border_stroke));
                 three.setBackground(getResources().getDrawable(R.drawable.border_stroke_black));
                 money_et.setText("1099");
+                break;
+            case R.id.backArrow:
+                finish();
                 break;
         }
     }
