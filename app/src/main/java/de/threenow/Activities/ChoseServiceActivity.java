@@ -145,21 +145,21 @@ public class ChoseServiceActivity extends AppCompatActivity implements View.OnCl
             public void onClick(View v) {
                 serviceId = 27;
                 Intent i = new Intent(getApplicationContext(), SpecialTripsActivity.class);
-                i.putExtra("s_latitude", s_latitude);
-                i.putExtra("s_longitude", s_longitude);
-                i.putExtra("d_latitude", d_latitude);
-                i.putExtra("d_longitude", d_longitude);
-                i.putExtra("s_address", s_address);
-                i.putExtra("d_address", d_address);
-                i.putExtra("distance", distance);
-                i.putExtra("payment_mode", payment_mode);
-                i.putExtra("service_id", "27");
-                if (use_wallet != null) {
-                    i.putExtra("use_wallet", use_wallet);
-                }
-                if (card_id != null) {
-                    i.putExtra("card_id", card_id);
-                }
+//                i.putExtra("s_latitude", s_latitude);
+//                i.putExtra("s_longitude", s_longitude);
+//                i.putExtra("d_latitude", d_latitude);
+//                i.putExtra("d_longitude", d_longitude);
+//                i.putExtra("s_address", s_address);
+//                i.putExtra("d_address", d_address);
+//                i.putExtra("distance", distance);
+//                i.putExtra("payment_mode", payment_mode);
+//                i.putExtra("service_id", "27");
+//                if (use_wallet != null) {
+//                    i.putExtra("use_wallet", use_wallet);
+//                }
+//                if (card_id != null) {
+//                    i.putExtra("card_id", card_id);
+//                }
                 startActivity(i);
             }
         });

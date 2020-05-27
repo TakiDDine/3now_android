@@ -7,45 +7,27 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-
     <uses-feature android:name="android.hardware.camera" />
 
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
     <!--
      The following two permissions are not required to use
      Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -64,30 +46,28 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:supportsRtl"
         tools:targetApi="m">
-        <activity android:name=".Activities.TripSchedulingActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ResultScheduledActivity"></activity>
+        <activity android:name=".SendEmailActivity" />
+        <activity
+            android:name=".Activities.TripSchedulingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.SpecialTripsActivity" />
-
         <activity android:name=".Activities.ChoseServiceActivity" />
-
-        <activity android:name=".Activities.QuestionandanswerActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="layoutDirection|locale"/>
-
+        <activity
+            android:name=".Activities.QuestionandanswerActivity"
+            android:configChanges="layoutDirection|locale"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.AgbActivity"
             android:configChanges="layoutDirection|locale"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.FullImage"
             android:configChanges="layoutDirection|locale"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".calender.AddOrEditCalendarActivity"
             android:configChanges="layoutDirection|locale" />
-
         <!--
 <activity
             android:name=".calender.CalendarSampleActivity"
@@ -107,7 +87,6 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Activities.SplashScreen"
             android:screenOrientation="portrait"
@@ -117,9 +96,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
         <activity
@@ -128,20 +105,17 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.OtpVerification"
             android:configChanges="layoutDirection|locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.UserReview"
             android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/app_name"
@@ -149,7 +123,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"
             ndroid:configChanges="layoutDirection|locale" />
-
         <activity
             android:name=".Activities.EditProfile"
             android:configChanges="layoutDirection|locale"
@@ -157,7 +130,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".Activities.ShowProfile"
             android:configChanges="layoutDirection|locale"
@@ -165,7 +137,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".Activities.AddCard"
             android:configChanges="layoutDirection|locale"
@@ -173,41 +144,35 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".Activities.HistoryDetails"
             android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
- <!-- <activity -->
+            android:windowSoftInputMode="adjustResize" /> <!-- <activity -->
         <!-- android:name="com.mbeba.user.Activities.ForgetPassword" -->
         <!-- android:label="@string/app_name" -->
         <!-- android:screenOrientation="portrait" -->
         <!-- android:theme="@style/AppTheme.NoActionBar" -->
-        <!-- android:windowSoftInputMode="stateHidden" />
- -->
+        <!-- android:windowSoftInputMode="stateHidden" /> -->
         <activity
             android:name=".Activities.HistoryActivity"
             android:configChanges="layoutDirection|locale"
             android:label="@string/my_booking"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Activities.ActivityWallet"
             android:configChanges="layoutDirection|locale"
             android:label="Wallet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.CouponActivity"
             android:configChanges="layoutDirection|locale"
             android:label="Coupon"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".Activities.ChangePassword"
             android:configChanges="layoutDirection|locale"
@@ -215,7 +180,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".Activities.NotificationTab"
             android:configChanges="orientation|keyboardHidden|screenLayout|screenSize|layoutDirection|locale"
@@ -228,19 +192,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".chat.UserChatActivity"
             android:configChanges="layoutDirection|locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.Profile"
             android:configChanges="layoutDirection|locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.CustomGooglePlacesSearch"
             android:configChanges="layoutDirection|locale"
@@ -248,109 +209,90 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".Activities.ActivityHelp"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="layoutDirection|locale" />
-
-        
+            android:configChanges="layoutDirection|locale"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.facebook.accountkit.ui.AccountKitActivity" />
-
-        
         <activity
             android:name=".Activities.SosCallActivity"
             android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.ComplaintsAcivity"
             android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
- <!-- Firebase Notifications -->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- Firebase Notifications -->
         <activity
             android:name=".Activities.LegalActivity"
             android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.TermsOfUseActivity"
             android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.PrivacyPolicyActivity"
             android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.UpdateProfile"
             android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.FavouritePlaceSearch"
             android:configChanges="layoutDirection|locale"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.Login"
             android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.SignUp"
             android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
- <!-- <meta-data -->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- <meta-data -->
         <!-- android:name="io.fabric.ApiKey" -->
-        <!-- android:value="b7456bf4836fcad8f6ad95b6f17d2aef7a340ab7" />
- -->
+        <!-- android:value="b7456bf4836fcad8f6ad95b6f17d2aef7a340ab7" /> -->
         <activity
             android:name=".Activities.ForgotPassword"
             android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.MediaHome"
             android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.RunningTrip"
             android:configChanges="layoutDirection|locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.TrackActivity"
             android:configChanges="layoutDirection|locale"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.PhoneNoUpdateActivity"
             android:configChanges="layoutDirection|locale"
@@ -358,51 +300,40 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_api" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.facebook.accountkit.ApplicationName"
             android:value="@string/app_name" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.facebook.accountkit.ClientToken"
             android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" />
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="382cf003634c80b059946b0cd12ecd9c215c37da" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
         <service android:name=".FCM.FCMService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-
             </intent-filter>
         </service>
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
     </application>
 
 </manifest>

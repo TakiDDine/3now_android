@@ -17,4 +17,6 @@ public class GlobalDataMethods {
         win.setAttributes(winParams);
     }
 
+    public static boolean newScheduleRequest = false;
+
 }

@@ -11,7 +11,7 @@ public class URLHelper {
     public static final int client_id = 2;
 
     public static final String client_secret = "WifS1rMi3LvuorP1G2UdtKZairUNSH2iMqrKivPf";
-    public static final String STRIPE_TOKEN = "pk_test_69WkPQ5i5k0KwuG08mEazMPO";
+    public static final String STRIPE_TOKEN = "pk_live_w4AMWANwKUQms0HOKOSLB5aH0035Lw8s3P"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
 
     public static final String image_url_signature = base + "public/";
     public static final String CURRENT_TRIP = base + "api/user/trips/current";
@@ -28,6 +28,9 @@ public class URLHelper {
     // new
     public static final String SEND_REQUEST_API_NEW =  base + "api/new/send/request";
     public static final String SEND_REQUEST_Later_API = base + "api/user/save/later";
+
+    //new
+    public static final String SEND_EMAIL_API_NEW =  base + "api/user/send/email";
 
     public static final String VALIDZONE = base + "api/user/getvalidzone";
     public static final String CANCEL_REQUEST_API = base + "api/user/cancel/request";

@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-    
+
     <LinearLayout
-        
+
         android:id="@+id/first_ll_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,15 +24,15 @@
                 android:orientation="vertical">
 
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/prfile_header_menu"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/prfile_header_menu"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_165sdp"
+                    android:layout_marginBottom="@dimen/_24sdp"
                     android:background="@drawable/im_nav_header"
                     android:elevation="@dimen/_10sdp"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="@dimen/_24sdp">
+                    android:orientation="vertical">
 
 
                     <LinearLayout
@@ -88,14 +88,14 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                
+
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/home_ll_id"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_33sdp"
                     android:background="@color/white"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -116,11 +116,11 @@
                 </LinearLayout>
 
                 <View
-                    android:visibility="gone"
                     android:layout_width="@dimen/_135sdp"
                     android:layout_height="@dimen/_1sdp"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:background="#EBEBEB" />
+                    android:background="#EBEBEB"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/ll_track"
@@ -309,12 +309,12 @@
                     android:background="#EBEBEB" />
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/ll_contact"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_33sdp"
                     android:background="@color/white"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -335,25 +335,25 @@
                 </LinearLayout>
 
                 <View
-                    android:visibility="gone"
                     android:layout_width="@dimen/_135sdp"
                     android:layout_height="@dimen/_1sdp"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:background="#EBEBEB" />
+                    android:background="#EBEBEB"
+                    android:visibility="gone" />
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_width="@dimen/_135sdp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_30sdp"
                     android:clickable="true"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
-                        android:layout_marginBottom="@dimen/_8sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_8sdp"
                         android:layout_weight="1"
                         android:orientation="horizontal"
                         android:padding="@dimen/_3sdp"
@@ -388,10 +388,10 @@
                 </LinearLayout>
 
                 <FrameLayout
-                    android:layout_marginTop="@dimen/_30sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom">
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginTop="@dimen/_30sdp">
 
 
                     <View
@@ -401,10 +401,10 @@
                         android:background="@color/done_disabled_dark" />
 
                     <TextView
-                        android:layout_marginTop="@dimen/_8sdp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:onClick="logout"
                         android:text="@string/action_logout"
                         android:textColor="#FF0000" />

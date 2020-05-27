@@ -142,6 +142,7 @@ import de.threenow.Models.PaymentResponse;
 import de.threenow.Models.RestInterface;
 import de.threenow.Models.ServiceGenerator;
 import de.threenow.R;
+import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.MapAnimator;
 import de.threenow.Utils.ResponseListener;
 import de.threenow.Utils.Utilities;
@@ -770,7 +771,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -2413,7 +2414,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     startActivity(intent);
                                 }*/
                             } else {
-                                Toast.makeText(context, getString(R.string.no_drivers_found), Toast.LENGTH_SHORT).show();
+
                                 strTag = "";
                                 PreviousStatus = "";
                                 flowValue = 0;
@@ -2421,8 +2422,16 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             layoutChanges();
                             mMap.clear();
                             mapClear();*/
-                                Intent intent = new Intent(activity, MainActivity.class);
-                                startActivity(intent);
+                                if (GlobalDataMethods.newScheduleRequest) {
+                                    GlobalDataMethods.newScheduleRequest = false;
+                                    Intent output = new Intent();
+                                    setResult(RESULT_OK, output);
+                                    finish();
+                                } else {
+                                    Toast.makeText(context, getString(R.string.no_drivers_found), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(activity, MainActivity.class);
+                                    startActivity(intent);
+                                }
                             }
                         } else if (PreviousStatus.equalsIgnoreCase("STARTED")) {
                             SharedHelper.putKey(context, "current_status", "");

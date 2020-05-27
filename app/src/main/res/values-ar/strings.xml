@@ -453,6 +453,9 @@
     <string name="_3_now_economy">3 Now Economy</string>
     <string name="_3_now_vip">3 Now Vip</string>
     <string name="_3_now_special">3 Now special</string>
+    <string name="name_hint_email">Name des Ortes</string>
+    <string name="empty_field">please fill this field</string>
+    <string name="sent_email_successfully">Sent email successfully!</string>
 
     <string-array name="nav_item_activity_titles">
         <item>الصفحة الرئيسية</item>

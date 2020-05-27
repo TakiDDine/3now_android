@@ -779,8 +779,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-        location.setLatitude(52.5230588);
-        location.setLongitude(13.4699208);
+//        location.setLatitude(52.5230588);
+//        location.setLongitude(13.4699208);
 
         if (marker != null) {
             marker.remove();
@@ -3970,7 +3970,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
             public MyViewHolder(View itemView) {
                 super(itemView);
-                serviceItem = itemView.findViewById(R.id.serviceItem);
+                serviceItem = itemView.findViewById(R.id.service_car_type);
                 serviceCapacity = itemView.findViewById(R.id.serviceCapacity);
                 serviceImg = itemView.findViewById(R.id.serviceImg);
                 linearLayoutOfList = itemView.findViewById(R.id.LinearLayoutOfList);

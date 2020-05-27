@@ -65,6 +65,8 @@ import de.threenow.Models.PaymentResponse;
 import de.threenow.Models.RestInterface;
 import de.threenow.Models.ServiceGenerator;
 import de.threenow.R;
+import de.threenow.ResultScheduledActivity;
+import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.Utilities;
 import de.threenow.Utils.Utils;
 import retrofit2.Call;
@@ -524,11 +526,11 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         IlyftApplication.getInstance().cancelRequestInQueue("send_request");
         JsonObjectRequest jsonObjectRequest = new
                 JsonObjectRequest(Request.Method.POST,
-                        URLHelper.SEND_REQUEST_Later_API,
+                        URLHelper.SEND_REQUEST_API,
                         object,
                         response -> {
                             if (response != null) {
-                                Log.e("222 response", response.toString());
+                                Log.e("222 response-", response.toString());
 
                                 if ((customDialog != null) && (customDialog.isShowing()))
                                     customDialog.dismiss();
@@ -562,7 +564,14 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
                                     // سجل الدفع
                                     Price = response.optString("price") + "";
-                                    payNowPaypalOrCard();
+
+                                    GlobalDataMethods.newScheduleRequest = true;
+                                    Intent intent = new Intent(context, TrackActivity.class);
+                                    intent.putExtra("flowValue", 3);
+//                                    startActivity(intent);
+                                    startActivityForResult(intent, 963);
+//                                    payNowPaypalOrCard();
+
 //                                    pay();
 
 //                                    Intent intent = new Intent(this, TrackActivity.class);
@@ -655,24 +664,28 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         } else {
             Log.e("222 payNowPaypal", "btnPayNowClick: " + Price);
 
-            PayPalConfiguration config = new PayPalConfiguration()
-                    //                 // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
-                    //               // or live (ENVIRONMENT_PRODUCTION)
+            try {
+                PayPalConfiguration config = new PayPalConfiguration()
+                        //                 // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+                        //               // or live (ENVIRONMENT_PRODUCTION)
 //     //               .clientId("AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n" +
 //       //                     "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
 //         //                   "PAYPAL_MODE=sandbox");
-                    .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
-                    .clientId(getString(R.string.client_id_paypal) +
-                            getString(R.string.paypal_secret) +
-                            getString(R.string.paypal_mode));
+                        .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+                        .clientId(getString(R.string.client_id_paypal) +
+                                getString(R.string.paypal_secret) +
+                                getString(R.string.paypal_mode));
 
-            PayPalPayment payment = new PayPalPayment(new BigDecimal(Price.replace("€", "")), "EUR", " ",
-                    PayPalPayment.PAYMENT_INTENT_SALE);
-            Intent intent = new Intent(TripSchedulingActivity.this, PaymentActivity.class);
-            // send the same configuration for restart resiliency
-            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-            startActivityForResult(intent, 0);
+                PayPalPayment payment = new PayPalPayment(new BigDecimal(Price.replace("€", "")), "EUR", " ",
+                        PayPalPayment.PAYMENT_INTENT_SALE);
+                Intent intent = new Intent(TripSchedulingActivity.this, PaymentActivity.class);
+                // send the same configuration for restart resiliency
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+                startActivityForResult(intent, 0);
+            } catch (Exception e) {
+                Log.e("222 payNowPaypal", e.getMessage());
+            }
         }
 
     }
@@ -704,7 +717,59 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                     }
                 }
             }
+
+        } else if (requestCode == 963) { // driver done found
+            if (resultCode == Activity.RESULT_OK) {
+
+                goToResultScheduledActivity();
+
+            }
+        } else if (requestCode == 93) { // driver done found
+            if (resultCode == Activity.RESULT_OK) {
+                payNowPaypalOrCard();
+            }
         }
+    }
+
+    private void goToResultScheduledActivity() {
+
+        note = noteEditText.getText().toString();
+        if (nameschieldCheckbox.isChecked()) {
+            nameschield = "true";
+        } else {
+            nameschield = "false";
+        }
+
+        Intent i = new Intent(getApplicationContext(), ResultScheduledActivity.class);
+        i.putExtra("s_latitude", s_latitude);
+        i.putExtra("s_longitude", s_longitude);
+        i.putExtra("d_latitude", d_latitude);
+        i.putExtra("d_longitude", d_longitude);
+        i.putExtra("s_address", s_address);
+        i.putExtra("d_address", d_address);
+        i.putExtra("distance", distance);
+
+        i.putExtra("payment_mode", payment_mode);
+        i.putExtra("service_id", serviceId);
+
+        if (use_wallet != null) {
+            i.putExtra("use_wallet", use_wallet);
+        }
+        if (card_id != null) {
+            i.putExtra("card_id", card_id);
+        }
+
+        i.putExtra("service_type", Integer.parseInt(serviceId));
+        i.putExtra("schedule_date", scheduledDate);
+        i.putExtra("schedule_time", scheduledTime);
+        i.putExtra("kindersitz ", Integer.parseInt(childSeat));
+        i.putExtra("babyschale", Integer.parseInt(babySeat));
+        i.putExtra("nameschield", Boolean.parseBoolean(nameschield));
+        i.putExtra("note", note);
+        i.putExtra("price", Price);
+
+
+        startActivityForResult(i, 93);
     }
 
     public void payNowCard(String paymentType) {
@@ -1062,9 +1127,12 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                 if (btnTimePicker.getText().toString().matches("[a-zA-Z]+")) {
                     Toast.makeText(TripSchedulingActivity.this, getString(R.string.choose_date_time), Toast.LENGTH_SHORT).show();
                 } else {
-//                    sendRequest();
                     customDialog.show();
-                    sendRequestPrice();
+                    sendRequest();
+
+//                    sendRequestPrice();
+
+//                    goToResultScheduledActivity();
                 }
                 break;
 

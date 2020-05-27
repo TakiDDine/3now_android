@@ -4,7 +4,8 @@
     <string name="app_name">3Now</string>
 
     <!--Google map-->
-    <string name="google_map_api" translatable="false">AIzaSyB4fYZR1J3pRP4EZOiXQWp_JyUxig4aWvc</string>
+    <!--    <string name="google_map_api" translatable="false">AIzaSyB4fYZR1J3pRP4EZOiXQWp_JyUxig4aWvc</string>-->
+    <string name="google_map_api" translatable="false">AIzaSyDwFc97AGfeqzqBmL2eVFxgeHm-CQNnvNM</string>
 
     <!--facebook-->
     <string name="facebook_app_id" translatable="false">3127828963956256</string>
@@ -12,9 +13,12 @@
     <string name="ACCOUNT_KIT_CLIENT_TOKEN" translatable="false">734b50c746a9e545f9c6d307a1cc49c9</string>
 
     <!--Paypal-->
-    <string name="client_id_paypal" translatable="false">AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n</string>
-    <string name="paypal_secret" translatable="false">PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n</string>
-    <string name="paypal_mode" translatable="false">PAYPAL_MODE=sandbox</string>
+    <string name="client_id_paypal" translatable="false">AHqeoz2J9zSkHyneiushsKOcRPuYAdK3UR5tjSggbLYrjQ1pH972qPcb\n</string>
+    <string name="paypal_secret" translatable="false">PAYPAL_SECRET=47BANRGAUFQFYNED\n</string>
+    <string name="paypal_mode" translatable="false">PAYPAL_MODE=live</string>
+<!--    <string name="client_id_paypal" translatable="false">AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n</string>-->
+<!--    <string name="paypal_secret" translatable="false">PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n</string>-->
+<!--    <string name="paypal_mode" translatable="false">PAYPAL_MODE=sandbox</string>-->
 
     <!--    from here translate-->
     <string name="we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply">We will send you a One time SMS message carrier rate may apply</string>
@@ -523,6 +527,27 @@ We offer a variety of different services. For this reason, additional conditions
     <string name="_3_now_economy">3 Now Economy</string>
     <string name="_3_now_vip">3 Now Vip</string>
     <string name="_3_now_special">3 Now special</string>
+    <string name="name_hint_email">Name des Ortes</string>
+
+
+    <string name="car_name">Mercedes C-Klasse</string>
+    <string name="Routenplaner">Route planner</string>
+    <string name="Adress">ABHOLORT - Gerlingstr,43 Essen</string>
+    <string name="AdressD">Gerlingstr,43 Essen</string>
+    <string name="date_d">15.01.2020</string>
+    <string name="date_f">15.01.2020</string>
+    <string name="plus">Additional wishes</string>
+    <string name="plus1">Child seats</string>
+    <string name="plus2">Baby car seat</string>
+    <string name="plus3">Name tag</string>
+    <string name="notes">Remarks</string>
+    <string name="notes_d">Please be exactly at the time</string>
+    <string name="gesamt">total</string>
+    <string name="mwste">19 Mwste</string>
+    <string name="netto">Net</string>
+    <string name="cardNbr">.... .... .... 2547</string>
+    <string name="empty_field">please fill this field</string>
+    <string name="sent_email_successfully">Sent email successfully!</string>
 
 
     <string-array name="question1">

@@ -208,7 +208,7 @@
 
 
     <string name="call_support">Rufen Sie den Support an</string>
-    <string name="chat_support">Chat-Unterstützung</string>
+    <string name="chat_support">Ort hinzufugen</string>
     <string name="weburl">Web-URL</string>
     <string name="faq">Fragen &amp; Antworten</string>
 
@@ -550,5 +550,8 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="_3_now_economy">3 Jetzt Wirtschaft</string>
     <string name="_3_now_vip">3 Jetzt Vip</string>
     <string name="_3_now_special">3 Jetzt etwas Besonderes</string>
+    <string name="name_hint_email">Name des Ortes</string>
+    <string name="empty_field">Bitte füllen Sie dieses Feld aus!</string>
+    <string name="sent_email_successfully">E-Mail erfolgreich gesendet!</string>
 
 </resources>
