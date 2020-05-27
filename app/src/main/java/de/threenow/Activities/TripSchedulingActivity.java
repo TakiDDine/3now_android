@@ -762,7 +762,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         i.putExtra("service_type", Integer.parseInt(serviceId));
         i.putExtra("schedule_date", scheduledDate);
         i.putExtra("schedule_time", scheduledTime);
-        i.putExtra("kindersitz ", Integer.parseInt(childSeat));
+        i.putExtra("kindersitz", Integer.parseInt(childSeat));
         i.putExtra("babyschale", Integer.parseInt(babySeat));
         i.putExtra("nameschield", Boolean.parseBoolean(nameschield));
         i.putExtra("note", note);

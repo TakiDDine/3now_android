@@ -149,7 +149,7 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
 
 
         try {
-            totalPrice += Long.parseLong(SharedHelper.getKey(ResultScheduledActivity.this, "estimated_fare"));
+          //  totalPrice += Long.parseLong(SharedHelper.getKey(ResultScheduledActivity.this, "estimated_fare"));
         } catch (Exception e) {
 
         }
