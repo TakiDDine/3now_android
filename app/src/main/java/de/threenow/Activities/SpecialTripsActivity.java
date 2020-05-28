@@ -75,17 +75,17 @@ public class SpecialTripsActivity extends AppCompatActivity implements View.OnCl
 
         switch (view.getId()) {
             case R.id.ic_phone:
-                Toast.makeText(SpecialTripsActivity.this, "soon..", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SpecialTripsActivity.this, "soon..", Toast.LENGTH_SHORT).show();
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 2);
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-                    callIntent.setData(Uri.parse("tel://0900000000"));
+                    callIntent.setData(Uri.parse("tel://+4921169587089"));
                     startActivity(callIntent);
                 } else {
                     Intent intentCall = new Intent(Intent.ACTION_CALL);
-                    intentCall.setData(Uri.parse("tel:" + "+900000000"));
+                    intentCall.setData(Uri.parse("tel:" + "+4921169587089"));
                     if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
                         //    ActivityCompat#requestPermissions
