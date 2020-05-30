@@ -65,7 +65,7 @@ import de.threenow.Models.PaymentResponse;
 import de.threenow.Models.RestInterface;
 import de.threenow.Models.ServiceGenerator;
 import de.threenow.R;
-import de.threenow.ResultScheduledActivity;
+import de.threenow.SummeryScheduledActivity;
 import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.Utilities;
 import de.threenow.Utils.Utils;
@@ -98,7 +98,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     Utilities utils;
 
     Button btnSheduleRideConfirm;
-    EditText kindersitzEdittext, babyschaleEdittext, noteEditText;
+    EditText noteEditText;
     TextView pickup, to, btnDatePicker, btnTimePicker;
     private int mYear, mMonth, mDay, mHour, mMinute;
     ImageView im_back, im_swap_location;
@@ -208,6 +208,93 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         babySeat = "0"; //babyschaleEdittext
 
     }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.btnSheduleRideConfirm:
+                if (btnTimePicker.getText().toString().matches("[a-zA-Z]+")) {
+                    Toast.makeText(TripSchedulingActivity.this, getString(R.string.choose_date_time), Toast.LENGTH_SHORT).show();
+                } else {
+                    customDialog.show();
+//                    sendRequest();
+
+                    sendRequestPrice();
+
+//                    goToSummeryScheduledActivity();
+
+                }
+                break;
+
+            case R.id.btn_date:
+                DatePickerDialogShow();
+                break;
+
+            case R.id.btn_time:
+                TimePickerDialogShow();
+                break;
+
+            case R.id.im_swap_location:
+                Toast.makeText(TripSchedulingActivity.this, "soon..", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.im_back:
+                finish();
+                break;
+        }
+
+    } // End onClick
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e(TripSchedulingActivity.class.getName(), "222 onActivityResult: " + requestCode + " result code " + resultCode + " ");
+
+        if (requestCode == 0) { // paypal done pay
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirm != null) {
+                    try {
+//                        Log.e("222 paymentExample", confirm.toJSONObject().toString(4));
+                        Log.e("222 paymentExample", confirm.toJSONObject().getJSONObject("response").toString());
+
+// //                     TODO: send 'confirm' to your server for verification.
+// //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+// //                     for more detail
+                        String paymentType = "PAYPAL";
+                        paymentId = confirm.getProofOfPayment().getPaymentId();
+                        payNowCard(paymentType);
+// //                   JSONObject jsonObject=confirm.toJSONObject().getJSONObject("response");
+// //                   addPayment(jsonObject.getString("id"));
+                    } catch (JSONException e) {
+                        Log.e("222 paymentExample", "an extremely unlikely failure occurred: ", e);
+                    }
+                }
+            }
+
+            // back from TrackActivity
+        } else if (requestCode == 963) { // driver done found
+            if (resultCode == Activity.RESULT_OK) {
+
+                // pay after confirm trip then found driver
+                payNowPaypalOrCard();
+
+//                goToSummeryScheduledActivity();
+
+            }
+            // back from SummeryScheduledActivity
+        } else if (requestCode == 93) { // summery done show and confirm
+            if (resultCode == Activity.RESULT_OK) {
+                // search driver after confirm trip
+                sendRequest();
+
+//                payNowPaypalOrCard();
+            }
+        }
+
+    } // End on Activity results
 
     private void TimePickerDialogShow() {
         TimePickerDialog mTimePicker;
@@ -343,13 +430,36 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
         JSONObject object = new JSONObject();
         try {
+//            object.put("s_latitude", Double.parseDouble(s_latitude));
+//            object.put("s_longitude", Double.parseDouble(s_longitude));
+//            object.put("d_latitude", Double.parseDouble(d_latitude));
+//            object.put("d_longitude", Double.parseDouble(d_longitude));
+//            object.put("service_type", Integer.parseInt(serviceId));
+//            object.put("distance", Integer.parseInt(distance));
+//            object.put("payment_mode", payment_mode);
+
             object.put("s_latitude", Double.parseDouble(s_latitude));
             object.put("s_longitude", Double.parseDouble(s_longitude));
             object.put("d_latitude", Double.parseDouble(d_latitude));
             object.put("d_longitude", Double.parseDouble(d_longitude));
+            object.put("s_address", s_address);
+            object.put("d_address", d_address);
             object.put("service_type", Integer.parseInt(serviceId));
             object.put("distance", Integer.parseInt(distance));
+            object.put("schedule_date", scheduledDate);
+            object.put("schedule_time", scheduledTime);
             object.put("payment_mode", payment_mode);
+            object.put("kindersitz", Integer.parseInt(childSeat));
+            object.put("babyschale", Integer.parseInt(babySeat));
+            object.put("nameschield", Boolean.parseBoolean(nameschield));
+            object.put("note", note);
+
+            if (card_id != null) {
+                object.put("card_id", card_id);
+            }
+            if (use_wallet != null) {
+                object.put("use_wallet", use_wallet);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -396,7 +506,9 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                                     Price = response.optString("price");
                                     Log.e("222 response", "price: " + Price);
 
-                                    showDialog();
+//                                    showDialog();
+
+                                    goToSummeryScheduledActivity();
                                 }
                             }
                         }, error -> {
@@ -480,6 +592,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     }
 
     public void sendRequest() {
+        pdShow();
+
         note = noteEditText.getText().toString();
         if (nameschieldCheckbox.isChecked()) {
             nameschield = "true";
@@ -500,7 +614,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             object.put("schedule_date", scheduledDate);
             object.put("schedule_time", scheduledTime);
             object.put("payment_mode", payment_mode);
-            object.put("kindersitz ", Integer.parseInt(childSeat));
+            object.put("kindersitz", Integer.parseInt(childSeat));
             object.put("babyschale", Integer.parseInt(babySeat));
             object.put("nameschield", Boolean.parseBoolean(nameschield));
             object.put("note", note);
@@ -620,7 +734,12 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                             JSONObject errorObj = new JSONObject(new String(response.data));
                             if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
                                 try {
-                                    utils.showAlert(this, errorObj.optString("error"));
+                                    String ms = errorObj.optString("error");
+                                    if (ms.contains("Ride Scheduled")) {
+                                        ms = getString(R.string.re_select_time_and_date);
+                                    }
+
+                                    utils.showAlert(this, ms);
                                 } catch (Exception e) {
 //                                    utils.showAlert(this, this.getString(R.string.something_went_wrong));         ----------------------
                                 }
@@ -690,48 +809,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        Log.e(TripSchedulingActivity.class.getName(), "222 onActivityResult: " + requestCode + " result code " + resultCode + " ");
-
-        if (requestCode == 0) { // paypal done pay
-            if (resultCode == Activity.RESULT_OK) {
-                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-                if (confirm != null) {
-                    try {
-//                        Log.e("222 paymentExample", confirm.toJSONObject().toString(4));
-                        Log.e("222 paymentExample", confirm.toJSONObject().getJSONObject("response").toString());
-
-// //                     TODO: send 'confirm' to your server for verification.
-// //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
-// //                     for more details.
-                        String paymentType = "PAYPAL";
-                        paymentId = confirm.getProofOfPayment().getPaymentId();
-                        payNowCard(paymentType);
-// //                   JSONObject jsonObject=confirm.toJSONObject().getJSONObject("response");
-// //                   addPayment(jsonObject.getString("id"));
-                    } catch (JSONException e) {
-                        Log.e("222 paymentExample", "an extremely unlikely failure occurred: ", e);
-                    }
-                }
-            }
-
-        } else if (requestCode == 963) { // driver done found
-            if (resultCode == Activity.RESULT_OK) {
-
-                goToResultScheduledActivity();
-
-            }
-        } else if (requestCode == 93) { // driver done found
-            if (resultCode == Activity.RESULT_OK) {
-                payNowPaypalOrCard();
-            }
-        }
-    }
-
-    private void goToResultScheduledActivity() {
+    private void goToSummeryScheduledActivity() {
 
         note = noteEditText.getText().toString();
         if (nameschieldCheckbox.isChecked()) {
@@ -740,7 +819,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             nameschield = "false";
         }
 
-        Intent i = new Intent(getApplicationContext(), ResultScheduledActivity.class);
+        Intent i = new Intent(getApplicationContext(), SummeryScheduledActivity.class);
         i.putExtra("s_latitude", s_latitude);
         i.putExtra("s_longitude", s_longitude);
         i.putExtra("d_latitude", d_latitude);
@@ -759,7 +838,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             i.putExtra("card_id", card_id);
         }
 
-        i.putExtra("service_type", Integer.parseInt(serviceId));
+//        i.putExtra("service_type", Integer.parseInt(serviceId));
+        i.putExtra("service_type", serviceId);
         i.putExtra("schedule_date", scheduledDate);
         i.putExtra("schedule_time", scheduledTime);
         i.putExtra("kindersitz", Integer.parseInt(childSeat));
@@ -1119,41 +1199,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
     }
 
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-            case R.id.btnSheduleRideConfirm:
-                if (btnTimePicker.getText().toString().matches("[a-zA-Z]+")) {
-                    Toast.makeText(TripSchedulingActivity.this, getString(R.string.choose_date_time), Toast.LENGTH_SHORT).show();
-                } else {
-                    customDialog.show();
-                    sendRequest();
-
-//                    sendRequestPrice();
-
-//                    goToResultScheduledActivity();
-                }
-                break;
-
-            case R.id.btn_date:
-                DatePickerDialogShow();
-                break;
-
-            case R.id.btn_time:
-                TimePickerDialogShow();
-                break;
-
-            case R.id.im_swap_location:
-                Toast.makeText(TripSchedulingActivity.this, "soon..", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.im_back:
-                finish();
-                break;
-        }
-
-    } // End onClick
 
     // spinner
     @Override
@@ -1183,5 +1228,30 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 //        }
 
     } // End onItemSelected
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (customDialog != null && customDialog.isShowing()) {
+            customDialog.cancel();
+        }
+    }
+
+    void pdShow() {
+
+        if (!customDialog.isShowing()) {
+            customDialog.show();
+        }// End if
+
+    }// End pdShow
+
+
+    void pdHide() {
+
+        if (customDialog.isShowing()) {
+            customDialog.dismiss();
+        }// End if
+
+    }// End pdHide
 
 }

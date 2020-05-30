@@ -62,7 +62,7 @@
     <string name="cancel_ride">Fahrt abbrechen</string>
     <string name="share">Teilen</string>
     <string name="cancel_ride_alert">Möchten Sie die Fahrt wirklich absagen?</string>
-    <string name="no_drivers_found">Keine Fahrer für Ihre Reise verfügbar</string>
+    <string name="no_drivers_found">Keine Fahrer für Ihre Reise verfügbar\nBitte versuche es erneut!</string>
     <string name="driver_busy">Ihre Reise wurde vom Fahrer abgesagt. Bitte kontaktieren Sie uns für Unterstützung</string>
 
 
@@ -131,7 +131,7 @@
     <string name="something_went_wrong_net">Es ist ein Fehler aufgetreten. Bitte überprüfen Sie die Internetverbindung</string>
     <string name="oops_connect_your_internet">Hoppla ! Verbinden Sie Ihr Internet</string>
     <string name="server_down">Server kann nicht erreicht werden</string>
-    <string name="please_try_again">Bitte versuche es erneut</string>
+    <string name="please_try_again">Bitte versuche es erneut!</string>
     <string name="email_validation">Geben Sie Ihre E-Mail-ID ein</string>
     <string name="not_valid_email">Keine gültige E-Mail-ID</string>
     <string name="password_validation">Das Passwort konnte nicht leer gelassen werden</string>
@@ -553,5 +553,6 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="name_hint_email">Name des Ortes</string>
     <string name="empty_field">Bitte füllen Sie dieses Feld aus!</string>
     <string name="sent_email_successfully">E-Mail erfolgreich gesendet!</string>
+    <string name="re_select_time_and_date">Bitte wählen Sie Uhrzeit und Datum erneut!</string>
 
 </resources>

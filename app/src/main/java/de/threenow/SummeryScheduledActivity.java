@@ -20,7 +20,7 @@ import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 
-public class ResultScheduledActivity extends AppCompatActivity implements View.OnClickListener {
+public class SummeryScheduledActivity extends AppCompatActivity implements View.OnClickListener {
 
     String s_latitude;
     String s_longitude;
@@ -40,7 +40,7 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
     CustomDialog customDialog;
     String serviceId, service_type, typeCar, serviceCap;
     int childSeat, babySeat;
-    long totalPrice = 0;
+    double totalPrice = 0;
     ImageView im_back;
 
     TextView service_car_type, serviceCapacity, AdresseFromD, AdresseToD,
@@ -49,6 +49,7 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
 
 
     Button submit_btn;
+
     @Override
     protected void attachBaseContext(Context base) {
         if (SharedHelper.getKey(base, "lang") != null)
@@ -101,7 +102,8 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
         babySeat = getIntent().getIntExtra("babyschale", 0);
         nameschield = getIntent().getBooleanExtra("nameschield", false);
         note = getIntent().getStringExtra("note");
-        Long pr = Long.parseLong(getIntent().getStringExtra("price"));
+        double pr = Double.parseDouble(getIntent().getStringExtra("price").toString().trim());
+
 
         if (serviceId.contains("19")) {
             typeCar = "Mercedes C-Klasse";
@@ -149,19 +151,19 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
 
 
         try {
-          //  totalPrice += Long.parseLong(SharedHelper.getKey(ResultScheduledActivity.this, "estimated_fare"));
+            //  totalPrice += Long.parseLong(SharedHelper.getKey(SummeryScheduledActivity.this, "estimated_fare"));
         } catch (Exception e) {
 
         }
 
-        if (childSeat > 1) {
-            totalPrice += 5;
-            childSeatsPrice.setText(5 + "€");
+        if (childSeat > 0) {
+            totalPrice += childSeat * 5;
+            childSeatsPrice.setText((5 * childSeat) + "€");
         }
 
-        if (babySeat > 1) {
-            totalPrice += 10;
-            babySeatPrice.setText(10 + "€");
+        if (babySeat > 0) {
+            totalPrice += 10 * babySeat;
+            babySeatPrice.setText((10 * babySeat) + "€");
         }
 
         if (nameschield) {
@@ -174,7 +176,7 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
                 detailNote.setText(note + "");
         }
 
-        priceTrip.setText(((int) (pr - totalPrice)) + "€");
+        priceTrip.setText(((double) (pr - totalPrice)) + "€");
         netlPrice.setText(pr + "€");
 
         if (payment_mode.contains("PAYPAL")) {
@@ -188,7 +190,7 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
 
     @Override
     public String toString() {
-        return "ResultScheduledActivity{" +
+        return "SummeryScheduledActivity{" +
                 "s_latitude='" + s_latitude + '\'' +
                 ", s_longitude='" + s_longitude + '\'' +
                 ", d_latitude='" + d_latitude + '\'' +
@@ -216,9 +218,12 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.submit_btn:
+                setResult(RESULT_OK, new Intent());
+                finish();
+                break;
+
             case R.id.im_back:
-                Intent output = new Intent();
-                setResult(RESULT_OK, output);
+                setResult(RESULT_CANCELED, new Intent());
                 finish();
                 break;
         }
@@ -227,7 +232,7 @@ public class ResultScheduledActivity extends AppCompatActivity implements View.O
     @Override
     public void onBackPressed() {
         Intent output = new Intent();
-        setResult(RESULT_OK, output);
+        setResult(RESULT_CANCELED, output);
         finish();
         super.onBackPressed();
 

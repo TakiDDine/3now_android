@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
-import java.util.Locale;
 
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
@@ -72,7 +69,6 @@ public class ChoseServiceActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_chose_service);
 
 
-
         im_back = findViewById(R.id.im_back);
         im_back.setOnClickListener(this);
 
@@ -83,7 +79,7 @@ public class ChoseServiceActivity extends AppCompatActivity implements View.OnCl
         s_address = getIntent().getStringExtra("s_address");
         d_address = getIntent().getStringExtra("d_address");
         distance = getIntent().getStringExtra("distance");
-        use_wallet = getIntent().getStringExtra("use_wallet");
+        use_wallet = "" + getIntent().getIntExtra("use_wallet", 0);
         payment_mode = getIntent().getStringExtra("payment_mode");
         card_id = getIntent().getStringExtra("card_id");
         economybtn = findViewById(R.id.economybtn);

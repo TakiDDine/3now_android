@@ -88,7 +88,7 @@
     <string name="cancel_ride">Cancel Ride</string>
     <string name="share">Share</string>
     <string name="cancel_ride_alert">Are you sure you want to cancel the &service;?</string>
-    <string name="no_drivers_found">No drivers available to take your trip</string>
+    <string name="no_drivers_found">No drivers available to take your trip\nPlease try again!</string>
     <string name="driver_busy">Your trip was cancelled by the driver.Please contact us for support</string>
 
 
@@ -162,7 +162,7 @@
     <string name="something_went_wrong_net">Something went wrong, Please check internet connection</string>
     <string name="oops_connect_your_internet">Oops ! Connect your Internet</string>
     <string name="server_down">Unable to reach server</string>
-    <string name="please_try_again">Please try again</string>
+    <string name="please_try_again">Please try again!</string>
     <string name="email_validation">Enter your email ID</string>
     <string name="not_valid_email">Not a valid email ID</string>
     <string name="password_validation">Password could not be left empty</string>
@@ -548,6 +548,7 @@ We offer a variety of different services. For this reason, additional conditions
     <string name="cardNbr">.... .... .... 2547</string>
     <string name="empty_field">please fill this field</string>
     <string name="sent_email_successfully">Sent email successfully!</string>
+    <string name="re_select_time_and_date">Please re-select the time and date!</string>
 
 
     <string-array name="question1">
