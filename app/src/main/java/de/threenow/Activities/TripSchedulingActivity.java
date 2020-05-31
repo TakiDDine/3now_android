@@ -630,7 +630,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
         try {
-            URLEncoder.encode(URLHelper.SEND_REQUEST_Later_API, "UTF-8");
+            URLEncoder.encode(URLHelper.SEND_REQUEST_API, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -853,6 +853,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     }
 
     public void payNowCard(String paymentType) {
+
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
@@ -874,7 +875,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_NOW_SCHEDUL_API, object, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_REQUEST_Later_API, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("222 onResponse", "PayNowRequestResponse: " + response.toString());
@@ -903,14 +904,14 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             try {
 
                 String msg = "statusCode: " + error.networkResponse.statusCode + "\n" +
-                        URLHelper.PAY_NOW_SCHEDUL_API + "\n\n" +
+                        URLHelper.PAY_REQUEST_Later_API + "\n\n" +
                         trimMessage(new String(error.networkResponse.data));
 
                 utils.showAlert(context, msg);
             } catch (Exception e) {
                 if (error.networkResponse != null)
                     utils.showAlert(context, "statusCode: " + error.networkResponse.statusCode + "\n" +
-                            URLHelper.PAY_NOW_SCHEDUL_API);
+                            URLHelper.PAY_REQUEST_Later_API);
             }
 
             try {
@@ -1126,7 +1127,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         }
         JsonObjectRequest jsonObjectRequest = new
                 JsonObjectRequest(Request.Method.POST,
-                        URLHelper.PAY_NOW_SCHEDUL_API,
+                        URLHelper.PAY_REQUEST_Later_API,
                         object,
                         new Response.Listener<JSONObject>() {
                             @Override

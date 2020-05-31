@@ -24,11 +24,11 @@ public class URLHelper {
     public static final String GET_SERVICE_LIST_API = base + "api/user/services";
     public static final String REQUEST_STATUS_CHECK_API = base + "api/user/request/check";
     public static final String ESTIMATED_FARE_DETAILS_API = base + "api/user/estimated/fare";
-    public static final String SEND_REQUEST_API = base + "api/user/send/request";
+    public static final String SEND_REQUEST_API = base + "api/user/send/request"; // للرحلات الفورية
     // new
     public static final String SEND_REQUEST_API_NEW =  base + "api/new/send/request";
-    public static final String SEND_REQUEST_Later_API = base + "api/user/save/later";
-
+    public static final String SEND_REQUEST_Later_API = base + "api/user/save/later";// للرحلات المجدولة
+    public static final String PAY_REQUEST_Later_API = base + "api/user/request/paied"; // دفع للرحلة المجدولة
     //new
     public static final String SEND_EMAIL_API_NEW =  base + "api/user/send/email";
 
