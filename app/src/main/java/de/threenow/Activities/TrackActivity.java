@@ -99,7 +99,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.ui.IconGenerator;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
@@ -482,8 +481,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             //   confirmFinalPayment(lblTotalPrice.getText().toString());
 //       payNowCard();
 //            PayPalConfiguration config = new PayPalConfiguration()
-                    // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
-                    // or live (ENVIRONMENT_PRODUCTION)
+            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+            // or live (ENVIRONMENT_PRODUCTION)
 //                    .clientId("AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n" +
 //                            "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
 //                            "PAYPAL_MODE=sandbox");
@@ -1526,7 +1525,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     String cancaltype = "";
 
     private void showreasonDialog() {
-
+        final int[] checkedIdInt = new int[1];
         final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
         final EditText reasonEtxt = view.findViewById(R.id.reason_etxt);
@@ -1535,26 +1534,31 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         radioCancel.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                checkedIdInt[0] = checkedId;
+
                 if (checkedId == R.id.driver) {
-                    reasonEtxt.setVisibility(View.VISIBLE);
+                    reasonEtxt.setVisibility(View.GONE);
                     cancaltype = getResources().getString(R.string.plan_changed);
                 }
                 if (checkedId == R.id.vehicle) {
-                    reasonEtxt.setVisibility(View.VISIBLE);
+                    reasonEtxt.setVisibility(View.GONE);
                     cancaltype = getResources().getString(R.string.booked_another_cab);
                 }
+
+                if (checkedId == R.id.denied) {
+                    reasonEtxt.setVisibility(View.GONE);
+                    cancaltype = getResources().getString(R.string.driver_denied_to_come);
+                }
+                if (checkedId == R.id.moving) {
+                    reasonEtxt.setVisibility(View.GONE);
+                    cancaltype = getResources().getString(R.string.driver_is_not_moving);
+                }
+
                 if (checkedId == R.id.app) {
                     reasonEtxt.setVisibility(View.VISIBLE);
                     cancaltype = getResources().getString(R.string.my_reason_is_not_listed);
                 }
-                if (checkedId == R.id.denied) {
-                    reasonEtxt.setVisibility(View.VISIBLE);
-                    cancaltype = getResources().getString(R.string.driver_denied_to_come);
-                }
-                if (checkedId == R.id.moving) {
-                    reasonEtxt.setVisibility(View.VISIBLE);
-                    cancaltype = getResources().getString(R.string.driver_is_not_moving);
-                }
+
             }
         });
         builder.setView(view)
@@ -1569,8 +1573,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                 } else {
                     cancalReason = reasonEtxt.getText().toString();
-                    if (cancalReason.isEmpty()) {
+                    if (checkedIdInt[0] == R.id.app && cancalReason.isEmpty()) {
                         reasonEtxt.setError(getResources().getString(R.string.please_specify_reason));
+                    } else if (cancalReason.isEmpty()) {
+//                        reasonEtxt.setError(getResources().getString(R.string.please_specify_reason));
+                        cancalReason = cancaltype;
+                        cancelRequest();
+                        dialog.dismiss();
                     } else {
                         cancelRequest();
                         dialog.dismiss();
@@ -1835,6 +1844,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         try {
             object.put("request_id", SharedHelper.getKey(context, "request_id"));
             object.put("cancel_reason", cancalReason);
+
+            utils.print("CancelRequest", object.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
