@@ -779,8 +779,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-//        location.setLatitude(52.5230588);
-//        location.setLongitude(13.4699208);
+        location.setLatitude(52.5230588);
+        location.setLongitude(13.4699208);
 
         if (marker != null) {
             marker.remove();
@@ -1067,8 +1067,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 lnrRequestProviders.setVisibility(View.VISIBLE);
                 if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
                     if (lineView != null && chkWallet != null) {
-                        lineView.setVisibility(View.VISIBLE);
-                        chkWallet.setVisibility(View.VISIBLE);
+//                        lineView.setVisibility(View.VISIBLE);
+//                        chkWallet.setVisibility(View.VISIBLE);
                     }
                 } else {
                     if (lineView != null && chkWallet != null) {
@@ -1760,7 +1760,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                     utils.print("ApproximateResponse", response.toString());
                                     SharedHelper.putKey(context, "estimated_fare", response.optString("estimated_fare"));
                                     SharedHelper.putKey(context, "distance", response.optString("distance"));
-                                    SharedHelper.putKey(context, "eta_time", response.optString("time"));
+                                    SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
                                     SharedHelper.putKey(context, "surge", response.optString("surge"));
                                     SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
                                     setValuesForApproximateLayout();
@@ -1768,8 +1768,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                     SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
 
                                     if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
-                                        lineView.setVisibility(View.VISIBLE);
-                                        chkWallet.setVisibility(View.VISIBLE);
+//                                        lineView.setVisibility(View.VISIBLE);
+//                                        chkWallet.setVisibility(View.VISIBLE);
                                     } else {
                                         lineView.setVisibility(View.GONE);
                                         chkWallet.setVisibility(View.GONE);
@@ -1860,7 +1860,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                     utils.print("ApproximateResponse", response.toString());
                                     SharedHelper.putKey(context, "estimated_fare", response.optString("estimated_fare"));
                                     SharedHelper.putKey(context, "distance", response.optString("distance"));
-                                    SharedHelper.putKey(context, "eta_time", response.optString("time"));
+                                    SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
                                     SharedHelper.putKey(context, "surge", response.optString("surge"));
                                     SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
                                     setValuesForApproximateLayout();
@@ -1868,8 +1868,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                     SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
 
                                     if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
-                                        lineView.setVisibility(View.VISIBLE);
-                                        chkWallet.setVisibility(View.VISIBLE);
+//                                        lineView.setVisibility(View.VISIBLE);
+//                                        chkWallet.setVisibility(View.VISIBLE);
                                     } else {
                                         lineView.setVisibility(View.GONE);
                                         chkWallet.setVisibility(View.GONE);
@@ -2107,7 +2107,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                                     Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
                                 } else if (response.optString("request_id", "").equals("")) {
-                                    utils.displayMessage(getView(), response.optString("message"));
+                                    utils.displayMessage(getView(), response.optString("message").replace("No Drivers Found",getString(R.string.no_drivers_found)));
                                 } else {
                                     SharedHelper.putKey(context, "current_status", "");
                                     SharedHelper.putKey(context, "request_id", "" + response.optString("request_id"));
@@ -2138,7 +2138,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             JSONObject errorObj = new JSONObject(new String(response.data));
                             if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
                                 try {
-                                    utils.showAlert(context, errorObj.optString("error"));
+                                    utils.showAlert(context, errorObj.optString("error").replace("Already Request in Progress","Anfrage bereits in Bearbeitung"));
                                 } catch (Exception e) {
                                     utils.showAlert(context, context.getString(R.string.something_went_wrong));
                                 }
@@ -2147,7 +2147,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             } else if (response.statusCode == 422) {
                                 json = trimMessage(new String(response.data));
                                 if (json != "" && json != null) {
-                                    utils.showAlert(context, json);
+                                    utils.showAlert(context, json.replace("Already Request in Progress","Anfrage bereits in Bearbeitung"));
                                 } else {
                                     utils.showAlert(context, context.getString(R.string.please_try_again));
                                 }
@@ -2858,7 +2858,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                         SharedHelper.putKey(context, "estimated_fare", response.optString("estimated_fare"));
                                         System.out.println("getNewApproximateFare getNewApproximateFare " + response.optString("estimated_fare"));
                                         SharedHelper.putKey(context, "distance", response.optString("distance"));
-                                        SharedHelper.putKey(context, "eta_time", response.optString("time"));
+                                        SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
                                         SharedHelper.putKey(context, "surge", response.optString("surge"));
                                         SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
                                         SharedHelper.putKey(context, "currency", response.optString("currency"));
@@ -3094,8 +3094,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
             if (lineView != null && chkWallet != null) {
-                lineView.setVisibility(View.VISIBLE);
-                chkWallet.setVisibility(View.VISIBLE);
+//                lineView.setVisibility(View.VISIBLE);
+//                chkWallet.setVisibility(View.VISIBLE);
             }
         } else {
             if (lineView != null && chkWallet != null) {
@@ -3866,7 +3866,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     + " Image: " + jsonArray.optJSONObject(position).optString("image")
                     + " Grey_Image:" + jsonArray.optJSONObject(position).optString("grey_image"));
 
-            holder.serviceItem.setText(jsonArray.optJSONObject(position).optString("name"));
+            holder.serviceItem.setText(jsonArray.optJSONObject(position).optString("name").replace("Economy Mercedes C/B Klasse","Economy\nMercedes C/B Klasse"));
             System.out.println("POSITION IS CALLEDD " + position);
 
 

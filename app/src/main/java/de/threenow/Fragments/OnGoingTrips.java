@@ -5,12 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -30,18 +30,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import de.threenow.Activities.HistoryDetails;
-import de.threenow.Activities.Login;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.R;
-import de.threenow.Utils.MyBoldTextView;
-import de.threenow.Utils.MyButton;
-import de.threenow.Utils.MyTextView;
-import de.threenow.Utils.Utilities;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -55,6 +44,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import de.threenow.Activities.HistoryDetails;
+import de.threenow.Activities.Login;
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
+import de.threenow.Utils.MyBoldTextView;
+import de.threenow.Utils.MyButton;
+import de.threenow.Utils.MyTextView;
+import de.threenow.Utils.Utilities;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
@@ -117,7 +119,7 @@ public class OnGoingTrips extends Fragment {
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
-        customDialog.show();
+            customDialog.show();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLHelper.UPCOMING_TRIPS, new Response.Listener<JSONArray>() {
             @Override
@@ -143,15 +145,15 @@ public class OnGoingTrips extends Fragment {
                     errorLayout.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 }
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -329,17 +331,17 @@ public class OnGoingTrips extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder,final int position) {
+        public void onBindViewHolder(MyViewHolder holder, final int position) {
             Picasso.get().load(jsonArray.optJSONObject(position).optString("static_map")).placeholder(R.drawable.placeholder).error(R.drawable.placeholder).into(holder.tripImg);
             if (jsonArray.optJSONObject(position).optString("booking_id") != null &&
                     !jsonArray.optJSONObject(position).optString("booking_id").equalsIgnoreCase("")) {
-                holder.booking_id.setText(getResources().getString(R.string.booking_id)+ jsonArray.optJSONObject(position).optString("booking_id"));
+                holder.booking_id.setText(getResources().getString(R.string.booking_id) + jsonArray.optJSONObject(position).optString("booking_id"));
             }
             try {
-                if (!jsonArray.optJSONObject(position).optString("schedule_at","").isEmpty()) {
+                if (!jsonArray.optJSONObject(position).optString("schedule_at", "").isEmpty()) {
                     String form = jsonArray.optJSONObject(position).optString("schedule_at");
                     try {
-                        holder.tripDate.setText(getDate(form)+"th "+getMonth(form)+" "+getYear(form)+" at "+getTime(form));
+                        holder.tripDate.setText("Am: " + getDate(form) + ". " + getMonth(form) + " " + getYear(form) + " um " + getTime(form).replace(".","") + " Uhr");
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -349,7 +351,7 @@ public class OnGoingTrips extends Fragment {
             }
             try {
                 JSONObject serviceObj = jsonArray.getJSONObject(position).optJSONObject("service_type");
-                if (serviceObj!=null){
+                if (serviceObj != null) {
                     holder.car_name.setText(serviceObj.optString("name"));
                     //holder.tripAmount.setText(SharedHelper.getKey(context, "currency")+serviceObj.optString("price"));
                     holder.tripAmount.setVisibility(View.GONE);
@@ -363,9 +365,9 @@ public class OnGoingTrips extends Fragment {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog,null);
-                    final EditText reasonEtxt =  view.findViewById(R.id.reason_etxt);
-                    Button submitBtn =  view.findViewById(R.id.submit_btn);
+                    View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
+                    final EditText reasonEtxt = view.findViewById(R.id.reason_etxt);
+                    Button submitBtn = view.findViewById(R.id.submit_btn);
                     submitBtn.setVisibility(View.GONE);
                     builder.setIcon(R.mipmap.ic_launcher_round)
                             .setTitle(R.string.app_name)
@@ -373,12 +375,12 @@ public class OnGoingTrips extends Fragment {
                             .setView(view)
                             .setCancelable(true);
                     builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                    cancelReason = reasonEtxt.getText().toString();
-                                    cancelRequest(jsonArray.optJSONObject(position).optString("id"));
-                                }
-                            })
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                            cancelReason = reasonEtxt.getText().toString();
+                            cancelRequest(jsonArray.optJSONObject(position).optString("id"));
+                        }
+                    })
                             .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.dismiss();
@@ -398,20 +400,20 @@ public class OnGoingTrips extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            MyTextView tripTime,car_name;
-            TextView tripDate, tripAmount,booking_id;
-            ImageView tripImg,driver_image;
+            MyTextView tripTime, car_name;
+            TextView tripDate, tripAmount, booking_id;
+            ImageView tripImg, driver_image;
             MyButton btnCancel;
 
             public MyViewHolder(View itemView) {
                 super(itemView);
                 tripDate = (MyBoldTextView) itemView.findViewById(R.id.tripDate);
                 tripTime = (MyTextView) itemView.findViewById(R.id.tripTime);
-                tripAmount =  itemView.findViewById(R.id.tripAmount);
-                booking_id =  itemView.findViewById(R.id.booking_id);
-                tripImg =  itemView.findViewById(R.id.tripImg);
+                tripAmount = itemView.findViewById(R.id.tripAmount);
+                booking_id = itemView.findViewById(R.id.booking_id);
+                tripImg = itemView.findViewById(R.id.tripImg);
                 car_name = (MyTextView) itemView.findViewById(R.id.car_name);
-                driver_image =  itemView.findViewById(R.id.driver_image);
+                driver_image = itemView.findViewById(R.id.driver_image);
                 btnCancel = (MyButton) itemView.findViewById(R.id.btnCancel);
 
                 itemView.setOnClickListener(new View.OnClickListener() {
@@ -434,11 +436,11 @@ public class OnGoingTrips extends Fragment {
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
-        customDialog.show();
+            customDialog.show();
         JSONObject object = new JSONObject();
         try {
             object.put("request_id", request_id);
-            object.put("cancel_reason",cancelReason);
+            object.put("cancel_reason", cancelReason);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -446,15 +448,15 @@ public class OnGoingTrips extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 utils.print("CancelRequestResponse", response.toString());
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 getUpcomingList();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -519,14 +521,16 @@ public class OnGoingTrips extends Fragment {
         String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
         return monthName;
     }
-    private String getDate(String date) throws ParseException{
+
+    private String getDate(String date) throws ParseException {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         String dateName = new SimpleDateFormat("dd").format(cal.getTime());
         return dateName;
     }
-    private String getYear(String date) throws ParseException{
+
+    private String getYear(String date) throws ParseException {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);

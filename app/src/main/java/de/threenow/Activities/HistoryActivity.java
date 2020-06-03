@@ -1,6 +1,7 @@
 package de.threenow.Activities;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -31,14 +32,10 @@ public class HistoryActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context base) {
-
-
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-
-
     }
 
     @Override
@@ -47,13 +44,16 @@ public class HistoryActivity extends AppCompatActivity {
         LocaleManager.setLocale(this);
 }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.gradient_vertical));
+        setContentView(R.layout.activity_history);
+
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);

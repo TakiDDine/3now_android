@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -10,20 +11,30 @@
         android:id="@+id/im_sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_110sdp"
         android:background="@drawable/im_splash"
-        android:layout_centerHorizontal="true"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:layout_marginTop="@dimen/_100sdp"
+        android:id="@+id/textView2"
         android:layout_width="@dimen/_200sdp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/im_sp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingBottom="@dimen/_minus35sdp"
         android:text="@string/splash_txt"
         android:textColor="@color/white"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_below="@+id/im_sp"
-        android:textSize="@dimen/_16sdp"/>
+        android:textSize="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/im_sp" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

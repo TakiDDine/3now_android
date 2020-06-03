@@ -14,7 +14,7 @@
 
     <string name="action_wallet">Brieftasche</string>
     <string name="action_logout">Ausloggen</string>
-    <string name="action_track">Auf Reisen</string>
+    <string name="action_track">Meine Bestellung</string>
     <string name="no_running_Trip">Nein auf Reisen</string>
 
     <string name="version">v %s</string>
@@ -55,7 +55,7 @@
     <string name="no_service">Keine Dienste gefunden</string>
 
 
-    <string name="done">Erledigt</string>
+    <string name="done">Bestätigen</string>
 
 
     <string name="looking_for_ride">Fahrer finden</string>
@@ -81,7 +81,7 @@
     <string name="surge_pricing">Aufgrund der Stoßzeiten variieren die Gebühren je nach Verfügbarkeit der Anbieter</string>
 
 
-    <string name="payment">Zahlung</string>
+    <string name="payment">Bezahlung</string>
     <string name="payment_methods">Zahlungsmethoden</string>
     <string name="add_payments">Karte für Zahlungen hinzufügen</string>
     <string name="add">Karte hinzufügen</string>
@@ -95,7 +95,7 @@
     <string name="picked_up">Du bist auf Fahrt</string>
 
 
-    <string name="history">Geschichte</string>
+    <string name="history">Meine Fahrten</string>
     <string name="comments">Bemerkungen</string>
     <string name="no_trips">Sie haben keine vergangenen Reisen</string>
     <string name="your_trips">Deine Reisen</string>
@@ -148,7 +148,7 @@
     <string name="valid_until">Gültig bis</string>
 
 
-    <string name="wallet_balance">Ihr Brieftaschenbetrag ist</string>
+    <string name="wallet_balance">Guthaben</string>
 
 
     <string name="change_password_title">Passwort ändern</string>
@@ -173,7 +173,7 @@
     <string name="enter_mobile_no">Handynummer eingeben</string>
     <string name="logout_alert">Möchten Sie sich abmelden?</string>
     <string name="no_comments">Kein Kommentar verfügbar</string>
-    <string name="pin_location">Pin-Position einstellen</string>
+    <string name="pin_location">Stecknadel setzen</string>
     <string name="emaergeny_call">Sind Sie sicher, dass Sie mit dem Notruf fortfahren möchten?</string>
     <string name="user_no_mobile">Keine Handynummer</string>
     <string name="profile">Profil</string>
@@ -207,7 +207,7 @@
     <string name="welcome_text">Willkommen bei 3Now Support</string>
 
 
-    <string name="call_support">Rufen Sie den Support an</string>
+    <string name="call_support">Support kontaktieren</string>
     <string name="chat_support">Ort hinzufugen</string>
     <string name="weburl">Web-URL</string>
     <string name="faq">Fragen &amp; Antworten</string>
@@ -257,7 +257,7 @@
     <!-- sign Up -->
     <string name="login">Einloggen</string>
 
-    <string name="ongoing_trip">OnGoing Trip</string>
+    <string name="ongoing_trip">Meine Bestellung</string>
     <string name="location">Ort</string>
     <string name="location_detail">Standortdetail</string>
     <string name="copyright">Urheberrechte ©</string>
@@ -293,8 +293,8 @@
     <string name="enter_your_otp_code_here">Geben Sie hier Ihren OTP-Code ein</string>
     <string name="verify_now">Jetzt Prüfen</string>
     <string name="booking_successful">Buchung erfolgreich</string>
-    <string name="your_booking_has_been_confirmed">Ihre Buchung wurde bestätigt.</string>
-    <string name="driver_will_pickup_you_in_early">Der Fahrer holt Sie frühzeitig ab</string>
+    <string name="your_booking_has_been_confirmed">Ihre buchung wurde bestätigt.</string>
+    <string name="driver_will_pickup_you_in_early">Der Fahrer holt Sie frühzeitig ab   Der Fahrer ist in ...min da</string>
     <string name="apply">anwenden</string>
     <string name="very_good_service_provide_by_user_satisfied_the_user_service">Sehr guter Service vom Benutzer zur Verfügung gestellt, zufrieden den Benutzer-Service.</string>
     <string name="image_title">Bildtitel</string>
@@ -344,8 +344,8 @@
     <string name="enter_name">Name eingeben</string>
     <string name="mobile_no">Handynummer</string>
     <string name="my_location">Mein Standort</string>
-    <string name="driver_will_pickup_you_in">Der Fahrer holt Sie ab</string>
-    <string name="minutes">Protokoll.</string>
+    <string name="driver_will_pickup_you_in">Der Fahrer ist in</string>
+    <string name="minutes">min da.</string>
     <string name="card">KARTE</string>
     <string name="cash_and_wallet">Bargeld und Brieftasche</string>
     <string name="rate_your_trip_with">Bewerten Sie Ihre Reise mit</string>
@@ -420,7 +420,7 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="select_your_language">Wähle deine Sprache</string>
     <string name="German">Deutsche</string>
     <string name="English">Englisch</string>
-    <string name="splash_txt" >lade Deine Freunde an uns und sie erhalten jeweils</string>
+    <string name="splash_txt" >Freunde werben\nund 5 € Gutschein\nprofitieren</string>
     <string name="review">Rezension</string>
     <string name="when_you_create_an_account_you_agree_to_ours">Wenn Du ein Konto erstellst, stimmst Du unsere</string>
     <string name="and_data_protection_too">und Datenschutz zu</string>
@@ -539,17 +539,17 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="pick_up_date">ABHOLDATUM</string>
     <string name="additional_wishes">Zusätzliche Wünsche</string>
     <string name="child_seat">Kindersitz</string>
-    <string name="Kindersitz_txt">Für den Fall, dass mehr\nals ein sitz angefordert\nwird, sind 5€ zu zahlen.</string>
+    <string name="Kindersitz_txt">Für den Fall, dass mehr\nals ein Sitz angefordert\nwird, sind 5€ zu zahlen.</string>
     <string name="baby_car_seat">Babyschale</string>
     <string name="baby_car_seat_txt">Für den Fall, dass mehr\nals einen schale angefordert\nwird, sind 10€ zu zahlen.</string>
     <string name="name_tag">Namenschield</string>
     <string name="Name_tag_txt">Bei Bestellung des Namensschild\nwird eine Gebühr von 15€ fällig.</string>
     <string name="remarks">Bemerkungen</string>
-    <string name="note_txt">Hier könen Sie uns Besoder wünsche,Hienweise oder anlegung.</string>
+    <string name="note_txt">Hier Können sie uns besondere Wünsche, Hinweise oder Anliegen mitteilen</string>
     <string name="continu">Weiter</string>
-    <string name="_3_now_economy">3 Jetzt Wirtschaft</string>
-    <string name="_3_now_vip">3 Jetzt Vip</string>
-    <string name="_3_now_special">3 Jetzt etwas Besonderes</string>
+    <string name="_3_now_economy">Economy</string>
+    <string name="_3_now_vip">Vip</string>
+    <string name="_3_now_special">Besonderes</string>
     <string name="name_hint_email">Name des Ortes</string>
     <string name="empty_field">Bitte füllen Sie dieses Feld aus!</string>
     <string name="sent_email_successfully">E-Mail erfolgreich gesendet!</string>

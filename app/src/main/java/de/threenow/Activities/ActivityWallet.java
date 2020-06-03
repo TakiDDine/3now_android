@@ -130,9 +130,9 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
         one.setOnClickListener(this);
         two.setOnClickListener(this);
         three.setOnClickListener(this);
-        one.setText(SharedHelper.getKey(context, "currency") + "199");
-        two.setText(SharedHelper.getKey(context, "currency") + "599");
-        three.setText(SharedHelper.getKey(context, "currency") + "1099");
+        one.setText(SharedHelper.getKey(context, "currency") + "50");
+        two.setText(SharedHelper.getKey(context, "currency") + "100");
+        three.setText(SharedHelper.getKey(context, "currency") + "200");
 
         money_et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -367,19 +367,19 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
                 one.setBackground(getResources().getDrawable(R.drawable.border_stroke_black));
                 two.setBackground(getResources().getDrawable(R.drawable.border_stroke));
                 three.setBackground(getResources().getDrawable(R.drawable.border_stroke));
-                money_et.setText("199");
+                money_et.setText("50");
                 break;
             case R.id.two:
                 one.setBackground(getResources().getDrawable(R.drawable.border_stroke));
                 two.setBackground(getResources().getDrawable(R.drawable.border_stroke_black));
                 three.setBackground(getResources().getDrawable(R.drawable.border_stroke));
-                money_et.setText("599");
+                money_et.setText("100");
                 break;
             case R.id.three:
                 one.setBackground(getResources().getDrawable(R.drawable.border_stroke));
                 two.setBackground(getResources().getDrawable(R.drawable.border_stroke));
                 three.setBackground(getResources().getDrawable(R.drawable.border_stroke_black));
-                money_et.setText("1099");
+                money_et.setText("200");
                 break;
             case R.id.backArrow:
                 finish();

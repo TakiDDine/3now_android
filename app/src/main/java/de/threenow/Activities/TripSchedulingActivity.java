@@ -36,7 +36,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
@@ -427,6 +426,12 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
 
     public void sendRequestPrice() {
+        note = noteEditText.getText().toString();
+        if (nameschieldCheckbox.isChecked()) {
+            nameschield = "true";
+        } else {
+            nameschield = "false";
+        }
 
         JSONObject object = new JSONObject();
         try {
@@ -784,22 +789,22 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             Log.e("222 payNowPaypal", "btnPayNowClick: " + Price);
 
             try {
-                PayPalConfiguration config = new PayPalConfiguration()
-                        //                 // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
-                        //               // or live (ENVIRONMENT_PRODUCTION)
+//                PayPalConfiguration config = new PayPalConfiguration()
+                //                 // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+                //               // or live (ENVIRONMENT_PRODUCTION)
 //     //               .clientId("AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n" +
 //       //                     "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
 //         //                   "PAYPAL_MODE=sandbox");
-                        .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
-                        .clientId(getString(R.string.client_id_paypal) +
-                                getString(R.string.paypal_secret) +
-                                getString(R.string.paypal_mode));
+//                        .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
+//                        .clientId(getString(R.string.client_id_paypal) +
+//                                getString(R.string.paypal_secret) +
+//                                getString(R.string.paypal_mode));
 
                 PayPalPayment payment = new PayPalPayment(new BigDecimal(Price.replace("€", "")), "EUR", " ",
                         PayPalPayment.PAYMENT_INTENT_SALE);
                 Intent intent = new Intent(TripSchedulingActivity.this, PaymentActivity.class);
                 // send the same configuration for restart resiliency
-                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, GlobalDataMethods.config);
                 intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
                 startActivityForResult(intent, 0);
             } catch (Exception e) {

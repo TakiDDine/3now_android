@@ -1,5 +1,6 @@
 package de.threenow.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -29,16 +30,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.snackbar.Snackbar;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.LocaleManager;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.R;
-import de.threenow.Utils.MyBoldTextView;
-import de.threenow.Utils.MyTextView;
-import de.threenow.Utils.Utilities;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -52,6 +43,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
+import de.threenow.Utils.MyBoldTextView;
+import de.threenow.Utils.MyTextView;
+import de.threenow.Utils.Utilities;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
@@ -80,8 +82,9 @@ public class RunningTrip extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -340,7 +343,7 @@ public class RunningTrip extends AppCompatActivity {
                 if (!jsonArray.optJSONObject(position).optString("assigned_at", "").isEmpty()) {
                     String form = jsonArray.optJSONObject(position).optString("assigned_at");
                     try {
-                        holder.tripDate.setText(getDate(form) + "th " + getMonth(form) + " " + getYear(form) + getResources().getString(R.string.at) + getTime(form));
+                        holder.tripDate.setText("Am: " + getDate(form) + ". " + getMonth(form) + " " + getYear(form) + " um " + getTime(form).replace(".","") + " Uhr");
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -351,7 +354,7 @@ public class RunningTrip extends AppCompatActivity {
             try {
                 JSONObject serviceObj = jsonArray.getJSONObject(position).optJSONObject("service_type");
                 if (serviceObj != null) {
-                    holder.car_name.setText(serviceObj.optString("name"));
+                    holder.car_name.setText(serviceObj.optString("name").replace("Economy Mercedes C/B Klasse", "Economy\nMercedes C/B Klasse"));
                     Picasso.get()
                             .load(serviceObj.optString("image"))
                             .into(holder.driver_image);

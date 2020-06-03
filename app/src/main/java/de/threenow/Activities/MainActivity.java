@@ -1,5 +1,6 @@
 package de.threenow.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -52,6 +53,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.paypal.android.sdk.payments.PayPalService;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -70,6 +72,7 @@ import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
 import de.threenow.R;
 import de.threenow.Utils.CustomTypefaceSpan;
+import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.ResponseListener;
 import de.threenow.Utils.Utilities;
 import io.fabric.sdk.android.Fabric;
@@ -111,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements
 
     LinearLayout home_ll_id, prfile_header_menu, ll_payment, ll_track, ll_notification, ll_yourtrips, ll_wallet, ll_help, ll_contact;
 
+
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements
         Fabric.with(this, new Crashlytics());
         Log.e("language3", Locale.getDefault().getDisplayLanguage());
         setContentView(R.layout.activity_main);
+
+        initPaypal();
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         keys = getString(R.string.keyPaymetGetWayTokenServer);
@@ -184,6 +191,22 @@ public class MainActivity extends AppCompatActivity implements
             CURRENT_TAG = TAG_HOME;
             loadHomeFragment();
         }
+    }
+
+    private void initPaypal() {
+//        PayPalConfiguration config = new PayPalConfiguration()
+//                // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+//                // or live (ENVIRONMENT_PRODUCTION)
+//                .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
+//                .clientId(getString(R.string.client_id_paypal) +
+//                        getString(R.string.paypal_secret) +
+//                        getString(R.string.paypal_mode));
+
+        Intent intent = new Intent(this, PayPalService.class);
+
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, GlobalDataMethods.config);
+
+        startService(intent);
     }
 
 
@@ -655,6 +678,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
     }
 
@@ -720,7 +744,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void attachBaseContext(Context base) {
-if (SharedHelper.getKey(base, "lang") != null)
+        if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
@@ -731,7 +755,7 @@ if (SharedHelper.getKey(base, "lang") != null)
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
     @Override
     public void onClick(View view) {

@@ -265,7 +265,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/action_wallet"
+                        android:text="@string/wallet_balance"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_14sdp" />
 

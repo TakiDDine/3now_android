@@ -481,22 +481,23 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             Log.d(TAG, "btnPayNowClick: " + lblTotalPrice.getText().toString());
             //   confirmFinalPayment(lblTotalPrice.getText().toString());
 //       payNowCard();
-            PayPalConfiguration config = new PayPalConfiguration()
+//            PayPalConfiguration config = new PayPalConfiguration()
                     // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
                     // or live (ENVIRONMENT_PRODUCTION)
 //                    .clientId("AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n" +
 //                            "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
 //                            "PAYPAL_MODE=sandbox");
-                    .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
-                    .clientId(getString(R.string.client_id_paypal) +
-                            getString(R.string.paypal_secret) +
-                            getString(R.string.paypal_mode));
+//                    .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
+//                    .clientId(getString(R.string.client_id_paypal));
+//                            +
+//                            getString(R.string.paypal_secret) +
+//                            getString(R.string.paypal_mode));
 
             PayPalPayment payment = new PayPalPayment(new BigDecimal(lblTotalPrice.getText().toString().replace("€", "")), "EUR", " ",
                     PayPalPayment.PAYMENT_INTENT_SALE);
             Intent intent = new Intent(TrackActivity.this, PaymentActivity.class);
             // send the same configuration for restart resiliency
-            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, GlobalDataMethods.config);
             intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
             startActivityForResult(intent, 0);
         }
@@ -3318,7 +3319,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                 });
                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                 lblDis.setText(totalDistance + " km");
-                                lblEta.setText(totalDuration + " min");
+                                lblEta.setText(totalDuration + " Min");
                                 setCameraWithCoordinationBounds(route);
                             } catch (Exception e) {
                                 Log.e("error", e.getMessage());

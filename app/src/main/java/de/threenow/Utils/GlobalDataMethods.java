@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+
 public class GlobalDataMethods {
 
     public static void setWindowFlag(Activity activity, final int bits, boolean on) {
@@ -18,5 +20,16 @@ public class GlobalDataMethods {
     }
 
     public static boolean newScheduleRequest = false;
+
+    public static PayPalConfiguration config = new PayPalConfiguration()
+            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+            // or live (ENVIRONMENT_PRODUCTION)
+            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+
+            .clientId("AdThF4H9jvgJOz5hde4Mj_0SjJmsgAa9DaPmRBH7ZAqlKvmu5XNTX4b2Z7wFtzeX33frjAUROiXJh_lr");
+//        \n" +
+//                    "PAYPAL_SECRET=47BANRGAUFQFYNED\n" +
+//                    "PAYPAL_MODE=live");
+
 
 }

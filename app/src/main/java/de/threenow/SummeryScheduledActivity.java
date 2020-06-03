@@ -106,14 +106,14 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
 
 
         if (serviceId.contains("19")) {
-            typeCar = "Mercedes C-Klasse";
+            typeCar = "Economy Mercedes C/B Klasse";
             serviceCap = "4";
         } else if (serviceId.contains("27")) {
-            typeCar = "Volkswagen Touran";
-            serviceCap = "7";
+            typeCar = "Mercedes Vito";
+            serviceCap = "8";
         } else if (serviceId.contains("32")) {
             typeCar = "Mercedes V-Klasse";
-            serviceCap = "10";
+            serviceCap = "7";
         }
 
 
@@ -138,7 +138,7 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         im_back.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
 
-        service_car_type.setText(typeCar + "");
+        service_car_type.setText(typeCar.replace("Economy Mercedes C/B Klasse","Economy\nMercedes C/B Klasse") + "");
         serviceCapacity.setText(serviceCap + "");
         AdresseFromD.setText(s_address + "");
         AdresseToD.setText(d_address + "");
