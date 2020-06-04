@@ -15,73 +15,104 @@
         android:layout_marginLeft="@dimen/_25sdp"
         android:layout_marginRight="@dimen/_25sdp"
         android:weightSum="10">
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <FrameLayout
                     android:id="@+id/selector_background"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginBottom="3dp"
                     android:paddingLeft="@dimen/_4sdp"
                     android:paddingTop="@dimen/_2sdp"
                     android:paddingRight="@dimen/_4sdp"
-                    android:paddingBottom="@dimen/_2sdp"
-                    android:layout_marginBottom="3dp">
+                    android:paddingBottom="@dimen/_2sdp">
 
                     <TextView
-                        android:text="small"
                         android:id="@+id/service_car_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/muli_regular"
+                        android:text="small"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/_15sdp"/>
+                        android:textSize="@dimen/_15sdp" />
                 </FrameLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
+
                 <LinearLayout
-                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_width="0dp">
+                    android:layout_weight=".5">
+
                     <TextView
-                        android:text="4"
                         android:id="@+id/serviceCapacity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:padding="@dimen/_1sdp"
-                        android:drawablePadding="@dimen/_1sdp"
-                        android:paddingRight="@dimen/_4sdp"
                         android:drawableStart="@drawable/ic_passanfer"
+                        android:drawablePadding="@dimen/_1sdp"
                         android:drawableTint="@color/blue"
                         android:fontFamily="@font/muli_regular"
                         android:gravity="center"
+                        android:padding="@dimen/_1sdp"
+                        android:paddingRight="@dimen/_4sdp"
+                        android:text="4"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_9sdp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_width="0dp">
+                    android:layout_weight=".5">
+
+                    <TextView
+                        android:id="@+id/bagCapacity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:drawableStart="@drawable/bags"
+                        android:drawablePadding="@dimen/_1sdp"
+                        android:drawableTint="@color/blue"
+                        android:fontFamily="@font/muli_regular"
+                        android:gravity="center"
+                        android:padding="@dimen/_1sdp"
+                        android:paddingRight="@dimen/_4sdp"
+                        android:text="4"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
                     <de.threenow.Utils.MyTextView
                         android:id="@+id/serviceItemPrice"
                         android:layout_width="@dimen/_76sdp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:padding="@dimen/_1sdp"
                         android:drawablePadding="@dimen/_1sdp"
+                        android:padding="@dimen/_1sdp"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_15sdp"
                         android:visibility="visible" />
@@ -93,20 +124,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3">
+
             <ImageView
                 android:id="@+id/serviceImg"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true" />
         </RelativeLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/_25sdp"
-        android:layout_marginLeft="@dimen/_25sdp">
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"

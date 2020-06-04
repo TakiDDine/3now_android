@@ -245,6 +245,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     /// Driver Accepted
     @BindView(R.id.lblProvider)
     TextView lblProvider;
+    @BindView(R.id.tvServiceNumber)
+    TextView tvServiceNumber;
+    @BindView(R.id.tvServiceModel)
+    TextView tvServiceModel;
 
 
     @BindView(R.id.lblSurgePrice)
@@ -781,7 +785,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         context = TrackActivity.this;
         activity = TrackActivity.this;
         ButterKnife.bind(this);
-        lnrFlow.getBackground().setAlpha(127);
+//        lnrFlow.getBackground().setAlpha(127);
         restInterface = ServiceGenerator.createService(RestInterface.class);
         SharedHelper.putKey(context, "AUTO_CARETAKER_REQ", "");
 
@@ -2126,6 +2130,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
                                                 SharedHelper.putKey(context, "provider_mobile_no", "" + provider.optString("mobile"));
                                                 lblProvider.setText(provider.optString("first_name"));
+                                                tvServiceNumber.setText("" + provider_service.getString("service_number"));
+                                                tvServiceModel.setText("" + provider_service.getString("service_model"));
+//                                                imgProvider.getBackground().setAlpha(127);
                                                 if (provider.optString("avatar").startsWith("http"))
                                                     Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
                                                 else
@@ -2179,6 +2186,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 JSONObject service_type = requestStatusCheckObject.getJSONObject("service_type");
                                                 JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
                                                 lblProvider.setText(provider.optString("first_name"));
+                                                tvServiceNumber.setText("" + provider_service.getString("service_number"));
+                                                tvServiceModel.setText("" + provider_service.getString("service_model"));
                                                 if (provider.optString("avatar").startsWith("http"))
                                                     Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
                                                 else
@@ -2224,6 +2233,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 JSONObject service_type = requestStatusCheckObject.getJSONObject("service_type");
                                                 JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
                                                 lblProvider.setText(provider.optString("first_name"));
+                                                tvServiceNumber.setText("" + provider_service.getString("service_number"));
+                                                tvServiceModel.setText("" + provider_service.getString("service_model"));
                                                 if (provider.optString("avatar").startsWith("http"))
                                                     Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
                                                 else
@@ -2565,6 +2576,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
                     SharedHelper.putKey(context, "provider_mobile_no", "" + provider.optString("mobile"));
                     lblProvider.setText(provider.optString("first_name"));
+                    tvServiceNumber.setText("" + provider_service.getString("service_number"));
+                    tvServiceModel.setText("" + provider_service.getString("service_model"));
                     if (provider.optString("avatar").startsWith("http"))
                         Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
                     else

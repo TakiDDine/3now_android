@@ -2107,7 +2107,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                                     Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
                                 } else if (response.optString("request_id", "").equals("")) {
-                                    utils.displayMessage(getView(), response.optString("message").replace("No Drivers Found",getString(R.string.no_drivers_found)));
+                                    utils.displayMessage(getView(), response.optString("message").replace("No Drivers Found", getString(R.string.no_drivers_found)));
                                 } else {
                                     SharedHelper.putKey(context, "current_status", "");
                                     SharedHelper.putKey(context, "request_id", "" + response.optString("request_id"));
@@ -2138,7 +2138,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             JSONObject errorObj = new JSONObject(new String(response.data));
                             if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
                                 try {
-                                    utils.showAlert(context, errorObj.optString("error").replace("Already Request in Progress","Anfrage bereits in Bearbeitung"));
+                                    utils.showAlert(context, errorObj.optString("error").replace("Already Request in Progress", "Anfrage bereits in Bearbeitung"));
                                 } catch (Exception e) {
                                     utils.showAlert(context, context.getString(R.string.something_went_wrong));
                                 }
@@ -2147,7 +2147,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             } else if (response.statusCode == 422) {
                                 json = trimMessage(new String(response.data));
                                 if (json != "" && json != null) {
-                                    utils.showAlert(context, json.replace("Already Request in Progress","Anfrage bereits in Bearbeitung"));
+                                    utils.showAlert(context, json.replace("Already Request in Progress", "Anfrage bereits in Bearbeitung"));
                                 } else {
                                     utils.showAlert(context, context.getString(R.string.please_try_again));
                                 }
@@ -3866,7 +3866,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     + " Image: " + jsonArray.optJSONObject(position).optString("image")
                     + " Grey_Image:" + jsonArray.optJSONObject(position).optString("grey_image"));
 
-            holder.serviceItem.setText(jsonArray.optJSONObject(position).optString("name").replace("Economy Mercedes C/B Klasse","Economy\nMercedes C/B Klasse"));
+            holder.serviceItem.setText(jsonArray.optJSONObject(position).optString("name").replace("Economy Mercedes C/B Klasse", "Economy\nMercedes C/B Klasse"));
             System.out.println("POSITION IS CALLEDD " + position);
 
 
@@ -3877,6 +3877,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car11)
                         .error(R.drawable.car11).into(holder.serviceImg);
+                holder.bagCapacity.setText("4");
             }
 
             if (position == 1) {
@@ -3886,6 +3887,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car22)
                         .error(R.drawable.car22).into(holder.serviceImg);
+                holder.bagCapacity.setText("4");
             }
             if (position == 2) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
@@ -3894,6 +3896,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car33)
                         .error(R.drawable.car33).into(holder.serviceImg);
+                holder.bagCapacity.setText("8");
             }
             if (position == 3) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
@@ -3962,7 +3965,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView serviceItem, serviceCapacity;
+            TextView serviceItem, serviceCapacity, bagCapacity;
             MyTextView serviceItemPrice;
             ImageView serviceImg;
             LinearLayout linearLayoutOfList;
@@ -3972,6 +3975,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 super(itemView);
                 serviceItem = itemView.findViewById(R.id.service_car_type);
                 serviceCapacity = itemView.findViewById(R.id.serviceCapacity);
+                bagCapacity = itemView.findViewById(R.id.bagCapacity);
                 serviceImg = itemView.findViewById(R.id.serviceImg);
                 linearLayoutOfList = itemView.findViewById(R.id.LinearLayoutOfList);
                 selector_background = itemView.findViewById(R.id.selector_background);

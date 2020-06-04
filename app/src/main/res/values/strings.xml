@@ -17,9 +17,9 @@
     <string name="paypal_secret" translatable="false">PAYPAL_SECRET=47BANRGAUFQFYNED\n</string>
     <string name="paypal_mode" translatable="false">PAYPAL_MODE=live</string>
 
-<!--    <string name="client_id_paypal" translatable="false">AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n</string>-->
-<!--    <string name="paypal_secret" translatable="false">PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n</string>-->
-<!--    <string name="paypal_mode" translatable="false">PAYPAL_MODE=sandbox</string>-->
+    <!--    <string name="client_id_paypal" translatable="false">AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n</string>-->
+    <!--    <string name="paypal_secret" translatable="false">PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n</string>-->
+    <!--    <string name="paypal_mode" translatable="false">PAYPAL_MODE=sandbox</string>-->
 
     <!--    from here translate-->
     <string name="we_will_send_you_a_one_time_sms_message_carrier_rate_may_apply">We will send you a One time SMS message carrier rate may apply</string>
