@@ -231,7 +231,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.btn_time:
-                TimePickerDialogShow();
+//                TimePickerDialogShow();
+                DatePickerDialogShow();
                 break;
 
             case R.id.im_swap_location:
@@ -389,9 +390,10 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                         choosedDate = "" + dayOfMonth;
                     }
                     btnDatePicker.setText(choosedDate + " " + choosedMonth + " " + year);
+                    TimePickerDialogShow();
                 }, mYear, mMonth, mDay);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        datePickerDialog.getDatePicker().setMaxDate((System.currentTimeMillis() - 1000) + (1000 * 60 * 60 * 24 * 7));
+//        datePickerDialog.getDatePicker().setMaxDate((System.currentTimeMillis() - 1000) + (1000 * 60 * 60 * 24 * 7));
         datePickerDialog.show();
     }
 
@@ -869,7 +871,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             Log.e("222", "paymentType: " + paymentType);
 
             object.put("request_id", request_id + "");
-            object.put("total_payment", Price.replace("$", ""));
+            object.put("total_payment", Price.replace("€", ""));
             if (paymentType.contains("PAYPAL")) {
                 object.put("payment_id", paymentId);
             }

@@ -265,7 +265,7 @@ public class FCMService extends FirebaseMessagingService {
 //            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
 //            notificationUtils.playNotificationSound();
 //        }else{
-//            // If the app is in background, firebase itself handles the notification
+//            // If the app is in back_circle, firebase itself handles the notification
 //        }
 //    }
 //
@@ -300,7 +300,7 @@ public class FCMService extends FirebaseMessagingService {
 //                NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
 //                notificationUtils.playNotificationSound();
 //            } else {
-//                // app is in background, show the notification in notification tray
+//                // app is in back_circle, show the notification in notification tray
 //                Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
 //                resultIntent.putExtra("message", message);
 //

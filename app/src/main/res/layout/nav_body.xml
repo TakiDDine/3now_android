@@ -470,7 +470,7 @@
                 <!--                        android:id="@+id/activities_tv_id"-->
                 <!--                        android:layout_width="match_parent"-->
                 <!--                        android:layout_height="48dp"-->
-                <!--                        android:background="@drawable/bottom_gray_line"-->
+                <!--                        android:back_circle="@drawable/bottom_gray_line"-->
                 <!--                        android:gravity="bottom"-->
                 <!--                        android:padding="10dp"-->
                 <!--                        android:text="@string/my_activities"-->
@@ -607,7 +607,7 @@
                 <!--                    android:id="@+id/oterhs_tv_id"-->
                 <!--                    android:layout_width="match_parent"-->
                 <!--                    android:layout_height="48dp"-->
-                <!--                    android:background="@drawable/bottom_gray_line"-->
+                <!--                    android:back_circle="@drawable/bottom_gray_line"-->
                 <!--                    android:gravity="bottom"-->
                 <!--                    android:padding="10dp"-->
                 <!--                    android:text="@string/others"-->

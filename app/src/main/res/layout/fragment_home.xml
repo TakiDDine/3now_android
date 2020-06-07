@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white_trans"
+            android:background="@color/transparent"
             android:orientation="vertical">
 
             <!-- Map frame -->
@@ -43,195 +43,7 @@
                 android:gravity="bottom"
                 android:orientation="vertical">
 
-                <!--Request to providers-->
-                <LinearLayout
-                    android:id="@+id/lnrRequestProviders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:orientation="vertical"
-                    android:visibility="visible">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:orientation="vertical">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rcvServiceTypes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_7sdp"
-                            android:orientation="horizontal"
-                            tools:listitem="@layout/service_type_list_item"
-                            tools:itemCount="2"/>
-
-                        <TextView
-                            android:id="@+id/tvZoneMsg"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="@dimen/_12sdp"
-                            android:textColor="@color/black"
-                            android:visibility="gone" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="@dimen/_1sdp"
-                            android:layout_marginBottom="1dp"
-                            android:background="@color/view_bg"
-                            android:visibility="gone" />
-
-                        // Cash
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="visible">
-
-                            <ImageView
-                                android:id="@+id/imgPaymentType"
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_alignParentLeft="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/_2sdp"
-                                android:visibility="gone"
-                                app:srcCompat="@drawable/money1" />
-
-                            <de.threenow.Utils.MyBoldTextView
-                                android:id="@+id/lblPaymentType"
-                                android:layout_width="@dimen/_150sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="5dp"
-                                android:layout_toEndOf="@+id/imgPaymentType"
-                                android:gravity="center_vertical"
-                                android:text="@string/cash"
-                                android:textColor="@color/black_text_color"
-                                android:textSize="@dimen/_10sdp" />
-
-
-                            <ImageView
-                                android:id="@+id/img_profile"
-                                android:layout_width="20dp"
-                                android:layout_height="30dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="20dp"
-                                android:layout_toLeftOf="@+id/imgPaymentType"
-                                android:visibility="visible" />
-
-                            <de.threenow.Utils.MyBoldTextView
-                                android:id="@+id/lblPromo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/_5sdp"
-                                android:gravity="center"
-                                android:text="@string/promo_code"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_12sdp"
-                                android:visibility="gone" />
-
-                            <de.threenow.Utils.MyBoldTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="20dp"
-                                android:paddingRight="@dimen/_2sdp"
-                                android:text="1-4"
-                                android:textColor="@android:color/black"
-                                android:textSize="20sp"
-                                android:visibility="gone" />
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1sdp"
-                        android:background="@color/blue" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_40sdp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="@color/blue"
-                            app:cardCornerRadius="0dp"
-                            app:cardElevation="@dimen/_5sdp">
-
-                            <de.threenow.Utils.MyTextView
-                                android:id="@+id/btnRequestRides"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                android:background="@drawable/gradient_vertical"
-                                android:gravity="center"
-                                android:text="@string/request_ride"
-                                android:textColor="@color/button_text_color"
-                                android:textSize="@dimen/_12sdp" />
-                        </androidx.cardview.widget.CardView>
-
-                        <View
-                            android:layout_width="@dimen/_1sdp"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:visibility="visible" />
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_40sdp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="@color/blue"
-                            app:cardCornerRadius="0dp"
-                            app:cardElevation="@dimen/_5sdp">
-
-                            <de.threenow.Utils.MyTextView
-                                android:id="@+id/schedule_ride"
-                                android:layout_width="match_parent"
-                                android:layout_height="55dp"
-                                android:layout_gravity="center"
-                                android:background="@drawable/gradient_vertical"
-                                android:clickable="true"
-                                android:gravity="center"
-                                android:paddingRight="@dimen/_8sdp"
-                                android:text="@string/schedule_ride"
-                                android:textColor="@color/button_text_color"
-                                android:textSize="@dimen/_12sdp" />
-                        </androidx.cardview.widget.CardView>
-
-
-                        <!--<ImageView-->
-                        <!--android:visibility="gone"-->
-                        <!--android:id="@+id/schedule_ride"-->
-                        <!--android:layout_width="@dimen/_48sdp"-->
-                        <!--android:layout_height="@dimen/_48sdp"-->
-                        <!--android:layout_gravity="center_vertical"-->
-                        <!--android:layout_marginRight="5dp"-->
-                        <!--android:layout_weight="0"-->
-                        <!--android:clickable="true"-->
-                        <!--android:focusable="true"-->
-                        <!--android:padding="5dp"-->
-                        <!--android:src="@drawable/clock" />-->
-                    </LinearLayout>
-
-                </LinearLayout>
 
                 <!-- Driver popup Layout-->
                 <LinearLayout
@@ -550,7 +362,7 @@
                     <!--android:layout_height="1dp"-->
                     <!--android:layout_marginLeft="20dp"-->
                     <!--android:layout_marginRight="20dp"-->
-                    <!--android:background="#1A1A1A" />-->
+                    <!--android:back_circle="#1A1A1A" />-->
 
                     <de.threenow.Utils.MyButton
                         android:id="@+id/scheduleBtn"
@@ -574,7 +386,7 @@
                 <!--                    android:layout_width="match_parent"-->
                 <!--                    android:layout_height="wrap_content"-->
                 <!--                    android:layout_gravity="bottom"-->
-                <!--                    android:background="@color/white_trans"-->
+                <!--                    android:back_circle="@color/white_trans"-->
                 <!--                    android:orientation="vertical"-->
                 <!--                    android:visibility="v">-->
 
@@ -583,7 +395,7 @@
                 <!--                        android:layout_width="@dimen/_50sdp"-->
                 <!--                        android:layout_height="@dimen/_50sdp"-->
                 <!--                        android:layout_gravity="center_horizontal"-->
-                <!--                        android:background="@drawable/round_shape"-->
+                <!--                        android:back_circle="@drawable/round_shape"-->
                 <!--                        android:gravity="center"-->
                 <!--                        android:paddingTop="@dimen/_3sdp"-->
                 <!--                        android:text="1"-->
@@ -597,7 +409,7 @@
                 <!--                        android:layout_width="match_parent"-->
                 <!--                        android:layout_height="wrap_content"-->
                 <!--                        android:layout_weight="1"-->
-                <!--                        android:background="@color/white"-->
+                <!--                        android:back_circle="@color/white"-->
                 <!--                        android:gravity="center"-->
                 <!--                        android:padding="@dimen/_5sdp"-->
                 <!--                        android:text="@string/surge_pricing_title"-->
@@ -608,14 +420,14 @@
                 <!--                    <LinearLayout-->
                 <!--                        android:layout_width="match_parent"-->
                 <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:background="@color/white_trans"-->
+                <!--                        android:back_circle="@color/white_trans"-->
                 <!--                        android:orientation="vertical">-->
 
                 <!--                        <LinearLayout-->
                 <!--                            android:layout_width="match_parent"-->
                 <!--                            android:layout_height="wrap_content"-->
                 <!--                            android:layout_margin="@dimen/_4sdp"-->
-                <!--                            android:background="@drawable/white_color_rect_shape"-->
+                <!--                            android:back_circle="@drawable/white_color_rect_shape"-->
                 <!--                            android:orientation="vertical">-->
 
                 <!--                            <LinearLayout-->
@@ -638,13 +450,13 @@
                 <!--                                        android:layout_width="wrap_content"-->
                 <!--                                        android:layout_height="wrap_content"-->
                 <!--                                        android:layout_weight="1"-->
-                <!--                                        android:background="@drawable/source_icon" />-->
+                <!--                                        android:back_circle="@drawable/source_icon" />-->
 
                 <!--                                    <ImageView-->
                 <!--                                        android:layout_width="wrap_content"-->
                 <!--                                        android:layout_height="wrap_content"-->
                 <!--                                        android:layout_weight="1"-->
-                <!--                                        android:background="@drawable/dest_icon"-->
+                <!--                                        android:back_circle="@drawable/dest_icon"-->
                 <!--                                        android:backgroundTint="@color/white" />-->
 
                 <!--                                </LinearLayout>-->
@@ -777,7 +589,7 @@
                 <!--                            android:id="@+id/lineView"-->
                 <!--                            android:layout_width="match_parent"-->
                 <!--                            android:layout_height="0.5dp"-->
-                <!--                            android:background="@color/view_grey_bg" />-->
+                <!--                            android:back_circle="@color/view_grey_bg" />-->
 
                 <!--                        <de.threenow.Utils.MyCheckbox-->
                 <!--                            android:id="@+id/chkWallet"-->
@@ -802,7 +614,7 @@
                 <!--                                android:layout_width="0dp"-->
                 <!--                                android:layout_height="@dimen/_35sdp"-->
                 <!--                                android:layout_weight="1"-->
-                <!--                                android:background="@drawable/red_color_rect_shape"-->
+                <!--                                android:back_circle="@drawable/red_color_rect_shape"-->
                 <!--                                android:backgroundTint="@color/confirmcolor"-->
                 <!--                                android:text="CONFIRM RIDE"-->
                 <!--                                android:textColor="@color/button_text_color"-->
@@ -820,7 +632,7 @@
                 <!--                                android:layout_width="0dp"-->
                 <!--                                android:layout_height="@dimen/_30sdp"-->
                 <!--                                android:layout_weight="1"-->
-                <!--                                android:background="@drawable/red_color_rect_shape"-->
+                <!--                                android:back_circle="@drawable/red_color_rect_shape"-->
                 <!--                                android:text="@string/cancel"-->
                 <!--                                android:textColor="@color/white"-->
                 <!--                                android:visibility="gone" />-->
@@ -2066,7 +1878,7 @@
                             <!--<View-->
                             <!--android:layout_width="match_parent"-->
                             <!--android:layout_height="@dimen/_1sdp"-->
-                            <!--android:background="@drawable/top_shadow" />-->
+                            <!--android:back_circle="@drawable/top_shadow" />-->
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -2226,6 +2038,196 @@
                 </RelativeLayout>
 
             </FrameLayout>
+        </LinearLayout>
+
+        <!--Request to providers-->
+        <LinearLayout
+            android:id="@+id/lnrRequestProviders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:background="@drawable/white_one_edge"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvServiceTypes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/service_type_list_item"
+                    tools:itemCount="2"/>
+
+                <TextView
+                    android:id="@+id/tvZoneMsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/_12sdp"
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@color/view_bg"
+                    android:visibility="gone" />
+
+                <!--                        // Cash-->
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/imgPaymentType"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/money1" />
+
+                    <de.threenow.Utils.MyBoldTextView
+                        android:id="@+id/lblPaymentType"
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@+id/imgPaymentType"
+                        android:gravity="center_vertical"
+                        android:text="@string/cash"
+                        android:textColor="@color/black_text_color"
+                        android:textSize="@dimen/_10sdp" />
+
+
+                    <ImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_toLeftOf="@+id/imgPaymentType"
+                        android:visibility="visible" />
+
+                    <de.threenow.Utils.MyBoldTextView
+                        android:id="@+id/lblPromo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:text="@string/promo_code"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="gone" />
+
+                    <de.threenow.Utils.MyBoldTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="20dp"
+                        android:paddingRight="@dimen/_2sdp"
+                        android:text="1-4"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/blue"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="@dimen/_5sdp">
+
+                    <de.threenow.Utils.MyTextView
+                        android:id="@+id/btnRequestRides"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@drawable/gradient_vertical"
+                        android:gravity="center"
+                        android:text="@string/request_ride"
+                        android:textColor="@color/button_text_color"
+                        android:textSize="@dimen/_12sdp" />
+                </androidx.cardview.widget.CardView>
+
+                <View
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:visibility="visible" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/blue"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="@dimen/_5sdp">
+
+                    <de.threenow.Utils.MyTextView
+                        android:id="@+id/schedule_ride"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/gradient_vertical"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:paddingRight="@dimen/_8sdp"
+                        android:text="@string/schedule_ride"
+                        android:textColor="@color/button_text_color"
+                        android:textSize="@dimen/_12sdp" />
+                </androidx.cardview.widget.CardView>
+
+
+                <!--<ImageView-->
+                <!--android:visibility="gone"-->
+                <!--android:id="@+id/schedule_ride"-->
+                <!--android:layout_width="@dimen/_48sdp"-->
+                <!--android:layout_height="@dimen/_48sdp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:layout_weight="0"-->
+                <!--android:clickable="true"-->
+                <!--android:focusable="true"-->
+                <!--android:padding="5dp"-->
+                <!--android:src="@drawable/clock" />-->
+            </LinearLayout>
+
         </LinearLayout>
 
         <RelativeLayout

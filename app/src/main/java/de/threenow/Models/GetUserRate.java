@@ -2,13 +2,13 @@ package de.threenow.Models;
 
 public class GetUserRate {
 
-    String request_id;
-    String paid;
-    String user_rated;
-    String provider_id;
-    String user_name;
-    String provider_name;
-    String provider_picture;
+    String request_id = "";
+    String paid = "";
+    String user_rated = "";
+    String provider_id = "";
+    String user_name = "";
+    String provider_name = "";
+    String provider_picture = "";
 
     public String getRequest_id() {
         return request_id;

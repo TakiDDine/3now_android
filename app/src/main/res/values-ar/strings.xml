@@ -457,6 +457,7 @@
     <string name="empty_field">please fill this field</string>
     <string name="sent_email_successfully">Sent email successfully!</string>
     <string name="re_select_time_and_date">Please re-select the time and date!</string>
+    <string name="are_you_sure_you_want_to_close_flight_tracking">هل أنت متأكد أنك تريد إغلاق تتبع الرحلة؟</string>
 
     <string-array name="nav_item_activity_titles">
         <item>الصفحة الرئيسية</item>

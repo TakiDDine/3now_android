@@ -136,7 +136,7 @@
     <string name="invoice">Invoice</string>
     <string name="base_price">Base fare</string>
     <string name="booking_id">Booking ID</string>
-    <string name="sample_base_price">$10000</string>
+    <string name="sample_base_price">€10000</string>
     <string name="extra_price">Extra</string>
     <string name="tax">Tax</string>
     <string name="total">Total</string>
@@ -531,12 +531,12 @@ We offer a variety of different services. For this reason, additional conditions
     <string name="name_hint_email">Name des Ortes</string>
 
 
-    <string name="car_name">Mercedes C-Klasse</string>
+    <string name="car_name" translatable="false">Mercedes C-Klasse</string>
     <string name="Routenplaner">Route planner</string>
-    <string name="Adress">ABHOLORT - Gerlingstr,43 Essen</string>
-    <string name="AdressD">Gerlingstr,43 Essen</string>
-    <string name="date_d">15.01.2020</string>
-    <string name="date_f">15.01.2020</string>
+    <string name="Adress" translatable="false">ABHOLORT - Gerlingstr,43 Essen</string>
+    <string name="AdressD" translatable="false">Gerlingstr,43 Essen</string>
+    <string name="date_d" translatable="false">15.01.2020</string>
+    <string name="date_f" translatable="false">15.01.2020</string>
     <string name="plus">Additional wishes</string>
     <string name="plus1">Child seats</string>
     <string name="plus2">Baby car seat</string>
@@ -544,12 +544,13 @@ We offer a variety of different services. For this reason, additional conditions
     <string name="notes">Remarks</string>
     <string name="notes_d">Please be exactly at the time</string>
     <string name="gesamt">total</string>
-    <string name="mwste">19 Mwste</string>
+    <string name="mwste" translatable="false">19 Mwste</string>
     <string name="netto">Net</string>
-    <string name="cardNbr">.... .... .... 2547</string>
+    <string name="cardNbr" translatable="false">.... .... .... 2547</string>
     <string name="empty_field">please fill this field</string>
     <string name="sent_email_successfully">Sent email successfully!</string>
     <string name="re_select_time_and_date">Please re-select the time and date!</string>
+    <string name="are_you_sure_you_want_to_close_flight_tracking">Are you sure you want to close tracking?</string>
 
 
     <string-array name="question1">

@@ -65,7 +65,7 @@ public class MapRipple {
         this.googleMap = googleMap;
         this.latLng = latLng;
         this.prevlatlng = latLng;
-        drawable = (GradientDrawable) context.getResources().getDrawable(R.drawable.background);
+        drawable = (GradientDrawable) context.getResources().getDrawable(R.drawable.back_circle);
         vAnimators = new ValueAnimator[4];
         handlers = new Handler[4];
         gOverlays = new GroundOverlay[4];

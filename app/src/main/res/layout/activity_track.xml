@@ -802,7 +802,7 @@
                     <!--android:layout_marginLeft="@dimen/_20sdp"-->
                     <!--android:layout_marginRight="@dimen/_20sdp"-->
                     <!--android:layout_marginBottom="@dimen/_10sdp"-->
-                    <!--android:background="@drawable/red_color_rect_shape"-->
+                    <!--android:back_circle="@drawable/red_color_rect_shape"-->
                     <!--android:elevation="@dimen/_10sdp"-->
                     <!--android:text="@string/pay_now"-->
                     <!--android:textColor="@color/button_text_color"-->
@@ -920,6 +920,89 @@
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/_11sdp" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:text="Trinkgeld"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+                            <TextView
+                                android:id="@+id/oneTrink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_8sdp"
+                                android:layout_marginRight="@dimen/_8sdp"
+                                android:background="@drawable/radio_click"
+                                android:gravity="center"
+                                android:text="1€"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_16sdp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/secondTrink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/radio_not_click"
+                                android:gravity="center"
+                                android:text="2€"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16sdp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/threedTrink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_8sdp"
+                                android:background="@drawable/radio_not_click"
+                                android:gravity="center"
+                                android:text="3€"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16sdp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/fiveTrink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_8sdp"
+                                android:background="@drawable/radio_not_click"
+                                android:gravity="center"
+                                android:text="5€"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16sdp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/zeroTrink"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_8sdp"
+                                android:background="@drawable/radio_not_click"
+                                android:gravity="center"
+                                android:text="0€"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_16sdp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
 
                         <Button
                             android:id="@+id/btnSubmitReview"
@@ -1369,19 +1452,19 @@
     <!--    android:id="@+id/activity_main"-->
     <!--    android:layout_width="match_parent"-->
     <!--    android:layout_height="match_parent"-->
-    <!--    android:background="@color/white_trans"-->
+    <!--    android:back_circle="@color/white_trans"-->
     <!--    android:orientation="vertical">-->
 
     <!--    <FrameLayout-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="match_parent"-->
-    <!--        android:background="@android:color/transparent">-->
+    <!--        android:back_circle="@android:color/transparent">-->
 
 
     <!--        <LinearLayout-->
     <!--            android:layout_width="match_parent"-->
     <!--            android:layout_height="match_parent"-->
-    <!--            android:background="@color/white_trans"-->
+    <!--            android:back_circle="@color/white_trans"-->
     <!--            android:orientation="vertical">-->
 
     <!--            &lt;!&ndash; Map frame &ndash;&gt;-->
@@ -1390,7 +1473,7 @@
     <!--                android:layout_width="match_parent"-->
     <!--                android:layout_height="match_parent"-->
     <!--                android:layout_weight="1"-->
-    <!--                android:background="@color/white_trans"-->
+    <!--                android:back_circle="@color/white_trans"-->
     <!--                android:orientation="vertical">-->
 
 
@@ -1408,7 +1491,7 @@
     <!--                android:id="@+id/lnrFlow"-->
     <!--                android:layout_width="match_parent"-->
     <!--                android:layout_height="wrap_content"-->
-    <!--                android:background="@android:color/transparent"-->
+    <!--                android:back_circle="@android:color/transparent"-->
     <!--                android:gravity="bottom"-->
     <!--                android:orientation="vertical">-->
 
@@ -1418,7 +1501,7 @@
     <!--                    android:layout_width="match_parent"-->
     <!--                    android:layout_height="wrap_content"-->
     <!--                    android:layout_gravity="bottom"-->
-    <!--                    android:background="@color/white_trans"-->
+    <!--                    android:back_circle="@color/white_trans"-->
     <!--                    android:orientation="vertical"-->
     <!--                    android:visibility="gone">-->
 
@@ -1428,7 +1511,7 @@
     <!--                        android:layout_height="wrap_content"-->
     <!--                        android:layout_marginLeft="@dimen/_5sdp"-->
     <!--                        android:layout_marginRight="@dimen/_5sdp"-->
-    <!--                        android:background="@drawable/white_color_rect_shape"-->
+    <!--                        android:back_circle="@drawable/white_color_rect_shape"-->
     <!--                        android:orientation="vertical"-->
     <!--                        android:visibility="gone">-->
 
@@ -1481,7 +1564,7 @@
     <!--                        android:layout_marginLeft="@dimen/_5sdp"-->
     <!--                        android:layout_marginTop="@dimen/_5sdp"-->
     <!--                        android:layout_marginRight="@dimen/_5sdp"-->
-    <!--                        android:background="@drawable/white_color_rect_shape"-->
+    <!--                        android:back_circle="@drawable/white_color_rect_shape"-->
     <!--                        android:gravity="center"-->
     <!--                        android:orientation="horizontal">-->
 
@@ -1627,7 +1710,7 @@
     <!--                            android:layout_width="match_parent"-->
     <!--                            android:layout_height="@dimen/_35sdp"-->
     <!--                            android:layout_weight="1"-->
-    <!--                            android:background="@drawable/red_color_rect_shape"-->
+    <!--                            android:back_circle="@drawable/red_color_rect_shape"-->
     <!--                            android:backgroundTint="@color/confirmcolor"-->
     <!--                            android:text="@string/cancel_trip"-->
     <!--                            android:textColor="@color/button_text_color"-->
@@ -1644,7 +1727,7 @@
     <!--                    android:layout_height="wrap_content"-->
     <!--                    android:layout_gravity="bottom"-->
     <!--                    android:layout_margin="@dimen/_5sdp"-->
-    <!--                    android:background="@drawable/white_color_rect_shape"-->
+    <!--                    android:back_circle="@drawable/white_color_rect_shape"-->
     <!--                    android:orientation="vertical"-->
     <!--                    android:visibility="gone">-->
     <!--                    <include layout="@layout/confirm_payment"/>-->
@@ -1885,7 +1968,7 @@
     <!--                        <View-->
     <!--                            android:layout_width="match_parent"-->
     <!--                            android:layout_height="1dp"-->
-    <!--                            android:background="@color/white" />-->
+    <!--                            android:back_circle="@color/white" />-->
     <!--                        <RelativeLayout-->
     <!--                            android:visibility="gone"-->
     <!--                            android:layout_width="wrap_content"-->
@@ -2005,7 +2088,7 @@
     <!--                        &lt;!&ndash;android:layout_marginLeft="@dimen/_20sdp"&ndash;&gt;-->
     <!--                        &lt;!&ndash;android:layout_marginRight="@dimen/_20sdp"&ndash;&gt;-->
     <!--                        &lt;!&ndash;android:layout_marginBottom="@dimen/_10sdp"&ndash;&gt;-->
-    <!--                        &lt;!&ndash;android:background="@drawable/red_color_rect_shape"&ndash;&gt;-->
+    <!--                        &lt;!&ndash;android:back_circle="@drawable/red_color_rect_shape"&ndash;&gt;-->
     <!--                        &lt;!&ndash;android:elevation="@dimen/_10sdp"&ndash;&gt;-->
     <!--                        &lt;!&ndash;android:text="@string/pay_now"&ndash;&gt;-->
     <!--                        &lt;!&ndash;android:textColor="@color/button_text_color"&ndash;&gt;-->
@@ -2020,7 +2103,7 @@
     <!--                    android:layout_width="match_parent"-->
     <!--                    android:layout_height="wrap_content"-->
     <!--                    android:layout_gravity="bottom"-->
-    <!--                    android:background="@android:color/transparent"-->
+    <!--                    android:back_circle="@android:color/transparent"-->
     <!--                    android:orientation="vertical"-->
     <!--                    android:visibility="gone">-->
 
@@ -2030,7 +2113,7 @@
     <!--                        android:layout_marginLeft="@dimen/_5sdp"-->
     <!--                        android:layout_marginTop="@dimen/_5sdp"-->
     <!--                        android:layout_marginRight="@dimen/_5sdp"-->
-    <!--                        android:background="@drawable/white_color_rect_shape"-->
+    <!--                        android:back_circle="@drawable/white_color_rect_shape"-->
     <!--                        android:orientation="vertical">-->
 
     <!--                        <TextView-->
@@ -2103,7 +2186,7 @@
     <!--                        android:layout_marginTop="@dimen/_5sdp"-->
     <!--                        android:layout_marginRight="@dimen/_5sdp"-->
     <!--                        android:layout_marginBottom="@dimen/_5sdp"-->
-    <!--                        android:background="@drawable/red_color_rect_shape"-->
+    <!--                        android:back_circle="@drawable/red_color_rect_shape"-->
     <!--                        android:padding="@dimen/_5sdp"-->
     <!--                        android:text="@string/submit"-->
     <!--                        android:textColor="@color/button_text_color"-->
@@ -2125,7 +2208,7 @@
     <!--                        android:layout_marginStart="@dimen/_10sdp"-->
     <!--                        android:layout_marginTop="@dimen/_45sdp"-->
     <!--                        android:layout_marginEnd="@dimen/_10sdp"-->
-    <!--                        android:background="@color/cpb_white"-->
+    <!--                        android:back_circle="@color/cpb_white"-->
     <!--                        android:orientation="horizontal"-->
     <!--                        android:padding="@dimen/_5sdp">-->
 
@@ -2171,7 +2254,7 @@
     <!--                        android:layout_alignParentBottom="true"-->
     <!--                        android:layout_gravity="bottom"-->
     <!--                        android:layout_margin="@dimen/_10sdp"-->
-    <!--                        android:background="@drawable/rounded_button"-->
+    <!--                        android:back_circle="@drawable/rounded_button"-->
     <!--                        android:text="@string/done"-->
     <!--                        android:textColor="@color/button_text_color"-->
     <!--                        android:visibility="visible" />-->
@@ -2261,7 +2344,7 @@
     <!--                        <FrameLayout-->
     <!--                            android:layout_width="match_parent"-->
     <!--                            android:layout_height="match_parent"-->
-    <!--                            android:background="@color/transparent_black">-->
+    <!--                            android:back_circle="@color/transparent_black">-->
 
     <!--                            <pl.droidsonroids.gif.GifImageView-->
     <!--                                android:layout_width="@dimen/_150sdp"-->
@@ -2276,7 +2359,7 @@
     <!--                            android:layout_width="match_parent"-->
     <!--                            android:layout_height="@dimen/_100sdp"-->
     <!--                            android:layout_alignParentBottom="true"-->
-    <!--                            android:background="@color/text_color_white">-->
+    <!--                            android:back_circle="@color/text_color_white">-->
 
     <!--                            <de.threenow.Utils.MyBoldTextView-->
     <!--                                android:id="@+id/lblNoMatch"-->
@@ -2301,7 +2384,7 @@
     <!--                                android:layout_marginTop="@dimen/_20sdp"-->
     <!--                                android:layout_marginRight="@dimen/_20sdp"-->
     <!--                                android:layout_marginBottom="@dimen/_20sdp"-->
-    <!--                                android:background="@drawable/rounded_button"-->
+    <!--                                android:back_circle="@drawable/rounded_button"-->
     <!--                                android:text="@string/cancel_ride"-->
     <!--                                android:textColor="@color/button_text_color" />-->
 
@@ -2340,7 +2423,7 @@
     <!--                    <RelativeLayout-->
     <!--                        android:layout_width="wrap_content"-->
     <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:background="@drawable/rectangle">-->
+    <!--                        android:back_circle="@drawable/rectangle">-->
 
     <!--                        <TextView-->
     <!--                            android:id="@+id/txtdriveraccpted"-->
@@ -2359,7 +2442,7 @@
     <!--                        android:layout_width="@dimen/_30sdp"-->
     <!--                        android:layout_height="@dimen/_30sdp"-->
     <!--                        android:layout_marginEnd="@dimen/_minus13sdp"-->
-    <!--                        android:background="@drawable/triangle"-->
+    <!--                        android:back_circle="@drawable/triangle"-->
     <!--                        android:rotation="90" />-->
     <!--                </LinearLayout>-->
 
@@ -2374,7 +2457,7 @@
     <!--                android:layout_width="@dimen/_1sdp"-->
     <!--                android:layout_height="@dimen/_30sdp"-->
     <!--                android:layout_marginEnd="@dimen/_16sdp"-->
-    <!--                android:background="@color/cancel_ride_color" />-->
+    <!--                android:back_circle="@color/cancel_ride_color" />-->
 
     <!--            <LinearLayout-->
     <!--                android:layout_width="wrap_content"-->
@@ -2392,7 +2475,7 @@
     <!--                    <RelativeLayout-->
     <!--                        android:layout_width="wrap_content"-->
     <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:background="@drawable/rectangle">-->
+    <!--                        android:back_circle="@drawable/rectangle">-->
 
     <!--                        <TextView-->
     <!--                            android:id="@+id/txtdriverArrived"-->
@@ -2410,7 +2493,7 @@
     <!--                        android:layout_width="@dimen/_30sdp"-->
     <!--                        android:layout_height="@dimen/_30sdp"-->
     <!--                        android:layout_marginEnd="@dimen/_minus13sdp"-->
-    <!--                        android:background="@drawable/triangle"-->
+    <!--                        android:back_circle="@drawable/triangle"-->
     <!--                        android:rotation="90" />-->
     <!--                </LinearLayout>-->
 
@@ -2425,7 +2508,7 @@
     <!--                android:layout_width="@dimen/_1sdp"-->
     <!--                android:layout_height="@dimen/_30sdp"-->
     <!--                android:layout_marginEnd="@dimen/_16sdp"-->
-    <!--                android:background="@color/cancel_ride_color" />-->
+    <!--                android:back_circle="@color/cancel_ride_color" />-->
 
     <!--            <LinearLayout-->
     <!--                android:layout_width="wrap_content"-->
@@ -2443,7 +2526,7 @@
     <!--                    <RelativeLayout-->
     <!--                        android:layout_width="wrap_content"-->
     <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:background="@drawable/rectangle">-->
+    <!--                        android:back_circle="@drawable/rectangle">-->
 
     <!--                        <TextView-->
     <!--                            android:id="@+id/txtdriverpicked"-->
@@ -2461,7 +2544,7 @@
     <!--                        android:layout_width="@dimen/_30sdp"-->
     <!--                        android:layout_height="@dimen/_30sdp"-->
     <!--                        android:layout_marginEnd="@dimen/_minus13sdp"-->
-    <!--                        android:background="@drawable/triangle"-->
+    <!--                        android:back_circle="@drawable/triangle"-->
     <!--                        android:rotation="90" />-->
     <!--                </LinearLayout>-->
 
@@ -2476,7 +2559,7 @@
     <!--                android:layout_width="@dimen/_1sdp"-->
     <!--                android:layout_height="@dimen/_30sdp"-->
     <!--                android:layout_marginEnd="@dimen/_16sdp"-->
-    <!--                android:background="@color/cancel_ride_color" />-->
+    <!--                android:back_circle="@color/cancel_ride_color" />-->
 
     <!--            <LinearLayout-->
     <!--                android:layout_width="wrap_content"-->
@@ -2494,7 +2577,7 @@
     <!--                    <RelativeLayout-->
     <!--                        android:layout_width="wrap_content"-->
     <!--                        android:layout_height="wrap_content"-->
-    <!--                        android:background="@drawable/rectangle">-->
+    <!--                        android:back_circle="@drawable/rectangle">-->
 
     <!--                        <TextView-->
     <!--                            android:id="@+id/txtdrivercompleted"-->
@@ -2513,7 +2596,7 @@
     <!--                        android:layout_width="@dimen/_30sdp"-->
     <!--                        android:layout_height="@dimen/_30sdp"-->
     <!--                        android:layout_marginEnd="@dimen/_minus13sdp"-->
-    <!--                        android:background="@drawable/triangle"-->
+    <!--                        android:back_circle="@drawable/triangle"-->
     <!--                        android:rotation="90" />-->
     <!--                </LinearLayout>-->
 

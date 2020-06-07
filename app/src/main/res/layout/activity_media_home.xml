@@ -58,7 +58,7 @@
             <!--<ImageView-->
                 <!--android:layout_width="@dimen/_96sdp"-->
                 <!--android:layout_height="@dimen/_96sdp"-->
-                <!--android:background="@drawable/ic_media"-->
+                <!--android:back_circle="@drawable/ic_media"-->
                 <!--android:backgroundTint="@color/colorPrimary"/>-->
             <!--<mbebaba.Utils.MyTextView-->
                 <!--android:layout_width="wrap_content"-->

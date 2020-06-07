@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="@dimen/_250sdp"
-        android:layout_height="@dimen/_290sdp"
-        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:background="@drawable/white_color_rect_shape"
+        android:backgroundTint="@color/white"
+        android:minWidth="@dimen/_250sdp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:background="@drawable/rate_dialog"
             android:orientation="vertical"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp">
+            android:padding="@dimen/_16sdp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/ivProviderImg"
@@ -53,9 +55,9 @@
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:isIndicator="false"
                 android:numStars="5"
-                android:stepSize="1"
-                android:progressTint="@color/white"
-                android:progressBackgroundTint="@color/black"/>
+                android:progressBackgroundTint="@color/black"
+                android:progressTint="@color/quantum_orange300"
+                android:stepSize="1" />
 
         </LinearLayout>
 
@@ -66,14 +68,14 @@
             android:background="@color/white"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/_10sdp">
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/muli_semibold"
                 android:text="@string/give_a_compliment"
                 android:textColor="@color/blue"
@@ -240,25 +242,103 @@
                 android:maxLines="2"
                 android:minLines="2"
                 android:padding="@dimen/_5sdp"
-                android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
 
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="@dimen/_4sdp"
+            android:text="Trinkgeld"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/_15sdp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <TextView
+                android:id="@+id/oneTrink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:background="@drawable/radio_click"
+                android:gravity="center"
+                android:text="1€"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/secondTrink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radio_not_click"
+                android:gravity="center"
+                android:text="2€"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/threedTrink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:background="@drawable/radio_not_click"
+                android:gravity="center"
+                android:text="3€"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/fiveTrink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radio_not_click"
+                android:gravity="center"
+                android:text="5€"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/zeroTrink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:background="@drawable/radio_not_click"
+                android:gravity="center"
+                android:text="0€"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/_16sdp">
 
             <TextView
-                android:id="@+id/tvRate"
+                android:id="@+id/btnRate"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_weight="1"
-                android:background="#3EBAEC"
+                android:background="@drawable/rounded_button_blue"
+                android:backgroundTint="@color/blue_ligt"
                 android:gravity="center"
                 android:text="@string/rate"
                 android:textColor="@color/white"

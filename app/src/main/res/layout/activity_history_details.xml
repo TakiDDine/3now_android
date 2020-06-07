@@ -184,7 +184,7 @@
                           android:id="@+id/ViewLayout"
                           android:layout_width="match_parent"
                           android:layout_height="0.5dp"
-                          android:background="#1a1a1a" />
+                          android:back_circle="#1a1a1a" />
   -->
 
                     <LinearLayout
@@ -219,7 +219,7 @@
                     <!-- <View
                          android:layout_width="match_parent"
                          android:layout_height="0.5dp"
-                         android:background="#1a1a1a" />
+                         android:back_circle="#1a1a1a" />
  -->
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -277,7 +277,7 @@
                     <!--   <View
                            android:layout_width="match_parent"
                            android:layout_height="0.5dp"
-                           android:background="#1a1a1a" />-->
+                           android:back_circle="#1a1a1a" />-->
 
                     <LinearLayout
                         android:id="@+id/lnrComments"

@@ -219,7 +219,7 @@
     <string name="round_trip">Hin-und Rückfahrt</string>
     <string name="enter_destination">Ziel eingeben</string>
     <string name="pickup_location">Abholadresse</string>
-    <string name="destination_location">Adresse löschen</string>
+    <string name="destination_location">Reiseziel</string>
     <string name="driver_is_on_the_way">Fahrer ist unterwegs</string>
     <string name="request_ride">Fahrt anfordern</string>
     <string name="base_fare">Grundpreis</string>
@@ -353,7 +353,7 @@
     <string name="rajan_owes">Rajan schuldet</string>
     <string name="complete">Komplett</string>
     <string name="pickup_address">Abholadresse</string>
-    <string name="drop_address">Adresse löschen</string>
+    <string name="drop_address">Reiseziel</string>
 
     <string name="oder">oder</string>
     <string name="give_a_compliment">Machen Sie ein Kompliment</string>
@@ -370,7 +370,7 @@
     <string name="rajan_kumar">Rajan Kumar</string>
     <string name="service_type">Servicetyp</string>
     <string name="update_password">Kennwort aktualisieren</string>
-    <string name="favorites">Liebling</string>
+    <string name="favorites">Lieblings</string>
 
     <string name="you_have_no_upcoming_trips">Sie haben keine bevorstehenden Reisen</string>
     <string name="very_good_service">Sehr guter Service</string>
@@ -554,5 +554,15 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="empty_field">Bitte füllen Sie dieses Feld aus!</string>
     <string name="sent_email_successfully">E-Mail erfolgreich gesendet!</string>
     <string name="re_select_time_and_date">Bitte wählen Sie Uhrzeit und Datum erneut!</string>
+    <string name="netto">Netto</string>
+    <string name="notes">Bemerkungen</string>
+    <string name="plus3">Namenschield</string>
+    <string name="plus">Zusätzliche Wünsche</string>
+    <string name="plus1">Kindersitz</string>
+    <string name="plus2">Babyschale</string>
+    <string name="notes_d">Hier könen Sie uns Besoder wünsche,Hier könen Sie uns Besoder wünsche, Hienweise oder anlegung.</string>
+    <string name="Routenplaner">Routenplaner</string>
+    <string name="gesamt">Gesamt</string>
+    <string name="are_you_sure_you_want_to_close_flight_tracking">Möchten Sie die Flugverfolgung wirklich schließen?</string>
 
 </resources>

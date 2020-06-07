@@ -448,7 +448,7 @@ public class Login extends AppCompatActivity
                                         response.optString("currency") != null)
                                     SharedHelper.putKey(getApplicationContext(), "currency", response.optString("currency"));
                                 else
-                                    SharedHelper.putKey(getApplicationContext(), "currency", "$");
+                                    SharedHelper.putKey(getApplicationContext(), "currency", "€");
                                 SharedHelper.putKey(getApplicationContext(), "sos", response.optString("sos"));
                                 SharedHelper.putKey(getApplicationContext(), "loggedIn", "true");
                                 GoToMainActivity();

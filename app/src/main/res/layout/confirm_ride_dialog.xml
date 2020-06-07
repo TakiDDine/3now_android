@@ -2,82 +2,96 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="@dimen/_272sdp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/white_color_rect_shape"
         android:backgroundTint="@color/white"
-        android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/white_color_rect_shape">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_16sdp">
+
         <ImageView
-            android:layout_marginTop="@dimen/_20sdp"
             android:layout_width="@dimen/_84sdp"
             android:layout_height="@dimen/_84sdp"
-            android:src="@drawable/done"/>
+            android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/done" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/muli_semibold"
-            android:textSize="@dimen/_20sdp"
             android:layout_margin="@dimen/_10sdp"
+            android:fontFamily="@font/muli_semibold"
+            android:text="@string/booking_successful"
             android:textColor="@color/blue"
-            android:text="@string/booking_successful"/>
+            android:textSize="@dimen/_20sdp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/muli_regular"
             android:text="@string/your_booking_has_been_confirmed"
-            android:textSize="@dimen/_14sdp"
             android:textColor="@color/view_grey_bg"
-            android:fontFamily="@font/muli_regular"/>
+            android:textSize="@dimen/_14sdp" />
+
         <TextView
+            android:gravity="center"
             android:id="@+id/tvDriverMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/driver_will_pickup_you_in_early"
-            android:textSize="@dimen/_14sdp"
-            android:textColor="@color/view_grey_bg"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:fontFamily="@font/muli_regular"/>
+            android:fontFamily="@font/muli_regular"
+            android:text="@string/driver_will_pickup_you_in_early"
+            android:textColor="@color/view_grey_bg"
+            android:textSize="@dimen/_14sdp" />
+
+        <ProgressBar
+            android:id="@+id/pb_min_da"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:background="@color/view_grey_bg"
-            android:layout_marginTop="@dimen/_12sdp"/>
+            android:visibility="gone" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_44sdp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
+
             <TextView
                 android:id="@+id/tvCancel"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_44sdp"
-                android:gravity="center"
-                android:textSize="@dimen/_14sdp"
+                android:layout_weight="1"
                 android:fontFamily="@font/muli_semibold"
-                android:textColor="@color/view_grey_bg"
+                android:gravity="center"
                 android:text="@string/cancel"
-                />
+                android:textColor="@color/view_grey_bg"
+                android:textSize="@dimen/_14sdp" />
+
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/view_grey_bg"/>
+                android:background="@color/view_grey_bg" />
+
             <TextView
                 android:id="@+id/tvDone"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_44sdp"
-                android:gravity="center"
-                android:textSize="@dimen/_14sdp"
+                android:layout_weight="1"
                 android:fontFamily="@font/muli_semibold"
-                android:textColor="@color/colorPrimary"
+                android:gravity="center"
                 android:text="@string/done"
-                />
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_14sdp" />
         </LinearLayout>
     </LinearLayout>
 

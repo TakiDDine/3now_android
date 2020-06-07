@@ -33,7 +33,7 @@
 //    public GifImageView(Context context, AttributeSet attrs, int defStyleAttr) {
 //        super(context, attrs, defStyleAttr);
 //        this.mContext = context;
-//        if (attrs.getAttributeName(1).equals("background")) {
+//        if (attrs.getAttributeName(1).equals("back_circle")) {
 //            int id = Integer.parseInt(attrs.getAttributeValue(1).substring(1));
 //            setGifImageResource(id);
 //        }

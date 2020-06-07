@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements
 
     /***
      * Load navigation menu header information
-     * like background image, profile image
+     * like back_circle image, profile image
      * name, website, notifications action view (dot)
      */
     private void loadNavHeader() {

@@ -92,14 +92,10 @@ public class UserChatActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context base) {
-
-
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-
-
     }
 
     @Override
@@ -142,7 +138,6 @@ public class UserChatActivity extends AppCompatActivity {
         intentFilter = new IntentFilter();
         intentFilter.addAction("com.my.app.onMessageReceived");
         receiver = new MyBroadcastReceiver();
-
 
     }
 
@@ -251,6 +246,7 @@ public class UserChatActivity extends AppCompatActivity {
 
         setUpEmojiPopup();
     }
+
     String TAG="USERCHATACTIVITY";
     private void setUpEmojiPopup() {
         emojiPopup = EmojiPopup.Builder.fromRootView(rootView)
@@ -264,6 +260,7 @@ public class UserChatActivity extends AppCompatActivity {
                 .setPageTransformer(new PageTransformer())
                 .build(msgInputText);
     }
+
     private void updateView(String message) {
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => " + c.getTime());
@@ -609,7 +606,6 @@ public class UserChatActivity extends AppCompatActivity {
     }
 
     public void displayMessage(String toastString) {
-
         Snackbar.make(getCurrentFocus(), toastString, Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
     }

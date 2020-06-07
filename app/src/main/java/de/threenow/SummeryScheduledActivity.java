@@ -38,14 +38,15 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
     boolean nameschield;
     CheckBox nameschieldCheckbox;
     CustomDialog customDialog;
-    String serviceId, service_type, typeCar, serviceCap;
+    String serviceId, service_type, typeCar, serviceCap, bagCap;
     int childSeat, babySeat;
     double totalPrice = 0;
     ImageView im_back;
 
     TextView service_car_type, serviceCapacity, AdresseFromD, AdresseToD,
             dateToD, dateToF, childSeatsPrice, babySeatPrice, nameTagPrice,
-            detailNote, netlPrice, creditCardNbr, priceTrip;
+            detailNote, netlPrice, creditCardNbr, priceTrip, tvDistance,
+            bagCapacity;
 
 
     Button submit_btn;
@@ -108,12 +109,15 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         if (serviceId.contains("19")) {
             typeCar = "Economy Mercedes C/B Klasse";
             serviceCap = "4";
+            bagCap = "3";
         } else if (serviceId.contains("27")) {
             typeCar = "Mercedes Vito";
             serviceCap = "8";
+            bagCap = "7";
         } else if (serviceId.contains("32")) {
             typeCar = "Mercedes V-Klasse";
             serviceCap = "7";
+            bagCap = "7";
         }
 
 
@@ -122,10 +126,12 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         im_back = findViewById(R.id.im_back);
         service_car_type = findViewById(R.id.service_car_type);
         serviceCapacity = findViewById(R.id.serviceCapacity);
+        bagCapacity = findViewById(R.id.bagCapacity);
         AdresseFromD = findViewById(R.id.AdresseFromD);
         AdresseToD = findViewById(R.id.AdresseToD);
         dateToD = findViewById(R.id.dateToD);
         dateToF = findViewById(R.id.dateToF);
+        tvDistance = findViewById(R.id.tvDistance);
         childSeatsPrice = findViewById(R.id.childSeatsPrice);
         babySeatPrice = findViewById(R.id.babySeatPrice);
         nameTagPrice = findViewById(R.id.nameTagPrice);
@@ -138,8 +144,9 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         im_back.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
 
-        service_car_type.setText(typeCar.replace("Economy Mercedes C/B Klasse","Economy\nMercedes C/B Klasse") + "");
+        service_car_type.setText(typeCar.replace("Economy Mercedes C/B Klasse", "Economy\nMercedes C/B Klasse") + "");
         serviceCapacity.setText(serviceCap + "");
+        bagCapacity.setText(bagCap + "");
         AdresseFromD.setText(s_address + "");
         AdresseToD.setText(d_address + "");
         dateToD.setText(scheduledDate + "");
@@ -156,14 +163,16 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
 
         }
 
-        if (childSeat > 0) {
-            totalPrice += childSeat * 5;
-            childSeatsPrice.setText((5 * childSeat) + "€");
+
+        if (childSeat > 1) {
+            totalPrice += (childSeat - 1) * 5;
+            childSeatsPrice.setText((5 * (childSeat - 1)) + "€");
         }
 
-        if (babySeat > 0) {
-            totalPrice += 10 * babySeat;
-            babySeatPrice.setText((10 * babySeat) + "€");
+
+        if (babySeat > 1) {
+            totalPrice += 10 * (babySeat - 1);
+            babySeatPrice.setText((10 * (babySeat - 1)) + "€");
         }
 
         if (nameschield) {
@@ -178,6 +187,9 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
 
         priceTrip.setText(((double) (pr - totalPrice)) + "€");
         netlPrice.setText(pr + "€");
+
+        if (distance != null && !distance.isEmpty() && distance.length() > 0 && !distance.contains("null"))
+            tvDistance.setText(distance + " km");
 
         if (payment_mode.contains("PAYPAL")) {
             creditCardNbr.setText("");

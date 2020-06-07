@@ -150,6 +150,7 @@ import de.threenow.Models.PostUserRate;
 import de.threenow.Models.RestInterface;
 import de.threenow.Models.ServiceGenerator;
 import de.threenow.R;
+import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.MapAnimator;
 import de.threenow.Utils.MapRipple;
 import de.threenow.Utils.MyTextView;
@@ -732,6 +733,24 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
             return false;
         });
+//
+//        try {
+//            String SOURCE_ADDRESS = "" + SharedHelper.getKey(context, "SOURCE_ADDRESS");
+//            String DESTINATION_ADDRESS = "" + SharedHelper.getKey(context, "DESTINATION_ADDRESS");
+//
+//
+//            if (frmSource != null && frmSource.getText().toString().length() == 0 && SOURCE_ADDRESS.length() > 0) {
+//                frmSource.setText(SOURCE_ADDRESS);
+//            }
+//
+//            if (frmDest != null && frmDest.getText().toString().length() == 0 && DESTINATION_ADDRESS.length() > 0) {
+//                frmDest.setText(DESTINATION_ADDRESS);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
 
     }
 
@@ -779,8 +798,10 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-        location.setLatitude(52.5230588);
-        location.setLongitude(13.4699208);
+        if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
+            location.setLatitude(52.5379986);
+            location.setLongitude(13.3640841);
+        }
 
         if (marker != null) {
             marker.remove();
@@ -837,7 +858,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         try {
             object.put("latitude", latitude);
             object.put("longitude", longitude);
-//            utils.print("SendRequestUpdate", "" + object.toString()); ---------- abood
+//            utils.print("SendRequestUpdate", "" + object.toString());// ---------- abood
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -848,7 +869,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         URLHelper.base + "api/user/update/location",
                         object,
                         response -> {
-//                            Log.v("uploadRes", response + " ");---------------------------------- abood
+//                            Log.v("uploadRes", response + " ");//---------------------------------- abood
                         }, error -> {
 
                 }) {
@@ -1045,15 +1066,15 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 //                frmDestination.setVisibility(View.VISIBLE);
                 sourceDestLayout.setVisibility(View.VISIBLE);
                 imgMenu.setVisibility(View.VISIBLE);
-                destination.setText("");
-                frmDest.setText("");
-                frmSource.setText("" + current_address);
-                dest_address = "";
-                dest_lat = "";
-                dest_lng = "";
-                source_lat = "" + current_lat;
-                source_lng = "" + current_lng;
-                source_address = "" + current_address;
+//                destination.setText("");
+//                frmDest.setText("");
+//                frmSource.setText("" + current_address);
+//                dest_address = "";
+//                dest_lat = "";
+//                dest_lng = "";
+//                source_lat = "" + current_lat;
+//                source_lng = "" + current_lng;
+//                source_address = "" + current_address;
                 sourceAndDestinationLayout.setVisibility(View.VISIBLE);
             } else if (flowValue == 1) {
                 frmSource.setVisibility(View.VISIBLE);
@@ -1736,6 +1757,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
     public void getApproximateFare() {
+
+        GlobalDataMethods.SourceTripeLat = source_lat;
+        GlobalDataMethods.SourceTripeLong = source_lng;
 
         customDialog.setCancelable(false);
         if (customDialog != null)
@@ -2757,6 +2781,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e("rate", object.toString());
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.RATE_PROVIDER_API, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -2764,8 +2790,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 utils.hideKeypad(context, activity.getCurrentFocus());
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
-                destination.setText("");
-                frmDest.setText("");
+//                destination.setText("");
+//                frmDest.setText("");
                 mapClear();
                 flowValue = 0;
                 getProvidersList("");
@@ -3104,12 +3130,34 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
         }
 
+//        try {
+//            String SOURCE_ADDRESS = "" + SharedHelper.getKey(context, "SOURCE_ADDRESS");
+//            String DESTINATION_ADDRESS = "" + SharedHelper.getKey(context, "DESTINATION_ADDRESS");
+//
+//
+//            if (frmSource != null && frmSource.getText().toString().length() == 0 && SOURCE_ADDRESS.length() > 0) {
+//                frmSource.setText(SOURCE_ADDRESS);
+//            }
+//
+//            if (frmDest != null && frmDest.getText().toString().length() == 0 && DESTINATION_ADDRESS.length() > 0) {
+//                frmDest.setText(SOURCE_ADDRESS);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
         getPastTripRate();
     }
 
     String requestWith = "XMLHttpRequest";
 
     void getPastTripRate() {
+
+//        showTripRateDialog("1", " Abdulwahab", "");
+
+
         String auth = "Bearer " + SharedHelper.getKey(context, "access_token");
         getUserRateCall = restInterface.getUserRate(requestWith, auth);
         getUserRateCall.enqueue(new Callback<GetUserRate>() {
@@ -3117,9 +3165,26 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             public void onResponse(Call<GetUserRate> call,
                                    retrofit2.Response<GetUserRate> response) {
                 try {
-                    Log.e("2225", response.code() + " " + response.message() + " getPaid: " + response.body().getPaid() + " getRequest_id: " + response.body().getRequest_id() + " getUser_rated: " + response.body().getUser_rated());
+
+                    Log.e("2225", response.code() + "");
+
+                    if (response.message() != null)
+                        Log.e("2225", response.message() + "");
+
+                    if (response.body().getPaid() != null)
+                        Log.e("2225", response.body().getPaid() + "");
+
+                    if (response.body().getRequest_id() != null)
+                        Log.e("2225", response.body().getRequest_id() + "");
+
+                    if (response.body().getUser_rated() != null)
+                        Log.e("2225", response.body().getUser_rated() + "");
+
+
+//                    Log.e("2225", response.code() + " " + response.message() + " getPaid: " + response.body().getPaid() + " getRequest_id: " + response.body().getRequest_id() + " getUser_rated: " + response.body().getUser_rated());
                 } catch (Exception e) {
                     Log.e(UserMapFragment.class.getName(), e.getMessage());
+//                    e.printStackTrace();
 
                 }
                 if (response.code() == 200) {
@@ -3148,29 +3213,42 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         userRateDialog.setContentView(R.layout.user_rate_dailog);
 
         CircleImageView ivProviderImg;
-        TextView tvProviderName, tvRate, tvSkip;
+        TextView tvProviderName, btnRate, tvSkip;
         RatingBar rbProvider;
         EditText etComment;
+
+        TextView oneTrink, secondTrink, threedTrink, fiveTrink, zeroTrink;
+
 
         userRateDialog.show();
         userRateDialog.setCancelable(false);
 
         ivProviderImg = userRateDialog.findViewById(R.id.ivProviderImg);
         tvProviderName = userRateDialog.findViewById(R.id.tvProviderName);
-        tvRate = userRateDialog.findViewById(R.id.tvRate);
+        btnRate = userRateDialog.findViewById(R.id.btnRate);
         tvSkip = userRateDialog.findViewById(R.id.tvSkip);
         rbProvider = userRateDialog.findViewById(R.id.rbProvider);
         etComment = userRateDialog.findViewById(R.id.etComment);
 
+        oneTrink = userRateDialog.findViewById(R.id.oneTrink);
+        secondTrink = userRateDialog.findViewById(R.id.secondTrink);
+        threedTrink = userRateDialog.findViewById(R.id.threedTrink);
+        fiveTrink = userRateDialog.findViewById(R.id.fiveTrink);
+        zeroTrink = userRateDialog.findViewById(R.id.zeroTrink);
+
+        TextView[] textViewArray = {oneTrink, secondTrink, threedTrink, fiveTrink, zeroTrink};
+
+        rbProvider.setRating(Float.parseFloat("5"));
+
         if (proImage != null) {
-            Picasso.get().load(URLHelper.image_url_signature + proImage)
+            Picasso.get().load(URLHelper.image_url_signature + proImage).error(R.drawable.ic_dummy_user).placeholder(R.drawable.ic_dummy_user)
                     .resize(100, 100)
                     .into(ivProviderImg);
         }
 
         tvProviderName.setText(getResources().getString(R.string.rate_your_trip_with) + proName);
 
-        tvRate.setOnClickListener(v -> {
+        btnRate.setOnClickListener(v -> {
             int rate = (int) rbProvider.getRating();
             String com = etComment.getText().toString();
             if (rbProvider.getRating() > 1) {
@@ -3178,6 +3256,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             } else {
                 postPastTripRate(requestId, 1, com);
             }
+
         });
         tvSkip.setOnClickListener(v -> {
             String rate = String.valueOf(rbProvider.getRating());
@@ -3185,6 +3264,28 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             postPastTripRate(requestId, 1, com);
         });
 
+        oneTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 1));
+
+        secondTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 2));
+
+        threedTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 3));
+
+        fiveTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 4));
+
+        zeroTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 5));
+
+    }
+
+    private void changeColorButtonRadioClick(TextView[] textViewArray, int j) {
+        for (int i = 0; i < textViewArray.length; i++) {
+            if (i == j - 1) {
+                textViewArray[i].setTextColor(getResources().getColor(R.color.white));
+                textViewArray[i].setBackgroundResource(R.drawable.radio_click);
+            } else {
+                textViewArray[i].setTextColor(getResources().getColor(R.color.black));
+                textViewArray[i].setBackgroundResource(R.drawable.radio_not_click);
+            }
+        }
     }
 
     void postPastTripRate(String requestId, int rating, String comment) {
@@ -3205,6 +3306,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         userRateDialog.cancel();
                         mMap.clear();
                         flowValue = 0;
+//                        startActivity(new Intent(context, TrinkgeldActivity.class)); // rate abood
                         layoutChanges();
                     }
                 }
@@ -3310,7 +3412,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 object.put("address", addressLocation);
                 object.put("longitude", addressLat);
                 object.put("latitude", addressLng);
-                utils.print("Save Location", "" + object);
+                utils.print("Save_Location", "" + object);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -3323,7 +3425,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         public void onResponse(JSONObject response) {
                             if ((customDialog != null) && customDialog.isShowing())
                                 customDialog.dismiss();
-                            utils.print("Save Location Response", response.toString());
+                            utils.print("Save_Location Response", response.toString());
                             SharedHelper.putKey(context, type + "_address", addressLocation);
                             // callSuccess();
                         }
@@ -3334,7 +3436,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                     if ((customDialog != null) && customDialog.isShowing())
                         customDialog.dismiss();
-                    Log.e(this.getClass().getName(), "Error_Favourite" + error.getMessage());
+                    Log.e("Save_Location" + this.getClass().getName(), "Error_Favourite" + error.getMessage());
 
                     String json = null;
                     String Message;
@@ -3877,7 +3979,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car11)
                         .error(R.drawable.car11).into(holder.serviceImg);
-                holder.bagCapacity.setText("4");
+                holder.bagCapacity.setText("3");
             }
 
             if (position == 1) {
@@ -3887,7 +3989,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car22)
                         .error(R.drawable.car22).into(holder.serviceImg);
-                holder.bagCapacity.setText("4");
+                holder.bagCapacity.setText("7");
             }
             if (position == 2) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
@@ -3896,7 +3998,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car33)
                         .error(R.drawable.car33).into(holder.serviceImg);
-                holder.bagCapacity.setText("8");
+                holder.bagCapacity.setText("7");
             }
             if (position == 3) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
@@ -4032,6 +4134,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             try {
                 jObject = new JSONObject(jsonData[0]);
                 Log.d("ParserTask", jsonData[0].toString());
+
+                saveLastTripInSH(jObject);
+
                 DataParser parser = new DataParser();
                 Log.d("ParserTask", parser.toString());
 
@@ -4148,6 +4253,25 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             } else {
                 Log.d("onPostExecute", "without Polylines drawn");
             }
+        }
+    }
+
+    private void saveLastTripInSH(JSONObject jObject) {
+        try {
+            String DESTINATION_ADDRESS, SOURCE_ADDRESS;
+
+            DESTINATION_ADDRESS = jObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getString("end_address").toString();
+            SOURCE_ADDRESS = jObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getString("start_address").toString();
+
+
+            SharedHelper.putKey(context, "DESTINATION_ADDRESS", DESTINATION_ADDRESS);
+            SharedHelper.putKey(context, "SOURCE_ADDRESS", SOURCE_ADDRESS);
+
+
+            Log.d("ParsTask end_address", jObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getString("end_address").toString());
+            Log.d("ParsTask start_address", jObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getString("start_address").toString());
+        } catch (Exception e) {
+
         }
     }
 

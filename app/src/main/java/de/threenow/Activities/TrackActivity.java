@@ -45,6 +45,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -316,6 +317,66 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     String providerLastName = "";
 
 
+    // trinkeld
+    @BindView(R.id.oneTrink)
+    TextView oneTrink;
+    @BindView(R.id.secondTrink)
+    TextView secondTrink;
+    @BindView(R.id.threedTrink)
+    TextView threedTrink;
+    @BindView(R.id.fiveTrink)
+    TextView fiveTrink;
+    @BindView(R.id.zeroTrink)
+    TextView zeroTrink;
+
+    String priceTrink = "";
+
+    @butterknife.OnClick(R.id.oneTrink)
+    void oneTrinkbtnCall() {
+        changeColorButtonRadioClick(1);
+        priceTrink = "1";
+    }
+
+    @butterknife.OnClick(R.id.secondTrink)
+    void secondTrinkbtnCall() {
+        changeColorButtonRadioClick(2);
+        priceTrink = "2";
+    }
+
+    @butterknife.OnClick(R.id.threedTrink)
+    void threedTrinkbtnCall() {
+        changeColorButtonRadioClick(3);
+        priceTrink = "3";
+    }
+
+    @butterknife.OnClick(R.id.fiveTrink)
+    void fiveTrinkbtnCall() {
+        changeColorButtonRadioClick(4);
+        priceTrink = "5";
+    }
+
+    @butterknife.OnClick(R.id.zeroTrink)
+    void zeroTrinkbtnCall() {
+        changeColorButtonRadioClick( 5);
+        priceTrink = "0";
+    }
+
+
+    private void changeColorButtonRadioClick(int j) {
+        TextView[] textViewArray = {oneTrink, secondTrink, threedTrink, fiveTrink, zeroTrink};
+
+        for (int i = 0; i < textViewArray.length; i++) {
+            if (i == j - 1) {
+                textViewArray[i].setTextColor(getResources().getColor(R.color.white));
+                textViewArray[i].setBackgroundResource(R.drawable.radio_click);
+            } else {
+                textViewArray[i].setTextColor(getResources().getColor(R.color.black));
+                textViewArray[i].setBackgroundResource(R.drawable.radio_not_click);
+            }
+        }
+
+    }
+
     @butterknife.OnClick(R.id.btnCall)
     void callbtnCall() {
         Intent intentCall = new Intent(Intent.ACTION_DIAL);
@@ -496,7 +557,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //                            getString(R.string.paypal_secret) +
 //                            getString(R.string.paypal_mode));
 
-            PayPalPayment payment = new PayPalPayment(new BigDecimal(lblTotalPrice.getText().toString().replace("€", "")), "EUR", " ",
+            PayPalPayment payment = new PayPalPayment(new BigDecimal(lblTotalPrice.getText().toString().replace("€", "").trim()), "EUR", " ",
                     PayPalPayment.PAYMENT_INTENT_SALE);
             Intent intent = new Intent(TrackActivity.this, PaymentActivity.class);
             // send the same configuration for restart resiliency
@@ -647,11 +708,34 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @butterknife.OnClick(R.id.imgBack)
     void imgBackClick() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+        Log.e("done_aboood", "imgBackClick");
+
+        new androidx.appcompat.app.AlertDialog.Builder(context)
+                .setTitle(getResources().getString(R.string.confirmation))
+                .setMessage(getResources().getString(R.string.are_you_sure_you_want_to_close_flight_tracking))
+                .setIcon(R.mipmap.ic_launcher_round)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton(android.R.string.no, null).show();
+
     }
+
+
+    @Override
+    public void onBackPressed() {
+
+        new androidx.appcompat.app.AlertDialog.Builder(context)
+                .setTitle(getResources().getString(R.string.confirmation))
+                .setMessage(getResources().getString((R.string.are_you_sure_you_want_to_close_flight_tracking)))
+                .setIcon(R.mipmap.ic_launcher_round)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> super.onBackPressed())
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
 
     @butterknife.OnClick(R.id.btnCancelRide)
     void btnCancelRideClick() {
@@ -762,12 +846,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     protected void attachBaseContext(Context base) {
 
-
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-
 
     }
 
@@ -1357,14 +1439,14 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 drawable.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 drawable.getDrawable(1).setColorFilter(Color.parseColor("#FFAB00"), PorterDuff.Mode.SRC_ATOP);
                 drawable.getDrawable(2).setColorFilter(Color.parseColor("#FFAB00"), PorterDuff.Mode.SRC_ATOP);
-                ratingProviderRate.setRating(1.0f);
-                feedBackRating = "1";
+                ratingProviderRate.setRating(5.0f);
+                feedBackRating = "5";
                 ratingProviderRate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean b) {
                         if (rating < 1.0f) {
-                            ratingProviderRate.setRating(1.0f);
-                            feedBackRating = "1";
+                            ratingProviderRate.setRating(5.0f);
+                            feedBackRating = "5";
                         }
                         feedBackRating = String.valueOf((int) rating);
                     }
@@ -1416,7 +1498,15 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         alertDialog.show();
     }
 
+    boolean rateDone = false, trinkDone = false;
+
     public void submitReviewCall() {
+
+        if (!(priceTrink.equals("0") && priceTrink.length() == 0)) {
+            payNowPaypalOrCard(priceTrink);
+        } else {
+            trinkDone = true;
+        }
 
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
@@ -1431,19 +1521,27 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e("rate", object.toString());
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.RATE_PROVIDER_API, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
                 utils.print("SubmitRequestResponse", response.toString());
                 utils.hideKeypad(context, activity.getCurrentFocus());
+
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
+
                 // destination.setText("");
                 // frmDest.setText("");
+
                 SharedHelper.putKey(context, "service_type_Car_Ambulance", "");
-                Intent goMain = new Intent(activity, MainActivity.class);
-                goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                activity.startActivity(goMain);
+
+                rateDone = true;
+                goAfterRateAndTrink();
+
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -1500,6 +1598,152 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             }
         };
 
+        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void goAfterRateAndTrink() {
+        if (rateDone && trinkDone) {
+            Intent goMain = new Intent(activity, MainActivity.class);
+            goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activity.startActivity(goMain);
+        }
+    }
+
+    void payNowPaypalOrCard(String Price) {
+        // --
+        if (paymentType.equalsIgnoreCase("CARD")) {
+            payNowCard("CARD", Price);
+        } else {
+            Log.e("222 payNowPaypal", "btnPayNowClick: " + Price);
+
+            try {
+
+                PayPalPayment payment = new PayPalPayment(new BigDecimal(Price.replace("€", "")), "EUR", " ",
+                        PayPalPayment.PAYMENT_INTENT_SALE);
+                Intent intent = new Intent(TrackActivity.this, PaymentActivity.class);
+                // send the same configuration for restart resiliency
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, GlobalDataMethods.config);
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+                startActivityForResult(intent, 012);
+
+            } catch (Exception e) {
+                Log.e("222 payNowPaypal", e.getMessage());
+            }
+        }
+
+    }
+
+    public void payNowCard(String paymentType, String Price) {
+        // --
+
+        customDialog = new CustomDialog(context);
+        customDialog.setCancelable(false);
+        if (customDialog != null)
+            customDialog.show();
+
+        JSONObject object = new JSONObject();
+        try {
+            Log.e("222", "paymentType: " + paymentType);
+
+            object.put("request_id", SharedHelper.getKey(context, "request_id") + "");
+            object.put("total_payment", Price.replace("€", ""));
+            if (paymentType.contains("PAYPAL")) {
+                object.put("payment_id", paymentId);
+            }
+//              object.put("payment_mode", SharedHelper.getKey(getApplicationContext(),"payment_mode"));
+//              object.put("is_paid", isPaid);
+            Log.e("222", "payNowCard: " + object.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_REQUEST_Later_API, object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("222 onResponse", "PayNowRequestResponse: " + response.toString());
+
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
+
+                trinkDone = true;
+                goAfterRateAndTrink();
+
+
+            }
+        }, error -> {
+
+            try {
+
+                String msg = "statusCode: " + error.networkResponse.statusCode + "\n" +
+                        URLHelper.PAY_REQUEST_Later_API + "\n\n" +
+                        trimMessage(new String(error.networkResponse.data));
+
+                utils.showAlert(context, msg);
+            } catch (Exception e) {
+                if (error.networkResponse != null)
+                    utils.showAlert(context, "statusCode: " + error.networkResponse.statusCode + "\n" +
+                            URLHelper.PAY_REQUEST_Later_API);
+            }
+
+            try {
+                if (error.networkResponse != null)
+                    Log.e("222 onResponse", "data: " + new JSONObject(new String(error.networkResponse.data)));
+            } catch (Exception e) {
+
+            }
+            if (error.networkResponse != null) {
+                Log.e("222 onResponse", "networkTimeMs: " + error.networkResponse.networkTimeMs);
+                Log.e("222 onResponse", "notModified: " + error.networkResponse.notModified);
+                Log.e("222 onResponse", "statusCode: " + error.networkResponse.statusCode);
+            }
+            if ((customDialog != null) && (customDialog.isShowing()))
+                customDialog.dismiss();
+            String json = "";
+            NetworkResponse response = error.networkResponse;
+            if (response != null && response.data != null) {
+                try {
+                    JSONObject errorObj = new JSONObject(new String(response.data));
+
+                    if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                        try {
+                            utils.displayMessage(getCurrentFocus(), errorObj.optString("message"));
+                        } catch (Exception e) {
+//                                utils.displayMessage(getCurrentFocus(), getString(R.string.something_went_wrong));    -----------
+                        }
+                    } else if (response.statusCode == 401) {
+//                        refreshAccessToken("PAY_NOW_TRING");
+                        Log.e("222", "refreshAccessToken(PAY_NOW_TRING)");
+                    } else if (response.statusCode == 422) {
+
+                        json = trimMessage(new String(response.data));
+                        if (json != "" && json != null) {
+                            utils.displayMessage(getCurrentFocus(), json);
+                        } else {
+                            utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                        }
+                    } else if (response.statusCode == 503) {
+                        utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.server_down));
+                    } else {
+                        utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    View parentLayout = findViewById(android.R.id.content);
+//                        utils.displayMessage(parentLayout, getString(R.string.something_went_wrong)); ------------
+                }
+            } else {
+                utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                return headers;
+            }
+        };
         IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
@@ -2006,6 +2250,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     private void checkStatus() {
         try {
 
+//            Log.e("done_aboood", "checkStatus");
+//            getDurationForRoute();
+
             utils.print("Handler", "Inside");
             if (isInternet) {
 
@@ -2023,7 +2270,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             e.printStackTrace();
                         }
                         reqStatus = "";
-                        utils.print("Response", "" + response.toString());
+                        utils.print("Response-.", "" + response.toString());
 
                         if (response.optJSONArray("data") != null && response.optJSONArray("data").length() > 0) {
                             utils.print("response", "not null");
@@ -2128,6 +2375,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 JSONObject provider = requestStatusCheckObject.getJSONObject("provider");
                                                 JSONObject service_type = requestStatusCheckObject.getJSONObject("service_type");
                                                 JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
+
+                                                getDurationForRoute(provider.optString("latitude"), provider.optString("longitude"));
+
                                                 SharedHelper.putKey(context, "provider_mobile_no", "" + provider.optString("mobile"));
                                                 lblProvider.setText(provider.optString("first_name"));
                                                 tvServiceNumber.setText("" + provider_service.getString("service_number"));
@@ -2419,6 +2669,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //                                    utils.print("Livenavigation", "" + status);
 //                                    utils.print("Destination Current Lat", "" + requestStatusCheckObject.getJSONObject("provider").optString("latitude"));
 //                                    utils.print("Destination Current Lng", "" + requestStatusCheckObject.getJSONObject("provider").optString("longitude"));
+                                    getDurationForRoute(requestStatusCheckObject.getJSONObject("provider").optString("latitude"), requestStatusCheckObject.getJSONObject("provider").optString("longitude"));
                                     liveNavigation(status, requestStatusCheckObject.getJSONObject("provider").optString("latitude"),
                                             requestStatusCheckObject.getJSONObject("provider").optString("longitude"));
                                 }
@@ -2534,9 +2785,98 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
+    public void getDurationForRoute(String driverLat, String driverLong) {
+
+//        LatLng DriverLocation = providerMarker.getPosition();
+//        Double driver_lat = DriverLocation.latitude;
+//        Double driver_longi = DriverLocation.longitude;
+
+        Double driver_lat = 52.5230588;
+        Double driver_longi = 13.4699208;
+
+        Log.e("done_aboood", source_lat + " / " + source_lng);
+
+        GoogleDirection.withServerKey(getString(R.string.google_map_api))
+                .from(new LatLng(Double.parseDouble(driverLat), Double.parseDouble(driverLong)))// driver loc
+                .to(new LatLng(Double.parseDouble(GlobalDataMethods.SourceTripeLat), Double.parseDouble(GlobalDataMethods.SourceTripeLong)))// source me
+                .transportMode(TransportMode.DRIVING)
+                .execute(new DirectionCallback() {
+
+
+                    @Override
+                    public void onDirectionSuccess(Direction direction, String rawBody) {
+                        Log.e("done_aboood", "onDirectionSuccess");
+                        if (direction.isOK()) {
+                            try {
+                                Log.v("rawBody", rawBody + "");
+                                Log.v("direction", direction + "");
+
+                                float totalDistance = 0;
+                                int totalDuration = 0;
+                                mMap.clear();
+                                Route route = direction.getRouteList().get(0);
+                                int legCount = route.getLegList().size();
+                                for (int index = 0; index < legCount; index++) {
+                                    Leg leg = route.getLegList().get(index);
+
+                                    totalDistance = totalDistance + Float.parseFloat(leg.getDistance().getText().replace("km", "").replace("m", "").trim());
+
+//                                totalDistance =0;
+                                    if (leg.getDuration().getText().contains("hour")) {
+                                        Log.v("splithour", leg.getDuration().getText().split("hour")[0] + " ");
+                                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
+                                                .split("hour")[0].trim());
+
+                                    } else if (leg.getDuration().getText().contains("hours")) {
+                                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
+                                                .split("hours")[0].trim().replace("m", ""));
+                                    } else if (leg.getDuration().getText().contains("mins")) {
+                                        totalDuration = totalDuration + Integer.parseInt(leg.getDuration().getText()
+                                                .replace("hour", "").replace("mins", "").replace("m", "").trim());
+                                    } else {
+                                        totalDuration = totalDuration + 0;
+                                    }
+                                }
+
+                                lblCmfrmSourceAddress.setText(pickUpLocationName);
+                                lblDis.setText(totalDistance + " km");
+                                lblEta.setText(totalDuration + " Min");
+                                GlobalDataMethods.GTotalDuration = totalDuration;
+
+                                if (confirmDialog != null && confirmDialog.isShowing()) {
+
+                                    TextView tvDriverMsg = confirmDialog.findViewById(R.id.tvDriverMsg);
+                                    tvDriverMsg.setText(getResources().getString(R.string.driver_will_pickup_you_in) + " " + totalDuration + " " + getResources().getString(R.string.minutes));
+
+                                    ProgressBar pb_min_da = confirmDialog.findViewById(R.id.pb_min_da);
+                                    pb_min_da.setVisibility(View.GONE);
+
+                                    new Handler().postDelayed(() -> {
+                                        tvDone.performClick();
+                                    }, 3000);
+                                }
+
+                                Log.e("done_aboood", totalDuration + "");
+                            } catch (Exception e) {
+                                Log.e("done_aboood ", "error " + e.getMessage());
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onDirectionFailure(Throwable t) {
+                        // Do something
+                        Log.e("done_aboood", "Failure " + t.getMessage());
+                    }
+                });
+    }
+
     Dialog confirmDialog;
+    TextView tvDone;
 
     private void showStartedDialog(JSONObject requestStatusCheckObject) {
+//        getDurationForRoute();
 
         confirmDialog = new Dialog(TrackActivity.this);
         confirmDialog.setContentView(R.layout.confirm_ride_dialog);
@@ -2544,9 +2884,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
         confirmDialog.show();
         TextView tvCancel = confirmDialog.findViewById(R.id.tvCancel);
-        TextView tvDone = confirmDialog.findViewById(R.id.tvDone);
+        tvDone = confirmDialog.findViewById(R.id.tvDone);
         TextView tvDriverMsg = confirmDialog.findViewById(R.id.tvDriverMsg);
-        tvDriverMsg.setText(getResources().getString(R.string.driver_will_pickup_you_in) + " " + etaDur + " " + getResources().getString(R.string.minutes));
+        tvDriverMsg.setText(getResources().getString(R.string.driver_will_pickup_you_in) + " " + "..." + " " + getResources().getString(R.string.minutes));
 
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -2555,6 +2895,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 cancelRequest();
             }
         });
+
 
         tvDone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -2612,6 +2953,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
             }
         });
+//        Log.e("done_aboood", "tvDone");
+//        getDurationForRoute();
+
+
     }
 
     public void liveNavigation(String status, String lat, String lng) {
@@ -3103,6 +3448,33 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         } else {
 
         }
+
+
+        if (requestCode == 012) { // pay trink ok paypal
+            if (resultCode == Activity.RESULT_OK) {
+
+
+                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirm != null) {
+                    try {
+
+                        Log.e("222 paymentExample", confirm.toJSONObject().getJSONObject("response").toString());
+
+// //                     TODO: send 'confirm' to your server for verification.
+// //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+// //                     for more detail
+                        String paymentType = "PAYPAL";
+                        paymentId = confirm.getProofOfPayment().getPaymentId();
+                        payNowCard(paymentType, priceTrink);
+
+                    } catch (JSONException e) {
+                        Log.e("222 paymentExample", "an extremely unlikely failure occurred: ", e);
+                    }
+                }
+            } // --
+        }
+
+
     }
 
     private void getCardDetailsForPayment(CardInfo cardInfo) {
@@ -3207,6 +3579,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     String etaDur = "0";
+
 
     private void trackPickToDest() throws Exception {
 
@@ -3344,6 +3717,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                 lblDis.setText(totalDistance + " km");
                                 lblEta.setText(totalDuration + " Min");
+//                                GlobalDataMethods.GTotalDuration = totalDuration;
                                 setCameraWithCoordinationBounds(route);
                             } catch (Exception e) {
                                 Log.e("error", e.getMessage());
@@ -3539,7 +3913,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         JSONObject object = new JSONObject();
         try {
             object.put("request_id", SharedHelper.getKey(context, "request_id"));
-            object.put("total_payment", lblTotalPrice.getText().toString().replace("$", ""));
+            object.put("total_payment", lblTotalPrice.getText().toString().replace("€", ""));
             if (paymentType.contains("PAYPAL")) {
                 object.put("payment_id", paymentId);
             }

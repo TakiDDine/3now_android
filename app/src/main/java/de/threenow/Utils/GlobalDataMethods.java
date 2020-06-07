@@ -21,6 +21,11 @@ public class GlobalDataMethods {
 
     public static boolean newScheduleRequest = false;
 
+    public static int GTotalDuration;
+
+    public static String SourceTripeLat = "";
+    public static String SourceTripeLong = "";
+
     public static PayPalConfiguration config = new PayPalConfiguration()
             // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
             // or live (ENVIRONMENT_PRODUCTION)

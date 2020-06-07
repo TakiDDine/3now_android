@@ -46,7 +46,7 @@
 <!--                android:layout_width="@dimen/_90sdp"-->
 <!--                android:layout_height="0.5dp"-->
 <!--                android:layout_gravity="center_horizontal"-->
-<!--                android:background="@color/done_disabled_dark" />-->
+<!--                android:back_circle="@color/done_disabled_dark" />-->
 
 <!--            <TextView-->
 <!--                android:layout_marginTop="@dimen/_3sdp"-->
@@ -68,7 +68,7 @@
 <!--            <View-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="0.5dp"-->
-<!--                android:background="@color/done_disabled_dark"></View>-->
+<!--                android:back_circle="@color/done_disabled_dark"></View>-->
 
 <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->

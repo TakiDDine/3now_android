@@ -43,7 +43,7 @@
                 android:textSize="@dimen/_32sdp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/muli_semibold"
-                android:text="$ 0.0"/>
+                android:text="€ 0.01"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/tvPromo"

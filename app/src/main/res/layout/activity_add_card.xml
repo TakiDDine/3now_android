@@ -155,7 +155,7 @@
     <!--<Button-->
     <!--android:text="@string/add"-->
     <!--android:textColor="@android:color/white"-->
-    <!--android:background="@android:color/black"-->
+    <!--android:back_circle="@android:color/black"-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent"-->
     <!--android:layout_marginTop="10dp"-->
