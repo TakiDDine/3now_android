@@ -16,6 +16,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -3348,6 +3349,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private void saveAddressDialog() {
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.location_storage_home_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         RadioGroup rgLocationChooser;
         RadioButton rbHome, rbWork, rbOther;
         TextView tvAddressLocation, tvCancelDialog, tvSaveAddressLocation;
@@ -3371,7 +3373,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         tvCancelDialog = dialog.findViewById(R.id.tvCancelDialog);
         tvSaveAddressLocation = dialog.findViewById(R.id.tvSaveAddressLocation);
 
-        tvAddressLocation.setText(source_address.toString());
+        tvAddressLocation.setText(source_address + "");
         tvCancelDialog.setOnClickListener(view -> dialog.dismiss());
 
         tvSaveAddressLocation.setOnClickListener(view -> {

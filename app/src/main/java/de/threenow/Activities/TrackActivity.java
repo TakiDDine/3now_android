@@ -357,7 +357,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @butterknife.OnClick(R.id.zeroTrink)
     void zeroTrinkbtnCall() {
-        changeColorButtonRadioClick( 5);
+        changeColorButtonRadioClick(5);
         priceTrink = "0";
     }
 
@@ -1602,11 +1602,18 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void goAfterRateAndTrink() {
+
         if (rateDone && trinkDone) {
+
+            rateDone = false;
+            trinkDone = false;
+
             Intent goMain = new Intent(activity, MainActivity.class);
             goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.startActivity(goMain);
+
         }
+
     }
 
     void payNowPaypalOrCard(String Price) {

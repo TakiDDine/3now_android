@@ -139,6 +139,28 @@ public class UserChatActivity extends AppCompatActivity {
         intentFilter.addAction("com.my.app.onMessageReceived");
         receiver = new MyBroadcastReceiver();
 
+
+//        Handler handler = new Handler();
+//        int delay = 3000; //milliseconds
+//
+//        handler.postDelayed(new Runnable(){
+//            public void run(){
+//                //do something
+//                handler.postDelayed(this, delay);
+////                getChatDetails();
+//
+////                msgDtoList.clear();
+//                if (requestId != "" && requestId != null) {
+//
+//                    getChatDetails();
+//                } else {
+//                    // chat list method userid and provider id
+//                    getCaretakerListChatDetails();
+//                }
+//
+//            }
+//        }, delay);
+
     }
 
     private void initViews() {
@@ -191,7 +213,7 @@ public class UserChatActivity extends AppCompatActivity {
                             }catch (Exception e)
                             {e.printStackTrace();}
                         }
-                    }, 300);
+                    }, 100);
                     Log.d("keyboard", "keyboard Down");
                 }
             }

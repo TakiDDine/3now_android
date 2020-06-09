@@ -56,6 +56,8 @@ public class FCMService extends FirebaseMessagingService {
                 intent.putExtra("message", remoteMessage.getNotification().getBody());
                 intent.setAction("com.my.app.onMessageReceived");
                 sendBroadcast(intent);
+                Log.v(Tag + "message", remoteMessage.getNotification().getImageUrl()+" ");
+
             } else {
                 handleNotification(remoteMessage);
             }
@@ -182,6 +184,7 @@ public class FCMService extends FirebaseMessagingService {
         String requestId = remoteMessage.getData().get("request_id");
         sendNotification(getString(R.string.app_name), remoteMessage.getNotification().getBody(), requestId, remoteMessage.getData().get("user_name"));
     }
+
     private void sendNotification(String notificationTitle, String notificationBody, String requestId, String userName) {
         Intent intent = new Intent(this, UserChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
