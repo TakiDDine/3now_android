@@ -44,7 +44,6 @@
                 android:orientation="vertical">
 
 
-
                 <!-- Driver popup Layout-->
                 <LinearLayout
                     android:id="@+id/lnrProviderPopup"
@@ -2046,8 +2045,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:orientation="vertical"
             android:background="@drawable/white_one_edge"
+            android:orientation="vertical"
             android:visibility="visible">
 
             <LinearLayout
@@ -2064,8 +2063,8 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_7sdp"
                     android:orientation="horizontal"
-                    tools:listitem="@layout/service_type_list_item"
-                    tools:itemCount="2"/>
+                    tools:itemCount="2"
+                    tools:listitem="@layout/service_type_list_item" />
 
                 <TextView
                     android:id="@+id/tvZoneMsg"
@@ -2104,15 +2103,17 @@
 
                     <de.threenow.Utils.MyBoldTextView
                         android:id="@+id/lblPaymentType"
-                        android:layout_width="@dimen/_150sdp"
+                        android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="5dp"
+                        android:layout_marginBottom="@dimen/_6sdp"
                         android:layout_toEndOf="@+id/imgPaymentType"
-                        android:gravity="center_vertical"
+                        android:background="@drawable/border_stroke_black"
+                        android:gravity="center"
                         android:text="@string/cash"
                         android:textColor="@color/black_text_color"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textSize="@dimen/_16sdp" />
 
 
                     <ImageView
@@ -2251,10 +2252,10 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:visibility="gone"
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
-                        android:src="@drawable/backarrow" />
+                        android:src="@drawable/backarrow"
+                        android:visibility="gone" />
                     <!-- City and Country Selector -->
                     <TextView
 
@@ -2271,10 +2272,10 @@
                         android:textSize="@dimen/_14sdp" />
 
                     <ImageView
-                        android:visibility="gone"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/cross_icon" />
+                        android:src="@drawable/cross_icon"
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -2300,11 +2301,11 @@
                 android:padding="@dimen/_5sdp">
 
                 <TextView
-                    android:gravity="center"
                     android:id="@+id/btnDone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/muli_semibold"
+                    android:gravity="center"
                     android:paddingTop="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_25sdp"
                     android:text="@string/apply"
@@ -2479,8 +2480,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_2sdp"
-                            android:gravity="center"
                             android:layout_marginBottom="@dimen/_2sdp"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
                             <LinearLayout

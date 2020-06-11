@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements
     private String[] activityTitles;
     private Handler mHandler;
     private String notificationMsg;
-    private TextView legal_id;
+    private TextView legal_id, agb_id, footer_item_impressum;
     private TextView footer_item_version;
 
     LinearLayout home_ll_id, prfile_header_menu, ll_payment, ll_track, ll_notification, ll_yourtrips, ll_wallet, ll_help, ll_contact;
@@ -145,6 +145,12 @@ public class MainActivity extends AppCompatActivity implements
         legal_id = findViewById(R.id.legal_id);
         footer_item_version = findViewById(R.id.footer_item_version);
         footer_item_version.setText(careUtilities.getAppVersion(context));
+
+        agb_id = findViewById(R.id.agb_id);
+        footer_item_impressum = findViewById(R.id.footer_item_impressum);
+
+        agb_id.setOnClickListener(this);
+        footer_item_impressum.setOnClickListener(this);
 
         legal_id.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LegalActivity.class)));
 
@@ -833,6 +839,17 @@ public class MainActivity extends AppCompatActivity implements
                 startActivity(Intent.createChooser(i, "Send Email"));
                 drawer.closeDrawers();
                 break;
+
+            case R.id.agb_id:
+                drawer.closeDrawers();
+                startActivity(new Intent(MainActivity.this, AgbActivity.class));
+                break;
+
+            case R.id.footer_item_impressum:
+                drawer.closeDrawers();
+                startActivity(new Intent(MainActivity.this, ImpressumActivity.class));
+                break;
+
 
 //            case R.id.ll_logout:
 //                drawer.closeDrawers();

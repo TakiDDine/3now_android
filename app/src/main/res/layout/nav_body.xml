@@ -342,34 +342,50 @@
                     android:visibility="gone" />
 
                 <LinearLayout
-                    android:layout_width="@dimen/_135sdp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:clickable="true"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_8sdp"
-                        android:layout_weight="1"
                         android:orientation="horizontal"
-                        android:padding="@dimen/_3sdp"
-                        android:weightSum="2">
+                        android:padding="@dimen/_3sdp">
+
+                        <de.threenow.Utils.MyBoldTextView
+                            android:id="@+id/agb_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:gravity="left"
+                            android:paddingRight="@dimen/_26sdp"
+                            android:text="@string/conditions"
+                            android:textSize="@dimen/_12sdp" />
 
                         <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/legal_id"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical|left"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_weight=".8"
                             android:gravity="left"
                             android:text="Legal"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_10sdp" />
+                            android:textSize="@dimen/_13sdp"
+                            android:visibility="gone" />
+
+                        <de.threenow.Utils.MyBoldTextView
+                            android:id="@+id/footer_item_impressum"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|right"
+                            android:gravity="right"
+                            android:paddingLeft="@dimen/_26sdp"
+                            android:text="@string/impressum"
+                            android:textSize="@dimen/_12sdp" />
 
                         <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/footer_item_version"
@@ -381,7 +397,8 @@
                             android:gravity="right"
                             android:text="v1.0"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_10sdp" />
+                            android:textSize="@dimen/_13sdp"
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
@@ -390,8 +407,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:layout_marginTop="@dimen/_30sdp">
+                    android:layout_gravity="center_horizontal|bottom">
 
 
                     <View

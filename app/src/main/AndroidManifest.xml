@@ -46,9 +46,8 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:supportsRtl"
         tools:targetApi="m">
-        <activity android:name=".Activities.TrinkgeldActivity">
-
-        </activity>
+        <activity android:name=".Activities.ImpressumActivity"></activity>
+        <activity android:name=".Activities.TrinkgeldActivity"></activity>
         <activity android:name=".SummeryScheduledActivity" />
         <activity android:name=".SendEmailActivity" />
         <activity

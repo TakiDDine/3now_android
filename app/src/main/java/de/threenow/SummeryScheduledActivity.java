@@ -106,19 +106,24 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         double pr = Double.parseDouble(getIntent().getStringExtra("price").toString().trim());
 
 
-        if (serviceId.contains("19")) {
-            typeCar = "Economy Mercedes C/B Klasse";
-            serviceCap = "4";
-            bagCap = "3";
-        } else if (serviceId.contains("27")) {
-            typeCar = "Mercedes Vito";
-            serviceCap = "8";
-            bagCap = "7";
-        } else if (serviceId.contains("32")) {
-            typeCar = "Mercedes V-Klasse";
-            serviceCap = "7";
-            bagCap = "7";
-        }
+        typeCar = "Mercedes Vito";
+        serviceCap = "8";
+        bagCap = "6";
+
+//        if (serviceId.contains("19")) {
+//            typeCar = "Economy Mercedes C/B Klasse";
+//            serviceCap = "4";
+//            bagCap = "3";
+//        } else if (serviceId.contains("27") | serviceId.contains("32")) {
+//            typeCar = "Mercedes Vito";
+//            serviceCap = "8";
+//            bagCap = "6";
+//        }
+//        else if (serviceId.contains("32")) {
+//            typeCar = "Mercedes V-Klasse";
+//            serviceCap = "7";
+//            bagCap = "7";
+//        }
 
 
         Log.e("123", toString());
@@ -145,7 +150,7 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         submit_btn.setOnClickListener(this);
 
         service_car_type.setText(typeCar.replace("Economy Mercedes C/B Klasse", "Economy\nMercedes C/B Klasse") + "");
-        serviceCapacity.setText(serviceCap + "");
+        serviceCapacity.setText(serviceCap + " Maximal");
         bagCapacity.setText(bagCap + "");
         AdresseFromD.setText(s_address + "");
         AdresseToD.setText(d_address + "");

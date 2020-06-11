@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [<!ENTITY appName "GoCab "><!ENTITY Provider "Driver"><!ENTITY provider "driver"><!ENTITY Service "Ride"><!ENTITY service "ride">]>
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY appName "GoCab "><!ENTITY Provider "Driver"><!ENTITY provider "driver"><!ENTITY Service "Ride"><!ENTITY service "ride">]>
 
 <resources>
     <string name="app_name">3Now</string>
@@ -12,7 +11,6 @@
     <string name="action_settings">die Einstellungen</string>
 
 
-    <string name="action_wallet">Brieftasche</string>
     <string name="action_logout">Ausloggen</string>
     <string name="action_track">Meine Bestellung</string>
     <string name="no_running_Trip">Nein auf Reisen</string>
@@ -219,7 +217,7 @@
     <string name="round_trip">Hin-und Rückfahrt</string>
     <string name="enter_destination">Ziel eingeben</string>
     <string name="pickup_location">Abholadresse</string>
-    <string name="destination_location">Ziel eingeben</string>
+    <string name="destination_location">Wohin soll es gehen?</string>
     <string name="driver_is_on_the_way">Fahrer ist unterwegs</string>
     <string name="request_ride">Fahrt anfordern</string>
     <string name="base_fare">Grundpreis</string>
@@ -330,7 +328,6 @@
     <string name="additional_comments">Additional comments ...</string>
     <string name="past_trips">Vergangene Reisen</string>
     <string name="upcoming_trips">Kommende Ausflüge</string>
-    <string name="at">beim</string>
     <string name="address">Adresse</string>
     <string name="update_mobile_no">Update Handy-Nr</string>
     <string name="update_account_email">Konto-E-Mail aktualisieren</string>
@@ -353,7 +350,7 @@
     <string name="rajan_owes">Rajan schuldet</string>
     <string name="complete">Komplett</string>
     <string name="pickup_address">Abholadresse</string>
-    <string name="drop_address">Ziel eingeben</string>
+    <string name="drop_address">Wohin soll es gehen?</string>
 
     <string name="oder">oder</string>
     <string name="give_a_compliment">Machen Sie ein Kompliment</string>
@@ -403,6 +400,29 @@ Die Nutzung der Dienste setzt voraus, dass Sie diesen Nutzungsbedingungen zustim
 
 Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten unter Umständen zusätzliche Bedingungen oder Produktvoraussetzungen (z.B. ein Mindestalter). Solche zusätzlichen Bedingungen werden im Zusammenhang mit den entsprechenden Diensten zur Verfügung gestellt und werden Teil Ihres Nutzungsverhältnisses mit uns, sobald Sie diese Dienste nutzen.
     </string>
+
+    <string name="impressum_txt">
+WEBSITE : 3now.de\n
+\n  \n
+3 Now GmbH\n
+Adresse:Blindeisenweg 8, 41468 Neuss\n
+Deutschland\n
+\n\n
+Steuernummer:122/5754/6512\n
+\n\n
+Umsatzsteuer-Id:DE327290739\n
+\n\n
+Handelsregister Nr: HRB-20226\n
+\n\n
+Zulassung Behörde: Neuss\n
+\n\n
+Telefon : +49 213 1533 2693\n
+E-mail : Info@3now.de\n
+\n
+
+    </string>
+
+
     <string name="btn_agb">AGB</string>
     <string name="confirmation">Bestätigung</string>
     <string name="do_you_really_want_to_exit_3now">Möchten Sie 3now wirklich beenden?</string>
@@ -420,7 +440,7 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="select_your_language">Wähle deine Sprache</string>
     <string name="German">Deutsche</string>
     <string name="English">Englisch</string>
-    <string name="splash_txt" >Freunde werben\nund 5 € Gutschein\nprofitieren</string>
+    <string name="splash_txt">Freunde werben\nund 5 € Gutschein\nprofitieren</string>
     <string name="review">Rezension</string>
     <string name="when_you_create_an_account_you_agree_to_ours">Wenn Du ein Konto erstellst, stimmst Du unsere</string>
     <string name="and_data_protection_too">und Datenschutz zu</string>
@@ -564,5 +584,6 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="Routenplaner">Routenplaner</string>
     <string name="gesamt">Gesamt</string>
     <string name="are_you_sure_you_want_to_close_flight_tracking">Möchten Sie die Flugverfolgung wirklich schließen?</string>
+    <string name="impressum">Impressum</string>
 
 </resources>

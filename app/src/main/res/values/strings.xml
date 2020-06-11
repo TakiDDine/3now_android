@@ -13,9 +13,6 @@
     <string name="ACCOUNT_KIT_CLIENT_TOKEN" translatable="false">734b50c746a9e545f9c6d307a1cc49c9</string>
 
     <!--Paypal-->
-    <string name="client_id_paypal" translatable="false">AdThF4H9jvgJOz5hde4Mj_0SjJmsgAa9DaPmRBH7ZAqlKvmu5XNTX4b2Z7wFtzeX33frjAUROiXJh_lr</string>
-    <string name="paypal_secret" translatable="false">PAYPAL_SECRET=47BANRGAUFQFYNED\n</string>
-    <string name="paypal_mode" translatable="false">PAYPAL_MODE=live</string>
 
     <!--    <string name="client_id_paypal" translatable="false">AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n</string>-->
     <!--    <string name="paypal_secret" translatable="false">PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n</string>-->
@@ -30,7 +27,6 @@
     <string name="action_settings">Settings</string>
 
     <!--Nav items-->
-    <string name="action_wallet">Wallet</string>
     <string name="action_logout">Logout</string>
     <string name="action_track">On Going Trip</string>
     <string name="no_running_Trip">No on going Trip</string>
@@ -370,7 +366,6 @@
     <string name="additional_comments">Additional comments ...</string>
     <string name="past_trips">Past Trips</string>
     <string name="upcoming_trips">Upcoming Trips</string>
-    <string name="at">at</string>
     <string name="address">Address</string>
     <string name="update_mobile_no">Update Mobile No</string>
     <string name="update_account_email">Update Account Email</string>
@@ -551,6 +546,7 @@ We offer a variety of different services. For this reason, additional conditions
     <string name="sent_email_successfully">Sent email successfully!</string>
     <string name="re_select_time_and_date">Please re-select the time and date!</string>
     <string name="are_you_sure_you_want_to_close_flight_tracking">Are you sure you want to close tracking?</string>
+    <string name="impressum">impressum</string>
 
 
     <string-array name="question1">
@@ -618,5 +614,24 @@ We offer a variety of different services. For this reason, additional conditions
     <string-array name="question17">
         <item>Wenn  Sie einen  Vorfall  auf  einer  Reise  hatten, kontaktieren  Sie  uns  bitte  über  unsere Kundendienstkanäle. Unser Team wird sein Bestes tun, um Ihr Problem zu lösen.</item>
     </string-array>
+
+    <string name="impressum_txt">
+        WEBSITE : 3now.de\n
+\n
+3 Now GmbH\n
+Adresse:Blindeisenweg 8, 41468 Neuss\n
+Deutschland\n
+\n
+Steuernummer:122/5754/6512\n
+\n
+Umsatzsteuer-Id:DE327290739\n
+\n
+Handelsregister Nr: HRB-20226\n
+\n
+Zulassung Behörde: Neuss\n
+\n
+Telefon : +49 213 1533 2693\n
+E-mail : Info@3now.de\n
+    </string>
 
 </resources>

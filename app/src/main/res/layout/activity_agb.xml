@@ -44,35 +44,661 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/_90sdp"
-
         app:layout_constraintBottom_toTopOf="@+id/view">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/_20sdp"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingRight="@dimen/_20sdp">
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AGB (Allgemeine Geschäftsbedingungen)"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/_20sdp"
-                android:paddingTop="@dimen/_12sdp"
-                android:paddingRight="@dimen/_20sdp"
-                android:text="@string/agb"
+                android:text="Diese Allgemeinen Geschäftsbedingungen enthalten Regeln und Bestimmungen, die eine rechtsverbindliche Vereinbarung zwischen Ihnen und 3 Now darstellen. Und Diese Allgemeinen Geschäftsbedingungen („Allgemeine Geschäftsbedingungen“) gelten für die Nutzung der 3 Now App und für Ihre Nutzung von Diensten, die von 3 Now bereitgestellt oder unterstützt werden. Diese Bestimmungen gelten für alle Länder und Städte, in denen 3 Now tätig ist. Nach dem Abschluss dieser Vereinbarung erkennen Sie ausdrücklich an, dass Sie diese Vereinbarung (einschließlich der Bestimmungen zur Beilegung von Streitigkeiten und zur Schlichtung) verstehen und alle ihre Bedingungen akzeptieren. Wenn Sie nicht damit einverstanden sind, an die Bedingungen dieser Vereinbarung gebunden zu sein, melden Sie bitte Ihr Profil ab und deinstallieren Sie die 3 Now-App. "
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="1. GENERAL "
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="In diesen Allgemeinen Geschäftsbedingungen: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="1.1 Alle Gebühren sind nicht erstattungsfähig (Keine Rückerstattung). Diese Richtlinie ohne Rückerstattung gilt jederzeit, unabhängig von Ihrer Entscheidung, die Nutzung der 3 Now-Plattform zu beenden, von Störungen der 3 Now-Plattform oder der Mitfahrgelegenheiten. Darüber hinaus werden die Gebühren durch einen Zahlungsprozessor eines Drittanbieters (z. B. Braintree, ein Geschäftsbereich von PayPal, Inc.) erleichtert. 3 Now kann seinen Drittanbieter-Zahlungsabwickler ohne vorherige Ankündigung ersetzen. Gebühren werden nur über die 3 Now-Plattform erhoben. Barzahlungen sind mit Ausnahme von Trinkgeldern strengstens untersagt. Ihre Zahlung von Gebühren an 3 Now erfüllt Ihre Zahlungsverpflichtung für die Nutzung der 3 Now-Plattform und der Mitfahrgelegenheiten. 3 Now kann mehrere Gebühren auf Ihrer Zahlungsmethode zu einer einzigen aggregierten Transaktion zusammenfassen, basierend auf dem Datum, an dem sie entstanden sind. Wenn Sie eine Transaktion nicht erkennen, überprüfen Sie Ihre Fahrbelege und den Zahlungsverlauf. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="1.2 Nach dem Hinzufügen einer neuen Zahlungsmethode oder jeder Fahranforderung kann 3 Now die Autorisierung Ihrer ausgewählten Zahlungsmethode einholen, um die Zahlungsmethode zu überprüfen, sicherzustellen, dass die Fahrkosten gedeckt werden, und um sich vor unbefugtem Verhalten zu schützen. Die Autorisierung ist keine Gebühr, kann jedoch Ihr verfügbares Guthaben bis zum nächsten Verarbeitungszyklus Ihrer Bank um den Autorisierungsbetrag reduzieren. Sollte der Betrag unserer Autorisierung den Gesamtbetrag der Einzahlung auf Ihr Konto überschreiten, kann es sein, dass die Bank, die Ihre Debit- oder Prepaid-Karte ausstellt, NSF-Gebühren überzieht. Wir können für diese Gebühren nicht verantwortlich gemacht werden und können Sie nicht bei der Einziehung dieser Gebühren von Ihrer ausstellenden Bank unterstützen. In unserer Hilfe erfahren Sie mehr über die Verwendung von Vorautorisierungsstopps."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="1.3 Möglicherweise erhalten Sie Gutscheine, die Sie nach Abschluss einer Fahrt für die Zahlung bestimmter Gebühren verwenden können. Gutscheine sind nur für die Verwendung auf der 3- Now-Plattform gültig und können nicht gegen Bargeld übertragen oder eingelöst werden, es sei denn, dies ist gesetzlich vorgeschrieben. Gutscheine können nicht kombiniert werden. Wenn die Kosten Ihrer Fahrt den geltenden Kredit- oder Rabattwert überschreiten, berechnen wir Ihre hinterlegte Zahlungsmethode für die ausstehenden Kosten der Fahrt. Für notierte oder variable Tarife kann 3 Now den Betrag abziehen, der der Servicegebühr, den Gebühren oder anderen Gebühren zuzurechnen ist, bevor der Gutschein angewendet wird. Zusätzliche Einschränkungen für Gutscheine können gelten, wie Ihnen in einer relevanten Aktion oder durch Klicken auf den entsprechenden Gutschein im Abschnitt Aktionen der 3 Now-App mitgeteilt."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="2. DIE 3 NOW-PLATTFORM"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="2.1 Durch das Herunterladen der 3 Now App erklären Sie sich mit diesen Allgemeinen Geschäftsbedingungen einverstanden. Die 3 Now-Plattform bietet Ihnen einen Marktplatz, auf dem Personen, die einen Transport zu bestimmten Zielen suchen, mit Transportoptionen zu solchen Zielen abgeglichen werden können. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="2.2 Eine Möglichkeit für Fahrer besteht darin, eine Mitfahrgelegenheit von Mitfahrgelegenheitsfahrern anzufordern, die zu oder durch diese Ziele fahren. Als Benutzer autorisieren Sie 3 Now, Sie anhand von Faktoren wie Ihrem Standort, der voraussichtlichen Abholzeit, Ihrem Ziel, den Benutzereinstellungen und der Plattformeffizienz mit einem Fahrer abzugleichen und ein vorhandenes Match und einen erneuten Match basierend auf dem zu stornieren gleiche Überlegungen"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="2.3 Die Entscheidung des Benutzers zum Anbieten oder Annehmen liegt im alleinigen Ermessen dieses Benutzers. Jeder Mitfahrservice, den ein Fahrer einem Fahrer zur Verfügung stellt, ist eine separate Vereinbarung zwischen diesen Personen. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3. SICHERHEIT"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3.1 3 Now stellt seinen Nutzern einen Onlinedienst zur Beilegung von Streitigkeiten zur Verfügung. Dieser Service ist unverbindlich. 3 Now ist nicht verpflichtet, Streitigkeiten beizulegen. Dieser Service wird nach alleinigem Ermessen von 3 Now angeboten und kann jederzeit zurückgezogen werden. Wenn eine Streitigkeit nicht beigelegt wird, behält sich 3 Now das Recht vor, vom Passagier gezahlte Beträge einzubehalten, bis eine einvernehmliche Vereinbarung zwischen dem Passagier und dem Fahrer getroffen wurde oder eine endgültige gerichtliche Entscheidung getroffen wurde."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3.2 Alle Ansprüche zwischen Community-Fahrten müssen direkt unter den CommunityMitgliedern gerührt werden. Im Streitfall kann 3 Now versuchen, eine Einigung zwischen den Community-Mitgliedern zu erzielen, ist jedoch nicht für eine Lösung verantwortlich. Im Falle eines Rechtsstreits zwischen Community-Mitgliedern oder
+wenn ein Community-Mitglied von dem Missbrauch der 3 Now-App oder von einem Verhalten erfährt, das anderen Community-Mitgliedern abträglich ist, verpflichtet sich das Mitglied, 3 Now unverzüglich zu informieren. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="4. ZAHLUNGEN "
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3 Now ist unverzüglich und schriftlich über alle Unstimmigkeiten bei der Bearbeitung der Spesenabrechnungen zu informieren. Werden innerhalb eines Monats nach Bearbeitung eines Spesenbeitrags keine Ansprüche geltend gemacht, gilt dies als vom Empfänger akzeptiert. Wenn ein Abzug fehlschlägt oder rückgängig gemacht wird, wird der Schuldner den fehlenden Betrag sofort ausgleichen. Wenn der Fehler auf Gründe zurückzuführen ist, auf die der Schuldner Einfluss hat (z. B. ist die hinterlegte Zahlungsmethode nicht mehr gültig oder nicht ausreichend gedeckt, wird eine Zahlung auf Anordnung des Schuldners usw. storniert), der Schuldner muss auch alle Schäden abdecken, die aufgrund des Ausfalls entstanden sind. Wenn die Auszahlung auf das hinterlegte Bankkonto fehlschlägt, benachrichtigt 3 Now das Community-Mitglied und bittet um Korrektur des hinterlegten Bankkontos. Der auszuzahlende Betrag wird zur nächsten regulären Auszahlung addiert und gleichzeitig mit der nächsten Auszahlung ausgezahlt. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Um etwaige Auszahlungen von Spesenbeiträgen zu erhalten, müssen die Fahrer ein Konto bei unserem Zahlungsanbieter erstellen und ein funktionierendes persönliches Bankkonto erfassen. Passagiere müssen eine gültige Zahlungsmethode bei unserem Zahlungsanbieter über die 3 Now App registrieren."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Alle elektronischen Zahlungen dürfen nur über das vom Zahlungsanbieter unterstützte 3 Now Wallet abgewickelt werden. 3 Now haftet nicht für Verzögerungen oder Probleme, die aufgrund des Zahlungsanbieters verursacht werden. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Sobald eine Zahlung an einen Fahrer geleistet wurde, ist die Zahlung (einschließlich Abzug oder Verwaltungsgebühr) unabhängig von der Reise oder einer anderen verursachten Störung (einschließlich, aber nicht beschränkt auf Unfälle) nicht erstattungsfähig. Sobald ein Community-Mitglied einen Beitrag zu den Kosten des Fahrers leistet oder auf andere Weise eine Zahlung innerhalb der Community veranlasst, wird der Betrag der bei unserem Zahlungsanbieter hinterlegten Zahlungsmethode belastet.  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3 Now kann jedem Benutzer Werbeangebote anbieten. Diese Werbeangebote liegen im alleinigen Ermessen von 3 Now. Alle Sonderrabatte, Angebote und Prämienpunkte in Form von 3 Now Wallet-Geldern / gesammelten Punkten können im Falle einer verdächtigen Kontoaktivität oder einer böswilligen Absicht des Benutzers ohne vorherige Ankündigung widerrufen werden. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Wenn eine Zahlung an 3 Now in Bezug auf eine stornierte Transaktion erfolgreich war, wird das Geld an die Benutzer zurückerstattet. 3 Now ist bestrebt, solche Zahlungen innerhalb von [90] Werktagen zu leisten, kann jedoch nicht für Verzögerungen haftbar gemacht werden, die außerhalb seiner Kontrolle liegen."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Wenn Sie mit dem Auto anreisen, erklären Sie sich damit einverstanden, alle Steuern zu zahlen, die möglicherweise für die Zahlungen gelten, die Sie von Passagieren erhalten, und diese Verantwortung liegt ausschließlich bei Ihnen. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="5. TEILNAHMEBERECHTIGUNG"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Die 3 Now-Plattform darf nur von Personen genutzt werden, die das Recht und die Befugnis zum Abschluss dieser Vereinbarung haben und kompetent sind, die hierin enthaltenen Bedingungen und Pflichten zu erfüllen.  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Die 3 Now -Plattform steht Benutzern nicht zur Verfügung, deren Benutzerkonto vorübergehend oder dauerhaft deaktiviert wurde. Sie dürfen anderen Personen nicht erlauben, Ihr Benutzerkonto zu verwenden, und Sie stimmen zu, dass Sie der einzige autorisierte Benutzer Ihres Kontos sind. Um die 3 Now-Plattform nutzen zu können, muss jeder Benutzer ein Benutzerkonto erstellen. Jede Person darf nur ein Benutzerkonto erstellen, und 3 Now behält sich das Recht vor, zusätzliche oder doppelte Konten zu deaktivieren. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Wenn Sie Benutzer werden, versichern Sie, dass Sie mindestens 18 Jahre alt sind. Ungeachtet des Vorstehenden können Sie als Elternteil oder Erziehungsberechtigter eines 16- oder 17jährigen Minderjährigen ein 3 Now-Konto für diesen Minderjährigen erstellen, um die Plattform unter den folgenden Anforderungen und Einschränkungen zu nutzen:  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="A) Sie stellen sicher, dass Minderjährige die 3 Now-Plattform und das anwendbare Fahrrad nutzen. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="B) (c) Sie stellen sicher, dass der Minderjährige keine Mitfahrgelegenheiten anfordert oder akzeptiert, es sei denn in Begleitung von Ihnen oder einem autorisierten Vormund. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="C) Sie stellen sicher, dass die Die Nutzung der 3 Now-Plattform durch Minderjährige beschränkt sich ausschließlich auf den Zugriff auf.  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="D) Sie garantieren ausdrücklich, dass der Minderjährige die Bestimmungen dieser Vereinbarung akzeptiert. Sie sind verantwortlich für Verstöße gegen die oben genannten Zusicherungen, Garantien und / oder diese Vereinbarung und / oder für jeden Versuch des Minderjährigen, diese Vereinbarung nicht zu bestätigen. Darüber hinaus erklären Sie hiermit, dass Sie uneingeschränkt berechtigt sind, diese Vereinbarung im Namen von Ihnen und allen anderen Eltern oder Erziehungsberechtigten des minderjährigen Fahrers auszuführen.  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Durch die Einrichtung eines 3 Now-Kontos für einen solchen Minderjährigen erteilen Sie hiermit im Namen des Minderjährigen die Erlaubnis und Zustimmung zur Vereinbarung und übernehmen jegliche Verantwortung und Haftung für die Nutzung der 3 Now-Plattform durch den Minderjährigen gemäß den Bestimmungen dieser Vereinbarung und etwaige geltende Zusatzvereinbarungen.  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="6. 3 NOW COMMUNICATIONS "
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Durch die Nutzung der 3 Now-Plattform erklären Sie sich damit einverstanden, Mitteilungen von uns zu erhalten, einschließlich per E-Mail, SMS, Anrufen und Push-Benachrichtigungen. Sie stimmen zu, dass Anrufe, Texte oder aufgezeichnete Nachrichten von automatischen Telefonwahlsystemen generiert werden können. Für von uns gesendete Textnachrichten fallen Standardgebühren für Textnachrichten an, die von Ihrem Mobilfunkanbieter erhoben werden. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Zu den Mitteilungen von 3 Now, seinen verbundenen Unternehmen und / oder Fahrern gehören unter anderem: Betriebsmitteilungen zu Ihrem Benutzerkonto oder zur Nutzung der 3 Now-Plattform oder der Mitfahrgelegenheiten, Aktualisierungen zu neuen und Bestehende Funktionen auf der 3 Now-Plattform, Mitteilungen zu Werbeaktionen, die von uns oder unseren Drittpartnern durchgeführt werden, sowie Neuigkeiten zu 3 Now- und Branchenentwicklungen.  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="7. GEMEINSCHAFTSFAHRTEN "
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Es wird kein Vertrag (z. B. Transportvertrag) zwischen Fahrern und Passagieren geschlossen. Die 3 Now Community und die App dürfen nicht missbraucht werden, um Verträge zwischen Community-Mitgliedern zu erleichtern. Eine vertraglich vereinbarte Fahrt ist keine Gemeinschaftsreise, auch wenn die App zur Erleichterung der Reise verwendet wird. Ansprüche gegen 3 Now, insbesondere für eine Rechnung oder die Erstattung von Gebühren, können nicht auf einem solchen Missbrauch beruhen. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3 Now hat das Recht, eine Transaktion jederzeit nach eigenem Ermessen zu stornieren. Gründe für die Stornierung können ohne Einschränkung sein: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="7.1 3 Now findet einen Benutzer, der gegen diese Allgemeinen Geschäftsbedingungen verstößt"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="7.2 In der 3 Now App gibt es keine Interaktion zwischen Fahrer und Beifahrer. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="7.3 Fahrer und Passagiere haben eine Reise nicht bestätigt"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3 Now bildet einen Vertrauenskreis und es ist wichtig, dass diese Vertrauensniveaus beibehalten werden. Als solches kann 3 Now nach eigenem Ermessen Benutzer aus irgendeinem Grund von der Plattform verbannen, einschließlich, aber nicht beschränkt auf potenzielle verdächtige Aktivitäten wie Geldwäsche, betrügerische Transaktionen über Kreditkarten usw. 3 Now behält sich das Recht vor, mit ihnen zusammenzuarbeiten und die örtlichen Strafverfolgungsbehörden in diesen Fällen zu melden."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Nach Beendigung einer Reise trägt der Passagier über das in die 3 Now-App integrierte Zahlungssystem zu den Kosten des Fahrers bei. Die App enthält einen proprietären Algorithmus zur Kostenteilung, mit dem die Fahrtkosten berechnet und zwischen Fahrer und Passagier gerecht aufgeteilt werden können. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Darüber hinaus behalten wir uns das Recht vor, für jede Fahrt eine Verwaltungsgebühr zu erheben. Die Höhe ist je nach Geografie von 3 Now zu bestimmen. Die Verwaltungsgebühr deckt die Kosten für Supportkosten, erbrachte Dienstleistungen und Technologie ab. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="8. NUTZUNGSBEDINGUNGEN VON INHALTEN "
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Solange Sie in Übereinstimmung mit diesen Geschäftsbedingungen handeln, gewähren wir Ihnen eine widerrufliche, nicht exklusive Lizenz für die persönliche, nicht kommerzielle Nutzung der 3 Now App. Sie können keine Unterlizenzen erteilen und dürfen den Inhalt nicht ändern oder auf eine Weise verwenden, die in diesen Allgemeinen Geschäftsbedingungen und im Verhaltenskodex der Gemeinschaft nicht ausdrücklich gestattet ist. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Wenn Sie Ihre eigenen Inhalte in die 3 Now-App im Allgemeinen einbringen, z. B. in Form von Bildern, Profilinformationen, Bewertungen und Kommentaren, bleiben diese Inhalte immer Ihr Eigentum. Indem Sie sie zur 3 Now Community beitragen, gewähren Sie uns eine unwiderrufliche, nicht ausschließliche, übertragbare, unterlizenzierbare Lizenz für Ihr geistiges Eigentum in dem Wissen, dass es als Teil der 3 Now Community verwendet, geändert, kopiert, veröffentlicht und verbreitet wird. Dies umfasst die Nutzung Ihres geistigen Eigentums für Werbezwecke sowie die Veröffentlichung außerhalb der Community, sofern eine ausreichend starke Verbindung zur 3 Now Community besteht.  "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Die Mitglieder dürfen keine Inhalte beitragen, die andere Rechte an geistigem Eigentum verletzen, illegal, rassistisch, pornografisch beleidigend oder auf andere Weise für die 3 Now -Community unangemessen sind. Diese Art von Inhalten wird ohne Vorwarnung gelöscht und Sie stellen uns von allen direkten oder indirekten Verlusten, Schäden oder Kosten frei, die sich daraus ergeben. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="9. HAFTUNG"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Die 3 Now-App, die Website und die Plattform werden bereitgestellt, und alle Benutzer müssen ihre eigene Sorgfalt durchführen, bevor sie sich mit einem anderen Benutzer in Verbindung setzen. 3 Now ist lediglich ein Plattformanbieter und haftet nicht für das Verhalten, Schäden oder Verluste, die von Mitgliedern bei der Nutzung der 3 Now-App entstehen."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3 Now  lehnt Ungeachtet einer Bestimmung in diesen Allgemeinen Geschäftsbedingungen und auf andere Weise ausdrücklich jede ausdrückliche oder stillschweigende Garantie in Bezug auf die Plattform, jede auf der Plattform erleichterte Reise, Zuverlässigkeit, Vollständigkeit der Informationen und die Rechtmäßigkeit, das Qualifikationsniveau, die Angemessenheit oder das fahrerische Können ab eines beliebigen Benutzers. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Wenn Ansprüche gegen 3 Now aufgrund des Verhaltens eines Mitglieds geltend gemacht werden, sollten alle Mitglieder zur Verteidigung gegen solche Ansprüche beitragen. Wenn das Verhalten auf die Handlungen eines Benutzers zurückzuführen ist, wird dieser Benutzer dies tun (ohne Einschränkung eines anderen Benutzers). Rechtsmittel, die 3Now möglicherweise zur Verfügung stehen, entschädigen 3 Now für Schäden, Verluste, Kosten oder Rechts- oder Transaktionsgebühren, die 3 Now oder seinen Nutzern entstehen. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Das Mitglied erstattet alle Verluste, Schäden oder Kosten, die ihm oder seiner Handlung oder Untätigkeit zuzurechnen sind, wenn 3 Now aufgrund des fahrlässigen Verhaltens eines Mitglieds beschädigt wird. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="10. DATENSCHUTZ"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3 Now nimmt die Privatsphäre unserer Benutzer sehr ernst und hält sich an die geltenden Datenschutzgesetze. Weitere Informationen finden Sie in unseren Datenschutzbestimmungen. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="11. KÜNDIGUNG"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="3 Now behält sich das Recht vor, die hier beschriebenen Leistungen zu ändern oder den Betrieb ganz oder teilweise einzustellen. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="12. RECHTSWAHL, GERICHTSSTAND UND STREITBEHEBUNG "
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Diese Allgemeinen Geschäftsbedingungen unterliegen den Gesetzen Deutschlands, werden gemäß diesen ausgelegt und durchgesetzt, ohne Rücksicht auf Kollisionsnormen. "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Alle Kontroversen, Konflikte, Streitigkeiten oder sich aus diesen Allgemeinen Geschäftsbedingungen ergebenden Entscheidungen werden durch ein Schiedsverfahren in Deutschland. Das Gericht besteht aus Schiedsrichter, deren Entscheidung Bindung und endgültig ist."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <de.threenow.Utils.MyBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="13. KONTAKTIEREN SIE UNS"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="Wenn Sie Fragen oder Bedenken zu Ihrer Privatsphäre oder zu etwas in dieser Richtlinie haben, einschließlich wenn Sie in einem alternativen Format auf diese Richtlinie zugreifen müssen, empfehlen wir Ihnen, uns zu kontaktieren."
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </LinearLayout>
     </ScrollView>
 
     <View
-        android:visibility="gone"
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_35sdp"
         android:background="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

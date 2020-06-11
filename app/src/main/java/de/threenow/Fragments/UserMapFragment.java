@@ -3941,6 +3941,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         }
     }
 
+
+
     private class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.MyViewHolder> {
         JSONArray jsonArray;
         int selectedPosition;
@@ -3949,6 +3951,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         public ServiceListAdapter(JSONArray array) {
             this.jsonArray = array;
         }
+
 
 
         @Override
@@ -3987,11 +3990,16 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             if (position == 1) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
-                Picasso.get().load(URLHelper.base + jsonArray
+
+
+                Picasso.get().cancelRequest(holder.serviceImg);
+
+                Picasso.get().load(URLHelper.base +"/8/" +jsonArray
                         .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car22)
-                        .error(R.drawable.car22).into(holder.serviceImg);
-                holder.bagCapacity.setText("7");
+                        .placeholder(R.drawable.im_vito)
+                        .error(R.drawable.im_vito).into(holder.serviceImg);
+
+                holder.bagCapacity.setText("5");
             }
             if (position == 2) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)

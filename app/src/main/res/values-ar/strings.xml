@@ -9,7 +9,6 @@
     <string name="action_settings">الإعدادات</string>
 
 
-    <string name="action_wallet">محفظة نقود</string>
     <string name="action_logout">تسجيل خروج</string>
     <string name="action_track">في رحلة الذهاب</string>
     <string name="no_running_Trip">لا في رحلة الذهاب</string>
@@ -343,7 +342,6 @@
     <string name="additional_comments">تعليقات اضافية ...</string>
     <string name="past_trips">الرحلات السابقة</string>
     <string name="upcoming_trips">الرحلات القادمة</string>
-    <string name="at">في</string>
     <string name="address">عنوان</string>
     <string name="update_mobile_no">تحديث رقم الجوال</string>
     <string name="update_account_email">تحديث البريد الإلكتروني للحساب</string>
@@ -458,6 +456,7 @@
     <string name="sent_email_successfully">Sent email successfully!</string>
     <string name="re_select_time_and_date">Please re-select the time and date!</string>
     <string name="are_you_sure_you_want_to_close_flight_tracking">هل أنت متأكد أنك تريد إغلاق تتبع الرحلة؟</string>
+    <string name="impressum">impressum</string>
 
     <string-array name="nav_item_activity_titles">
         <item>الصفحة الرئيسية</item>
@@ -466,6 +465,25 @@
         <item>إشعارات</item>
         <item>الإعدادات</item>
     </string-array>
+
+    <string name="impressum_txt">
+        WEBSITE : 3now.de\n
+\n
+3 Now GmbH\n
+Adresse:Blindeisenweg 8, 41468 Neuss\n
+Deutschland\n
+\n
+Steuernummer:122/5754/6512\n
+\n
+Umsatzsteuer-Id:DE327290739\n
+\n
+Handelsregister Nr: HRB-20226\n
+\n
+Zulassung Behörde: Neuss\n
+\n
+Telefon : +49 213 1533 2693\n
+E-mail : Info@3now.de\n
+    </string>
 
 
 </resources>
