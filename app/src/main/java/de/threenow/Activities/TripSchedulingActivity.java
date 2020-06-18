@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -53,6 +57,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.LocaleManager;
@@ -176,6 +181,9 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         card_id = getIntent().getStringExtra("card_id");
         serviceId = getIntent().getStringExtra("service_id");
 
+//        if (payment_mode.equalsIgnoreCase("CASH")) {
+//            payment_mode = "PAYPAL";
+//        }
 
         utils = new Utilities();
         customDialog = new CustomDialog(this);
@@ -437,14 +445,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
         JSONObject object = new JSONObject();
         try {
-//            object.put("s_latitude", Double.parseDouble(s_latitude));
-//            object.put("s_longitude", Double.parseDouble(s_longitude));
-//            object.put("d_latitude", Double.parseDouble(d_latitude));
-//            object.put("d_longitude", Double.parseDouble(d_longitude));
-//            object.put("service_type", Integer.parseInt(serviceId));
-//            object.put("distance", Integer.parseInt(distance));
-//            object.put("payment_mode", payment_mode);
-
             object.put("s_latitude", Double.parseDouble(s_latitude));
             object.put("s_longitude", Double.parseDouble(s_longitude));
             object.put("d_latitude", Double.parseDouble(d_latitude));
@@ -637,7 +637,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
         try {
-            URLEncoder.encode(URLHelper.SEND_REQUEST_API, "UTF-8");
+            URLEncoder.encode(URLHelper.SEND_REQUEST_API_SCHEDULE, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -647,7 +647,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         IlyftApplication.getInstance().cancelRequestInQueue("send_request");
         JsonObjectRequest jsonObjectRequest = new
                 JsonObjectRequest(Request.Method.POST,
-                        URLHelper.SEND_REQUEST_API,
+                        URLHelper.SEND_REQUEST_API_SCHEDULE,
                         object,
                         response -> {
                             if (response != null) {
@@ -787,6 +787,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     void payNowPaypalOrCard() {
         if (payment_mode.equalsIgnoreCase("CARD")) {
             payNowCard("CARD");
+        } else if (payment_mode.equalsIgnoreCase("cash")) {
+            payNowCard("cash");
         } else {
             Log.e("222 payNowPaypal", "btnPayNowClick: " + Price);
 
@@ -816,6 +818,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
     }
 
+    Handler handleCheckStatus;
 
     private void goToSummeryScheduledActivity() {
 
@@ -872,6 +875,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
             object.put("request_id", request_id + "");
             object.put("total_payment", Price.replace("€", ""));
+
             if (paymentType.contains("PAYPAL")) {
                 object.put("payment_id", paymentId);
             }
@@ -882,7 +886,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_REQUEST_Later_API, object, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_REQUEST_schedule_API, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("222 onResponse", "PayNowRequestResponse: " + response.toString());
@@ -891,18 +895,54 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                     customDialog.dismiss();
                 SharedHelper.putKey(context, "total_amount", "");
 
-                new AlertDialog.Builder(context).setMessage(getString(R.string.booking_successful) + "!")
+                AlertDialog alertDialog = new AlertDialog.Builder(context).setMessage(getString(R.string.booking_successful_msg))
                         .setTitle(context.getString(R.string.app_name))
-                        .setCancelable(true)
-                        .setIcon(R.mipmap.ic_launcher_round)
-                        .setPositiveButton(context.getResources().getString(R.string.ok), (dialog, id) -> {
-                            dialog.dismiss();
+                        .setCancelable(false)
+                        .setIcon(R.mipmap.ic_launcher_round).create();
 
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    private static final int AUTO_DISMISS_MILLIS = 7000;
 
-                        }).create().show();
+                    @Override
+                    public void onShow(final DialogInterface dialog) {
+                        new CountDownTimer(AUTO_DISMISS_MILLIS, 100) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                alertDialog.setMessage(getString(R.string.booking_successful_msg) + "\n\n\t\t" + (TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1));
+//                                Log.e("onTike",(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1) + "");
+//                                defaultButton.setText(String.format(
+//                                        Locale.getDefault(), "%s (%d)",
+//                                        negativeButtonText,
+//                                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1 //add one so it never displays zero
+//                                );
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                if (((AlertDialog) dialog).isShowing()) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        }.start();
+                    }
+                });
+
+                alertDialog.show();
+
+                handleCheckStatus = new Handler();
+                //check status every 3 sec
+                handleCheckStatus.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertDialog.dismiss();
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
+//                        handleCheckStatus.postDelayed(this, 5000);
+                    }
+                }, 7000);
 
 
             }
@@ -911,14 +951,14 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             try {
 
                 String msg = "statusCode: " + error.networkResponse.statusCode + "\n" +
-                        URLHelper.PAY_REQUEST_Later_API + "\n\n" +
+                        URLHelper.PAY_REQUEST_schedule_API + "\n\n" +
                         trimMessage(new String(error.networkResponse.data));
 
                 utils.showAlert(context, msg);
             } catch (Exception e) {
                 if (error.networkResponse != null)
                     utils.showAlert(context, "statusCode: " + error.networkResponse.statusCode + "\n" +
-                            URLHelper.PAY_REQUEST_Later_API);
+                            URLHelper.PAY_REQUEST_schedule_API);
             }
 
             try {
@@ -969,7 +1009,11 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 //                        utils.displayMessage(parentLayout, getString(R.string.something_went_wrong)); ------------
                 }
             } else {
-                utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                try {
+                    utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                } catch (Exception e) {
+                    Toast.makeText(context, getString(R.string.please_try_again), Toast.LENGTH_SHORT).show();
+                }
             }
         }) {
             @Override
@@ -1134,7 +1178,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         }
         JsonObjectRequest jsonObjectRequest = new
                 JsonObjectRequest(Request.Method.POST,
-                        URLHelper.PAY_REQUEST_Later_API,
+                        URLHelper.PAY_REQUEST_schedule_API,
                         object,
                         new Response.Listener<JSONObject>() {
                             @Override
@@ -1239,11 +1283,19 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        if (customDialog != null && customDialog.isShowing()) {
-            customDialog.cancel();
+        try {
+            handleCheckStatus.removeCallbacksAndMessages(null);
+            if (customDialog != null && customDialog.isShowing()) {
+                customDialog.cancel();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        super.onDestroy();
+
     }
+
 
     void pdShow() {
 

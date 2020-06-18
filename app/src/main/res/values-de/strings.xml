@@ -404,7 +404,7 @@ Wir bieten eine Vielzahl von verschiedenen Diensten an. Aus diesem Grund gelten 
     <string name="impressum_txt">
 WEBSITE : 3now.de\n
 \n  \n
-3 Now GmbH\n
+3 Now Mos Gruppe\n
 Adresse:Blindeisenweg 8, 41468 Neuss\n
 Deutschland\n
 \n\n
@@ -562,10 +562,10 @@ E-mail : Info@3now.de\n
     <string name="Kindersitz_txt">Für den Fall, dass mehr\nals ein Sitz angefordert\nwird, sind 5€ zu zahlen.</string>
     <string name="baby_car_seat">Babyschale</string>
     <string name="baby_car_seat_txt">Für den Fall, dass mehr\nals einen schale angefordert\nwird, sind 10€ zu zahlen.</string>
-    <string name="name_tag">Namenschield</string>
+    <string name="name_tag">Namensschild</string>
     <string name="Name_tag_txt">Bei Bestellung des Namensschild\nwird eine Gebühr von 15€ fällig.</string>
     <string name="remarks">Bemerkungen</string>
-    <string name="note_txt">Hier Können sie uns besondere Wünsche, Hinweise oder Anliegen mitteilen</string>
+    <string name="note_txt">Hier Können Sie uns besondere Wünsche, Hinweise oder Anliegen mitteilen</string>
     <string name="continu">Weiter</string>
     <string name="_3_now_economy">Economy</string>
     <string name="_3_now_vip">Vip</string>
@@ -576,7 +576,7 @@ E-mail : Info@3now.de\n
     <string name="re_select_time_and_date">Bitte wählen Sie Uhrzeit und Datum erneut!</string>
     <string name="netto">Netto</string>
     <string name="notes">Bemerkungen</string>
-    <string name="plus3">Namenschield</string>
+    <string name="plus3">Namensschild</string>
     <string name="plus">Zusätzliche Wünsche</string>
     <string name="plus1">Kindersitz</string>
     <string name="plus2">Babyschale</string>
@@ -585,5 +585,8 @@ E-mail : Info@3now.de\n
     <string name="gesamt">Gesamt</string>
     <string name="are_you_sure_you_want_to_close_flight_tracking">Möchten Sie die Flugverfolgung wirklich schließen?</string>
     <string name="impressum">Impressum</string>
+    <string name="betrag">Betrag</string>
+    <string name="fahrpreis_ink_16_mwst">Fahrpreis ink. 16% MwSt.</string>
+    <string name="booking_successful_msg">Vielen Dank für Ihren Auftrag. Sie erhalten in Kürze eine Auftragsbestätigung auf die bei uns registrierte E-Mailadresse. Eine Übersicht Ihrer gebuchten Fahrten können Sie im Hauptmenü unter dem Punkt \"Meine Fahrten\" einsehen.</string>
 
 </resources>

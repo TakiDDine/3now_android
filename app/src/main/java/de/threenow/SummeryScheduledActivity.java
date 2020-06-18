@@ -196,13 +196,20 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         if (distance != null && !distance.isEmpty() && distance.length() > 0 && !distance.contains("null"))
             tvDistance.setText(distance + " km");
 
+        Log.e("payment_mode", payment_mode + "");
+
         if (payment_mode.contains("PAYPAL")) {
             creditCardNbr.setText("");
             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.cio_paypal_logo), 0, 0, 0);
-        } else {
+        } else if (payment_mode.contains("CARD")){
             creditCardNbr.setText("");
             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.visa), 0, 0, 0);
+        }else {
+            creditCardNbr.setText("");
+            creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.ic_cash_txt), 0, 0, 0);
         }
+
+
     }
 
     @Override

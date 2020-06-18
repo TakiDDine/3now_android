@@ -1498,15 +1498,15 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         alertDialog.show();
     }
 
-    boolean rateDone = false, trinkDone = false;
+    boolean rateDone = false, trinkDone = true;
 
     public void submitReviewCall() {
 
-        if (!(priceTrink.equals("0") && priceTrink.length() == 0)) {
-            payNowPaypalOrCard(priceTrink);
-        } else {
-            trinkDone = true;
-        }
+//        if (!(priceTrink.equals("0") && priceTrink.length() == 0)) {
+//            payNowPaypalOrCard(priceTrink);
+//        } else {
+//            trinkDone = true;
+//        }
 
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
@@ -1606,7 +1606,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         if (rateDone && trinkDone) {
 
             rateDone = false;
-            trinkDone = false;
+//            trinkDone = false;
 
             Intent goMain = new Intent(activity, MainActivity.class);
             goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

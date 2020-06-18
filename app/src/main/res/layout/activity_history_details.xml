@@ -53,7 +53,7 @@
                     <ImageView
                         android:id="@+id/tripImg"
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
+                        android:layout_height="@dimen/_150sdp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/placeholder" />
 
@@ -74,8 +74,7 @@
                             android:layout_gravity="center"
                             android:layout_marginRight="8dp"
                             app:civ_border_color="#f9a95f"
-                            app:civ_border_width="2dp"
-                            />
+                            app:civ_border_width="2dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -110,13 +109,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_weight="0.8"
+                            android:gravity="right"
                             android:orientation="vertical">
 
                             <de.threenow.Utils.MyBoldTextView
                                 android:id="@+id/tripDate"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="right"
+                                android:gravity="center"
                                 android:lineSpacingMultiplier="1.5"
                                 android:textColor="@color/black_text_color"
                                 android:textSize="@dimen/_11sdp" />
@@ -253,6 +253,18 @@
                                 android:visibility="gone" />
 
                             <de.threenow.Utils.MyBoldTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_weight="1"
+                                android:text="@string/betrag"
+                                android:gravity="center_vertical|left"
+                                android:textColor="@color/black_text_color"
+                                android:textSize="16sp" />
+
+
+
+                            <de.threenow.Utils.MyBoldTextView
+                                android:visibility="gone"
                                 android:id="@+id/paymentType"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
@@ -271,6 +283,13 @@
                                 android:textColor="@color/black_text_color"
                                 android:textSize="18sp" />
                         </LinearLayout>
+
+                        <de.threenow.Utils.MyBoldTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fahrpreis_ink_16_mwst"
+                            android:textColor="@color/black_text_color"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
@@ -512,7 +531,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <de.threenow.Utils.MyBoldTextView
                         android:layout_width="match_parent"

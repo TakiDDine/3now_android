@@ -377,6 +377,7 @@ public class PastTrips extends Fragment {
         String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
         return monthName;
     }
+
     private String getDate(String date) throws ParseException{
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();

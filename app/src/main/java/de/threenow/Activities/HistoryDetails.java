@@ -11,11 +11,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -32,6 +32,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 import de.threenow.Helper.ConnectionHelper;
 import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.LocaleManager;
@@ -42,19 +58,6 @@ import de.threenow.Models.Driver;
 import de.threenow.R;
 import de.threenow.Utils.MyBoldTextView;
 import de.threenow.Utils.MyButton;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
@@ -107,13 +110,13 @@ public class HistoryDetails extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_details);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         findViewByIdAndInitialize();
         try {
             Intent intent = getIntent();
@@ -163,19 +166,19 @@ public class HistoryDetails extends AppCompatActivity {
         context = HistoryDetails.this;
         helper = new ConnectionHelper(activity);
         isInternet = helper.isConnectingToInternet();
-        parentLayout =  findViewById(R.id.parentLayout);
-        profileLayout =  findViewById(R.id.profile_detail_layout);
-        lnrInvoice =  findViewById(R.id.lnrInvoice);
-        lnrInvoiceSub =  findViewById(R.id.lnrInvoiceSub);
+        parentLayout = findViewById(R.id.parentLayout);
+        profileLayout = findViewById(R.id.profile_detail_layout);
+        lnrInvoice = findViewById(R.id.lnrInvoice);
+        lnrInvoiceSub = findViewById(R.id.lnrInvoiceSub);
         parentLayout.setVisibility(View.GONE);
-        backArrow =  findViewById(R.id.backArrow);
+        backArrow = findViewById(R.id.backArrow);
         tripAmount = (MyBoldTextView) findViewById(R.id.tripAmount);
         tripDate = (MyBoldTextView) findViewById(R.id.tripDate);
         paymentType = (MyBoldTextView) findViewById(R.id.paymentType);
         booking_id = (MyBoldTextView) findViewById(R.id.booking_id);
-        paymentTypeImg =  findViewById(R.id.paymentTypeImg);
-        tripProviderImg =  findViewById(R.id.tripProviderImg);
-        tripImg =  findViewById(R.id.tripImg);
+        paymentTypeImg = findViewById(R.id.paymentTypeImg);
+        tripProviderImg = findViewById(R.id.tripProviderImg);
+        tripImg = findViewById(R.id.tripImg);
         tripComments = (MyBoldTextView) findViewById(R.id.tripComments);
         tripProviderName = (MyBoldTextView) findViewById(R.id.tripProviderName);
         tripProviderRating = (RatingBar) findViewById(R.id.tripProviderRating);
@@ -188,13 +191,13 @@ public class HistoryDetails extends AppCompatActivity {
         lblTotalPrice = (MyBoldTextView) findViewById(R.id.lblTotalPrice);
         lblTitle = (MyBoldTextView) findViewById(R.id.lblTitle);
         btnCancelRide = (MyButton) findViewById(R.id.btnCancelRide);
-        sourceAndDestinationLayout =  findViewById(R.id.sourceAndDestinationLayout);
-        lnrComments =  findViewById(R.id.lnrComments);
-       // viewLayout = (View) findViewById(R.id.ViewLayout);
+        sourceAndDestinationLayout = findViewById(R.id.sourceAndDestinationLayout);
+        lnrComments = findViewById(R.id.lnrComments);
+        // viewLayout = (View) findViewById(R.id.ViewLayout);
 
-        lnrUpcomingLayout =  findViewById(R.id.lnrUpcomingLayout);
-        btnViewInvoice =  findViewById(R.id.btnViewInvoice);
-        btnCall =  findViewById(R.id.btnCall);
+        lnrUpcomingLayout = findViewById(R.id.lnrUpcomingLayout);
+        btnViewInvoice = findViewById(R.id.btnViewInvoice);
+        btnCall = findViewById(R.id.btnCall);
 
         btnCancelRide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,13 +246,18 @@ public class HistoryDetails extends AppCompatActivity {
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("btn_call", "btn click");
                 if (driver.getMobile() != null && !driver.getMobile().equalsIgnoreCase("null") && driver.getMobile().length() > 0) {
+                    Log.e("btn_call", "first if ok");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        Log.e("btn_call", "second if ok");
                         requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 2);
                     } else {
+                        Log.e("btn_call", "second if else");
                         Intent intentCall = new Intent(Intent.ACTION_CALL);
                         intentCall.setData(Uri.parse("tel:" + driver.getMobile()));
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            Log.e("btn_call", "three if else");
                             // TODO: Consider calling
                             //    ActivityCompat#requestPermissions
                             // here to request the missing permissions, and then overriding
@@ -259,6 +267,7 @@ public class HistoryDetails extends AppCompatActivity {
                             // for ActivityCompat#requestPermissions for more details.
                             return;
                         }
+                        Log.e("btn_call", "before startActivity");
                         startActivity(intentCall);
                     }
                 } else {
@@ -296,9 +305,9 @@ public class HistoryDetails extends AppCompatActivity {
 
     private void showreasonDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog,null);
-        final EditText reasonEtxt =  view.findViewById(R.id.reason_etxt);
-        Button submitBtn =  view.findViewById(R.id.submit_btn);
+        View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
+        final EditText reasonEtxt = view.findViewById(R.id.reason_etxt);
+        Button submitBtn = view.findViewById(R.id.submit_btn);
         builder.setIcon(R.mipmap.ic_launcher_round)
                 .setTitle(R.string.app_name)
                 .setView(view)
@@ -314,12 +323,21 @@ public class HistoryDetails extends AppCompatActivity {
         alert.show();
     }
 
+    public String formatNumber(int decimals, double number) {
+        StringBuilder sb = new StringBuilder(decimals + 2);
+        sb.append("#.");
+        for (int i = 0; i < decimals; i++) {
+            sb.append("0");
+        }
+        return new DecimalFormat(sb.toString()).format(number);
+    }
+
     public void getRequestDetails() {
 
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
-        customDialog.show();
+            customDialog.show();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLHelper.GET_HISTORY_DETAILS_API + "?request_id=" + jsonObject.optString("id"), new Response.Listener<JSONArray>() {
             @Override
@@ -353,22 +371,36 @@ public class HistoryDetails extends AppCompatActivity {
                         }
                         if (response.optJSONObject(0).optJSONObject("payment") != null && response.optJSONObject(0).optJSONObject("payment").optString("total") != null &&
                                 !response.optJSONObject(0).optJSONObject("payment").optString("total").equalsIgnoreCase("")) {
-                            tripAmount.setText(SharedHelper.getKey(context, "currency") + "" + response.optJSONObject(0).optJSONObject("payment").optString("total"));
+
+                            try {
+                                double total = Double.parseDouble(response.optJSONObject(0).optJSONObject("payment").optString("total"));
+
+                                tripAmount.setText(formatNumber(2, total)
+                                        + "" + SharedHelper.getKey(context, "currency"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                tripAmount.setText(response.optJSONObject(0).optJSONObject("payment").optString("total")
+                                        + "" + SharedHelper.getKey(context, "currency"));
+                            }
+
+
                             response.optJSONObject(0).optJSONObject("payment");
-                            lblBasePrice.setText((SharedHelper.getKey(context, "currency") + ""
-                                    + response.optJSONObject(0).optJSONObject("payment").optString("fixed")));
-                            lblDistancePrice.setText((SharedHelper.getKey(context, "currency") + ""
-                                    + response.optJSONObject(0).optJSONObject("payment").optString("distance")));
-                            lblTaxPrice.setText((SharedHelper.getKey(context, "currency") + ""
-                                    + response.optJSONObject(0).optJSONObject("payment").optString("tax")));
-                            lblTotalPrice.setText((SharedHelper.getKey(context, "currency") + ""
-                                    + response.optJSONObject(0).optJSONObject("payment").optString("total" +
-                                    "")));
+                            lblBasePrice.setText(response.optJSONObject(0).optJSONObject("payment").optString("fixed")
+                                    + "" + SharedHelper.getKey(context, "currency"));
+
+                            lblDistancePrice.setText(response.optJSONObject(0).optJSONObject("payment").optString("distance")
+                                    + "" + SharedHelper.getKey(context, "currency"));
+
+                            lblTaxPrice.setText(response.optJSONObject(0).optJSONObject("payment").optString("tax")
+                                    + "" + SharedHelper.getKey(context, "currency"));
+
+                            lblTotalPrice.setText(response.optJSONObject(0).optJSONObject("payment").optString("total" + "")
+                                    + "" + SharedHelper.getKey(context, "currency"));
                         } else {
                             tripAmount.setVisibility(View.GONE);
                         }
                         try {
-                            tripDate.setText(getDate(form) + "th " + getMonth(form) + " " + getYear(form) + "\n" + getTime(form));
+                            tripDate.setText(getDate(form) + "." + getMonth(form) + "." + getYear(form) + "\n" + getTime(form));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -396,7 +428,7 @@ public class HistoryDetails extends AppCompatActivity {
                         tripProviderName.setText(response.optJSONObject(0).optJSONObject("provider").optString("first_name"));
                         if (response.optJSONObject(0).optString("s_address") == null || response.optJSONObject(0).optString("d_address") == null || response.optJSONObject(0).optString("d_address").equals("") || response.optJSONObject(0).optString("s_address").equals("")) {
                             sourceAndDestinationLayout.setVisibility(View.GONE);
-                         //   viewLayout.setVisibility(View.GONE);
+                            //   viewLayout.setVisibility(View.GONE);
                         } else {
                             tripSource.setText(response.optJSONObject(0).optString("s_address"));
                             tripDestination.setText(response.optJSONObject(0).optString("d_address"));
@@ -404,16 +436,16 @@ public class HistoryDetails extends AppCompatActivity {
 
                     }
                 }
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 parentLayout.setVisibility(View.VISIBLE);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -475,7 +507,7 @@ public class HistoryDetails extends AppCompatActivity {
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
-        customDialog.show();
+            customDialog.show();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(URLHelper.UPCOMING_TRIP_DETAILS + "?request_id=" + jsonObject.optString("id"), new Response.Listener<JSONArray>() {
             @Override
@@ -503,7 +535,7 @@ public class HistoryDetails extends AppCompatActivity {
                             driver.setRating(providerObj.optString("rating"));
                         }
                         try {
-                            tripDate.setText(getDate(form) + "th " + getMonth(form) + " " + getYear(form) + "\n" + getTime(form));
+                            tripDate.setText(getDate(form) + "." + getMonth(form) + "." + getYear(form) + "\n" + getTime(form));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -521,7 +553,7 @@ public class HistoryDetails extends AppCompatActivity {
                         tripProviderName.setText(response.optJSONObject(0).optJSONObject("provider").optString("first_name"));
                         if (response.optJSONObject(0).optString("s_address") == null || response.optJSONObject(0).optString("d_address") == null || response.optJSONObject(0).optString("d_address").equals("") || response.optJSONObject(0).optString("s_address").equals("")) {
                             sourceAndDestinationLayout.setVisibility(View.GONE);
-                           // viewLayout.setVisibility(View.GONE);
+                            // viewLayout.setVisibility(View.GONE);
                         } else {
                             tripSource.setText(response.optJSONObject(0).optString("s_address"));
                             tripDestination.setText(response.optJSONObject(0).optString("d_address"));
@@ -532,7 +564,7 @@ public class HistoryDetails extends AppCompatActivity {
                             if (serviceObj != null) {
 //                            holder.car_name.setText(serviceObj.optString("name"));
                                 if (tag.equalsIgnoreCase("past_trips")) {
-                                    tripAmount.setText(SharedHelper.getKey(context, "currency") + serviceObj.optString("price"));
+                                    tripAmount.setText(serviceObj.optString("price") + SharedHelper.getKey(context, "currency"));
                                 } else {
                                     tripAmount.setVisibility(View.GONE);
                                 }
@@ -555,8 +587,8 @@ public class HistoryDetails extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -614,7 +646,6 @@ public class HistoryDetails extends AppCompatActivity {
     }
 
 
-
     private void refreshAccessToken(final String tag) {
 
 
@@ -638,11 +669,11 @@ public class HistoryDetails extends AppCompatActivity {
                 SharedHelper.putKey(context, "access_token", response.optString("access_token"));
                 SharedHelper.putKey(context, "refresh_token", response.optString("refresh_token"));
                 SharedHelper.putKey(context, "token_type", response.optString("token_type"));
-                if(tag.equalsIgnoreCase("PAST_TRIPS")){
+                if (tag.equalsIgnoreCase("PAST_TRIPS")) {
                     getRequestDetails();
-                }else if(tag.equalsIgnoreCase("UPCOMING_TRIPS")){
+                } else if (tag.equalsIgnoreCase("UPCOMING_TRIPS")) {
                     getUpcomingDetails();
-                }else if(tag.equalsIgnoreCase("CANCEL_REQUEST")){
+                } else if (tag.equalsIgnoreCase("CANCEL_REQUEST")) {
                     cancelRequest();
                 }
             }
@@ -685,9 +716,9 @@ public class HistoryDetails extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (lnrInvoice.getVisibility() == View.VISIBLE){
+        if (lnrInvoice.getVisibility() == View.VISIBLE) {
             lnrInvoice.setVisibility(View.GONE);
-        }else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -697,11 +728,11 @@ public class HistoryDetails extends AppCompatActivity {
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
-        customDialog.show();
+            customDialog.show();
         JSONObject object = new JSONObject();
         try {
             object.put("request_id", jsonObject.optString("id"));
-            object.put("cancel_reason",reason);
+            object.put("cancel_reason", reason);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -709,15 +740,15 @@ public class HistoryDetails extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.v("CancelRequestResponse", response.toString());
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -773,17 +804,19 @@ public class HistoryDetails extends AppCompatActivity {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
-        String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
+        String monthName = new SimpleDateFormat("MM").format(cal.getTime());
         return monthName;
     }
-    private String getDate(String date) throws ParseException{
+
+    private String getDate(String date) throws ParseException {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         String dateName = new SimpleDateFormat("dd").format(cal.getTime());
         return dateName;
     }
-    private String getYear(String date) throws ParseException{
+
+    private String getYear(String date) throws ParseException {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
@@ -795,7 +828,7 @@ public class HistoryDetails extends AppCompatActivity {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
-        String timeName = new SimpleDateFormat("hh:mm a").format(cal.getTime());
+        String timeName = new SimpleDateFormat("HH:mm").format(cal.getTime());
         return timeName;
     }
 }

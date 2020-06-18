@@ -435,7 +435,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_margin="@dimen/_5sdp"
-                    android:background="@drawable/white_color_rect_shape"
+                    android:background="@drawable/blue_gradient"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -842,7 +842,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginRight="@dimen/_25sdp"
                         android:layout_marginBottom="@dimen/_25sdp"
-                        android:background="@drawable/white_color_rect_shape"
+                        android:background="@drawable/blue_gradient"
                         android:backgroundTint="@color/white"
                         android:orientation="vertical"
                         android:paddingTop="@dimen/_35sdp">
@@ -906,7 +906,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginRight="@dimen/_15sdp"
                             android:layout_marginBottom="@dimen/_5sdp"
-                            android:background="@drawable/white_color_rect_shape"
+                            android:background="@drawable/blue_gradient"
                             android:backgroundTint="@color/view_grey_bg_"
                             android:fontFamily="@font/muli_semibold"
                             android:gravity="start"
@@ -922,6 +922,7 @@
                             android:textSize="@dimen/_11sdp" />
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -933,6 +934,7 @@
                             android:textSize="@dimen/_15sdp" />
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:id="@+id/linearLayout7"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -1511,7 +1513,7 @@
     <!--                        android:layout_height="wrap_content"-->
     <!--                        android:layout_marginLeft="@dimen/_5sdp"-->
     <!--                        android:layout_marginRight="@dimen/_5sdp"-->
-    <!--                        android:back_circle="@drawable/white_color_rect_shape"-->
+    <!--                        android:back_circle="@drawable/blue_gradient"-->
     <!--                        android:orientation="vertical"-->
     <!--                        android:visibility="gone">-->
 
@@ -1564,7 +1566,7 @@
     <!--                        android:layout_marginLeft="@dimen/_5sdp"-->
     <!--                        android:layout_marginTop="@dimen/_5sdp"-->
     <!--                        android:layout_marginRight="@dimen/_5sdp"-->
-    <!--                        android:back_circle="@drawable/white_color_rect_shape"-->
+    <!--                        android:back_circle="@drawable/blue_gradient"-->
     <!--                        android:gravity="center"-->
     <!--                        android:orientation="horizontal">-->
 
@@ -1727,7 +1729,7 @@
     <!--                    android:layout_height="wrap_content"-->
     <!--                    android:layout_gravity="bottom"-->
     <!--                    android:layout_margin="@dimen/_5sdp"-->
-    <!--                    android:back_circle="@drawable/white_color_rect_shape"-->
+    <!--                    android:back_circle="@drawable/blue_gradient"-->
     <!--                    android:orientation="vertical"-->
     <!--                    android:visibility="gone">-->
     <!--                    <include layout="@layout/confirm_payment"/>-->
@@ -2113,7 +2115,7 @@
     <!--                        android:layout_marginLeft="@dimen/_5sdp"-->
     <!--                        android:layout_marginTop="@dimen/_5sdp"-->
     <!--                        android:layout_marginRight="@dimen/_5sdp"-->
-    <!--                        android:back_circle="@drawable/white_color_rect_shape"-->
+    <!--                        android:back_circle="@drawable/blue_gradient"-->
     <!--                        android:orientation="vertical">-->
 
     <!--                        <TextView-->

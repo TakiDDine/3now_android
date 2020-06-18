@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import de.threenow.Activities.Payment;
+import de.threenow.Helper.SharedHelper;
 import de.threenow.Models.CardDetails;
 import de.threenow.R;
 import de.threenow.Utils.MyTextView;
@@ -60,6 +61,7 @@ public class NewPaymentListAdapter extends ArrayAdapter<CardDetails>{
                paymentTypeImg.setImageResource(R.drawable.credit_card);
            }
            cardNumber.setText("xxxx - xxxx - xxxx - "+list.get(position).getLast_four());
+            SharedHelper.putKey(context,"last_four", list.get(position).getLast_four());
         } catch (Exception e) {
             e.printStackTrace();
         }

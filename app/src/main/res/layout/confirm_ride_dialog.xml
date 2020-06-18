@@ -7,7 +7,7 @@
         android:layout_width="@dimen/_272sdp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_5sdp"
-        android:background="@drawable/white_color_rect_shape"
+        android:background="@drawable/blue_gradient"
         android:backgroundTint="@color/white"
         android:gravity="center"
         android:orientation="vertical"

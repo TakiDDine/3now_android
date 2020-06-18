@@ -57,6 +57,7 @@ import de.threenow.Utils.MyBoldTextView;
 import de.threenow.Utils.MyButton;
 import de.threenow.Utils.MyTextView;
 import de.threenow.Utils.Utilities;
+import de.threenow.ViewSummeryScheduledActivity;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
@@ -341,7 +342,7 @@ public class OnGoingTrips extends Fragment {
                 if (!jsonArray.optJSONObject(position).optString("schedule_at", "").isEmpty()) {
                     String form = jsonArray.optJSONObject(position).optString("schedule_at");
                     try {
-                        holder.tripDate.setText("Am: " + getDate(form) + ". " + getMonth(form) + " " + getYear(form) + " um " + getTime(form).replace(".","") + " Uhr");
+                        holder.tripDate.setText("Am: " + getDate(form) + ". " + getMonth(form) + " " + getYear(form) + " um " + getTime(form).replace(".", "") + " Uhr");
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -419,7 +420,8 @@ public class OnGoingTrips extends Fragment {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), HistoryDetails.class);
+//                        Intent intent = new Intent(getActivity(), HistoryDetails.class);
+                        Intent intent = new Intent(getActivity(), ViewSummeryScheduledActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         utils.print("Intent", "" + jsonArray.optJSONObject(getAdapterPosition()).toString());
                         intent.putExtra("post_value", jsonArray.optJSONObject(getAdapterPosition()).toString());
@@ -427,6 +429,7 @@ public class OnGoingTrips extends Fragment {
                         startActivity(intent);
                     }
                 });
+
             }
         }
     }

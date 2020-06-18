@@ -49,6 +49,7 @@
         <activity android:name=".Activities.ImpressumActivity"></activity>
         <activity android:name=".Activities.TrinkgeldActivity"></activity>
         <activity android:name=".SummeryScheduledActivity" />
+        <activity android:name=".ViewSummeryScheduledActivity" />
         <activity android:name=".SendEmailActivity" />
         <activity
             android:name=".Activities.TripSchedulingActivity"

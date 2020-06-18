@@ -752,6 +752,24 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 //            e.printStackTrace();
 //        }
 
+        try {
+            String p_m = SharedHelper.getKey(context, "payment_mode").toString();
+            if (p_m.equalsIgnoreCase("card") && cardInfo.getLastFour().length() > 0) {
+                if (cardInfo.getLastFour().equals("CASH") && SharedHelper.getKey(context, "last_four").length() > 0) {
+
+                    lblPaymentType.setText("xxxx" + SharedHelper.getKey(context, "last_four"));
+                    cardInfo.setLastFour(SharedHelper.getKey(context, "last_four"));
+                } else {
+                    lblPaymentType.setText("xxxx" + cardInfo.getLastFour());
+                }
+            } else if (p_m.length() > 0) {
+                lblPaymentType.setText(SharedHelper.getKey(context, "payment_mode"));
+
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -2120,7 +2138,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         response -> {
                             btnRequestRideConfirm.setEnabled(true);
                             if (response != null) {
-                                utils.print("SendRequestResponse", response.toString());
+                                utils.print("SendRequestResponse.", response.toString());
                                 if ((customDialog != null) && (customDialog.isShowing()))
                                     customDialog.dismiss();
 
@@ -2154,7 +2172,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
                     String json = null;
-                    Log.v("sendrequestresponse", error.toString() + " ");
+                    Log.v("sendrequestresponse..", error.toString() + " ");
                     String Message;
                     NetworkResponse response = error.networkResponse;
                     if (response != null && response.data != null) {
@@ -2163,7 +2181,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             JSONObject errorObj = new JSONObject(new String(response.data));
                             if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
                                 try {
-                                    utils.showAlert(context, errorObj.optString("error").replace("Already Request in Progress", "Anfrage bereits in Bearbeitung"));
+                                    utils.showAlert(context, errorObj.optString("error").replace("Already Request in Progress", "Anfrage bereits in Bearbeitung")
+                                            .replace("The card id field is required when payment mode is CARD.", "Das Feld Karten-ID ist erforderlich, wenn der Zahlungsmodus Karte ist."));
                                 } catch (Exception e) {
                                     utils.showAlert(context, context.getString(R.string.something_went_wrong));
                                 }
@@ -2172,7 +2191,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             } else if (response.statusCode == 422) {
                                 json = trimMessage(new String(response.data));
                                 if (json != "" && json != null) {
-                                    utils.showAlert(context, json.replace("Already Request in Progress", "Anfrage bereits in Bearbeitung"));
+                                    utils.showAlert(context, json.replace("Already Request in Progress", "Anfrage bereits in Bearbeitung")
+                                            .replace("The card id field is required when payment mode is CARD.", "Das Feld Karten-ID ist erforderlich, wenn der Zahlungsmodus Karte ist."));
                                 } else {
                                     utils.showAlert(context, context.getString(R.string.please_try_again));
                                 }
@@ -3942,7 +3962,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
 
-
     private class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.MyViewHolder> {
         JSONArray jsonArray;
         int selectedPosition;
@@ -3951,7 +3970,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         public ServiceListAdapter(JSONArray array) {
             this.jsonArray = array;
         }
-
 
 
         @Override
@@ -3994,7 +4012,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                 Picasso.get().cancelRequest(holder.serviceImg);
 
-                Picasso.get().load(URLHelper.base +"/8/" +jsonArray
+                Picasso.get().load(URLHelper.base + "/8/" + jsonArray
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.im_vito)
                         .error(R.drawable.im_vito).into(holder.serviceImg);
@@ -4423,7 +4441,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
                     String json = null;
-                    Log.v("sendrequestresponse", error.toString() + " ");
+                    Log.v("sendrequestresponse...", error.toString() + " ");
                     String Message;
                     NetworkResponse response = error.networkResponse;
                     if (response != null && response.data != null) {

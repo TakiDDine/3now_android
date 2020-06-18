@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Activities.TripSchedulingActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".Activities.TripSchedulingActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -110,10 +110,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:visibility="gone"
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp"
-                            android:background="@drawable/ic_add_round" />
+                            android:background="@drawable/ic_add_round"
+                            android:visibility="gone" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -200,33 +200,41 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <TextView
-                        android:paddingRight="@dimen/_4sdp"
-                        android:paddingLeft="@dimen/_4sdp"
-                        android:background="@drawable/border_white"
-
                         android:id="@+id/btn_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_txt"
                         android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:background="@drawable/rounded_button_blue"
+                        android:elevation="@dimen/_4sdp"
+                        android:gravity="center"
+                        android:maxWidth="@dimen/_70sdp"
+                        android:minHeight="@dimen/_33sdp"
+                        android:paddingLeft="@dimen/_4sdp"
+                        android:paddingRight="@dimen/_4sdp"
                         android:text="@string/sample_date"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_14sdp" />
+                        android:textSize="@dimen/_10sdp" />
 
                     <TextView
-                        android:paddingRight="@dimen/_4sdp"
-                        android:paddingLeft="@dimen/_4sdp"
-                        android:background="@drawable/border_white"
-
                         android:id="@+id/btn_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_txt"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:background="@drawable/rounded_button_blue"
+                        android:elevation="@dimen/_4sdp"
+                        android:gravity="center"
+                        android:minWidth="@dimen/_50sdp"
+                        android:minHeight="@dimen/_33sdp"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingRight="@dimen/_8sdp"
                         android:text="@string/time"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_14sdp" />
+                        android:textSize="@dimen/_10sdp" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -350,12 +358,12 @@
 
 
                     <Spinner
-                        android:gravity="end"
                         android:id="@+id/child_seat_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:backgroundTint="@color/black"
+                        android:gravity="end"
                         tools:listitem="@layout/spinner_item" />
 
                     <View
@@ -408,26 +416,26 @@
                     android:text="@string/baby_car_seat_txt"
                     android:textSize="@dimen/_10sdp" />
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentRight="true"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:layout_marginRight="@dimen/_36sdp"-->
-<!--                    android:text="1"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="@dimen/_16sdp" />-->
+                <!--                <TextView-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_alignParentRight="true"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:layout_marginRight="@dimen/_36sdp"-->
+                <!--                    android:text="1"-->
+                <!--                    android:textColor="@color/black"-->
+                <!--                    android:textSize="@dimen/_16sdp" />-->
 
-<!--                <com.rey.material.widget.Spinner-->
-<!--                    style="@style/Material.Widget.Spinner"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentRight="true"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:layout_marginRight="@dimen/_12sdp"-->
-<!--                    android:layout_marginBottom="@dimen/_8sdp"-->
-<!--                    android:backgroundTint="@color/black"-->
-<!--                    app:rd_style="@style/Material.Drawable.Ripple.Wave" />-->
+                <!--                <com.rey.material.widget.Spinner-->
+                <!--                    style="@style/Material.Widget.Spinner"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_alignParentRight="true"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:layout_marginRight="@dimen/_12sdp"-->
+                <!--                    android:layout_marginBottom="@dimen/_8sdp"-->
+                <!--                    android:backgroundTint="@color/black"-->
+                <!--                    app:rd_style="@style/Material.Drawable.Ripple.Wave" />-->
 
                 <LinearLayout
                     android:id="@+id/ll_spin1"
@@ -440,12 +448,12 @@
                     android:paddingBottom="@dimen/_16sdp">
 
                     <Spinner
-                        android:gravity="end"
                         android:id="@+id/baby_car_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:backgroundTint="@color/black"
+                        android:gravity="end"
                         tools:listitem="@layout/spinner_item" />
 
                     <View
@@ -489,11 +497,11 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_toLeftOf="@+id/nameschieldCheckbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_name_tag"
                     android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_toLeftOf="@+id/nameschieldCheckbox"
                     android:layout_toRightOf="@+id/ic_name_tag"
                     android:text="@string/Name_tag_txt"
                     android:textSize="@dimen/_10sdp" />

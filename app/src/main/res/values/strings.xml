@@ -618,7 +618,7 @@ We offer a variety of different services. For this reason, additional conditions
     <string name="impressum_txt">
         WEBSITE : 3now.de\n
 \n
-3 Now GmbH\n
+3 Now Mos Gruppe\n
 Adresse:Blindeisenweg 8, 41468 Neuss\n
 Deutschland\n
 \n
@@ -633,5 +633,8 @@ Zulassung Behörde: Neuss\n
 Telefon : +49 213 1533 2693\n
 E-mail : Info@3now.de\n
     </string>
+    <string name="betrag">amount</string>
+    <string name="fahrpreis_ink_16_mwst">Fahrpreis ink. 16% MwSt.</string>
+    <string name="booking_successful_msg">Thanks for your order. You will shortly receive an order confirmation at the email address registered with us. You can see an overview of your booked trips in the main menu under "My trips".</string>
 
 </resources>
