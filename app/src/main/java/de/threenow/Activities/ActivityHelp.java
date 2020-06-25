@@ -11,16 +11,17 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -31,6 +32,14 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
@@ -38,22 +47,14 @@ import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
 import de.threenow.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 import static de.threenow.IlyftApplication.trimMessage;
 
 public class ActivityHelp extends AppCompatActivity implements View.OnClickListener {
 
-    ImageView imgEmail;
-    ImageView imgPhone;
-    ImageView imgWeb;
-    ImageView imgfaq;
-    TextView titleTxt;
+    LinearLayout imgEmail;
+    LinearLayout imgPhone;
+    LinearLayout imgWeb;
+    LinearLayout imgfaq;
 
     String phone = "";
     String email = "";
@@ -64,8 +65,6 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-
-
     }
 
     @Override
@@ -79,7 +78,7 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         findviewById();
         setOnClickListener();
@@ -92,10 +91,10 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
     }
 
     private void findviewById() {
-        imgEmail =  findViewById(R.id.img_mail);
-        imgPhone =  findViewById(R.id.img_phone);
-        imgWeb =  findViewById(R.id.img_web);
-        imgfaq=findViewById(R.id.img_faq);
+        imgEmail = findViewById(R.id.img_mail);
+        imgPhone = findViewById(R.id.img_phone);
+        imgWeb = findViewById(R.id.img_web);
+        imgfaq = findViewById(R.id.img_faq);
     }
 
     private void setOnClickListener() {
@@ -108,43 +107,41 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == imgEmail) {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/html");
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
-            intent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.app_name)+"-"+getString(R.string.help));
-            intent.putExtra(Intent.EXTRA_TEXT, "Hello team");
-            startActivity(Intent.createChooser(intent, "Send Email"));
-        }
-        if (v == imgPhone) {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setType("text/html");
+            emailIntent.setData(Uri.parse("mailto:"));
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name) + "-" + getString(R.string.help));
+            emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.hello_team));
+            startActivity(Intent.createChooser(emailIntent, getString(R.string.send_email)));
+        } else if (v == imgPhone) {
             if (phone != null && !phone.equalsIgnoreCase("null") && !phone.equalsIgnoreCase("") && phone.length() > 0) {
 
-                    Intent intentCall = new Intent(Intent.ACTION_DIAL);
-                    intentCall.setData(Uri.parse("tel:" + phone));
+                Intent intentCall = new Intent(Intent.ACTION_DIAL);
+                intentCall.setData(Uri.parse("tel:" + phone));
 
-                    startActivity(intentCall);
+                startActivity(intentCall);
 
-            }else {
+            } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder .setTitle(getString(R.string.app_name))
+                builder.setTitle(getString(R.string.app_name))
                         .setIcon(R.mipmap.ic_launcher_round)
                         .setMessage(getString(R.string.sorry_for_inconvinent))
                         .setCancelable(false)
                         .setPositiveButton(getResources().getString(R.string.ok),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                     dialog.dismiss();
+                                        dialog.dismiss();
                                     }
                                 });
                 AlertDialog alert1 = builder.create();
                 alert1.show();
             }
-        }
-        if (v == imgWeb) {
+        } else if (v == imgWeb) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URLHelper.REDIRECT_URL));
             startActivity(browserIntent);
-        }
-        if (v == imgfaq) {
-            Intent intentqa=new Intent(this, QuestionandanswerActivity.class);
+        } else if (v == imgfaq) {
+            Intent intentqa = new Intent(this, QuestionandanswerActivity.class);
             startActivity(intentqa);
         }
     }
@@ -197,8 +194,9 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(JSONObject response) {
                 customDialog.dismiss();
-                phone=response.optString("contact_number");
-                email=response.optString("contact_email");
+                Log.e("HELP", response.toString());
+                phone = response.optString("contact_number");
+                email = response.optString("contact_email");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -324,8 +322,12 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
 
 
     public void displayMessage(String toastString) {
-        Snackbar.make(getCurrentFocus(), toastString, Snackbar.LENGTH_SHORT)
-                .setAction("Action", null).show();
+        try {
+            Snackbar.make(getCurrentFocus(), toastString, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch (Exception e) {
+            Toast.makeText(ActivityHelp.this, toastString, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void GoToBeginActivity() {

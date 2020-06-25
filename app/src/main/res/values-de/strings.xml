@@ -206,7 +206,7 @@
 
 
     <string name="call_support">Support kontaktieren</string>
-    <string name="chat_support">Ort hinzufugen</string>
+    <string name="chat_support">E-Mail Kontakt</string>
     <string name="weburl">Web-URL</string>
     <string name="faq">Fragen &amp; Antworten</string>
 
@@ -274,7 +274,7 @@
     <string name="no_notification_found">Keine Benachrichtigung gefunden</string>
     <string name="add_amount">Betrag hinzufügen</string>
     <string name="wallet">Brieftasche</string>
-    <string name="add_money">Geld hinzufügen</string>
+    <string name="add_money">Betrag hinzufügen</string>
     <string name="click">Klicken</string>
     <string name="send">Senden</string>
     <string name="if_you_have_not_received_otp">Wenn Sie kein OTP erhalten haben</string>
@@ -283,7 +283,7 @@
     <string name="booking_id_123456789">Buchungs-ID : 123456789</string>
     <string name="sedan">dann</string>
     <string name="promo_code">Werbe-Code</string>
-    <string name="schedule_ride">Fahrplan einplanen</string>
+    <string name="schedule_ride">Vorbestellen</string>
     <string name="media_player">Media Player</string>
     <string name="rate_card">Preisliste</string>
     <string name="sec">sek</string>
@@ -583,10 +583,12 @@ E-mail : Info@3now.de\n
     <string name="notes_d">Hier könen Sie uns Besoder wünsche,Hier könen Sie uns Besoder wünsche, Hienweise oder anlegung.</string>
     <string name="Routenplaner">Routenplaner</string>
     <string name="gesamt">Gesamt</string>
-    <string name="are_you_sure_you_want_to_close_flight_tracking">Möchten Sie die Flugverfolgung wirklich schließen?</string>
+    <string name="are_you_sure_you_want_to_close_flight_tracking">Möchten Sie die Routeverfolgen wirklich schließen?</string>
     <string name="impressum">Impressum</string>
     <string name="betrag">Betrag</string>
     <string name="fahrpreis_ink_16_mwst">Fahrpreis ink. 16% MwSt.</string>
     <string name="booking_successful_msg">Vielen Dank für Ihren Auftrag. Sie erhalten in Kürze eine Auftragsbestätigung auf die bei uns registrierte E-Mailadresse. Eine Übersicht Ihrer gebuchten Fahrten können Sie im Hauptmenü unter dem Punkt \"Meine Fahrten\" einsehen.</string>
+    <string name="hello_team">Hallo Team</string>
+    <string name="send_email">E-Mail senden</string>
 
 </resources>

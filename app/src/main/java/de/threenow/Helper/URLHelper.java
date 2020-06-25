@@ -33,7 +33,7 @@ public class URLHelper {
     public static final String SEND_REQUEST_Later_API = base + "api/user/save/later";// للرحلات المجدولة
 
     public static final String PAY_REQUEST_Later_API = base + "api/user/request/paied"; // دفع للرحلة الفورية
-    public static final String PAY_REQUEST_schedule_API = base + "api/user/request/paied"; // دفع للرحلة الفورية//"api/user/send/payement/schedule"; // دفع للرحلة المجدولة
+    public static final String PAY_REQUEST_schedule_API = base + "api/user/send/payement/schedule"; // دفع للرحلة المجدولة
 
     //new
     public static final String SEND_EMAIL_API_NEW =  base + "api/user/send/email";

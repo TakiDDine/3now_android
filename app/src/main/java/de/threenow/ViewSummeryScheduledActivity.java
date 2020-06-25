@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -89,6 +90,7 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
     String reason = "";
     RatingBar tripProviderRating;
     MyBoldTextView tripProviderName;
+    double pr = 0d;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -143,16 +145,10 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
         d_latitude = getIntent().getStringExtra("d_latitude");
         d_longitude = getIntent().getStringExtra("d_longitude");
         card_id = getIntent().getStringExtra("card_id");
-        serviceId = getIntent().getStringExtra("service_id");
+//        serviceId = getIntent().getStringExtra("service_id");
 
         service_type = getIntent().getStringExtra("service_type");
         note = getIntent().getStringExtra("note");
-        double pr = 0d;//Double.parseDouble(getIntent().getStringExtra("price").toString().trim());
-
-
-        typeCar = "Mercedes Vito";
-        serviceCap = "8";
-        bagCap = "6";
 
 //        if (serviceId.contains("19")) {
 //            typeCar = "Economy Mercedes C/B Klasse";
@@ -198,23 +194,10 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
         btnCancelRide.setOnClickListener(this);
         btnCall.setOnClickListener(this);
 
-        service_car_type.setText(typeCar.replace("Economy Mercedes C/B Klasse", "Economy\nMercedes C/B Klasse") + "");
-        serviceCapacity.setText(serviceCap + " Maximal");
-        bagCapacity.setText(bagCap + "");
-//        AdresseFromD.setText(s_address + "");
-//        AdresseToD.setText(d_address + "");
-//        dateToD.setText(scheduledDate + "");
-//        dateToF.setText(scheduledTime + "");
         childSeatsPrice.setText(0 + "€");
         babySeatPrice.setText(0 + "€");
         nameTagPrice.setText(0 + "€");
         detailNote.setText(" . . . ");
-
-
-//        if (note != null) {
-//            if (note.length() > 0)
-//                detailNote.setText(note + "");
-//        }
 
         priceTrip.setText(((double) (pr - totalPrice)) + "€");
 
@@ -265,6 +248,21 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
 //                            booking_id.setText(response.optJSONObject(0).optString("booking_id"));
 //                        }
 
+                        serviceId = response.optJSONObject(0).optString("service_type_id");
+                        if (serviceId.contains("19")) {
+                            typeCar = "Mercedes Vito";
+                            serviceCap = "8";
+                            bagCap = "6";
+                        } else if (serviceId.contains("27")) {
+                            typeCar = "Mercedes V-Klasse";
+                            serviceCap = "7";
+                            bagCap = "7";
+                        }
+
+                        service_car_type.setText(typeCar.replace("Economy Mercedes C/B Klasse", "Economy\nMercedes C/B Klasse") + "");
+                        serviceCapacity.setText(serviceCap + " Maximal");
+                        bagCapacity.setText(bagCap + "");
+
                         tvDistance.setText(response.optJSONObject(0).optString("distance") + " km");
 
                         try {
@@ -306,7 +304,7 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
                         }
                         try {
 //                            tripDate.setText(getDate(form) + "th " + getMonth(form) + " " + getYear(form) + "\n" + getTime(form));
-                            dateToD.setText(getDate(form) + "th " + getMonth(form) + " " + getYear(form));
+                            dateToD.setText(getDate(form) + "-" + getMonth(form) + "-" + getYear(form));
                             dateToF.setText(getTime(form));
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -320,10 +318,10 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
                         if (response.optJSONObject(0).optString("payment_mode").equalsIgnoreCase("PAYPAL")) {
                             creditCardNbr.setText("");
                             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.cio_paypal_logo), 0, 0, 0);
-                        } else if (response.optJSONObject(0).optString("payment_mode").equalsIgnoreCase("card")){
+                        } else if (response.optJSONObject(0).optString("payment_mode").equalsIgnoreCase("card")) {
                             creditCardNbr.setText("");
                             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.visa), 0, 0, 0);
-                        }else {
+                        } else {
                             creditCardNbr.setText("");
                             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.ic_cash_txt), 0, 0, 0);
                         }
@@ -342,7 +340,7 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
                             AdresseToD.setText(response.optJSONObject(0).optString("d_address"));
                         }
 
-                        note = response.optJSONObject(0).optString("special_note") + "";
+                        note = response.optJSONObject(0).optString("note") + "";
                         Log.e("note_chk", note);
                         if (note != null && note.length() > 0 && !note.equalsIgnoreCase("null")) {
                             detailNote.setText(note);
@@ -350,17 +348,19 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
 
 
                         try {
-                            JSONObject serviceObj = response.optJSONObject(0).optJSONObject("service_type");
+                            JSONObject serviceObj = response.optJSONObject(0).optJSONObject("payment");
                             if (serviceObj != null) {
 //                            holder.car_name.setText(serviceObj.optString("name"));
 //                                if (tag.equalsIgnoreCase("past_trips")) {
-                                netlPrice.setText(serviceObj.optString("price") + "€");
+                                netlPrice.setText(serviceObj.optString("total") + "€");
+                                pr = Double.parseDouble(serviceObj.optString("total"));
 //                                } else {
 //                                    netlPrice.setVisibility(View.GONE);
 //                                }
 //                                Picasso.get().load(serviceObj.optString("image"))
 //                                        .placeholder(R.drawable.loading).error(R.drawable.loading)
 //                                        .into(tripProviderImg);
+                                priceTrip.setText(((double) (pr - totalPrice)) + "€");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -436,15 +436,20 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
     }
 
     public void displayMessage(String toastString) {
-        Snackbar.make(getCurrentFocus(), toastString, Snackbar.LENGTH_SHORT)
-                .setAction("Action", null).show();
+        try {
+            Snackbar.make(getCurrentFocus(), toastString, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, toastString, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String getMonth(String date) throws ParseException {
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
-        String monthName = new SimpleDateFormat("MMM").format(cal.getTime());
+        String monthName = new SimpleDateFormat("MM").format(cal.getTime());
         return monthName;
     }
 
@@ -468,7 +473,7 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
         Date d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
-        String timeName = new SimpleDateFormat("hh:mm a").format(cal.getTime());
+        String timeName = new SimpleDateFormat("hh:mm").format(cal.getTime());
         return timeName;
     }
 

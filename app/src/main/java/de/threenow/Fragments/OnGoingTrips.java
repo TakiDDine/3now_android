@@ -353,7 +353,10 @@ public class OnGoingTrips extends Fragment {
             try {
                 JSONObject serviceObj = jsonArray.getJSONObject(position).optJSONObject("service_type");
                 if (serviceObj != null) {
-                    holder.car_name.setText(serviceObj.optString("name"));
+                    holder.car_name.setText(serviceObj.optString("name")
+                            .replace("Mercedes Vito", "Mercedes V-Klasse")
+                            .replace("Economy Mercedes C/B Klasse", "Mercedes Vito")
+                    +"");
                     //holder.tripAmount.setText(SharedHelper.getKey(context, "currency")+serviceObj.optString("price"));
                     holder.tripAmount.setVisibility(View.GONE);
                     Picasso.get().load(serviceObj.optString("image")).placeholder(R.drawable.loading).error(R.drawable.loading).into(holder.driver_image);

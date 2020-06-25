@@ -762,10 +762,11 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 } else {
                     lblPaymentType.setText("xxxx" + cardInfo.getLastFour());
                 }
-            } else if (p_m.length() > 0) {
-                lblPaymentType.setText(SharedHelper.getKey(context, "payment_mode"));
-
-
+            } else if (p_m.length() > 0 && p_m.equalsIgnoreCase("cash")) {
+                lblPaymentType.setText(getString(R.string.cash));
+            } else if (p_m.length() > 0)
+            {
+                lblPaymentType.setText(p_m);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -3998,10 +3999,10 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             if (position == 0) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
-                Picasso.get().load(URLHelper.base + jsonArray
+                Picasso.get().load(URLHelper.base + "/8/" + jsonArray
                         .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car11)
-                        .error(R.drawable.car11).into(holder.serviceImg);
+                        .placeholder(R.drawable.car1)
+                        .error(R.drawable.car1).into(holder.serviceImg);
                 holder.bagCapacity.setText("3");
             }
 
@@ -4014,18 +4015,18 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                 Picasso.get().load(URLHelper.base + "/8/" + jsonArray
                         .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.im_vito)
-                        .error(R.drawable.im_vito).into(holder.serviceImg);
+                        .placeholder(R.drawable.car23)
+                        .error(R.drawable.car23).into(holder.serviceImg);
 
                 holder.bagCapacity.setText("5");
             }
             if (position == 2) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
                         .optString("id"), holder.serviceItemPrice);
-                Picasso.get().load(URLHelper.base + jsonArray
+                Picasso.get().load(URLHelper.base + "/8/" + jsonArray
                         .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car33)
-                        .error(R.drawable.car33).into(holder.serviceImg);
+                        .placeholder(R.drawable.car23)
+                        .error(R.drawable.car23).into(holder.serviceImg);
                 holder.bagCapacity.setText("7");
             }
             if (position == 3) {

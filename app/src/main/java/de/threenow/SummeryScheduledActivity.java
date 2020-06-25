@@ -105,10 +105,15 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         note = getIntent().getStringExtra("note");
         double pr = Double.parseDouble(getIntent().getStringExtra("price").toString().trim());
 
-
-        typeCar = "Mercedes Vito";
-        serviceCap = "8";
-        bagCap = "6";
+        if (serviceId.contains("19")) {
+            typeCar = "Mercedes Vito";
+            serviceCap = "8";
+            bagCap = "6";
+        } else if (serviceId.contains("27")) {
+            typeCar = "Mercedes V-Klasse";
+            serviceCap = "7";
+            bagCap = "7";
+        }
 
 //        if (serviceId.contains("19")) {
 //            typeCar = "Economy Mercedes C/B Klasse";
@@ -201,10 +206,10 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         if (payment_mode.contains("PAYPAL")) {
             creditCardNbr.setText("");
             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.cio_paypal_logo), 0, 0, 0);
-        } else if (payment_mode.contains("CARD")){
+        } else if (payment_mode.contains("CARD")) {
             creditCardNbr.setText("");
             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.visa), 0, 0, 0);
-        }else {
+        } else {
             creditCardNbr.setText("");
             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.ic_cash_txt), 0, 0, 0);
         }

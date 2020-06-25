@@ -78,7 +78,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:19.0.0'
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
@@ -100,11 +100,11 @@ dependencies {
 //    implementation 'com.github.citux:datetimepicker:0.3.0'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.facebook.android:account-kit-sdk:5.4.0'
-    implementation 'com.hbb20:ccp:2.2.9'
+//    implementation 'com.hbb20:ccp:2.2.9'++++++++++
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
 
-    implementation 'pub.devrel:easypermissions:3.0.0'
+//    implementation 'pub.devrel:easypermissions:3.0.0'++++++++++
     implementation('com.google.api-client:google-api-client-android:1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
@@ -115,6 +115,7 @@ dependencies {
         exclude module: 'httpclient'
     }
 
+    //    cheked --
     implementation project(path: ':decoderoutekey')
     implementation 'com.akexorcist:googledirectionlibrary:1.1.1'
     implementation 'com.google.android.libraries.places:places:2.0.0'

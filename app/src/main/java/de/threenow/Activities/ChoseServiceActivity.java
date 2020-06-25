@@ -116,7 +116,7 @@ public class ChoseServiceActivity extends AppCompatActivity implements View.OnCl
         vipbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                serviceId = 32;
+                serviceId = 27;
                 Intent i = new Intent(getApplicationContext(), TripSchedulingActivity.class);
                 i.putExtra("s_latitude", s_latitude);
                 i.putExtra("s_longitude", s_longitude);
@@ -126,7 +126,7 @@ public class ChoseServiceActivity extends AppCompatActivity implements View.OnCl
                 i.putExtra("d_address", d_address);
                 i.putExtra("distance", distance);
                 i.putExtra("payment_mode", payment_mode);
-                i.putExtra("service_id", "32");
+                i.putExtra("service_id", "27");
                 if (use_wallet != null) {
                     i.putExtra("use_wallet", use_wallet);
                 }
@@ -139,7 +139,7 @@ public class ChoseServiceActivity extends AppCompatActivity implements View.OnCl
         specialbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                serviceId = 27;
+                serviceId = 32;
                 Intent i = new Intent(getApplicationContext(), SpecialTripsActivity.class);
 //                i.putExtra("s_latitude", s_latitude);
 //                i.putExtra("s_longitude", s_longitude);

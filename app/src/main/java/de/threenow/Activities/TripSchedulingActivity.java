@@ -14,7 +14,6 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -90,10 +89,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     String use_wallet;
     String payment_mode;
     String card_id;
-    String token_type;
     String scheduledDate = "";
     String scheduledTime = "";
-    String access_token;
     String childSeat, babySeat, note;
     String nameschield;
     CheckBox nameschieldCheckbox;
@@ -104,12 +101,11 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     Button btnSheduleRideConfirm;
     EditText noteEditText;
     TextView pickup, to, btnDatePicker, btnTimePicker;
-    private int mYear, mMonth, mDay, mHour, mMinute;
     ImageView im_back, im_swap_location;
     Spinner baby_car_spinner, child_seat_spinner;
-
     Context context;
     private String paymentId, request_id, Price = "";
+    private int mYear, mMonth, mDay, mHour, mMinute;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -150,9 +146,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         nameschieldCheckbox = findViewById(R.id.nameschieldCheckbox);
         im_back = findViewById(R.id.im_back);
         im_swap_location = findViewById(R.id.im_swap_location);
-
-        //        kindersitzEdittext = findViewById(R.id.kindersitzEdittext);
-//        babyschaleEdittext = findViewById(R.id.babyschaleEdittext);
         btnDatePicker = findViewById(R.id.btn_date);
         btnTimePicker = findViewById(R.id.btn_time);
         pickup = findViewById(R.id.pickup);
@@ -180,10 +173,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         payment_mode = getIntent().getStringExtra("payment_mode");
         card_id = getIntent().getStringExtra("card_id");
         serviceId = getIntent().getStringExtra("service_id");
-
-//        if (payment_mode.equalsIgnoreCase("CASH")) {
-//            payment_mode = "PAYPAL";
-//        }
 
         utils = new Utilities();
         customDialog = new CustomDialog(this);
@@ -226,11 +215,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                 } else {
                     customDialog.show();
 //                    sendRequest();
-
                     sendRequestPrice();
-
 //                    goToSummeryScheduledActivity();
-
                 }
                 break;
 
@@ -265,17 +251,15 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                 PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirm != null) {
                     try {
-//                        Log.e("222 paymentExample", confirm.toJSONObject().toString(4));
                         Log.e("222 paymentExample", confirm.toJSONObject().getJSONObject("response").toString());
 
-// //                     TODO: send 'confirm' to your server for verification.
-// //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
-// //                     for more detail
+ //                     TODO: send 'confirm' to your server for verification.
+ //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+ //                     for more detail
                         String paymentType = "PAYPAL";
                         paymentId = confirm.getProofOfPayment().getPaymentId();
                         payNowCard(paymentType);
-// //                   JSONObject jsonObject=confirm.toJSONObject().getJSONObject("response");
-// //                   addPayment(jsonObject.getString("id"));
+
                     } catch (JSONException e) {
                         Log.e("222 paymentExample", "an extremely unlikely failure occurred: ", e);
                     }
@@ -288,7 +272,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
                 // pay after confirm trip then found driver
                 payNowPaypalOrCard();
-
 //                goToSummeryScheduledActivity();
 
             }
@@ -297,7 +280,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             if (resultCode == Activity.RESULT_OK) {
                 // search driver after confirm trip
                 sendRequest();
-
 //                payNowPaypalOrCard();
             }
         }
@@ -315,26 +297,12 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                 if (callCount == 0) {
                     String choosedHour = "";
                     String choosedMinute = "";
-                    String choosedTimeZone = "";
                     String choosedTime = "";
 
-                    scheduledTime = selectedHour + ":" + selectedMinute;
-
-                    if (selectedHour > 12) {
-                        choosedTimeZone = "PM";
-                        selectedHour = selectedHour - 12;
-                        if (selectedHour < 10) {
-                            choosedHour = "0" + selectedHour;
-                        } else {
-                            choosedHour = "" + selectedHour;
-                        }
+                    if (selectedHour < 10) {
+                        choosedHour = "0" + selectedHour;
                     } else {
-                        choosedTimeZone = "AM";
-                        if (selectedHour < 10) {
-                            choosedHour = "0" + selectedHour;
-                        } else {
-                            choosedHour = "" + selectedHour;
-                        }
+                        choosedHour = "" + selectedHour;
                     }
 
                     if (selectedMinute < 10) {
@@ -342,7 +310,10 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                     } else {
                         choosedMinute = "" + selectedMinute;
                     }
-                    choosedTime = choosedHour + ":" + choosedMinute + " " + choosedTimeZone;
+
+
+                    scheduledTime = choosedHour + ":" + choosedMinute;
+                    choosedTime = scheduledTime;
 
                     if (scheduledDate != "" && scheduledTime != "") {
                         Date date = null;
@@ -385,7 +356,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                     // set day of month , month and year value in the edit text
                     String choosedMonth = "";
                     String choosedDate = "";
-                    String choosedDateFormat = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                    String choosedDateFormat = dayOfMonth + "-" + ((int) (monthOfYear + 1)) + "-" + year;
                     scheduledDate = choosedDateFormat;
                     try {
                         choosedMonth = utils.getMonth(choosedDateFormat);
@@ -397,7 +368,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                     } else {
                         choosedDate = "" + dayOfMonth;
                     }
-                    btnDatePicker.setText(choosedDate + " " + choosedMonth + " " + year);
+                    btnDatePicker.setText(choosedDate + "-" + ((int) (monthOfYear + 1)) + "-" + year);
                     TimePickerDialogShow();
                 }, mYear, mMonth, mDay);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
@@ -405,34 +376,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         datePickerDialog.show();
     }
 
-    public void showDialog() {
-        LayoutInflater factory = LayoutInflater.from(this);
-        final View DialogViewLayout = factory.inflate(R.layout.confirm_payment_schedul, null);
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-
-        dialog.setView(DialogViewLayout);
-        dialog.setCancelable(false);
-
-        Button dialogButtonCancel = (Button) DialogViewLayout.findViewById(R.id.btnPayCancel);
-        Button btnPayNowDialog = (Button) DialogViewLayout.findViewById(R.id.btnPayNowDialog);
-
-        TextView totalPrice = DialogViewLayout.findViewById(R.id.lblTotalPrice);
-
-        totalPrice.setText(Price);
-
-        dialogButtonCancel.setOnClickListener(v -> dialog.dismiss());
-
-
-        btnPayNowDialog.setOnClickListener(v -> {
-//            Toast.makeText(context, "soon", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-            sendRequest();
-//            payNowPaypalOrCard();
-        });
-
-        dialog.show();
-
-    }
 
 
     public void sendRequestPrice() {
@@ -679,25 +622,15 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                                     SharedHelper.putKey(this, "current_status", "");
                                     SharedHelper.putKey(this, "request_id", "" + request_id);
 
-                                    // flowValue = 3;
-                                    //layoutChanges();
                                     // نجاح تسجيل الجددولة
-
                                     // سجل الدفع
                                     Price = response.optString("price") + "";
 
                                     GlobalDataMethods.newScheduleRequest = true;
                                     Intent intent = new Intent(context, TrackActivity.class);
                                     intent.putExtra("flowValue", 3);
-//                                    startActivity(intent);
                                     startActivityForResult(intent, 963);
-//                                    payNowPaypalOrCard();
 
-//                                    pay();
-
-//                                    Intent intent = new Intent(this, TrackActivity.class);
-//                                    intent.putExtra("flowValue", 3);
-//                                    startActivity(intent);
                                 }
                             }
                         }, error -> {
@@ -711,13 +644,9 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
                         Log.e("222 error", "data: " + new JSONObject(new String(error.networkResponse.data)));
 
-//                        String msg = "statusCode: " + error.networkResponse.statusCode + "\n" +
-//                                URLHelper.SEND_REQUEST_Later_API + "\n\n" +
-//                                trimMessage(new String(error.networkResponse.data));
-//
-//
-//                        utils.showAlert(this, msg);
+
                     } catch (Exception e) {
+                        e.printStackTrace();
 //                        if (error.networkResponse != null)
 //                            utils.showAlert(this, "statusCode: " + error.networkResponse.statusCode + "\n" +
 //                                    URLHelper.SEND_REQUEST_Later_API);
@@ -765,6 +694,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                                 utils.showAlert(this, this.getString(R.string.please_try_again));
                             }
                         } catch (Exception e) {
+                            e.printStackTrace();
 //                            utils.showAlert(this, this.getString(R.string.something_went_wrong));         ----------------
                         }
                     } else {
@@ -793,16 +723,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             Log.e("222 payNowPaypal", "btnPayNowClick: " + Price);
 
             try {
-//                PayPalConfiguration config = new PayPalConfiguration()
-                //                 // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
-                //               // or live (ENVIRONMENT_PRODUCTION)
-//     //               .clientId("AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n" +
-//       //                     "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
-//         //                   "PAYPAL_MODE=sandbox");
-//                        .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
-//                        .clientId(getString(R.string.client_id_paypal) +
-//                                getString(R.string.paypal_secret) +
-//                                getString(R.string.paypal_mode));
 
                 PayPalPayment payment = new PayPalPayment(new BigDecimal(Price.replace("€", "")), "EUR", " ",
                         PayPalPayment.PAYMENT_INTENT_SALE);
@@ -862,6 +782,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
         startActivityForResult(i, 93);
     }
 
+    private static final int AUTO_DISMISS_MILLIS = 12000;
+
     public void payNowCard(String paymentType) {
 
         customDialog = new CustomDialog(context);
@@ -875,6 +797,9 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
 
             object.put("request_id", request_id + "");
             object.put("total_payment", Price.replace("€", ""));
+            object.put("distance", distance + "");
+            object.put("payment_mode", paymentType + "");
+
 
             if (paymentType.contains("PAYPAL")) {
                 object.put("payment_id", paymentId);
@@ -901,20 +826,15 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                         .setIcon(R.mipmap.ic_launcher_round).create();
 
                 alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    private static final int AUTO_DISMISS_MILLIS = 7000;
 
                     @Override
                     public void onShow(final DialogInterface dialog) {
                         new CountDownTimer(AUTO_DISMISS_MILLIS, 100) {
                             @Override
                             public void onTick(long millisUntilFinished) {
-                                alertDialog.setMessage(getString(R.string.booking_successful_msg) + "\n\n\t\t" + (TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1));
-//                                Log.e("onTike",(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1) + "");
-//                                defaultButton.setText(String.format(
-//                                        Locale.getDefault(), "%s (%d)",
-//                                        negativeButtonText,
-//                                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1 //add one so it never displays zero
-//                                );
+                                alertDialog.setMessage(getString(R.string.booking_successful_msg)
+                                        + "\n\n\t\t"
+                                        + (TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) + 1));
                             }
 
                             @Override
@@ -940,9 +860,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
 
-//                        handleCheckStatus.postDelayed(this, 5000);
                     }
-                }, 7000);
+                }, AUTO_DISMISS_MILLIS);
 
 
             }
