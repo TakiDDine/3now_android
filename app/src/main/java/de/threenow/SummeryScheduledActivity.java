@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +51,8 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
 
 
     Button submit_btn;
+    LinearLayout ll_im_internal;
+
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -105,15 +108,6 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         note = getIntent().getStringExtra("note");
         double pr = Double.parseDouble(getIntent().getStringExtra("price").toString().trim());
 
-        if (serviceId.contains("19")) {
-            typeCar = "Mercedes Vito";
-            serviceCap = "8";
-            bagCap = "6";
-        } else if (serviceId.contains("27")) {
-            typeCar = "Mercedes V-Klasse";
-            serviceCap = "7";
-            bagCap = "7";
-        }
 
 //        if (serviceId.contains("19")) {
 //            typeCar = "Economy Mercedes C/B Klasse";
@@ -150,9 +144,24 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         creditCardNbr = findViewById(R.id.creditCardNbr);
         priceTrip = findViewById(R.id.priceTrip);
         submit_btn = findViewById(R.id.submit_btn);
+        ll_im_internal =  findViewById(R.id.ll_im_internal);
+
 
         im_back.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
+
+        if (serviceId.contains("19")) {
+            typeCar = "Mercedes Vito";
+            serviceCap = "8";
+            bagCap = "6";
+            ll_im_internal.setBackgroundResource(R.drawable.im_eco_internal);
+        } else if (serviceId.contains("27")) {
+            typeCar = "Mercedes V-Klasse";
+            serviceCap = "7";
+            bagCap = "7";
+            ll_im_internal.setBackgroundResource(R.drawable.im_vip_internal);
+        }
+
 
         service_car_type.setText(typeCar.replace("Economy Mercedes C/B Klasse", "Economy\nMercedes C/B Klasse") + "");
         serviceCapacity.setText(serviceCap + " Maximal");
@@ -166,12 +175,11 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         nameTagPrice.setText(0 + "€");
         detailNote.setText(" . . . ");
 
-
-        try {
+//        try {
             //  totalPrice += Long.parseLong(SharedHelper.getKey(SummeryScheduledActivity.this, "estimated_fare"));
-        } catch (Exception e) {
-
-        }
+//        } catch (Exception e) {
+//
+//        }
 
 
         if (childSeat > 1) {

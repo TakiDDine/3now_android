@@ -21,10 +21,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -41,11 +43,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.accountkit.Account;
-import com.facebook.accountkit.AccountKit;
-import com.facebook.accountkit.AccountKitCallback;
-import com.facebook.accountkit.AccountKitError;
-import com.facebook.accountkit.AccountKitLoginResult;
 import com.facebook.accountkit.PhoneNumber;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
@@ -71,18 +68,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.JsonObject;
 import com.hbb20.CountryCodePicker;
-
-import de.threenow.Helper.LocaleManager;
-import de.threenow.IlyftApplication;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.R;
-import de.threenow.Utils.MyTextView;
-import de.threenow.Utils.Utilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,16 +77,20 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
+import de.threenow.Utils.MyTextView;
+import de.threenow.Utils.Utilities;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
@@ -110,13 +101,13 @@ public class Login extends AppCompatActivity
     private static final int REQ_SIGN_IN_REQUIRED = 100;
     private static final int RC_SIGN_IN = 100;
     public static int APP_REQUEST_CODE = 99;
-    TextView txtSignUp, txtForget,txtAgbBtn;
+    TextView txtSignUp, txtForget, txtAgbBtn;
     Button btnLogin;
     EditText etEmail, etPassword;
     //    Button btnFb,btnGoogle;
     MyTextView btnFb, btnGoogle;
     CustomDialog customDialog;
-//    LinearLayout registerLayout;
+    //    LinearLayout registerLayout;
     Boolean isInternet;
     ConnectionHelper helper;
     String device_token, device_UDID;
@@ -133,8 +124,8 @@ public class Login extends AppCompatActivity
     GoogleSignInClient mGoogleApiClient;
 
     JsonObject socialJson;
-    String socialUrl,loginType;
-    String mobile="";
+    String socialUrl, loginType;
+    String mobile = "";
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -152,7 +143,7 @@ public class Login extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,7 +179,7 @@ public class Login extends AppCompatActivity
 //        registerLayout.setOnClickListener(this);
         btnFb = findViewById(R.id.btnFb);
         etPassword = findViewById(R.id.etPassword);
-        btnGoogle=findViewById(R.id.btnGoogle);
+        btnGoogle = findViewById(R.id.btnGoogle);
         txtSignUp.setOnClickListener(this);
         txtForget.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
@@ -232,9 +223,9 @@ public class Login extends AppCompatActivity
 //        GoToMainActivity();
         txtAgbBtn = findViewById(R.id.txt_agb_btn);
 
-        SpannableString content = new SpannableString(getResources().getString(R.string.conditions) );
+        SpannableString content = new SpannableString(getResources().getString(R.string.conditions));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        txtAgbBtn.setText(content+ " ");
+        txtAgbBtn.setText(content + " ");
 
         txtAgbBtn.setOnClickListener(this);
 
@@ -248,7 +239,7 @@ public class Login extends AppCompatActivity
         if (v.getId() == R.id.txtForget) {
             startActivity(new Intent(Login.this, ForgotPassword.class));
         }
-        if (v.getId() == R.id.txt_agb_btn){
+        if (v.getId() == R.id.txt_agb_btn) {
             startActivity(new Intent(Login.this, AgbActivity.class));
         }
 //        if (v.getId() == R.id.registerLayout) {
@@ -273,8 +264,7 @@ public class Login extends AppCompatActivity
                 signIn();
             }
         }
-       if(v.getId()==R.id.btnGoogle)
-        {
+        if (v.getId() == R.id.btnGoogle) {
             googleLogIn();
         }
         if (v.getId() == R.id.btnFb) {
@@ -343,10 +333,12 @@ public class Login extends AppCompatActivity
 
                                 String responseBody = null;
                                 try {
-                                    responseBody = new String(error.networkResponse.data, "utf-8");
+                                    if (error.networkResponse != null) {
+                                        responseBody = new String(error.networkResponse.data, "utf-8");
 //                                    JSONObject data = new JSONObject(responseBody);
 //                                    String message = data.optString("msg");
-                                    utils.print("MyTestError1", "" +  responseBody);
+                                        utils.print("MyTestError1", "" + responseBody);
+                                    }
                                 } catch (UnsupportedEncodingException e) {
                                     e.printStackTrace();
                                 }
@@ -669,11 +661,11 @@ public class Login extends AppCompatActivity
                                                     json.addProperty("id", user.optString("id"));
                                                     json.addProperty("email", user.optString("email"));
                                                     json.addProperty("avatar", profileUrl);
-                                                    json.addProperty("mobile",mobile);
+                                                    json.addProperty("mobile", mobile);
 
                                                     socialJson = json;
                                                     socialUrl = URLHelper.FACEBOOK_LOGIN;
-                                                    loginType= "facebook";
+                                                    loginType = "facebook";
                                                     openphonelogin();
 //                                                    login(json, URLHelper.FACEBOOK_LOGIN, "facebook");
 
@@ -767,7 +759,7 @@ public class Login extends AppCompatActivity
                                     SharedHelper.putKey(Login.this, "login_by", "facebook");
                                 if (Loginby.equalsIgnoreCase("google"))
                                     SharedHelper.putKey(Login.this, "login_by", "google");
-                                  getProfile();
+                                getProfile();
 //                                openphonelogin();
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
@@ -817,11 +809,11 @@ public class Login extends AppCompatActivity
 //                phoneLogin(phoneNumber);
                 dialog.dismiss();
                 String phone = ccp.getSelectedCountryCodeWithPlus() + mobile_no.getText().toString();
-                mobile =phone;
-                socialJson.addProperty("mobile",mobile);
-                Intent intent =new Intent(Login.this, OtpVerification.class);
-                intent.putExtra("phonenumber",phone);
-                startActivityForResult(intent,APP_REQUEST_CODE);
+                mobile = phone;
+                socialJson.addProperty("mobile", mobile);
+                Intent intent = new Intent(Login.this, OtpVerification.class);
+                intent.putExtra("phonenumber", phone);
+                startActivityForResult(intent, APP_REQUEST_CODE);
 
 
             }
@@ -882,14 +874,13 @@ public class Login extends AppCompatActivity
                 handleSignInResult(task);
 
             }
-            if(resultCode == Activity.RESULT_OK){
+            if (resultCode == Activity.RESULT_OK) {
 
                 if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
 
                     login(socialJson, socialUrl, loginType);
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED)
-            {
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 if ((customDialog != null) && customDialog.isShowing())
                     customDialog.dismiss();
             }
@@ -1017,7 +1008,7 @@ public class Login extends AppCompatActivity
 
             socialJson = json;
             socialUrl = URLHelper.GOOGLE_LOGIN;
-            loginType= "google";
+            loginType = "google";
             openphonelogin();
 //            login(json, URLHelper.GOOGLE_LOGIN, "google");
 

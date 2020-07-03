@@ -29,12 +29,10 @@ public class GlobalDataMethods {
     public static PayPalConfiguration config = new PayPalConfiguration()
             // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
             // or live (ENVIRONMENT_PRODUCTION)
-            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
 
+            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
             .clientId("AdThF4H9jvgJOz5hde4Mj_0SjJmsgAa9DaPmRBH7ZAqlKvmu5XNTX4b2Z7wFtzeX33frjAUROiXJh_lr");
-//        \n" +
-//                    "PAYPAL_SECRET=47BANRGAUFQFYNED\n" +
-//                    "PAYPAL_MODE=live");
+
 
 
 }

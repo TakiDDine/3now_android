@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +92,8 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
     RatingBar tripProviderRating;
     MyBoldTextView tripProviderName;
     double pr = 0d;
+
+    LinearLayout ll_im_internal;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -188,7 +191,7 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
         btnCall = findViewById(R.id.btnCall);
         childSeats = findViewById(R.id.childSeats);
         babySeats = findViewById(R.id.babySeat);
-
+        ll_im_internal = findViewById(R.id.ll_im_internal);
 
         im_back.setOnClickListener(this);
         btnCancelRide.setOnClickListener(this);
@@ -253,10 +256,12 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
                             typeCar = "Mercedes Vito";
                             serviceCap = "8";
                             bagCap = "6";
+                            ll_im_internal.setBackgroundResource(R.drawable.im_eco_internal);
                         } else if (serviceId.contains("27")) {
                             typeCar = "Mercedes V-Klasse";
                             serviceCap = "7";
                             bagCap = "7";
+                            ll_im_internal.setBackgroundResource(R.drawable.im_vip_internal);
                         }
 
                         service_car_type.setText(typeCar.replace("Economy Mercedes C/B Klasse", "Economy\nMercedes C/B Klasse") + "");
