@@ -11,7 +11,7 @@ public class URLHelper {
     public static final int client_id = 2;
 
     public static final String client_secret = "WifS1rMi3LvuorP1G2UdtKZairUNSH2iMqrKivPf";
-    public static final String STRIPE_TOKEN = "pk_live_w4AMWANwKUQms0HOKOSLB5aH0035Lw8s3P"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
+    public static final String STRIPE_TOKEN = "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"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
 
     public static final String image_url_signature = base + "public/";
     public static final String CURRENT_TRIP = base + "api/user/trips/current";
