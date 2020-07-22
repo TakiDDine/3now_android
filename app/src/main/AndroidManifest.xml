@@ -321,9 +321,9 @@
         <meta-data
             android:name="com.facebook.accountkit.ClientToken"
             android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" />
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="382cf003634c80b059946b0cd12ecd9c215c37da" />
+<!--        <meta-data-->
+<!--            android:name="io.fabric.ApiKey"-->
+<!--            android:value="382cf003634c80b059946b0cd12ecd9c215c37da" />-->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

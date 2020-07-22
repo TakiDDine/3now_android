@@ -15,7 +15,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.crashlytics.android.Crashlytics;
+
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.ios.IosEmojiProvider;
 
@@ -28,7 +28,8 @@ import java.util.Locale;
 
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
-import io.fabric.sdk.android.Fabric;
+
+//import io.fabric.sdk.android.Fabric;
 //import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -89,12 +90,12 @@ public class IlyftApplication extends Application {
         mInstance = this;
         EmojiManager.install(new IosEmojiProvider());
 //        initCalligraphyConfig();
-        Fabric fabric = new Fabric.Builder(IlyftApplication.this)
-                .kits(new Crashlytics())
-                .debuggable(BuildConfig.DEBUG)
-                .build();
-
-        Fabric.with(fabric);
+//        Fabric fabric = new Fabric.Builder(IlyftApplication.this)
+//                .kits(new Crashlytics())
+//                .debuggable(BuildConfig.DEBUG)
+//                .build();
+//
+//        Fabric.with(fabric);
 
     }
 

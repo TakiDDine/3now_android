@@ -41,7 +41,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.login.LoginManager;
@@ -75,7 +74,7 @@ import de.threenow.Utils.CustomTypefaceSpan;
 import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.ResponseListener;
 import de.threenow.Utils.Utilities;
-import io.fabric.sdk.android.Fabric;
+//import io.fabric.sdk.android.Fabric;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         if (SharedHelper.getKey(context, "login_by").equals("facebook"))
             FacebookSdk.sdkInitialize(getApplicationContext());
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         Log.e("language3", Locale.getDefault().getDisplayLanguage());
         setContentView(R.layout.activity_main);
 
@@ -136,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements
             notificationMsg = intent.getExtras().getString("Notification");
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(MainActivity.this);
-        Crashlytics.getInstance();
 
         mHandler = new Handler();
         drawer = findViewById(R.id.drawer_layout);

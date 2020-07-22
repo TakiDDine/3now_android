@@ -36,7 +36,6 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -90,7 +89,6 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(() -> {
 //        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             firebaseAnalytics = FirebaseAnalytics.getInstance(SplashScreen.this);
-            Crashlytics.getInstance();
 //        Crashlytics.getInstance().crash();
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             final NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
