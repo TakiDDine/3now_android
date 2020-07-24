@@ -730,7 +730,7 @@
                                 android:text="@string/promocode"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12sdp"
-                                android:visibility="gone" />
+                                android:visibility="visible" />
 
                             <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="wrap_content"

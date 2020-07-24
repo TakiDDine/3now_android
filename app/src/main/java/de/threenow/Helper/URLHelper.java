@@ -80,4 +80,8 @@ public class URLHelper {
     public static final String ChatGetMessage = base + "api/user/firebase/getChat?request_id=";
     public static final String GET_USER_CHAT_LIST = base + "api/user/firebase/chatHistory";
     public static final String NOTIFICATION_URL = base + "api/user/notification";
+
+    // Coupon
+    public static final String COUPON_VERIFY = base + "api/user/coupon/verfiy"; // parameters: 1.user_id  2.coupon
+
 }

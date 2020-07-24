@@ -163,6 +163,7 @@ import retrofit2.Callback;
 
 import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 import static de.threenow.IlyftApplication.trimMessage;
+import static de.threenow.Utils.GlobalDataMethods.coupon_gd_str;
 
 //import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
@@ -764,8 +765,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 }
             } else if (p_m.length() > 0 && p_m.equalsIgnoreCase("cash")) {
                 lblPaymentType.setText(getString(R.string.cash));
-            } else if (p_m.length() > 0)
-            {
+            } else if (p_m.length() > 0) {
                 lblPaymentType.setText(p_m);
             }
         } catch (Exception e) {
@@ -821,6 +821,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
             location.setLatitude(52.5379986);
             location.setLongitude(13.3640841);
+
         }
 
         if (marker != null) {
@@ -2124,6 +2125,10 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             } else {
                 object.put("payment_mode", SharedHelper.getKey(context, "payment_mode"));
                 object.put("card_id", SharedHelper.getKey(context, "card_id"));
+            }
+
+            if (coupon_gd_str.length() > 0) {
+                object.put("promo_code", coupon_gd_str);
             }
 
             utils.print("SendRequestInput", "" + object.toString());

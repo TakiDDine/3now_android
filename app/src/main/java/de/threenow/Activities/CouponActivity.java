@@ -38,6 +38,7 @@ import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.Helper.URLHelper;
 import de.threenow.R;
+import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.Utilities;
 
 import org.json.JSONArray;
@@ -100,12 +101,92 @@ public class CouponActivity extends AppCompatActivity {
                 if (coupon_et.getText().toString().isEmpty()) {
                     Toast.makeText(CouponActivity.this, getResources().getString(R.string.enter_a_coupon), Toast.LENGTH_SHORT).show();
                 } else {
-                    sendToServer();
+                    sendToServerCoupon();
                 }
             }
         });
 
-        getCoupon();
+//        getCoupon();
+    }
+
+    private void sendToServerCoupon() {
+
+        customDialog = new CustomDialog(context);
+        customDialog.setCancelable(false);
+        if (customDialog != null)
+            customDialog.show();
+
+        JsonObject json = new JsonObject();
+        json.addProperty("user_id", SharedHelper.getKey(CouponActivity.this,"id"));
+        json.addProperty("coupon", coupon_et.getText().toString());
+
+        Ion.with(this)
+                .load(URLHelper.COUPON_VERIFY)
+                .addHeader("X-Requested-With", "XMLHttpRequest")
+                .addHeader("Authorization", SharedHelper.getKey(CouponActivity.this, "token_type") + " " + session_token)
+                .setJsonObjectBody(json)
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> response) {
+                        try {
+                            if ((customDialog != null) && (customDialog.isShowing()))
+                                customDialog.dismiss();
+                            // response contains both the headers and the string result
+                            if (e != null) {
+                                if (e instanceof NetworkErrorException) {
+                                    displayMessage(getString(R.string.oops_connect_your_internet));
+                                }
+                                if (e instanceof TimeoutException) {
+                                    sendToServerCoupon();
+                                }
+                                return;
+                            }
+                            if (response.getHeaders().code() == 200) {
+                                utils.print("AddCouponRes", "" + response.getResult());
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.getResult());
+
+                                    if (jsonObject.optString("success").equals("coupon available")) {
+                                        GlobalDataMethods.coupon_gd_str = coupon_et.getText().toString();
+                                        Intent intent = new Intent();
+                                        setResult(RESULT_OK, intent);
+
+                                        Toast.makeText(CouponActivity.this, getString(R.string.coupon_added), Toast.LENGTH_SHORT).show();
+                                        finish();
+//                                        couponListCardView.setVisibility(View.GONE);
+//                                        getCoupon();
+                                    }
+
+//                                    else if (jsonObject.optString("code").equals("promocode_expired")) {
+//                                        Toast.makeText(CouponActivity.this, getString(R.string.expired_coupon), Toast.LENGTH_SHORT).show();
+//                                    } else if (jsonObject.optString("code").equals("promocode_already_in_use")) {
+//                                        Toast.makeText(CouponActivity.this, getString(R.string.already_in_use_coupon), Toast.LENGTH_SHORT).show();
+//                                    }
+
+                                    else {
+                                        Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                            } else {
+                                if ((customDialog != null) && (customDialog.isShowing()))
+                                    customDialog.dismiss();
+                                utils.print("AddCouponErr", "" + response.getResult());
+                                if (response.getHeaders().code() == 401) {
+                                    refreshAccessToken("SEND_TO_SERVER");
+                                } else
+                                    Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+
     }
 
     private void sendToServer() {
@@ -197,9 +278,9 @@ public class CouponActivity extends AppCompatActivity {
                 SharedHelper.putKey(context, "refresh_token", response.optString("refresh_token"));
                 SharedHelper.putKey(context, "token_type", response.optString("token_type"));
                 if (tag.equalsIgnoreCase("SEND_TO_SERVER")) {
-                    sendToServer();
+                    sendToServerCoupon();
                 } else {
-                    getCoupon();
+//                    getCoupon();
                 }
             }
         }, new com.android.volley.Response.ErrorListener() {

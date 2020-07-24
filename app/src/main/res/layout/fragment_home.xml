@@ -2131,12 +2131,16 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginRight="@dimen/_5sdp"
+                        android:background="@drawable/border_stroke_black"
                         android:gravity="center"
+                        android:paddingLeft="@dimen/_4sdp"
+                        android:paddingRight="@dimen/_4sdp"
                         android:text="@string/promo_code"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_text_color"
                         android:textSize="@dimen/_12sdp"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <de.threenow.Utils.MyBoldTextView
                         android:layout_width="wrap_content"
