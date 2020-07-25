@@ -32,4 +32,5 @@
     <color name="title_separator">#40ffffff</color>
     <color name="blue">#307DD4</color>
     <color name="blue_ligt">#3EBAEC</color>
+    <color name="blue_pay">#307DD4</color>
 </resources>

@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="de.threenow.Activities.AddCard"
-    android:background="#307DD4">
+    android:background="@color/blue_pay">
 
        <LinearLayout
-           android:layout_marginTop="@dimen/_20sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/_10sdp"
