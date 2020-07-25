@@ -7,6 +7,22 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -19,27 +35,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
-
-//import com.stripe.android.Stripe;
-//import com.stripe.android.TokenCallback;
-//import com.stripe.android.model.BankAccount;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import de.threenow.Constants.NewPaymentListAdapter;
 import de.threenow.Helper.ConnectionHelper;
 import de.threenow.Helper.CustomDialog;
@@ -50,19 +55,13 @@ import de.threenow.IlyftApplication;
 import de.threenow.Models.CardDetails;
 import de.threenow.Models.CardInfo;
 import de.threenow.R;
-
 import de.threenow.Utils.Utilities;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
 import static de.threenow.IlyftApplication.trimMessage;
+
+//import com.stripe.android.Stripe;
+//import com.stripe.android.TokenCallback;
+//import com.stripe.android.model.BankAccount;
 
 public class Payment extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -79,7 +78,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
     Utilities utils = new Utilities();
     JSONObject deleteCard = new JSONObject();
     RadioButton chkPayPal;
-    LinearLayout cashLayout,payPal_layout;
+    LinearLayout cashLayout, payPal_layout;
     LinearLayout layoutStripe;
     //Internet
     ConnectionHelper helper;
@@ -95,10 +94,10 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.blue_add_pay));
+            getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.white));
         }
         setContentView(R.layout.activity_payment);
         context = Payment.this;
@@ -120,12 +119,12 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
         cashLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedHelper.putKey(Payment.this,"selectedPaymentMode","CASH");
-                CardInfo cardInfo=new CardInfo();
+                SharedHelper.putKey(Payment.this, "selectedPaymentMode", "CASH");
+                CardInfo cardInfo = new CardInfo();
                 cardInfo.setLastFour("CASH");
-                Intent intent=new Intent();
-                intent.putExtra("card_info",cardInfo);
-                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("card_info", cardInfo);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -134,16 +133,24 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    JSONObject object = new JSONObject(listItems.get(position).toString());
-                    SharedHelper.putKey(Payment.this,"selectedPaymentMode","STRIPE");
-                    CardInfo cardInfo=new CardInfo();
-                    cardInfo.setLastFour(object.optString("last_four"));
-                    cardInfo.setCardId(object.optString("card_id"));
-                    cardInfo.setCardType(object.optString("brand"));
-                    Intent intent=new Intent();
-                    intent.putExtra("card_info",cardInfo);
-                    setResult(RESULT_OK,intent);
-                    finish();
+                    if (deleteClick) {
+                        deleteClick = false;
+                        JSONObject object = new JSONObject(new Gson().toJson(paymentAdapter.getItem(position)));
+                        utils.print("MyTest", "" + paymentAdapter.getItem(position));
+                        DeleteCardDailog(object);
+                    } else {
+
+                        JSONObject object = new JSONObject(listItems.get(position).toString());
+                        SharedHelper.putKey(Payment.this, "selectedPaymentMode", "STRIPE");
+                        CardInfo cardInfo = new CardInfo();
+                        cardInfo.setLastFour(object.optString("last_four"));
+                        cardInfo.setCardId(object.optString("card_id"));
+                        cardInfo.setCardType(object.optString("brand"));
+                        Intent intent = new Intent();
+                        intent.putExtra("card_info", cardInfo);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -155,7 +162,9 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
-                    JSONObject object = new JSONObject(paymentAdapter.getItem(i).toString());
+//                    Toast.makeText(context, "x", Toast.LENGTH_SHORT).show();
+                    Log.e("111", new Gson().toJson(paymentAdapter.getItem(i)) + "");
+                    JSONObject object = new JSONObject(new Gson().toJson(paymentAdapter.getItem(i)));
                     utils.print("MyTest", "" + paymentAdapter.getItem(i));
                     DeleteCardDailog(object);
                 } catch (JSONException e) {
@@ -165,20 +174,29 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
             }
         });
     }
-    public void callRadio(int pos){
+
+    public void clikDelete(View view, int i, long id) {
+//        Toast.makeText(context, "c", Toast.LENGTH_SHORT).show();
+        deleteClick = true;
+        payment_list_view.performItemClick(view, i, id);
+    }
+
+    boolean deleteClick = false;
+
+    public void callRadio(int pos) {
         try {
 
 
             JSONObject object = new JSONObject(listItems.get(pos).toString());
 
-            SharedHelper.putKey(Payment.this,"selectedPaymentMode","STRIPE");
-            CardInfo cardInfo=new CardInfo();
+            SharedHelper.putKey(Payment.this, "selectedPaymentMode", "STRIPE");
+            CardInfo cardInfo = new CardInfo();
             cardInfo.setLastFour(object.optString("last_four"));
             cardInfo.setCardId(object.optString("card_id"));
             cardInfo.setCardType(object.optString("brand"));
-            Intent intent=new Intent();
-            intent.putExtra("card_info",cardInfo);
-            setResult(RESULT_OK,intent);
+            Intent intent = new Intent();
+            intent.putExtra("card_info", cardInfo);
+            setResult(RESULT_OK, intent);
             finish();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -224,8 +242,11 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
                 utils.print("SendRequestResponse", response.toString());
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
-                getCardList();
-                deleteCard = new JSONObject();
+
+                recreate();
+//                getCardList();
+//                deleteCard = new JSONObject();
+
             }
 
         }, new Response.ErrorListener() {
@@ -325,7 +346,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
                         cardArrayList.add(card);
                     }
 
-                    Log.v("cardArrayList", cardArrayList+"onResponse: " + cardArrayList.size()+"");
+                    Log.v("cardArrayList", cardArrayList + "onResponse: " + cardArrayList.size() + "");
 
                     paymentAdapter = new NewPaymentListAdapter(context, cardArrayList, activity);
                     payment_list_view.setAdapter(paymentAdapter);
@@ -337,12 +358,26 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
                 }
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
+
+                try {
+                    paymentAdapter.notifyDataSetChanged();
+
+                } catch (Exception r) {
+                    r.printStackTrace();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
+                try {
+                    if ((customDialog != null) && (customDialog.isShowing()))
+                        customDialog.dismiss();
+
+                    utils.print("GetPaymentList", error.getMessage().toString());
+                } catch (Exception r) {
+                    r.printStackTrace();
+                }
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
@@ -492,7 +527,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
         layoutStripe = findViewById(R.id.layoutStripe);
         chkPayPal = findViewById(R.id.chkPayPal);
         backArrow = (ImageView) findViewById(R.id.backArrow);
-        addCard =  findViewById(R.id.addCard);
+        addCard = findViewById(R.id.addCard);
         payment_list_view = (ListView) findViewById(R.id.payment_list_view);
 //        empty_text =  findViewById(R.id.empty_text);
         helper = new ConnectionHelper(context);
@@ -503,28 +538,24 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
         payPal_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedHelper.putKey(Payment.this,"selectedPaymentMode","PAYPAL");
-                CardInfo cardInfo=new CardInfo();
+                SharedHelper.putKey(Payment.this, "selectedPaymentMode", "PAYPAL");
+                CardInfo cardInfo = new CardInfo();
                 cardInfo.setLastFour("PAYPAL");
-                Intent intent=new Intent();
-                intent.putExtra("card_info",cardInfo);
-                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("card_info", cardInfo);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
-        if (SharedHelper.getKey(Payment.this,"selectedPaymentMode")
-                .equalsIgnoreCase("STRIPE"))
-        {
+        if (SharedHelper.getKey(Payment.this, "selectedPaymentMode")
+                .equalsIgnoreCase("STRIPE")) {
 
-        }
-        else if (SharedHelper.getKey(Payment.this,"selectedPaymentMode")
-                .equalsIgnoreCase("PAYPAL"))
-        {
+        } else if (SharedHelper.getKey(Payment.this, "selectedPaymentMode")
+                .equalsIgnoreCase("PAYPAL")) {
 
 
             chkPayPal.setChecked(true);
-        }
-        else {
+        } else {
 
         }
         chkPayPal.setOnCheckedChangeListener(this);
@@ -559,6 +590,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
         Intent mainIntent = new Intent(activity, AddCard.class);
         startActivityForResult(mainIntent, ADD_CARD_CODE);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -574,14 +606,13 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView.getId()==R.id.chkPayPal)
-        {
-            SharedHelper.putKey(Payment.this,"selectedPaymentMode","PAYPAL");
-            CardInfo cardInfo=new CardInfo();
+        if (buttonView.getId() == R.id.chkPayPal) {
+            SharedHelper.putKey(Payment.this, "selectedPaymentMode", "PAYPAL");
+            CardInfo cardInfo = new CardInfo();
             cardInfo.setLastFour("PAYPAL");
-            Intent intent=new Intent();
-            intent.putExtra("card_info",cardInfo);
-            setResult(RESULT_OK,intent);
+            Intent intent = new Intent();
+            intent.putExtra("card_info", cardInfo);
+            setResult(RESULT_OK, intent);
             finish();
         }
 
@@ -603,7 +634,7 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 //    private final int ADD_CARD_CODE = 435;
 //    Activity activity;
 //    Context context;

@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_20sdp"
             android:id="@+id/backArrow"
             android:layout_width="@dimen/_34sdp"
@@ -43,9 +43,9 @@
         android:layout_below="@+id/layoutTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/_25sdp"
+        android:paddingStart="@dimen/_15sdp"
         android:layout_marginTop="@dimen/_42sdp"
-        android:paddingEnd="@dimen/_25sdp"
+        android:paddingEnd="@dimen/_15sdp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView

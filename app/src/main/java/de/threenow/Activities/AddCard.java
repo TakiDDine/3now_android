@@ -9,7 +9,6 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -286,6 +285,7 @@ public class AddCard extends AppCompatActivity {
                     if (e != null)
                         Log.e("addcardexception", e.getMessage() + "");
                     Log.e("cardresponse", response.getResult() + "");
+
                     // response contains both the headers and the string result
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
@@ -320,6 +320,18 @@ public class AddCard extends AppCompatActivity {
                         } else if (response.getHeaders().code() == 401) {
                             customDialog.dismiss();
                             refreshAccessToken();
+                        }
+                        try {
+
+                            if (response.getResult().length() > 0) {
+
+                                JSONObject tempError = new JSONObject(response.getResult());
+                                String errStr = tempError.getString("error");
+                                if (errStr.length() > 0)
+                                    displayMessage(errStr);
+                            }
+                        } catch (Exception f) {
+                            f.printStackTrace();
                         }
                     }
                 });
