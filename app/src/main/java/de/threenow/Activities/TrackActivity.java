@@ -539,7 +539,15 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @butterknife.OnClick(R.id.btnPayNow)
     void btnPayNowClick() {
-        if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase("CARD")) {
+//        try {
+//            if (SharedHelper.getKey(context, "payment_mode").equals("CARD")) {
+//                lblPaymentTypeInvoice.setText();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase(getString(R.string.card))) {
             payNowCard();
         } else {
             Log.d(TAG, "btnPayNowClick: " + lblTotalPrice.getText().toString());
