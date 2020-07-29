@@ -1,21 +1,19 @@
 package de.threenow.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.squareup.picasso.Picasso;
+
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.R;
-import com.squareup.picasso.Picasso;
-
-import java.util.Locale;
 
 public class FullImage extends AppCompatActivity {
     ImageView imgFull;

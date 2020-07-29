@@ -12,15 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import de.threenow.Models.UserChat;
-import de.threenow.R;
-import de.threenow.Utils.Utils;
-import de.threenow.chat.UserChatActivity;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+
+import de.threenow.Models.UserChat;
+import de.threenow.R;
+import de.threenow.Utils.Utils;
+import de.threenow.chat.UserChatActivity;
 
 public class UserChatListAdapter extends RecyclerView.Adapter<UserChatListAdapter.ViewHolder> {
     private ArrayList<UserChat> userChatArrayList;

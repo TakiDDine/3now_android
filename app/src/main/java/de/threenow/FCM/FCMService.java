@@ -19,15 +19,17 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.List;
+
 import de.threenow.Activities.MainActivity;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.R;
 import de.threenow.calender.Utils;
 import de.threenow.chat.UserChatActivity;
-
-import java.util.List;
 
 public class FCMService extends FirebaseMessagingService {
 

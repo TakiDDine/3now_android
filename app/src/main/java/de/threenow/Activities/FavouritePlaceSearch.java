@@ -18,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
@@ -38,15 +42,6 @@ import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import de.threenow.Constants.AutoCompleteAdapter;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.LocaleManager;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.Models.PlacePredictions;
-import de.threenow.R;
-import de.threenow.Utils.Utilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,12 +51,17 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import de.threenow.Constants.AutoCompleteAdapter;
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.Models.PlacePredictions;
+import de.threenow.R;
+import de.threenow.Utils.Utilities;
 
 import static de.threenow.IlyftApplication.trimMessage;
 

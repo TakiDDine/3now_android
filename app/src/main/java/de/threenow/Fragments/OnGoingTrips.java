@@ -45,7 +45,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import de.threenow.Activities.HistoryDetails;
 import de.threenow.Activities.Login;
 import de.threenow.Helper.ConnectionHelper;
 import de.threenow.Helper.CustomDialog;

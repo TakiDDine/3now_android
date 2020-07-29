@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import de.threenow.Models.PlaceAutoComplete;
-import de.threenow.R;
-
 import java.util.List;
 import java.util.StringTokenizer;
+
+import de.threenow.Models.PlaceAutoComplete;
+import de.threenow.R;
 
 
 

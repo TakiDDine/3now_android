@@ -18,12 +18,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.Locale;
 
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;

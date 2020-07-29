@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,7 @@ public class QuestionandanswerActivity extends AppCompatActivity {
     List<String> listqa;
     HashMap<String, List<String>> listItem;
     qandaAdapter adapter;
+    ImageView backArrow;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -44,6 +46,9 @@ public class QuestionandanswerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_questionandanswer);
 
         setTitle(getString(R.string.questions_and_answers));
+
+        backArrow = findViewById(R.id.backArrow);
+        backArrow.setOnClickListener(view -> finish());
 
         expandableListView = findViewById(R.id.questionandanswer_Listview);
         listqa = new ArrayList<>();

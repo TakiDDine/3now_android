@@ -5,16 +5,13 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.R;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.Locale;
 
 
 public class TermsOfUseActivity extends AppCompatActivity {

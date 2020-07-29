@@ -27,29 +27,28 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
-import de.threenow.Helper.CustomDialog;
-import de.threenow.Helper.LocaleManager;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.R;
 import com.squareup.picasso.Picasso;
-//import com.xiao.nicevideoplayer.NiceVideoPlayer;
-//import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
-//import com.xiao.nicevideoplayer.TxVideoPlayerController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Locale;
-
 
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
+import de.threenow.Helper.CustomDialog;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.R;
 
 import static de.threenow.IlyftApplication.trimMessage;
+
+//import com.xiao.nicevideoplayer.NiceVideoPlayer;
+//import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
+//import com.xiao.nicevideoplayer.TxVideoPlayerController;
 
 public class NotificationTab extends AppCompatActivity {
     ImageView backArrow;

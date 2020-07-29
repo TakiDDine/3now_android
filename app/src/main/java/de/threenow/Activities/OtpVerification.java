@@ -16,28 +16,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.mukesh.OnOtpCompletionListener;
+import com.mukesh.OtpView;
+
+import java.util.concurrent.TimeUnit;
 
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.R;
-import com.mukesh.OnOtpCompletionListener;
-import com.mukesh.OtpView;
-
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class OtpVerification extends AppCompatActivity implements OnOtpCompletionListener {
     private OtpView otpView;

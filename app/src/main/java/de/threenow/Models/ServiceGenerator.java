@@ -1,11 +1,11 @@
 package de.threenow.Models;
 
 import com.google.gson.GsonBuilder;
-import de.threenow.BuildConfig;
-import de.threenow.Helper.URLHelper;
 
 import java.util.concurrent.TimeUnit;
 
+import de.threenow.BuildConfig;
+import de.threenow.Helper.URLHelper;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

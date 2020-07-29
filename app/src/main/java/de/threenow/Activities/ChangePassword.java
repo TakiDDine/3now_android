@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -23,6 +23,14 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import de.threenow.Helper.ConnectionHelper;
 import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.LocaleManager;
@@ -30,13 +38,6 @@ import de.threenow.Helper.SharedHelper;
 import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
 import de.threenow.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 public class ChangePassword extends AppCompatActivity {
     String TAG = "ChangePasswordActivity";

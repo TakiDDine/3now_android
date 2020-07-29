@@ -12,11 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
+import java.util.ArrayList;
+
 import de.threenow.Models.CardDetails;
 import de.threenow.R;
 import de.threenow.Utils.MyTextView;
-
-import java.util.ArrayList;
 
 public class PaymentListAdapter extends ArrayAdapter<CardDetails>{
 

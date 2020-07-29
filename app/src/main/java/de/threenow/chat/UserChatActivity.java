@@ -33,15 +33,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.snackbar.Snackbar;
-import de.threenow.Adapters.ChatAppMsgAdapter;
-import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.LocaleManager;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Helper.URLHelper;
-import de.threenow.IlyftApplication;
-import de.threenow.Models.ChatList;
-import de.threenow.R;
-import de.threenow.Utils.Utils;
 import com.vanniktech.emoji.EmojiEditText;
 import com.vanniktech.emoji.EmojiPopup;
 
@@ -54,8 +45,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+
+import de.threenow.Adapters.ChatAppMsgAdapter;
+import de.threenow.Helper.ConnectionHelper;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.Helper.URLHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.Models.ChatList;
+import de.threenow.R;
+import de.threenow.Utils.Utils;
 
 import static de.threenow.IlyftApplication.trimMessage;
 

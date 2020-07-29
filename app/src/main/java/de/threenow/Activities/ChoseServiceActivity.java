@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;

@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import de.threenow.R;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import de.threenow.R;
 
 public class UserLocationAdapter extends RecyclerView.Adapter<UserLocationAdapter.MyViewHolder>{
 

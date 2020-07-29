@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import de.threenow.Models.CardDetails;
 import de.threenow.R;
 import de.threenow.Utils.MyTextView;
-
-import java.util.List;
 
 
 public class PaymentListAdapterStripe  extends RecyclerView.Adapter<PaymentListAdapterStripe.MyViewHolder> {

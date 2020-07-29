@@ -2,8 +2,9 @@ package de.threenow.Utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import androidx.appcompat.widget.AppCompatEditText;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 public class MyEditText extends AppCompatEditText {
     public MyEditText(Context context) {

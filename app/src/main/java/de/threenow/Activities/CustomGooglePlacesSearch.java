@@ -10,10 +10,6 @@ import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -40,13 +39,6 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.gson.Gson;
-import de.threenow.Constants.AutoCompleteAdapter;
-import de.threenow.Helper.LocaleManager;
-import de.threenow.Helper.SharedHelper;
-import de.threenow.Models.PlacePredictions;
-import de.threenow.R;
-import de.threenow.IlyftApplication;
-import de.threenow.Utils.Utilities;
 
 import org.json.JSONObject;
 
@@ -54,7 +46,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
+
+import de.threenow.Constants.AutoCompleteAdapter;
+import de.threenow.Helper.LocaleManager;
+import de.threenow.Helper.SharedHelper;
+import de.threenow.IlyftApplication;
+import de.threenow.Models.PlacePredictions;
+import de.threenow.R;
+import de.threenow.Utils.Utilities;
 
 public class CustomGooglePlacesSearch extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,

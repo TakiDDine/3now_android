@@ -19,9 +19,10 @@ import android.view.View;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import de.threenow.R;
 
 import java.io.IOException;
+
+import de.threenow.R;
 
 /**
  * Asynchronous task that also takes care of common needs, such as displaying progress,

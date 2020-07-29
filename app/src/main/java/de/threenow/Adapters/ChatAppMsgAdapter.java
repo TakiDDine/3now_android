@@ -7,11 +7,11 @@ import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import de.threenow.R;
-import de.threenow.chat.ChatAppMsgDTO;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import de.threenow.R;
+import de.threenow.chat.ChatAppMsgDTO;
 
 public class ChatAppMsgAdapter extends RecyclerView.Adapter<ChatAppMsgViewHolder> {
 

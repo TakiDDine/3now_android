@@ -74,9 +74,10 @@ import de.threenow.Utils.CustomTypefaceSpan;
 import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.ResponseListener;
 import de.threenow.Utils.Utilities;
-//import io.fabric.sdk.android.Fabric;
 
 import static de.threenow.IlyftApplication.trimMessage;
+
+//import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements
         UserMapFragment.HomeFragmentListener,
