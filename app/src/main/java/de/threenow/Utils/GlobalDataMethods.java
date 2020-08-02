@@ -27,6 +27,7 @@ public class GlobalDataMethods {
     public static String SourceTripeLong = "";
 
     public static String coupon_gd_str = "";
+    public static Double coupon_discount_str = 0d;
 
 
     public static PayPalConfiguration config = new PayPalConfiguration()
@@ -35,7 +36,6 @@ public class GlobalDataMethods {
 
             .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
             .clientId("AfoqsgwA-VGO3SuWQG3q4U63L-ggmL6zze-r30PBP_WkmFIQg8F0bE8FP9g5y410-YrfMce_Hg003s0o");
-
 
 
 }

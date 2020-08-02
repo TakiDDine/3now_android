@@ -1,6 +1,7 @@
 package de.threenow.Fragments;
 
 import android.Manifest;
+import android.accounts.NetworkErrorException;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -15,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -103,7 +105,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.JsonObject;
 import com.google.maps.android.ui.IconGenerator;
+import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.skyfishjy.library.RippleBackground;
 import com.squareup.picasso.Picasso;
@@ -127,6 +131,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -163,6 +168,7 @@ import retrofit2.Callback;
 
 import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 import static de.threenow.IlyftApplication.trimMessage;
+import static de.threenow.Utils.GlobalDataMethods.coupon_discount_str;
 import static de.threenow.Utils.GlobalDataMethods.coupon_gd_str;
 
 //import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -249,7 +255,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     CheckBox chkWallet;
     TextView lblEta, lblDis;
     TextView lblType;
-    TextView lblApproxAmount, surgeDiscount, surgeTxt;
+    TextView lblApproxAmount, lblApproxAmountDiscount, surgeDiscount, surgeTxt;
     View lineView;
     LinearLayout ScheduleLayout;
     TextView scheduleDate;
@@ -524,6 +530,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         lblDis = rootView.findViewById(R.id.lblDis);
         lblType = rootView.findViewById(R.id.lblType);
         lblApproxAmount = rootView.findViewById(R.id.lblApproxAmount);
+        lblApproxAmountDiscount = rootView.findViewById(R.id.lblApproxAmountDiscount);
         surgeDiscount = rootView.findViewById(R.id.surgeDiscount);
         surgeTxt = rootView.findViewById(R.id.surge_txt);
         btnRequestRideConfirm = rootView.findViewById(R.id.btnRequestRideConfirm);
@@ -1576,6 +1583,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         if (requestCode == 0000) {
             if (resultCode == Activity.RESULT_OK) {
                 lblPromo.setText(getResources().getString(R.string.promo_code_applied));
+                getServiceList();
             }
         }
         if (requestCode == 5555) {
@@ -1611,6 +1619,14 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             lblCmfrmSourceAddress.setText(source_address);
             lblCmfrmDestAddress.setText(dest_address);
             lblApproxAmount.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
+
+            if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
+                sendToServerCoupon();
+            }
+
+            lblApproxAmount.setText(SharedHelper.getKey(context, "currency") + SharedHelper.getKey(context, "estimated_fare"));
+
+
             lblEta.setText(SharedHelper.getKey(context, "eta_time") + "");
             lblDis.setText(SharedHelper.getKey(context, "distance") + "km");
             if (!SharedHelper.getKey(context, "name").equalsIgnoreCase("")
@@ -1624,6 +1640,87 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             if ((customDialog != null) && (customDialog.isShowing()))
                 customDialog.dismiss();
         }
+    }
+
+    private void sendToServerCoupon() {
+
+//        customDialog = new CustomDialog(context);
+//        customDialog.setCancelable(false);
+//        if (customDialog != null)
+//            customDialog.show();
+
+        JsonObject json = new JsonObject();
+        json.addProperty("user_id", SharedHelper.getKey(context, "id"));
+        json.addProperty("coupon", GlobalDataMethods.coupon_gd_str);
+
+        Ion.with(this)
+                .load(URLHelper.COUPON_VERIFY)
+                .addHeader("X-Requested-With", "XMLHttpRequest")
+                .addHeader("Authorization", SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"))
+                .setJsonObjectBody(json)
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
+                        try {
+                            if ((customDialog != null) && (customDialog.isShowing()))
+                                customDialog.dismiss();
+                            // response contains both the headers and the string result
+                            if (e != null) {
+                                if (e instanceof NetworkErrorException) {
+                                    displayMessage(getString(R.string.oops_connect_your_internet));
+                                }
+                                if (e instanceof TimeoutException) {
+                                    sendToServerCoupon();
+                                }
+                                return;
+                            }
+                            if (response.getHeaders().code() == 200) {
+                                utils.print("AddCouponRes", "" + response.getResult());
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.getResult());
+
+                                    if (jsonObject.optString("success").equals("coupon available")) {
+                                        lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                                        double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
+                                                - (GlobalDataMethods.coupon_discount_str);
+
+                                        if (discount < 0) {
+                                            discount = 0;
+                                        }
+                                        lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
+                                                String.format(Locale.ENGLISH, "%.2f", discount));
+                                        lblApproxAmountDiscount.setVisibility(View.VISIBLE);
+
+                                    } else {// coupoun used
+                                        coupon_gd_str = "";
+                                        coupon_discount_str = 0d;
+                                        lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                                        lblApproxAmountDiscount.setText("");
+                                        lblApproxAmountDiscount.setVisibility(View.GONE);
+                                    }
+
+
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                            } else {
+
+                                utils.print("AddCouponErr", "" + response.getResult());
+                                if (response.getHeaders().code() == 401) {
+                                    refreshAccessToken("SEND_TO_SERVER");
+                                }
+//                                else
+//                                    Toast.makeText(context, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+
     }
 
     private void getCards() {
@@ -2886,7 +2983,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
-    public void getNewApproximateFare(String service_type1, final MyTextView view) {
+    public void getNewApproximateFare(String service_type1, final MyTextView view, MyTextView serviceItemPriceCoupon) {
         scheduledDate = "";
         scheduledTime = "";
         JSONObject object = new JSONObject();
@@ -2920,6 +3017,24 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                         double wallet_balance = response.optDouble("wallet_balance");
                                         SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
                                         view.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
+                                        if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
+                                            view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                                            double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
+                                                    - (GlobalDataMethods.coupon_discount_str);
+
+                                            if (discount < 0) {
+                                                discount = 0;
+                                            }
+                                            serviceItemPriceCoupon.setText(SharedHelper.getKey(context, "currency") + "" +
+                                                    String.format(Locale.ENGLISH, "%.2f", discount));
+                                        } else {
+                                            view.setPaintFlags(view.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                                            serviceItemPriceCoupon.setText("");
+
+                                        }
+
+
                                     }
                                 }
                             }
@@ -2942,6 +3057,19 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
 
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        try {
+
+            if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
+                sendToServerCoupon();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void startAnim(ArrayList<LatLng> routeList) {
@@ -2987,6 +3115,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onConnectionSuspended(int i) {
 
     }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -4003,7 +4132,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
             if (position == 0) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice);
+                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
                 Picasso.get().load(URLHelper.base + "/8/" + jsonArray
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car1)
@@ -4013,7 +4142,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
             if (position == 1) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice);
+                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
 
 
                 Picasso.get().cancelRequest(holder.serviceImg);
@@ -4027,7 +4156,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
             if (position == 2) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice);
+                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
                 Picasso.get().load(URLHelper.base + "/8/" + jsonArray
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car23)
@@ -4036,11 +4165,11 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
             if (position == 3) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice);
+                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
             }
             if (position == 4) {
                 getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice);
+                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
             }
 
 
@@ -4102,7 +4231,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
             TextView serviceItem, serviceCapacity, bagCapacity;
-            MyTextView serviceItemPrice;
+            MyTextView serviceItemPrice, serviceItemPriceCoupon;
             ImageView serviceImg;
             LinearLayout linearLayoutOfList;
             FrameLayout selector_background;
@@ -4116,6 +4245,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 linearLayoutOfList = itemView.findViewById(R.id.LinearLayoutOfList);
                 selector_background = itemView.findViewById(R.id.selector_background);
                 serviceItemPrice = itemView.findViewById(R.id.serviceItemPrice);
+                serviceItemPriceCoupon = itemView.findViewById(R.id.serviceItemPriceCoupon);
                 height = itemView.getHeight();
                 width = itemView.getWidth();
             }

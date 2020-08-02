@@ -1,6 +1,7 @@
 package de.threenow.Activities;
 
 import android.Manifest;
+import android.accounts.NetworkErrorException;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -99,7 +101,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.google.maps.android.ui.IconGenerator;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
@@ -123,6 +128,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -152,6 +158,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 import static de.threenow.IlyftApplication.trimMessage;
+import static de.threenow.Utils.GlobalDataMethods.coupon_discount_str;
+import static de.threenow.Utils.GlobalDataMethods.coupon_gd_str;
 
 
 public class TrackActivity extends AppCompatActivity implements OnMapReadyCallback,
@@ -839,7 +847,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     Marker providerMarker;
     AlertDialog alert;
     TextView lblPaymentType, txtpaiddriver;
-    TextView lblDis, lblEta, lblApproxAmount, lblCmfrmSourceAddress, lblCmfrmDestAddress;
+    TextView lblDis, lblEta, lblApproxAmount, lblApproxAmountDiscount, lblCmfrmSourceAddress, lblCmfrmDestAddress;
     //Animation
     Animation slide_down, slide_up, slide_up_top, slide_up_down;
     //    MyTextView lblCmfrmSourceAddress, lblCmfrmDestAddress;
@@ -901,6 +909,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         lblDis = findViewById(R.id.lblDis);
         lblEta = findViewById(R.id.lblEta);
         lblApproxAmount = findViewById(R.id.lblApproxAmount);
+        lblApproxAmountDiscount = findViewById(R.id.lblApproxAmountDiscount);
         lblCmfrmSourceAddress = findViewById(R.id.lblCmfrmSourceAddress);
         lblCmfrmDestAddress = findViewById(R.id.lblCmfrmDestAddress);
 
@@ -2410,7 +2419,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
 //                                                lblDis.setText(service_type.optString("distance")+" km");
 //                                                lblEta.setText(service_type.optString("minute")+" min");
-                                                lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
+
+                                                setPricesIfDiscount(service_type.optString("fixed"));
+
 
                                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                                 lblCmfrmDestAddress.setText(dropLocationName);
@@ -2464,7 +2475,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
 //                                                lblDis.setText(service_type.optString("distance")+" km");
 //                                                lblEta.setText(service_type.optString("minute")+" min");
-                                                lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
+//                                                lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
+                                                setPricesIfDiscount(service_type.optString("fixed"));
 
                                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                                 lblCmfrmDestAddress.setText(dropLocationName);
@@ -2511,7 +2523,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
 //                                                lblDis.setText(service_type.optString("distance")+" km");
 //                                                lblEta.setText(service_type.optString("minute")+" min");
-                                                lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
+//                                                lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
+                                                setPricesIfDiscount(service_type.optString("fixed"));
                                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                                 lblCmfrmDestAddress.setText(dropLocationName);
 
@@ -2800,6 +2813,113 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
+    private void setPricesIfDiscount(String fixed) {
+
+        lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + fixed);
+        sendToServerCoupon();
+
+//        if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
+//            lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//
+//            double discount = Double.parseDouble(fixed)
+//                    - (GlobalDataMethods.coupon_discount_str);
+//
+//            if (discount < 0) {
+//                discount = 0;
+//            }
+//            lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
+//                    String.format(Locale.ENGLISH, "%.2f", discount));
+//            lblApproxAmountDiscount.setVisibility(View.VISIBLE);
+//        } else {
+//            lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+//            lblApproxAmountDiscount.setText("");
+//            lblApproxAmountDiscount.setVisibility(View.GONE);
+//
+//        }
+
+    }
+
+    private void sendToServerCoupon() {
+
+//        customDialog = new CustomDialog(context);
+//        customDialog.setCancelable(false);
+//        if (customDialog != null)
+//            customDialog.show();
+
+        JsonObject json = new JsonObject();
+        json.addProperty("user_id", SharedHelper.getKey(context, "id"));
+        json.addProperty("coupon", GlobalDataMethods.coupon_gd_str);
+
+        Ion.with(this)
+                .load(URLHelper.COUPON_VERIFY)
+                .addHeader("X-Requested-With", "XMLHttpRequest")
+                .addHeader("Authorization", SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"))
+                .setJsonObjectBody(json)
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
+                        try {
+                            if ((customDialog != null) && (customDialog.isShowing()))
+                                customDialog.dismiss();
+                            // response contains both the headers and the string result
+                            if (e != null) {
+                                if (e instanceof NetworkErrorException) {
+                                    displayMessage(getString(R.string.oops_connect_your_internet));
+                                }
+                                if (e instanceof TimeoutException) {
+                                    sendToServerCoupon();
+                                }
+                                return;
+                            }
+                            if (response.getHeaders().code() == 200) {
+                                utils.print("AddCouponRes", "" + response.getResult());
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.getResult());
+
+                                    if (jsonObject.optString("success").equals("coupon available")) {
+                                        lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                                        double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
+                                                - (GlobalDataMethods.coupon_discount_str);
+
+                                        if (discount < 0) {
+                                            discount = 0;
+                                        }
+                                        lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
+                                                String.format(Locale.ENGLISH, "%.2f", discount));
+                                        lblApproxAmountDiscount.setVisibility(View.VISIBLE);
+
+                                    } else {// coupoun used
+                                        coupon_gd_str = "";
+                                        coupon_discount_str = 0d;
+                                        lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                                        lblApproxAmountDiscount.setText("");
+                                        lblApproxAmountDiscount.setVisibility(View.GONE);
+                                    }
+
+
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                            } else {
+
+                                utils.print("AddCouponErr", "" + response.getResult());
+                                if (response.getHeaders().code() == 401) {
+                                    refreshAccessToken("SEND_TO_SERVER");
+                                }
+//                                else
+//                                    Toast.makeText(context, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+
+    }
+
     public void getDurationForRoute(String driverLat, String driverLong) {
 
 //        LatLng DriverLocation = providerMarker.getPosition();
@@ -2946,7 +3066,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
 //                    lblDis.setText(service_type.optString("distance")+" km");
 //                    lblEta.setText(service_type.optString("minute")+" min");
-                    lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
+//                    lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
+                    setPricesIfDiscount(service_type.optString("fixed"));
 
                     lblCmfrmSourceAddress.setText(pickUpLocationName);
                     lblCmfrmDestAddress.setText(dropLocationName);

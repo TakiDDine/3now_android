@@ -2605,6 +2605,16 @@
                                     android:gravity="end"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/_12sdp" />
+
+                                <TextView
+                                    android:visibility="gone"
+                                    android:id="@+id/lblApproxAmountDiscount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:gravity="end|bottom"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/_12sdp" />
                             </LinearLayout>
 
 

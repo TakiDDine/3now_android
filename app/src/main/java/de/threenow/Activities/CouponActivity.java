@@ -150,6 +150,11 @@ public class CouponActivity extends AppCompatActivity {
 
                                     if (jsonObject.optString("success").equals("coupon available")) {
                                         GlobalDataMethods.coupon_gd_str = coupon_et.getText().toString();
+                                        try {
+                                            GlobalDataMethods.coupon_discount_str = Double.parseDouble(jsonObject.optString("discount"));
+                                        }catch (Exception d){
+                                            GlobalDataMethods.coupon_discount_str = 0d;
+                                        }
                                         Intent intent = new Intent();
                                         setResult(RESULT_OK, intent);
 
