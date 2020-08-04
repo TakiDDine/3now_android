@@ -625,10 +625,11 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                                     // سجل الدفع
                                     Price = response.optString("price") + "";
 
-                                    GlobalDataMethods.newScheduleRequest = true;
-                                    Intent intent = new Intent(context, TrackActivity.class);
-                                    intent.putExtra("flowValue", 3);
-                                    startActivityForResult(intent, 963);
+                                    payNowPaypalOrCard();
+//                                    GlobalDataMethods.newScheduleRequest = true;
+//                                    Intent intent = new Intent(context, TrackActivity.class);
+//                                    intent.putExtra("flowValue", 3);
+//                                    startActivityForResult(intent, 963);
 
                                 }
                             }

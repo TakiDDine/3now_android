@@ -28,7 +28,8 @@ public class URLHelper {
     public static final String ESTIMATED_FARE_DETAILS_API = base + "api/user/estimated/fare";
 
     public static final String SEND_REQUEST_API = base + "api/user/send/request"; // للرحلات الفورية
-    public static final String SEND_REQUEST_API_SCHEDULE = base + "api/user/send/request/schedule"; // للرحلات المجدولة
+    public static final String SEND_REQUEST_API_SCHEDULE = base + "api/user/save/request/schedule"; // للرحلات المجدولة
+//    public static final String SEND_REQUEST_API_SCHEDULE = base + "api/user/send/request/schedule"; // للرحلات المجدولة
 
     // new
     public static final String SEND_REQUEST_API_NEW =  base + "api/new/send/request";
