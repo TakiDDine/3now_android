@@ -502,6 +502,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/_2sdp"
+                            android:visibility="gone"
                             android:orientation="horizontal">
 
                             <de.threenow.Utils.MyBoldTextView
@@ -554,6 +555,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:visibility="gone"
                             android:layout_marginTop="@dimen/_2sdp"
                             android:orientation="horizontal">
 
