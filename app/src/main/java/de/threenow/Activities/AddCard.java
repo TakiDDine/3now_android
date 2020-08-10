@@ -284,7 +284,11 @@ public class AddCard extends AppCompatActivity {
                 .setCallback((e, response) -> {
                     if (e != null)
                         Log.e("addcardexception", e.getMessage() + "");
-                    Log.e("cardresponse", response.getResult() + "");
+                    try {
+                        Log.e("cardresponse", response.getResult() + "");
+                    } catch (Exception d) {
+                        d.printStackTrace();
+                    }
 
                     // response contains both the headers and the string result
                     if ((customDialog != null) && (customDialog.isShowing()))
@@ -416,9 +420,13 @@ public class AddCard extends AppCompatActivity {
 
 
     public void displayMessage(String toastString) {
-        Snackbar.make(getCurrentFocus(), toastString, Snackbar.LENGTH_SHORT)
-                .setAction("Action", null).show();
-        // Toast.makeText(context, ""+toastString, Toast.LENGTH_SHORT).show();
+        try {
+            Snackbar.make(getCurrentFocus(), toastString, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch (Exception e) {
+            Toast.makeText(context, "" + toastString, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     private void refreshAccessToken() {
