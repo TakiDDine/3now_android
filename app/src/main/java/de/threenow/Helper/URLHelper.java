@@ -4,6 +4,7 @@ public class URLHelper {
     //        public static final String base = "http://gocab.97pixelsdev.com/";
     // public static final String base = "http://m-bebataxi.com/";
 //    public static final String base = "http://97pixelsdev.com/ilyft/";
+//    public static final String base = "http://62.171.131.164/";
     public static final String base = "https://www.3now.de/";
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
@@ -11,7 +12,7 @@ public class URLHelper {
     public static final int client_id = 2;
 
     public static final String client_secret = "WifS1rMi3LvuorP1G2UdtKZairUNSH2iMqrKivPf";
-    public static final String STRIPE_TOKEN = "pk_live_gGgW4OJ2ulRDPaIeKBypkJEG00DvqnE8Ml"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
+        public static final String STRIPE_TOKEN = "pk_live_gGgW4OJ2ulRDPaIeKBypkJEG00DvqnE8Ml"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
 //    public static final String STRIPE_TOKEN = "pk_test_69WkPQ5i5k0KwuG08mEazMPO"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
 
 
@@ -22,7 +23,7 @@ public class URLHelper {
     public static final String register = base + "api/user/signup";
     public static final String UserProfile = base + "api/user/details";
     public static final String UseProfileUpdate = base + "api/user/update/profile";
-    public static final String getUserProfileUrl = base + "api/user/details";
+    //    public static final String getUserProfileUrl = base + "api/user/details";
     public static final String GET_SERVICE_LIST_API = base + "api/user/services";
     public static final String REQUEST_STATUS_CHECK_API = base + "api/user/request/check";
     public static final String ESTIMATED_FARE_DETAILS_API = base + "api/user/estimated/fare";

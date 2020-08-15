@@ -176,7 +176,7 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
         if ((customDialog != null))
             customDialog.show();
         Ion.with(this)
-                .load(URLHelper.getUserProfileUrl)
+                .load(URLHelper.UserProfile)
                 .addHeader("X-Requested-With", "XMLHttpRequest")
                 .addHeader("Authorization", SharedHelper.getKey(ActivityWallet.this, "token_type") + " " + session_token)
                 .asString()

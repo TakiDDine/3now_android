@@ -1670,6 +1670,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             Log.e("222", "paymentType: " + paymentType);
 
             object.put("request_id", SharedHelper.getKey(context, "request_id") + "");
+//            object.put("user_id", SharedHelper.getKey(context, "id") + "");
             object.put("total_payment", Price.replace("€", ""));
             if (paymentType.contains("PAYPAL")) {
                 object.put("payment_id", paymentId);
@@ -1684,7 +1685,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_REQUEST_Later_API, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.e("222 onResponse", "PayNowRequestResponse: " + response.toString());
+                Log.e("222__onResponse", "PayNowRequestResponse: " + response.toString());
 
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
@@ -2703,7 +2704,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                utils.displayMessage(findViewById(R.id.imgBack), getString(R.string.something_went_wrong));
+//                                utils.displayMessage(findViewById(R.id.imgBack), getString(R.string.something_went_wrong));
                             }
                         } else if (PreviousStatus.equalsIgnoreCase("SEARCHING")) {
                             SharedHelper.putKey(context, "current_status", "");

@@ -135,6 +135,7 @@ import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import de.threenow.Activities.ChoseServiceActivity;
 import de.threenow.Activities.CouponActivity;
@@ -873,8 +874,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 frmSource.setText(currentAddress);
                 getProvidersList("");
                 value++;
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
+                try {
+                    if ((customDialog != null) && (customDialog.isShowing()))
+                        customDialog.dismiss();
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             updateLocationToAdmin(location.getLatitude() + "", location.getLongitude() + "");
