@@ -135,7 +135,6 @@ import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import de.threenow.Activities.ChoseServiceActivity;
 import de.threenow.Activities.CouponActivity;
@@ -877,7 +876,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 try {
                     if ((customDialog != null) && (customDialog.isShowing()))
                         customDialog.dismiss();
-                }catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -1626,8 +1625,32 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             lblApproxAmount.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
 
             if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
-                sendToServerCoupon();
+
+//                if (jsonObject.optString("success").equals("coupon available")) {
+                lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
+                        - (GlobalDataMethods.coupon_discount_str);
+
+                if (discount < 0) {
+                    discount = 0;
+                }
+                lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
+                        String.format(Locale.ENGLISH, "%.2f", discount));
+                lblApproxAmountDiscount.setVisibility(View.VISIBLE);
+
+            } else {// coupoun used
+                coupon_gd_str = "";
+                coupon_discount_str = 0d;
+                lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                lblApproxAmountDiscount.setText("");
+                lblApproxAmountDiscount.setVisibility(View.GONE);
             }
+
+
+//                Log.e("copoun", "onActivityCreated " +  "if ok..");
+//                sendToServerCoupon();
+//            }
 
             lblApproxAmount.setText(SharedHelper.getKey(context, "currency") + SharedHelper.getKey(context, "estimated_fare"));
 
@@ -1653,7 +1676,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 //        customDialog.setCancelable(false);
 //        if (customDialog != null)
 //            customDialog.show();
-
+        Log.e("coupon_from", "UserMapFrag");
         JsonObject json = new JsonObject();
         json.addProperty("user_id", SharedHelper.getKey(context, "id"));
         json.addProperty("coupon", GlobalDataMethods.coupon_gd_str);
@@ -1687,6 +1710,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                     JSONObject jsonObject = new JSONObject(response.getResult());
 
                                     if (jsonObject.optString("success").equals("coupon available")) {
+                                        ((TextView)rootView.findViewById(R.id.lblPromo)).setText(getResources().getString(R.string.promo_code_applied));
+
                                         lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
                                         double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
@@ -1698,6 +1723,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                         lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
                                                 String.format(Locale.ENGLISH, "%.2f", discount));
                                         lblApproxAmountDiscount.setVisibility(View.VISIBLE);
+
 
                                     } else {// coupoun used
                                         coupon_gd_str = "";

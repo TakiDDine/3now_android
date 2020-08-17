@@ -120,6 +120,7 @@ public class CouponActivity extends AppCompatActivity {
         json.addProperty("user_id", SharedHelper.getKey(CouponActivity.this,"id"));
         json.addProperty("coupon", coupon_et.getText().toString());
 
+        Log.e("coupon_from", "CouponActivity");
         Ion.with(this)
                 .load(URLHelper.COUPON_VERIFY)
                 .addHeader("X-Requested-With", "XMLHttpRequest")

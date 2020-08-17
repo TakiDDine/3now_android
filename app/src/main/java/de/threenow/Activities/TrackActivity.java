@@ -2846,6 +2846,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //        customDialog.setCancelable(false);
 //        if (customDialog != null)
 //            customDialog.show();
+        Log.e("coupon_from", "TrackActivity");
 
         JsonObject json = new JsonObject();
         json.addProperty("user_id", SharedHelper.getKey(context, "id"));

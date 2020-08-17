@@ -4,7 +4,7 @@ public class URLHelper {
     //        public static final String base = "http://gocab.97pixelsdev.com/";
     // public static final String base = "http://m-bebataxi.com/";
 //    public static final String base = "http://97pixelsdev.com/ilyft/";
-//    public static final String base = "http://62.171.131.164/";
+//    public static final String base = "https://3now-test.com/";
     public static final String base = "https://www.3now.de/";
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
@@ -12,7 +12,7 @@ public class URLHelper {
     public static final int client_id = 2;
 
     public static final String client_secret = "WifS1rMi3LvuorP1G2UdtKZairUNSH2iMqrKivPf";
-        public static final String STRIPE_TOKEN = "pk_live_gGgW4OJ2ulRDPaIeKBypkJEG00DvqnE8Ml"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
+    public static final String STRIPE_TOKEN = "pk_live_gGgW4OJ2ulRDPaIeKBypkJEG00DvqnE8Ml"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
 //    public static final String STRIPE_TOKEN = "pk_test_69WkPQ5i5k0KwuG08mEazMPO"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
 
 
@@ -33,14 +33,14 @@ public class URLHelper {
 //    public static final String SEND_REQUEST_API_SCHEDULE = base + "api/user/send/request/schedule"; // للرحلات المجدولة
 
     // new
-    public static final String SEND_REQUEST_API_NEW =  base + "api/new/send/request";
+    public static final String SEND_REQUEST_API_NEW = base + "api/new/send/request";
     public static final String SEND_REQUEST_Later_API = base + "api/user/save/later";// للرحلات المجدولة
 
     public static final String PAY_REQUEST_Later_API = base + "api/user/request/paied"; // دفع للرحلة الفورية
     public static final String PAY_REQUEST_schedule_API = base + "api/user/send/payement/schedule"; // دفع للرحلة المجدولة
 
     //new
-    public static final String SEND_EMAIL_API_NEW =  base + "api/user/send/email";
+    public static final String SEND_EMAIL_API_NEW = base + "api/user/send/email";
 
     public static final String VALIDZONE = base + "api/user/getvalidzone";
     public static final String CANCEL_REQUEST_API = base + "api/user/cancel/request";
