@@ -49,11 +49,14 @@ public class FCMService extends FirebaseMessagingService {
         Log.d(Tag, remoteMessage.getData().toString());
         Log.v(Tag+"Image", remoteMessage.getNotification().getImageUrl()+" ");
         String msg_type = remoteMessage.getNotification().getTitle();
+        Log.d(Tag, msg_type);
         if(msg_type!=null) {
+            Log.d(Tag, "!=null");
             if (msg_type.equalsIgnoreCase("chat")) {
-
+                Log.d(Tag, "msg_type == chat");
+                Log.d(Tag, getTopAppName() + "");
             if (getTopAppName().equals(UserChatActivity.class.getName())) {
-
+                Log.d(Tag,  "if");
                 Intent intent = new Intent();
                 intent.putExtra("message", remoteMessage.getNotification().getBody());
                 intent.setAction("com.my.app.onMessageReceived");
@@ -61,6 +64,7 @@ public class FCMService extends FirebaseMessagingService {
                 Log.v(Tag + "message", remoteMessage.getNotification().getImageUrl()+" ");
 
             } else {
+                Log.d(Tag,  "else");
                 handleNotification(remoteMessage);
             }
             }

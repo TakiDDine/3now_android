@@ -273,6 +273,7 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                     Toast.makeText(EditProfile.this, getString(R.string.update_success), Toast.LENGTH_SHORT).show();
                     //displayMessage(getString(R.string.update_success));
 
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     displayMessage(getString(R.string.something_went_wrong));
@@ -552,6 +553,13 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK );
+        startActivity(intent);
+
+//        android.os.Process.killProcess(android.os.Process.myPid());
+//        System.exit(0);
+
         super.onBackPressed();
         finish();
     }

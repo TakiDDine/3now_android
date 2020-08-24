@@ -221,48 +221,45 @@ public class UserChatActivity extends AppCompatActivity {
 
         ImageButton msgSendButton = findViewById(R.id.btnSend);
 
-        msgSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String msgContent = msgInputText.getText().toString();
-                if (!TextUtils.isEmpty(msgContent)) {
-                    // Add a new sent message to the list.
-                    Calendar c = Calendar.getInstance();
-                    System.out.println("Current time => " + c.getTime());
+        msgSendButton.setOnClickListener(view -> {
+            String msgContent = msgInputText.getText().toString();
+            if (!TextUtils.isEmpty(msgContent)) {
+                // Add a new sent message to the list.
+                Calendar c = Calendar.getInstance();
+                System.out.println("Current time => " + c.getTime());
 
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String formattedDate = df.format(c.getTime());
-                    ChatAppMsgDTO msgDto = new ChatAppMsgDTO(ChatAppMsgDTO.MSG_TYPE_SENT, msgContent, formattedDate + "");
-                    msgDtoList.add(msgDto);
-                    getChatDetailsu_p(msgContent);
-                    int newMsgPosition = msgDtoList.size() - 1;
-                    // Notify recycler view insert one new data.
-                    try {
-                        chatAppMsgAdapter = new ChatAppMsgAdapter(msgDtoList);
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String formattedDate = df.format(c.getTime());
+                ChatAppMsgDTO msgDto = new ChatAppMsgDTO(ChatAppMsgDTO.MSG_TYPE_SENT, msgContent, formattedDate + "");
+                msgDtoList.add(msgDto);
+                getChatDetailsu_p(msgContent);
+                int newMsgPosition = msgDtoList.size() - 1;
+                // Notify recycler view insert one new data.
+                try {
+                    chatAppMsgAdapter = new ChatAppMsgAdapter(msgDtoList);
 
-                        // Set data adapter to RecyclerView.
-                        recyclerChat.setAdapter(chatAppMsgAdapter);
-                        recyclerChat.scrollToPosition(chatAppMsgAdapter.getItemCount() - 1);
-                        chatAppMsgAdapter.notifyItemInserted(newMsgPosition);
-                        // Scroll RecyclerView to the last message.
-                        recyclerChat.scrollToPosition(newMsgPosition);
+                    // Set data adapter to RecyclerView.
+                    recyclerChat.setAdapter(chatAppMsgAdapter);
+                    recyclerChat.scrollToPosition(chatAppMsgAdapter.getItemCount() - 1);
+                    chatAppMsgAdapter.notifyItemInserted(newMsgPosition);
+                    // Scroll RecyclerView to the last message.
+                    recyclerChat.scrollToPosition(newMsgPosition);
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            InputMethodManager inputManager = (InputMethodManager) activity
-                                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-                            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                                    InputMethodManager.HIDE_NOT_ALWAYS);
-                        }
-                    }, 300);
-                    // Empty the input edit text box.
-                    msgInputText.setText("");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager inputManager = (InputMethodManager) activity
+                                .getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                                InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                }, 300);
+                // Empty the input edit text box.
+                msgInputText.setText("");
             }
         });
 
@@ -649,6 +646,8 @@ public class UserChatActivity extends AppCompatActivity {
             url = URLHelper.ChatGetMessage + SharedHelper.getKey(context, "current_chat_request_id") + "&message=" + message + "&provider_id=" + SharedHelper.getKey(context, "current_chat_provider_id") +
                     "&user_id=" + SharedHelper.getKey(context, "current_chat_user_id") + "&type=up";
         }
+
+        Log.e("msg_firbase", url);
         //String url ="http://carecrew.care/api/user/firebase/getChat?request_id=73434&message="+message+"&provider_id=111&user_id=120&type=up";
         JSONObject object = new JSONObject();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, object, new Response.Listener<JSONObject>() {
