@@ -71,9 +71,12 @@ import com.akexorcist.googledirection.model.Route;
 import com.akexorcist.googledirection.model.Step;
 import com.akexorcist.googledirection.util.DirectionConverter;
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.common.ConnectionResult;
@@ -1242,6 +1245,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 List<Address> addresses;
                 geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
+                Log.e("loc_trackPiT", "----from_here1: " + "onMarkerDragEnd");
                 dest_lat = "" + markerLocation.latitude;
                 dest_lng = "" + markerLocation.longitude;
 
@@ -1444,6 +1448,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
 
                 lnrProviderAccepted.setVisibility(View.VISIBLE);
+                layoutdriverstatus.setVisibility(View.VISIBLE);
             } else if (flowValue == 5) {
 
                 lnrInvoice.startAnimation(slide_up);
@@ -2330,6 +2335,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     source_lng = requestStatusCheckObject.optJSONObject("provider").optString("longitude");
                                     dest_lat = requestStatusCheckObject.optString("s_latitude");
                                     dest_lng = requestStatusCheckObject.optString("s_longitude");
+                                    Log.e("loc_trackPiT", "----from_here2: " + "checkStatus");
                                     setValuesForSourceAndDestination();
 
                                 } else if (status.equalsIgnoreCase("PICKEDUP")) {
@@ -2337,6 +2343,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     source_lng = requestStatusCheckObject.optJSONObject("provider").optString("longitude");
                                     dest_lat = requestStatusCheckObject.optString("d_latitude");
                                     dest_lng = requestStatusCheckObject.optString("d_longitude");
+                                    Log.e("loc_trackPiT", "----from_here3: " + "checkStatus");
                                     setValuesForSourceAndDestination();
 
                                 } else {
@@ -2344,12 +2351,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     source_lng = requestStatusCheckObject.optString("s_longitude");
                                     dest_lat = requestStatusCheckObject.optString("d_latitude");
                                     dest_lng = requestStatusCheckObject.optString("d_longitude");
+                                    Log.e("loc_trackPiT", "----from_here4: " + "checkStatus");
                                     setValuesForSourceAndDestination();
 
                                 }
                                 pickUpLocationName = requestStatusCheckObject.optString("s_address");
                                 dropLocationName = requestStatusCheckObject.optString("d_address");
-                                setValuesForSourceAndDestination();
+//                                setValuesForSourceAndDestination();
 
 
                                 // surge price
@@ -2401,7 +2409,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 JSONObject service_type = requestStatusCheckObject.getJSONObject("service_type");
                                                 JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
 
-                                                getDurationForRoute(provider.optString("latitude"), provider.optString("longitude"));
+//                                                getDurationForRoute(provider.optString("latitude"), provider.optString("longitude"));
 
                                                 SharedHelper.putKey(context, "provider_mobile_no", "" + provider.optString("mobile"));
                                                 lblProvider.setText(provider.optString("first_name"));
@@ -2439,6 +2447,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                         case "STARTED":
                                             strTag = "ride_started";
                                             showStartedDialog(requestStatusCheckObject);
+                                            getDurationForRoute();
 
                                             break;
 
@@ -2695,10 +2704,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                                 if ("ACCEPTED".equals(status) || "STARTED".equals(status) ||
                                         "ARRIVED".equals(status) || "PICKEDUP".equals(status) || "DROPPED".equals(status)) {
+                                    Log.e("min_daa", "from here ||");
 //                                    utils.print("Livenavigation", "" + status);
 //                                    utils.print("Destination Current Lat", "" + requestStatusCheckObject.getJSONObject("provider").optString("latitude"));
 //                                    utils.print("Destination Current Lng", "" + requestStatusCheckObject.getJSONObject("provider").optString("longitude"));
-                                    getDurationForRoute(requestStatusCheckObject.getJSONObject("provider").optString("latitude"), requestStatusCheckObject.getJSONObject("provider").optString("longitude"));
                                     liveNavigation(status, requestStatusCheckObject.getJSONObject("provider").optString("latitude"),
                                             requestStatusCheckObject.getJSONObject("provider").optString("longitude"));
                                 }
@@ -2922,91 +2931,225 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     }
 
-    public void getDurationForRoute(String driverLat, String driverLong) {
+    boolean lockWhileGet = false;
+    String previousDriverLat, previousDriverLong;
+
+    public void getDurationForRoute() {
+        try {
+
+
+            JSONObject object = new JSONObject();
+            object.put("request_id", SharedHelper.getKey(context, "request_id"));
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.get_current_Prodiver_Location_calc_distance, object,
+                    response -> {
+
+                        Log.e("get_current_Prodiver_Location_calc_distance", response.toString());
+
+                        try {
+
+                            JSONObject responseObject = new JSONObject(response.toString());
+
+                            Double driver_lat = Double.parseDouble(responseObject.getJSONObject("provider").getString("latitude"));
+                            Double driver_longi = Double.parseDouble(responseObject.getJSONObject("provider").getString("longitude"));
+
+                            Log.e("driver_location", utils.getCompleteAddressString(context, driver_lat, driver_longi));
+//                            if (!(previousDriverLat.equals(driverLat) && previousDriverLong.equals(driverLong) && lockWhileGet)) {
+//                                previousDriverLat = driverLat;
+//                                previousDriverLong = driverLong;
+
+                            Log.e("done_aboood11", source_lat + " / " + source_lng);
+//            if (!GlobalDataMethods.SourceTripeLat.isEmpty() && !GlobalDataMethods.SourceTripeLong.isEmpty()) {
+//                                lockWhileGet = true;
+
+                            GoogleDirection.withServerKey(getString(R.string.google_map_api))
+//                    .from(new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng)))
+
+//                GoogleDirection.withServerKey(getString(R.string.google_map_api))
+                                    .from(new LatLng(driver_lat, driver_longi))// driver loc
+                                    .to(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)))
+//                        .to(new LatLng(Double.parseDouble(GlobalDataMethods.SourceTripeLat), Double.parseDouble(GlobalDataMethods.SourceTripeLong)))// source me
+                                    .transportMode(TransportMode.DRIVING)
+                                    .execute(new DirectionCallback() {
+
+
+                                        @Override
+                                        public void onDirectionSuccess(Direction direction, String rawBody) {
+                                            Log.e("done_aboood", "onDirectionSuccess");
+                                            if (direction.isOK()) {
+                                                try {
+                                                    trackPickToDest();
+                                                    Log.v("rawBody2", rawBody + "");
+                                                    Log.v("direction2", direction + "");
+
+                                                    float totalDistance = 0;
+                                                    int totalDuration = 0;
+                                                    mMap.clear();
+                                                    Route route = direction.getRouteList().get(0);
+                                                    int legCount = route.getLegList().size();
+                                                    for (int index = 0; index < legCount; index++) {
+                                                        Leg leg = route.getLegList().get(index);
+
+                                                        totalDistance = totalDistance + Float.parseFloat(leg.getDistance().getText()
+                                                                .replace("km", "")
+                                                                .replace("m", "")
+                                                                .replace(",", ".")
+                                                                .trim());
+
+//                                totalDistance =0;
+                                                        if (leg.getDuration().getText().contains("day")) {
+                                                            Log.v("splitday", leg.getDuration().getText().split("day")[0] + " ");
+                                                            totalDuration = totalDuration + 24 * 60 * Integer.parseInt(leg.getDuration().getText()
+                                                                    .split("day")[0].trim());
+
+                                                        } else if (leg.getDuration().getText().contains("hour")) {
+                                                            Log.v("splithour", leg.getDuration().getText().split("hour")[0] + " ");
+                                                            totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
+                                                                    .split("hour")[0].trim());
+
+                                                        } else if (leg.getDuration().getText().contains("hours")) {
+                                                            totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
+                                                                    .split("hours")[0].trim().replace("m", ""));
+                                                        } else if (leg.getDuration().getText().contains("mins")) {
+                                                            totalDuration = totalDuration + Integer.parseInt(leg.getDuration().getText()
+                                                                    .replace("hour", "").replace("mins", "").replace("m", "").trim());
+                                                        } else {
+                                                            totalDuration = totalDuration + 0;
+                                                        }
+                                                    }
+
+                                                    Log.e("min_km", "from getDurationForRoute");
+                                                    lblCmfrmSourceAddress.setText(pickUpLocationName);
+                                                    lblDis.setText(totalDistance + " km");
+                                                    lblEta.setText(totalDuration + " Min");
+                                                    GlobalDataMethods.GTotalDuration = totalDuration;
+
+                                                    if (confirmDialog != null && confirmDialog.isShowing()) {
+
+                                                        Log.e("Dialog", "if");
+
+                                                        TextView tvDriverMsg = confirmDialog.findViewById(R.id.tvDriverMsg);
+                                                        tvDriverMsg.setText(getResources().getString(R.string.driver_will_pickup_you_in) + " " + totalDuration + " " + getResources().getString(R.string.minutes));
+
+                                                        ProgressBar pb_min_da = confirmDialog.findViewById(R.id.pb_min_da);
+                                                        pb_min_da.setVisibility(View.GONE);
+
+                                                        new Handler().postDelayed(() -> {
+                                                            tvDone.performClick();
+                                                        }, 3000);
+                                                    } else {
+                                                        Log.e("Dialog", "else");
+                                                    }
+
+                                                    Log.e("done_aboood2", totalDuration + "");
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                    Log.e("done_aboood1", "error " + e.getMessage());
+
+                                                }
+                                            }
+                                            lockWhileGet = false;
+                                        }
+
+                                        @Override
+                                        public void onDirectionFailure(Throwable t) {
+                                            lockWhileGet = false;
+                                            // Do something
+                                            Log.e("done_aboood", "Failure " + t.getMessage());
+                                        }
+                                    });
+//            }
+
+//                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }, error -> {
+                String json = null;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                                e.printStackTrace();
+                            }
+                        } else if (response.statusCode == 401) {
+//                            refreshAccessToken();
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        } else {
+                            displayMessage(getString(R.string.please_try_again));
+                        }
+
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        getDurationForRoute();
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("X-Requested-With", "XMLHttpRequest");
+                    headers.put("Authorization", "Bearer " + SharedHelper.getKey(context, "access_token"));
+                    Log.e("", "Access_Token" + SharedHelper.getKey(context, "access_token"));
+                    return headers;
+                }
+            };
+            IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //        LatLng DriverLocation = providerMarker.getPosition();
 //        Double driver_lat = DriverLocation.latitude;
 //        Double driver_longi = DriverLocation.longitude;
 
-        Double driver_lat = 52.5230588;
-        Double driver_longi = 13.4699208;
-
-        Log.e("done_aboood", source_lat + " / " + source_lng);
-
-        GoogleDirection.withServerKey(getString(R.string.google_map_api))
-                .from(new LatLng(Double.parseDouble(driverLat), Double.parseDouble(driverLong)))// driver loc
-                .to(new LatLng(Double.parseDouble(GlobalDataMethods.SourceTripeLat), Double.parseDouble(GlobalDataMethods.SourceTripeLong)))// source me
-                .transportMode(TransportMode.DRIVING)
-                .execute(new DirectionCallback() {
+//        Double driver_lat = 52.5230588;
+//        Double driver_longi = 13.4699208;
 
 
-                    @Override
-                    public void onDirectionSuccess(Direction direction, String rawBody) {
-                        Log.e("done_aboood", "onDirectionSuccess");
-                        if (direction.isOK()) {
-                            try {
-                                Log.v("rawBody", rawBody + "");
-                                Log.v("direction", direction + "");
+//        Log.e("condition", previousDriverLat + " == " + driverLat);
+//        Log.e("condition", previousDriverLong + " == " + driverLong);
+        Log.e("user_location", utils.getCompleteAddressString(context, Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)) + "");
+        Log.e("user_location", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
+//        Log.e("driver_location", utils.getCompleteAddressString(context, Double.parseDouble(driverLat), Double.parseDouble(driverLong)) + "");
+//        Log.e("condition",GlobalDataMethods.SourceTripeLat +"  //  " + GlobalDataMethods.SourceTripeLong);
 
-                                float totalDistance = 0;
-                                int totalDuration = 0;
-                                mMap.clear();
-                                Route route = direction.getRouteList().get(0);
-                                int legCount = route.getLegList().size();
-                                for (int index = 0; index < legCount; index++) {
-                                    Leg leg = route.getLegList().get(index);
+//        if (confirmDialog != null && confirmDialog.isShowing() &&
+//                (GlobalDataMethods.SourceTripeLat.isEmpty() || GlobalDataMethods.SourceTripeLong.isEmpty())){
+//            GlobalDataMethods.SourceTripeLat = source_lat;
+//            GlobalDataMethods.SourceTripeLong = dest_lng;
+//
+//        }
 
-                                    totalDistance = totalDistance + Float.parseFloat(leg.getDistance().getText().replace("km", "").replace("m", "").trim());
 
-//                                totalDistance =0;
-                                    if (leg.getDuration().getText().contains("hour")) {
-                                        Log.v("splithour", leg.getDuration().getText().split("hour")[0] + " ");
-                                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
-                                                .split("hour")[0].trim());
-
-                                    } else if (leg.getDuration().getText().contains("hours")) {
-                                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
-                                                .split("hours")[0].trim().replace("m", ""));
-                                    } else if (leg.getDuration().getText().contains("mins")) {
-                                        totalDuration = totalDuration + Integer.parseInt(leg.getDuration().getText()
-                                                .replace("hour", "").replace("mins", "").replace("m", "").trim());
-                                    } else {
-                                        totalDuration = totalDuration + 0;
-                                    }
-                                }
-
-                                lblCmfrmSourceAddress.setText(pickUpLocationName);
-                                lblDis.setText(totalDistance + " km");
-                                lblEta.setText(totalDuration + " Min");
-                                GlobalDataMethods.GTotalDuration = totalDuration;
-
-                                if (confirmDialog != null && confirmDialog.isShowing()) {
-
-                                    TextView tvDriverMsg = confirmDialog.findViewById(R.id.tvDriverMsg);
-                                    tvDriverMsg.setText(getResources().getString(R.string.driver_will_pickup_you_in) + " " + totalDuration + " " + getResources().getString(R.string.minutes));
-
-                                    ProgressBar pb_min_da = confirmDialog.findViewById(R.id.pb_min_da);
-                                    pb_min_da.setVisibility(View.GONE);
-
-                                    new Handler().postDelayed(() -> {
-                                        tvDone.performClick();
-                                    }, 3000);
-                                }
-
-                                Log.e("done_aboood", totalDuration + "");
-                            } catch (Exception e) {
-                                Log.e("done_aboood ", "error " + e.getMessage());
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onDirectionFailure(Throwable t) {
-                        // Do something
-                        Log.e("done_aboood", "Failure " + t.getMessage());
-                    }
-                });
     }
 
     Dialog confirmDialog;
@@ -3721,6 +3864,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private void trackPickToDest() throws Exception {
 
+        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)) + "");
+        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
+
         GoogleDirection.withServerKey(getString(R.string.google_map_api))
                 .from(new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng)))
                 .to(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)))
@@ -3852,6 +3998,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                         }
                                     }
                                 });
+
+                                Log.e("min_km", "from trackPickToDest");
                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                 lblDis.setText(totalDistance + " km");
                                 lblEta.setText(totalDuration + " Min");

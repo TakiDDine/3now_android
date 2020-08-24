@@ -1280,7 +1280,7 @@
                             android:padding="@dimen/_7sdp"
                             android:text="@string/driver_is_on_the_way"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_10sdp" />
 
                     </RelativeLayout>
 
@@ -1331,7 +1331,7 @@
                             android:gravity="center"
                             android:padding="@dimen/_7sdp"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_10sdp" />
 
                     </RelativeLayout>
 
@@ -1382,7 +1382,7 @@
                             android:gravity="center"
                             android:padding="@dimen/_7sdp"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_10sdp" />
 
                     </RelativeLayout>
 
@@ -1433,7 +1433,7 @@
                             android:gravity="center"
                             android:padding="@dimen/_7sdp"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_12sdp" />
+                            android:textSize="@dimen/_10sdp" />
 
                     </RelativeLayout>
 
