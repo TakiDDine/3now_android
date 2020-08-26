@@ -4,8 +4,9 @@
     <string name="app_name">3Now</string>
 
     <!--Google map-->
-    <!--    <string name="google_map_api" translatable="false">AIzaSyB4fYZR1J3pRP4EZOiXQWp_JyUxig4aWvc</string>-->
     <string name="google_map_api" translatable="false">AIzaSyDwFc97AGfeqzqBmL2eVFxgeHm-CQNnvNM</string>
+<!--    <string name="google_map_api" translatable="false">AIzaSyA46FtsnG098mBxXAEoWI5crGDeU4QGjSU</string>-->
+
 
     <!--facebook-->
     <string name="facebook_app_id" translatable="false">3127828963956256</string>

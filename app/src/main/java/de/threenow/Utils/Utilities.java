@@ -36,6 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.threenow.Activities.Login;
+import de.threenow.Helper.URLHelper;
 import de.threenow.R;
 
 /**
@@ -76,6 +77,7 @@ public class Utilities {
     }*/
 
     public String getCompleteAddressString(Context context, double LATITUDE, double LONGITUDE) {
+        Log.e("count_call_Geocoder1", URLHelper.count_call_Geocoder++ + "");
         String strAdd = "";
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {

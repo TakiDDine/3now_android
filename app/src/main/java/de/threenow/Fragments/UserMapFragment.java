@@ -825,6 +825,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.e("onLocationChanged", "from here!2");
+
         if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
             location.setLatitude(52.5379986);
             location.setLongitude(13.3640841);
@@ -865,6 +867,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+                Log.e("getCompleteAdd7", "from here!");
                 currentAddress = utils.getCompleteAddressString(context, latitude, longitude);
                 source_lat = "" + latitude;
                 source_lng = "" + longitude;
@@ -1252,6 +1255,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
     private void updateLocation(LatLng centerLatLng) {
+        Log.e("count_call_Geocoder4", URLHelper.count_call_Geocoder++ + "");
+
         if (centerLatLng != null) {
             Geocoder geocoder = new Geocoder(context,
                     Locale.getDefault());
@@ -1349,6 +1354,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 LatLng markerLocation = sourceMarker.getPosition();
                 Geocoder geocoder;
                 List<Address> addresses = null;
+
+                Log.e("count_call_Geocoder5", URLHelper.count_call_Geocoder++ + "");
                 geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
                 source_lat = markerLocation.latitude + "";
@@ -1372,6 +1379,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 LatLng markerLocation = destinationMarker.getPosition();
                 Geocoder geocoder;
                 List<Address> addresses;
+
+                Log.e("count_call_Geocoder6", URLHelper.count_call_Geocoder++ + "");
                 geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
                 dest_lat = "" + markerLocation.latitude;
@@ -3857,6 +3866,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                         Geocoder geocoder = null;
                         List<Address> addresses;
+                        Log.e("count_call_Geocoder7", URLHelper.count_call_Geocoder++ + "");
                         geocoder = new Geocoder(getActivity(), Locale.getDefault());
 
                         String city = "", state = "", address = "";

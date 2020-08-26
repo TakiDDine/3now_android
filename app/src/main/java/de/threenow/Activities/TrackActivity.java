@@ -890,9 +890,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         restInterface = ServiceGenerator.createService(RestInterface.class);
         SharedHelper.putKey(context, "AUTO_CARETAKER_REQ", "");
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
                 init();
                 //permission to access location
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getApplicationContext(),
@@ -903,8 +903,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     initMap();
                     MapsInitializer.initialize(getApplicationContext());
                 }
-            }
-        }, 500);
+//            }
+//        }, 500);
 
         reqStatus = SharedHelper.getKey(context, "req_status");
         lblPaymentType = findViewById(R.id.lblPaymentType);
@@ -1119,7 +1119,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Log.e("onLocationChanged", "from here!");
         if ((customDialog != null) && (customDialog.isShowing()))
             customDialog.dismiss();
 //        if (marker != null) {
@@ -1156,6 +1156,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+                Log.e("getCompleteAdd1", "from here!");
                 currentAddress = utils.getCompleteAddressString(context, latitude, longitude);
                 source_lat = "" + latitude;
                 source_lng = "" + longitude;
@@ -1220,6 +1221,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 LatLng markerLocation = sourceMarker.getPosition();
                 Geocoder geocoder;
                 List<Address> addresses = null;
+
+                Log.e("count_call_Geocoder2", URLHelper.count_call_Geocoder++ + "");
                 geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
                 source_lat = markerLocation.latitude + "";
@@ -1243,6 +1246,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 LatLng markerLocation = destinationMarker.getPosition();
                 Geocoder geocoder;
                 List<Address> addresses;
+                Log.e("count_call_Geocoder3", URLHelper.count_call_Geocoder++ + "");
                 geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
                 Log.e("loc_trackPiT", "----from_here1: " + "onMarkerDragEnd");
@@ -1265,6 +1269,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
             }
             mMap.clear();
+            Log.e("setValuesForSAndD1", "from here!");
             setValuesForSourceAndDestination();
         }
     }
@@ -2336,6 +2341,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     dest_lat = requestStatusCheckObject.optString("s_latitude");
                                     dest_lng = requestStatusCheckObject.optString("s_longitude");
                                     Log.e("loc_trackPiT", "----from_here2: " + "checkStatus");
+                                    Log.e("setValuesForSAndD2", "from here!");
                                     setValuesForSourceAndDestination();
 
                                 } else if (status.equalsIgnoreCase("PICKEDUP")) {
@@ -2344,6 +2350,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     dest_lat = requestStatusCheckObject.optString("d_latitude");
                                     dest_lng = requestStatusCheckObject.optString("d_longitude");
                                     Log.e("loc_trackPiT", "----from_here3: " + "checkStatus");
+                                    Log.e("setValuesForSAndD3", "from here!");
                                     setValuesForSourceAndDestination();
 
                                 } else {
@@ -2352,6 +2359,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     dest_lat = requestStatusCheckObject.optString("d_latitude");
                                     dest_lng = requestStatusCheckObject.optString("d_longitude");
                                     Log.e("loc_trackPiT", "----from_here4: " + "checkStatus");
+                                    Log.e("setValuesForSAndD4", "from here!");
                                     setValuesForSourceAndDestination();
 
                                 }
@@ -2953,7 +2961,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             Double driver_lat = Double.parseDouble(responseObject.getJSONObject("provider").getString("latitude"));
                             Double driver_longi = Double.parseDouble(responseObject.getJSONObject("provider").getString("longitude"));
 
-                            Log.e("driver_location", utils.getCompleteAddressString(context, driver_lat, driver_longi));
+//                            Log.e("getCompleteAdd2", "from here!");
+//                            Log.e("driver_location", utils.getCompleteAddressString(context, driver_lat, driver_longi));
 //                            if (!(previousDriverLat.equals(driverLat) && previousDriverLong.equals(driverLong) && lockWhileGet)) {
 //                                previousDriverLat = driverLat;
 //                                previousDriverLong = driverLong;
@@ -3063,6 +3072,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //                            }
 
                         } catch (JSONException e) {
+                            Log.e("GoogleDirection","from here!");
                             e.printStackTrace();
                         }
 
@@ -3137,8 +3147,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
 //        Log.e("condition", previousDriverLat + " == " + driverLat);
 //        Log.e("condition", previousDriverLong + " == " + driverLong);
-        Log.e("user_location", utils.getCompleteAddressString(context, Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)) + "");
-        Log.e("user_location", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
+//        Log.e("getCompleteAdd3", "from here!");
+//        Log.e("user_location", utils.getCompleteAddressString(context, Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)) + "");
+//        Log.e("getCompleteAdd4", "from here!");
+//        Log.e("user_location", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
 //        Log.e("driver_location", utils.getCompleteAddressString(context, Double.parseDouble(driverLat), Double.parseDouble(driverLong)) + "");
 //        Log.e("condition",GlobalDataMethods.SourceTripeLat +"  //  " + GlobalDataMethods.SourceTripeLong);
 
@@ -3864,8 +3876,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private void trackPickToDest() throws Exception {
 
-        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)) + "");
-        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
+//        Log.e("getCompleteAdd5", "from here!");
+//        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)) + "");
+//        Log.e("getCompleteAdd6", "from here!");
+//        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
 
         GoogleDirection.withServerKey(getString(R.string.google_map_api))
                 .from(new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng)))

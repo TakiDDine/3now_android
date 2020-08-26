@@ -1,19 +1,15 @@
 package de.threenow.Helper;
 
 public class URLHelper {
-    //        public static final String base = "http://gocab.97pixelsdev.com/";
-    // public static final String base = "http://m-bebataxi.com/";
-//    public static final String base = "http://97pixelsdev.com/ilyft/";
-//    public static final String base = "https://www.3now-test.com/";
-    public static final String base = "https://www.3now.de/";
+
+    public static final String base = "https://www.3now-test.com/";
+//    public static final String base = "https://www.3now.de/";
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
-    public static final String APP_URL = "https://play.google.com/store/apps/details?id=com.mbeba.mbeba&hl=en";
     public static final int client_id = 2;
 
     public static final String client_secret = "WifS1rMi3LvuorP1G2UdtKZairUNSH2iMqrKivPf";
     public static final String STRIPE_TOKEN = "pk_live_gGgW4OJ2ulRDPaIeKBypkJEG00DvqnE8Ml"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
-//    public static final String STRIPE_TOKEN = "pk_test_69WkPQ5i5k0KwuG08mEazMPO"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO
 
 
     public static final String image_url_signature = base + "public/";
@@ -23,14 +19,12 @@ public class URLHelper {
     public static final String register = base + "api/user/signup";
     public static final String UserProfile = base + "api/user/details";
     public static final String UseProfileUpdate = base + "api/user/update/profile";
-    //    public static final String getUserProfileUrl = base + "api/user/details";
+
     public static final String GET_SERVICE_LIST_API = base + "api/user/services";
     public static final String REQUEST_STATUS_CHECK_API = base + "api/user/request/check";
     public static final String ESTIMATED_FARE_DETAILS_API = base + "api/user/estimated/fare";
-
     public static final String SEND_REQUEST_API = base + "api/user/send/request"; // للرحلات الفورية
     public static final String SEND_REQUEST_API_SCHEDULE = base + "api/user/save/request/schedule"; // للرحلات المجدولة
-//    public static final String SEND_REQUEST_API_SCHEDULE = base + "api/user/send/request/schedule"; // للرحلات المجدولة
 
     // new
     public static final String SEND_REQUEST_API_NEW = base + "api/new/send/request";
@@ -86,8 +80,10 @@ public class URLHelper {
     public static final String NOTIFICATION_URL = base + "api/user/notification";
 
     // Coupon
-    public static final String COUPON_VERIFY = base + "api/user/coupon/verfiy"; // parameters: 1.user_id  2.coupon
-
+    public static final String COUPON_VERIFY = base + "api/user/coupon/verfiy";
     public static final String get_current_Prodiver_Location_calc_distance = base + "/api/user/currentProdiverLocation";
+
+    public static int count_call_Geocoder = 0;
+
 
 }
