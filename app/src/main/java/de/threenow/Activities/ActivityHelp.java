@@ -254,7 +254,7 @@ public class ActivityHelp extends AppCompatActivity implements View.OnClickListe
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("X-Requested-With", "XMLHttpRequest");
                 headers.put("Authorization", "Bearer " + SharedHelper.getKey(ActivityHelp.this, "access_token"));
-                Log.e("", "Access_Token" + SharedHelper.getKey(ActivityHelp.this, "access_token"));
+//                Log.e("", "Access_Token" + SharedHelper.getKey(ActivityHelp.this, "access_token"));
                 return headers;
             }
         };

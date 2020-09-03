@@ -8,6 +8,8 @@ import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 public class GlobalDataMethods {
 
+    public static String lastConstructedURLSuccess;
+
     public static void setWindowFlag(Activity activity, final int bits, boolean on) {
         Window win = activity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();

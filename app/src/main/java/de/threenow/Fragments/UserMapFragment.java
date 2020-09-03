@@ -166,6 +166,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+import static android.content.Context.LOCATION_SERVICE;
 import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 import static de.threenow.IlyftApplication.trimMessage;
 import static de.threenow.Utils.GlobalDataMethods.coupon_discount_str;
@@ -383,6 +384,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             notificationTxt = bundle.getString("Notification");
 
         }
+
     }
 
     @Override
@@ -433,6 +435,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         this.activity = activity;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -440,6 +443,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         try {
             listener = (HomeFragmentListener) context;
+
+
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement HomeFragmentListener");
@@ -825,66 +830,68 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("onLocationChanged", "from here!2");
+        if (foreground) {
+            Log.e("onLocationChanged", "from here!2");
 
-        if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
-            location.setLatitude(52.5379986);
-            location.setLongitude(13.3640841);
+            if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
+                location.setLatitude(52.5379986);
+                location.setLongitude(13.3640841);
 
-        }
-
-        if (marker != null) {
-            marker.remove();
-        }
-        if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
-
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .anchor(0.5f, 0.75f)
-                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_currentlocation));
-            marker = mMap.addMarker(markerOptions);
-
-
-            current_lat = "" + location.getLatitude();
-            current_lng = "" + location.getLongitude();
-
-            if (source_lat.equalsIgnoreCase("") || source_lat.length() < 0) {
-                source_lat = current_lat;
-            }
-            if (source_lng.equalsIgnoreCase("") || source_lng.length() < 0) {
-                source_lng = current_lng;
             }
 
-            if (value == 0) {
-                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
-                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                mMap.setPadding(0, 0, 0, 0);
-                mMap.getUiSettings().setZoomControlsEnabled(false);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-                mMap.getUiSettings().setMapToolbarEnabled(false);
-                mMap.getUiSettings().setCompassEnabled(false);
+            if (marker != null) {
+                marker.remove();
+            }
+            if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
 
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                Log.e("getCompleteAdd7", "from here!");
-                currentAddress = utils.getCompleteAddressString(context, latitude, longitude);
-                source_lat = "" + latitude;
-                source_lng = "" + longitude;
-                source_address = currentAddress;
-                current_address = currentAddress;
-                frmSource.setText(currentAddress);
-                getProvidersList("");
-                value++;
-                try {
-                    if ((customDialog != null) && (customDialog.isShowing()))
-                        customDialog.dismiss();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .anchor(0.5f, 0.75f)
+                        .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_currentlocation));
+                marker = mMap.addMarker(markerOptions);
+
+
+                current_lat = "" + location.getLatitude();
+                current_lng = "" + location.getLongitude();
+
+                if (source_lat.equalsIgnoreCase("") || source_lat.length() < 0) {
+                    source_lat = current_lat;
                 }
-            }
+                if (source_lng.equalsIgnoreCase("") || source_lng.length() < 0) {
+                    source_lng = current_lng;
+                }
 
-            updateLocationToAdmin(location.getLatitude() + "", location.getLongitude() + "");
+                if (value == 0) {
+                    LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
+                    mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    mMap.setPadding(0, 0, 0, 0);
+                    mMap.getUiSettings().setZoomControlsEnabled(false);
+                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                    mMap.getUiSettings().setMapToolbarEnabled(false);
+                    mMap.getUiSettings().setCompassEnabled(false);
+
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    Log.e("getCompleteAdd7", "from here!");
+                    currentAddress = utils.getCompleteAddressString(context, latitude, longitude);
+                    source_lat = "" + latitude;
+                    source_lng = "" + longitude;
+                    source_address = currentAddress;
+                    current_address = currentAddress;
+                    frmSource.setText(currentAddress);
+                    getProvidersList("");
+                    value++;
+                    try {
+                        if ((customDialog != null) && (customDialog.isShowing()))
+                            customDialog.dismiss();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                updateLocationToAdmin(location.getLatitude() + "", location.getLongitude() + "");
+            }
         }
     }
 
@@ -1833,10 +1840,13 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                 customDialog.dismiss();
                             if (response.length() > 0) {
                                 currentPostion = 0;
-                                ServiceListAdapter serviceListAdapter = new ServiceListAdapter(response);
-                                rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
-                                        LinearLayoutManager.VERTICAL, false));
-                                rcvServiceTypes.setAdapter(serviceListAdapter);
+                                Log.e("ServiceListAdapter1", "from here");
+//                                ServiceListAdapter serviceListAdapter = new ServiceListAdapter(response);
+//                                rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
+//                                        LinearLayoutManager.VERTICAL, false));
+//                                rcvServiceTypes.setAdapter(serviceListAdapter);
+
+                                getESTIMATED_FARE_ALL_API("19", response);
                                 getProvidersList(SharedHelper.getKey(context, "service_type"));
                             } else {
                                 // utils.displayMessage(getView(), getString(R.string.no_service));
@@ -1921,201 +1931,176 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
 
         if (dest_lat != null && dest_lat.length() > 0) {
-            customDialog.setCancelable(false);
-            if (customDialog != null)
-                customDialog.show();
-            JSONObject object = new JSONObject();
-            String constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
+
+            String constructedURL = URLHelper.ESTIMATED_FARE_ALL_API + "" +
                     "?s_latitude=" + source_lat
                     + "&s_longitude=" + source_lng
                     + "&d_latitude=" + dest_lat
-                    + "&d_longitude=" + dest_lng
-                    + "&service_type=" + SharedHelper.getKey(context, "service_type");
-            System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
-            JsonObjectRequest jsonObjectRequest = new
-                    JsonObjectRequest(Request.Method.GET,
-                            constructedURL,
-                            object,
-                            response -> {
-                                if (response != null) {
-                                    if ((customDialog != null) && (customDialog.isShowing()))
-                                        customDialog.dismiss();
-                                    if (!response.optString("estimated_fare").equalsIgnoreCase("")) {
-                                        utils.print("ApproximateResponse", response.toString());
-                                        SharedHelper.putKey(context, "estimated_fare", response.optString("estimated_fare"));
-                                        SharedHelper.putKey(context, "distance", response.optString("distance"));
-                                        SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
-                                        SharedHelper.putKey(context, "surge", response.optString("surge"));
-                                        SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
-                                        setValuesForApproximateLayout();
-                                        double wallet_balance = response.optDouble("wallet_balance");
-                                        SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
+                    + "&d_longitude=" + dest_lng;
 
-                                        if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
+            Log.e("ESTIMATED_FARE5", GlobalDataMethods.lastConstructedURLSuccess.equals(constructedURL) + " / " + responseSameOld);
+
+            if (GlobalDataMethods.lastConstructedURLSuccess.equals(constructedURL) && responseSameOld != null) {// same
+
+                try {
+
+                    JSONObject response = responseSameOld;
+                    utils.print("ApproximateResponse same", response.toString());
+                    SharedHelper.putKey(context, "estimated_fare_19", responseSameOld.getJSONObject("19").optString("fare_price"));
+                    SharedHelper.putKey(context, "estimated_fare_27", responseSameOld.getJSONObject("27").optString("fare_price"));
+                    SharedHelper.putKey(context, "estimated_fare_32", responseSameOld.getJSONObject("32").optString("fare_price"));
+
+                    switch (SharedHelper.getKey(context, "service_type")) {
+                        case "19":
+                            SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("19").optString("fare_price"));
+                            break;
+                        case "27":
+                            SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("27").optString("fare_price"));
+                            break;
+                        case "32":
+                            SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("32").optString("fare_price"));
+                            break;
+                    }
+
+                    SharedHelper.putKey(context, "distance", response.optString("distance"));
+                    SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
+//                                        SharedHelper.putKey(context, "surge", response.optString("surge"));
+//                                        SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
+                    setValuesForApproximateLayout();
+                    double wallet_balance = response.optDouble("wallet_balance");
+                    SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
+
+                    if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
 //                                        lineView.setVisibility(View.VISIBLE);
 //                                        chkWallet.setVisibility(View.VISIBLE);
-                                        } else {
-                                            lineView.setVisibility(View.GONE);
-                                            chkWallet.setVisibility(View.GONE);
-                                        }
-                                        flowValue = 2;
-                                        layoutChanges();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.v("approxerrorcode", error.toString() + " " + error.getMessage());
-                            if ((customDialog != null) && (customDialog.isShowing()))
-                                customDialog.dismiss();
-                            String json = null;
-                            String Message;
-                            NetworkResponse response = error.networkResponse;
-                            if (response != null && response.data != null) {
-                                try {
-                                    JSONObject errorObj = new JSONObject(new String(response.data));
+                    } else {
+                        lineView.setVisibility(View.GONE);
+                        chkWallet.setVisibility(View.GONE);
+                    }
+                    flowValue = 2;
+                    layoutChanges();
 
-                                    if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {// new
+
+                customDialog.setCancelable(false);
+                if (customDialog != null)
+                    customDialog.show();
+                JSONObject object = new JSONObject();
+
+
+                Log.e("ESTIMATED_FARE1", constructedURL);
+//            System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
+                JsonObjectRequest jsonObjectRequest = new
+                        JsonObjectRequest(Request.Method.GET,
+                                constructedURL + "&service_type=" + SharedHelper.getKey(context, "service_type"),
+                                object,
+                                response -> {
+                                    if (response != null) {
+
                                         try {
-                                            utils.showAlert(context, errorObj.optString("message"));
+                                            if ((customDialog != null) && (customDialog.isShowing()))
+                                                customDialog.dismiss();
+                                            if (!response.optString("estimated_fare").equalsIgnoreCase("")) {
+                                                utils.print("ApproximateResponse", response.toString());
+                                                SharedHelper.putKey(context, "estimated_fare_19", responseSameOld.getJSONObject("19").optString("fare_price"));
+                                                SharedHelper.putKey(context, "estimated_fare_27", responseSameOld.getJSONObject("27").optString("fare_price"));
+                                                SharedHelper.putKey(context, "estimated_fare_32", responseSameOld.getJSONObject("32").optString("fare_price"));
+
+                                                switch (SharedHelper.getKey(context, "service_type")) {
+                                                    case "19":
+                                                        SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("19").optString("fare_price"));
+                                                        break;
+                                                    case "27":
+                                                        SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("27").optString("fare_price"));
+                                                        break;
+                                                    case "32":
+                                                        SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("32").optString("fare_price"));
+                                                        break;
+                                                }
+                                                SharedHelper.putKey(context, "distance", response.optString("distance"));
+                                                SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
+//                                        SharedHelper.putKey(context, "surge", response.optString("surge"));
+//                                        SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
+                                                setValuesForApproximateLayout();
+                                                double wallet_balance = response.optDouble("wallet_balance");
+                                                SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
+
+                                                if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
+//                                        lineView.setVisibility(View.VISIBLE);
+//                                        chkWallet.setVisibility(View.VISIBLE);
+                                                } else {
+                                                    lineView.setVisibility(View.GONE);
+                                                    chkWallet.setVisibility(View.GONE);
+                                                }
+                                                flowValue = 2;
+                                                layoutChanges();
+
+                                            }
                                         } catch (Exception e) {
-                                            utils.showAlert(context, context.getString(R.string.something_went_wrong));
+                                            e.printStackTrace();
                                         }
-                                    } else if (response.statusCode == 401) {
-                                        refreshAccessToken("APPROXIMATE_RATE");
-                                    } else if (response.statusCode == 422) {
-                                        json = trimMessage(new String(response.data));
-                                        if (json != "" && json != null) {
-                                            utils.showAlert(context, json);
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.v("approxerrorcode", error.toString() + " " + error.getMessage());
+                                if ((customDialog != null) && (customDialog.isShowing()))
+                                    customDialog.dismiss();
+                                String json = null;
+                                String Message;
+                                NetworkResponse response = error.networkResponse;
+                                if (response != null && response.data != null) {
+                                    try {
+                                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                                            try {
+                                                utils.showAlert(context, errorObj.optString("message"));
+                                            } catch (Exception e) {
+                                                utils.showAlert(context, context.getString(R.string.something_went_wrong));
+                                            }
+                                        } else if (response.statusCode == 401) {
+                                            refreshAccessToken("APPROXIMATE_RATE");
+                                        } else if (response.statusCode == 422) {
+                                            json = trimMessage(new String(response.data));
+                                            if (json != "" && json != null) {
+                                                utils.showAlert(context, json);
+                                            } else {
+                                                utils.showAlert(context, context.getString(R.string.please_try_again));
+                                            }
+                                        } else if (response.statusCode == 503) {
+                                            utils.showAlert(context, context.getString(R.string.server_down));
                                         } else {
                                             utils.showAlert(context, context.getString(R.string.please_try_again));
                                         }
-                                    } else if (response.statusCode == 503) {
-                                        utils.showAlert(context, context.getString(R.string.server_down));
-                                    } else {
-                                        utils.showAlert(context, context.getString(R.string.please_try_again));
-                                    }
 
-                                } catch (Exception e) {
-                                    utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                                }
-
-                            } else {
-                                utils.showAlert(context, context.getString(R.string.please_try_again));
-                            }
-
-                        }
-                    }) {
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            headers.put("X-Requested-With", "XMLHttpRequest");
-                            headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-                            return headers;
-                        }
-                    };
-
-            IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-        }
-
-    }
-
-    public void getApproximateFareSchedule() {
-        /*customDialog = new CustomDialog(context);
-        customDialog.setCancelable(false);
-        if (customDialog != null)
-            customDialog.show();*/
-        JSONObject object = new JSONObject();
-        String constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
-                "?s_latitude=" + source_lat
-                + "&s_longitude=" + source_lng
-                + "&d_latitude=" + dest_lat
-                + "&d_longitude=" + dest_lng
-                + "&service_type=" + SharedHelper.getKey(context, "service_type");
-        System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
-        JsonObjectRequest jsonObjectRequest = new
-                JsonObjectRequest(Request.Method.GET,
-                        constructedURL,
-                        object,
-                        response -> {
-                            if (response != null) {
-                                /*if ((customDialog != null) && (customDialog.isShowing()))
-                                    customDialog.dismiss();*/
-                                if (!response.optString("estimated_fare").equalsIgnoreCase("")) {
-                                    utils.print("ApproximateResponse", response.toString());
-                                    SharedHelper.putKey(context, "estimated_fare", response.optString("estimated_fare"));
-                                    SharedHelper.putKey(context, "distance", response.optString("distance"));
-                                    SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
-                                    SharedHelper.putKey(context, "surge", response.optString("surge"));
-                                    SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
-                                    setValuesForApproximateLayout();
-                                    double wallet_balance = response.optDouble("wallet_balance");
-                                    SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
-
-                                    if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
-//                                        lineView.setVisibility(View.VISIBLE);
-//                                        chkWallet.setVisibility(View.VISIBLE);
-                                    } else {
-                                        lineView.setVisibility(View.GONE);
-                                        chkWallet.setVisibility(View.GONE);
-                                    }
-                                    /*flowValue = 2;
-                                    layoutChanges();*/
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                       /* if ((customDialog != null) && (customDialog.isShowing()))
-                            customDialog.dismiss();*/
-                        String json = null;
-                        String Message;
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.data != null) {
-                            try {
-                                JSONObject errorObj = new JSONObject(new String(response.data));
-
-                                if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                                    try {
-                                        // utils.showAlert(context, errorObj.optString("message"));
                                     } catch (Exception e) {
-                                        //  utils.showAlert(context, context.getString(R.string.something_went_wrong));
+                                        utils.showAlert(context, context.getString(R.string.something_went_wrong));
                                     }
-                                } else if (response.statusCode == 401) {
-                                    refreshAccessToken("APPROXIMATE_RATE");
-                                } else if (response.statusCode == 422) {
-                                    json = trimMessage(new String(response.data));
-                                    if (json != "" && json != null) {
-                                        //utils.showAlert(context, json);
-                                    } else {
-                                        // utils.showAlert(context, context.getString(R.string.please_try_again));
-                                    }
-                                } else if (response.statusCode == 503) {
-                                    //utils.showAlert(context, context.getString(R.string.server_down));
+
                                 } else {
-                                    //utils.showAlert(context, context.getString(R.string.please_try_again));
+                                    utils.showAlert(context, context.getString(R.string.please_try_again));
                                 }
 
-                            } catch (Exception e) {
-                                utils.showAlert(context, context.getString(R.string.something_went_wrong));
                             }
+                        }) {
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                HashMap<String, String> headers = new HashMap<String, String>();
+                                headers.put("X-Requested-With", "XMLHttpRequest");
+                                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
+                                return headers;
+                            }
+                        };
 
-                        } else {
-                            utils.showAlert(context, context.getString(R.string.please_try_again));
-                        }
+                IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+            } // End else
 
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("X-Requested-With", "XMLHttpRequest");
-                        headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-                        return headers;
-                    }
-                };
-
-        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+        }
 
     }
 
@@ -2877,7 +2862,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
     public void statusCheck() {
-        final LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager manager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             enableLoc();
@@ -3027,62 +3012,252 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
+    String constructedURLOld = "";
+    JSONObject responseSameOld;
+
     public void getNewApproximateFare(String service_type1, final MyTextView view, MyTextView serviceItemPriceCoupon) {
 
         if (dest_lat != null && dest_lat.length() > 0) {
+
             scheduledDate = "";
             scheduledTime = "";
-            JSONObject object = new JSONObject();
-            String constructedURL = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
+
+            String constructedURL = URLHelper.ESTIMATED_FARE_ALL_API + "" +
                     "?s_latitude=" + source_lat
                     + "&s_longitude=" + source_lng
                     + "&d_latitude=" + dest_lat
-                    + "&d_longitude=" + dest_lng
-                    + "&service_type=" + service_type1;
+                    + "&d_longitude=" + dest_lng;
 
-            System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
+
+//            Log.e("ESTIMATED_FARE_check", constructedURLOld.length() + " / " + constructedURLOld.equals(constructedURL) + " " + responseSameOld);
+//            Log.e("ESTIMATED_FARE_check", constructedURLOld);
+//            Log.e("ESTIMATED_FARE_check", constructedURL);
+
+
+            if (constructedURLOld.length() > 0 && constructedURLOld.equals(constructedURL) && responseSameOld != null) { // same
+                Log.e("ESTIMATED_FARE2", "same");
+                try {
+                    SharedHelper.putKey(context, "distance", responseSameOld.optString("distance"));
+                    SharedHelper.putKey(context, "eta_time", " " + responseSameOld.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
+                    SharedHelper.putKey(context, "currency", responseSameOld.optString("currency"));
+
+//                                                SharedHelper.putKey(context, "estimated_fare", "25.5");
+
+                    SharedHelper.putKey(context, "estimated_fare_19", responseSameOld.getJSONObject("19").optString("fare_price"));
+                    SharedHelper.putKey(context, "estimated_fare_27", responseSameOld.getJSONObject("27").optString("fare_price"));
+                    SharedHelper.putKey(context, "estimated_fare_32", responseSameOld.getJSONObject("32").optString("fare_price"));
+
+                    switch (service_type1) {
+                        case "19":
+                            SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("19").optString("fare_price"));
+                            break;
+                        case "27":
+                            SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("27").optString("fare_price"));
+                            break;
+                        case "32":
+                            SharedHelper.putKey(context, "estimated_fare", responseSameOld.getJSONObject("32").optString("fare_price"));
+                            break;
+                    }
+                    view.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
+                    if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
+                        view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                        double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
+                                - (GlobalDataMethods.coupon_discount_str);
+
+                        if (discount < 0) {
+                            discount = 0;
+                        }
+                        serviceItemPriceCoupon.setText(SharedHelper.getKey(context, "currency") + "" +
+                                String.format(Locale.ENGLISH, "%.2f", discount));
+                    } else {
+                        view.setPaintFlags(view.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                        serviceItemPriceCoupon.setText("");
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else { // new
+
+//                constructedURLOld = constructedURL;
+//                Log.e("ESTIMATED_FARE2", constructedURL);
+////            System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
+//                JSONObject object = new JSONObject();
+//                JsonObjectRequest jsonObjectRequest = new
+//                        JsonObjectRequest(Request.Method.GET,
+//                                constructedURL + "&service_type=" + service_type1,
+//                                object,
+//                                new Response.Listener<JSONObject>() {
+//                                    @Override
+//                                    public void onResponse(JSONObject response) {
+//                                        if (response != null) {
+//                                            if (!response.optString("time").equalsIgnoreCase("")) {
+//                                                try {
+//
+//                                                    GlobalDataMethods.lastConstructedURLSuccess = constructedURL;
+//
+//
+//                                                    responseSameOld = response;
+//
+//                                                    utils.print("NewApproximateResponse", response.toString());
+//
+//                                                    SharedHelper.putKey(context, "distance", response.optString("distance"));
+//                                                    SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
+//                                                    SharedHelper.putKey(context, "currency", response.optString("currency"));
+//
+////                                                SharedHelper.putKey(context, "estimated_fare", "25.5");
+//
+//                                                    SharedHelper.putKey(context, "estimated_fare_19", response.getJSONObject("19").optString("fare_price"));
+//                                                    SharedHelper.putKey(context, "estimated_fare_27", response.getJSONObject("27").optString("fare_price"));
+//                                                    SharedHelper.putKey(context, "estimated_fare_32", response.getJSONObject("32").optString("fare_price"));
+//
+//                                                    switch (service_type1) {
+//                                                        case "19":
+//                                                            SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("19").optString("fare_price"));
+//                                                            break;
+//                                                        case "27":
+//                                                            SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("27").optString("fare_price"));
+//                                                            break;
+//                                                        case "32":
+//                                                            SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("32").optString("fare_price"));
+//                                                            break;
+//                                                    }
+//                                                    view.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
+//                                                    if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
+//                                                        view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//
+//                                                        double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
+//                                                                - (GlobalDataMethods.coupon_discount_str);
+//
+//                                                        if (discount < 0) {
+//                                                            discount = 0;
+//                                                        }
+//                                                        serviceItemPriceCoupon.setText(SharedHelper.getKey(context, "currency") + "" +
+//                                                                String.format(Locale.ENGLISH, "%.2f", discount));
+//                                                    } else {
+//                                                        view.setPaintFlags(view.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+//                                                        serviceItemPriceCoupon.setText("");
+//
+//                                                    }
+//
+//                                                } catch (Exception e) {
+//                                                    e.printStackTrace();
+//                                                }
+//                                            }
+//                                        }
+//
+//                                    }
+//                                }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                if ((customDialog != null) && (customDialog.isShowing()))
+//                                    customDialog.dismiss();
+//                            }
+//                        }) {
+//                            @Override
+//                            public Map<String, String> getHeaders() throws AuthFailureError {
+//                                HashMap<String, String> headers = new HashMap<String, String>();
+//                                headers.put("X-Requested-With", "XMLHttpRequest");
+//                                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
+////                            Log.i(TAG, "getHeaders param : " + headers.toString());
+//                                return headers;
+//                            }
+//                        };
+//
+//                IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+            }
+        }
+    }
+
+    void getESTIMATED_FARE_ALL_API(String service_type1, JSONArray responseArr) {
+
+        if (dest_lat != null && dest_lat.length() > 0) {
+            Log.e("getESTIMATED_ALL_API", "if");
+
+            scheduledDate = "";
+            scheduledTime = "";
+
+            String constructedURL = URLHelper.ESTIMATED_FARE_ALL_API + "" +
+                    "?s_latitude=" + source_lat
+                    + "&s_longitude=" + source_lng
+                    + "&d_latitude=" + dest_lat
+                    + "&d_longitude=" + dest_lng;
+
+
+            constructedURLOld = constructedURL;
+            Log.e("ESTIMATED_FARE2", constructedURL);
+            JSONObject object = new JSONObject();
+//            System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
             JsonObjectRequest jsonObjectRequest = new
                     JsonObjectRequest(Request.Method.GET,
-                            constructedURL,
+                            constructedURL + "&service_type=" + service_type1,
                             object,
                             new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
                                     if (response != null) {
-                                        if (!response.optString("estimated_fare").equalsIgnoreCase("")) {
-                                            utils.print("NewApproximateResponse", response.toString());
-                                            SharedHelper.putKey(context, "estimated_fare", response.optString("estimated_fare"));
-                                            System.out.println("getNewApproximateFare getNewApproximateFare " + response.optString("estimated_fare"));
-                                            SharedHelper.putKey(context, "distance", response.optString("distance"));
-                                            SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
-                                            SharedHelper.putKey(context, "surge", response.optString("surge"));
-                                            SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
-                                            SharedHelper.putKey(context, "currency", response.optString("currency"));
-                                            System.out.println("SURGE SURGE SURGE 123456 " + response.optString("surge"));
-                                            //   setNewValuesForApproximateLayout();
-                                            double wallet_balance = response.optDouble("wallet_balance");
-                                            SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
-                                            view.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
-                                            if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
-                                                view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                        if (!response.optString("time").equalsIgnoreCase("")) {
+                                            try {
 
-                                                double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
-                                                        - (GlobalDataMethods.coupon_discount_str);
+                                                GlobalDataMethods.lastConstructedURLSuccess = constructedURL;
 
-                                                if (discount < 0) {
-                                                    discount = 0;
+
+                                                responseSameOld = response;
+
+                                                utils.print("NewApproximateResponse", response.toString());
+
+                                                SharedHelper.putKey(context, "distance", response.optString("distance"));
+                                                SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
+                                                SharedHelper.putKey(context, "currency", response.optString("currency"));
+
+//                                                SharedHelper.putKey(context, "estimated_fare", "25.5");
+
+                                                SharedHelper.putKey(context, "estimated_fare_19", response.getJSONObject("19").optString("fare_price"));
+                                                SharedHelper.putKey(context, "estimated_fare_27", response.getJSONObject("27").optString("fare_price"));
+                                                SharedHelper.putKey(context, "estimated_fare_32", response.getJSONObject("32").optString("fare_price"));
+
+                                                switch (service_type1) {
+                                                    case "19":
+                                                        SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("19").optString("fare_price"));
+                                                        break;
+                                                    case "27":
+                                                        SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("27").optString("fare_price"));
+                                                        break;
+                                                    case "32":
+                                                        SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("32").optString("fare_price"));
+                                                        break;
                                                 }
-                                                serviceItemPriceCoupon.setText(SharedHelper.getKey(context, "currency") + "" +
-                                                        String.format(Locale.ENGLISH, "%.2f", discount));
-                                            } else {
-                                                view.setPaintFlags(view.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-                                                serviceItemPriceCoupon.setText("");
 
+                                                ServiceListAdapter serviceListAdapter = new ServiceListAdapter(responseArr);
+                                                rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
+                                                        LinearLayoutManager.VERTICAL, false));
+                                                rcvServiceTypes.setAdapter(serviceListAdapter);
+                                                getProvidersList(SharedHelper.getKey(context, "service_type"));
+//                                            view.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
+//                                            if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
+//                                                view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//
+//                                                double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
+//                                                        - (GlobalDataMethods.coupon_discount_str);
+//
+//                                                if (discount < 0) {
+//                                                    discount = 0;
+//                                                }
+//                                                serviceItemPriceCoupon.setText(SharedHelper.getKey(context, "currency") + "" +
+//                                                        String.format(Locale.ENGLISH, "%.2f", discount));
+//                                            } else {
+//                                                view.setPaintFlags(view.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+//                                                serviceItemPriceCoupon.setText("");
+//
+//                                            }
+
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
                                             }
-
-
                                         }
                                     }
+
                                 }
                             }, new Response.ErrorListener() {
                         @Override
@@ -3096,12 +3271,19 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             HashMap<String, String> headers = new HashMap<String, String>();
                             headers.put("X-Requested-With", "XMLHttpRequest");
                             headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-                            Log.i(TAG, "getHeaders param : " + headers.toString());
+//                            Log.i(TAG, "getHeaders param : " + headers.toString());
                             return headers;
                         }
                     };
 
             IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+        } else {
+            Log.e("getESTIMATED_ALL_API", "else");
+            ServiceListAdapter serviceListAdapter = new ServiceListAdapter(responseArr);
+            rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
+                    LinearLayoutManager.VERTICAL, false));
+            rcvServiceTypes.setAdapter(serviceListAdapter);
+            getProvidersList(SharedHelper.getKey(context, "service_type"));
         }
     }
 
@@ -3313,8 +3495,25 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         startActivity(intent);
     }
 
+    boolean foreground  = false;
+    @Override
+    public void onPause() {
+        foreground = false;
+        Log.e("lifcycle1", "onPause");
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+
+        super.onPause();
+    }
+
+    @SuppressLint("MissingPermission")
     @Override
     public void onResume() {
+        foreground = true;
+        if (mGoogleApiClient != null)
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
+
+
+        Log.e("lifcycle1", "onResume");
         super.onResume();
         if (!SharedHelper.getKey(context, "wallet_balance").equalsIgnoreCase("")) {
             wallet_balance = Double.parseDouble(SharedHelper.getKey(context, "wallet_balance"));
@@ -3533,7 +3732,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 customDialog.dismiss();
             if (response.length() > 0) {
                 currentPostion = 0;
-
+                Log.e("ServiceListAdapter2", "from here");
                 ServiceListAdapter serviceListAdapter = new ServiceListAdapter(response);
                 rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
                         LinearLayoutManager.VERTICAL, false));
@@ -4178,8 +4377,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
 
             if (position == 0) {
-                getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
                 Picasso.get().load(URLHelper.base + "/8/" + jsonArray
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car1)
@@ -4188,10 +4385,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
 
             if (position == 1) {
-                getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
-
-
                 Picasso.get().cancelRequest(holder.serviceImg);
 
                 Picasso.get().load(URLHelper.base + "/8/" + jsonArray
@@ -4202,22 +4395,24 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 holder.bagCapacity.setText("5");
             }
             if (position == 2) {
-                getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
                 Picasso.get().load(URLHelper.base + "/8/" + jsonArray
                         .optJSONObject(position).optString("image"))
                         .placeholder(R.drawable.car23)
                         .error(R.drawable.car23).into(holder.serviceImg);
                 holder.bagCapacity.setText("7");
             }
-            if (position == 3) {
-                getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
-            }
-            if (position == 4) {
-                getNewApproximateFare(jsonArray.optJSONObject(position)
-                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
-            }
+
+            getNewApproximateFare(jsonArray.optJSONObject(position)
+                    .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
+
+//            if (position == 3) {
+//                getNewApproximateFare(jsonArray.optJSONObject(position)
+//                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
+//            }
+//            if (position == 4) {
+//                getNewApproximateFare(jsonArray.optJSONObject(position)
+//                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
+//            }
 
 
             if (position == currentPostion) {

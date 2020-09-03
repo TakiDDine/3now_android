@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity implements
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("X-Requested-With", "XMLHttpRequest");
                 headers.put("Authorization", "Bearer" + " " + SharedHelper.getKey(context, "access_token"));
-                Log.e("headers: Token", headers + " ");
+//                Log.e("headers: Token", headers + " ");
 
                 return headers;
             }

@@ -743,6 +743,26 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     }
 
+boolean foreground = false;
+    @Override
+    public void onPause() {
+        foreground = false;
+
+        Log.e("lifcycle2", "onPause");
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+
+        super.onPause();
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onResume() {
+        foreground = true;
+        Log.e("lifcycle2", "onResume");
+        if (mGoogleApiClient != null)
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
+        super.onResume();
+    }
 
     @Override
     public void onBackPressed() {
@@ -893,16 +913,16 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
-                init();
-                //permission to access location
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // Android M Permission check
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                } else {
-                    initMap();
-                    MapsInitializer.initialize(getApplicationContext());
-                }
+        init();
+        //permission to access location
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Android M Permission check
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else {
+            initMap();
+            MapsInitializer.initialize(getApplicationContext());
+        }
 //            }
 //        }, 500);
 
@@ -1119,13 +1139,14 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("onLocationChanged", "from here!");
-        if ((customDialog != null) && (customDialog.isShowing()))
-            customDialog.dismiss();
+        if (foreground) {
+            Log.e("onLocationChanged", "from here!");
+            if ((customDialog != null) && (customDialog.isShowing()))
+                customDialog.dismiss();
 //        if (marker != null) {
 //            marker.remove();
 //        }
-        if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
+            if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
 //            MarkerOptions markerOptions = new MarkerOptions()
 //                    .anchor(0.5f, 0.75f)
 //                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
@@ -1133,38 +1154,39 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //            marker = mMap.addMarker(markerOptions);
 
 
-            current_lat = "" + location.getLatitude();
-            current_lng = "" + location.getLongitude();
-            current_latSend = location.getLatitude();
-            current_lngSend = location.getLongitude();
-            if (source_lat.equalsIgnoreCase("") || source_lat.length() < 0) {
-                source_lat = current_lat;
-            }
-            if (source_lng.equalsIgnoreCase("") || source_lng.length() < 0) {
-                source_lng = current_lng;
-            }
+                current_lat = "" + location.getLatitude();
+                current_lng = "" + location.getLongitude();
+                current_latSend = location.getLatitude();
+                current_lngSend = location.getLongitude();
+                if (source_lat.equalsIgnoreCase("") || source_lat.length() < 0) {
+                    source_lat = current_lat;
+                }
+                if (source_lng.equalsIgnoreCase("") || source_lng.length() < 0) {
+                    source_lng = current_lng;
+                }
 
-            if (value == 0) {
-                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
-                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                mMap.setPadding(0, 0, 0, 0);
-                mMap.getUiSettings().setZoomControlsEnabled(false);
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                mMap.getUiSettings().setMapToolbarEnabled(false);
-                mMap.getUiSettings().setCompassEnabled(false);
+                if (value == 0) {
+                    LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
+                    mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    mMap.setPadding(0, 0, 0, 0);
+                    mMap.getUiSettings().setZoomControlsEnabled(false);
+                    mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                    mMap.getUiSettings().setMapToolbarEnabled(false);
+                    mMap.getUiSettings().setCompassEnabled(false);
 
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                Log.e("getCompleteAdd1", "from here!");
-                currentAddress = utils.getCompleteAddressString(context, latitude, longitude);
-                source_lat = "" + latitude;
-                source_lng = "" + longitude;
-                source_address = currentAddress;
-                current_address = currentAddress;
-                // frmSource.setText(currentAddress);
-                value++;
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    Log.e("getCompleteAdd1", "from here!");
+                    currentAddress = utils.getCompleteAddressString(context, latitude, longitude);
+                    source_lat = "" + latitude;
+                    source_lng = "" + longitude;
+                    source_address = currentAddress;
+                    current_address = currentAddress;
+                    // frmSource.setText(currentAddress);
+                    value++;
 
+                }
             }
         }
     }
@@ -2808,9 +2830,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         HashMap<String, String> headers = new HashMap<>();
                         headers.put("X-Requested-With", "XMLHttpRequest");
-                        utils.print("Authorization", "" +
-                                SharedHelper.getKey(context, "token_type")
-                                + " " + SharedHelper.getKey(context, "access_token"));
+//                        utils.print("Authorization", "" +
+//                                SharedHelper.getKey(context, "token_type")
+//                                + " " + SharedHelper.getKey(context, "access_token"));
 
                         headers.put("Authorization", "" +
                                 SharedHelper.getKey(context, "token_type")
@@ -3072,7 +3094,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //                            }
 
                         } catch (JSONException e) {
-                            Log.e("GoogleDirection","from here!");
+                            Log.e("GoogleDirection", "from here!");
                             e.printStackTrace();
                         }
 
@@ -3275,24 +3297,24 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 providerMarker.remove();
                 providerMarker = mMap.addMarker(markerOptions);
                 String serviceRequsetName = SharedHelper.getKey(context, "service_type_Car_Ambulance");
-                if (serviceRequsetName != "") {
-                    if (serviceRequsetName.equalsIgnoreCase("CAR/TRANSFER") ||
-                            serviceRequsetName.equalsIgnoreCase("AMBULANCE")) {
-                        getDriverCarAmbETA();
-                    } else {
-                        getDriverETA();
-                    }
-                } else {
-                    String serviceRequsetName1 = SharedHelper.getKey(context, "providerServiceType");
-                    if (serviceRequsetName1 != "") {
-                        if (serviceRequsetName1.equalsIgnoreCase("CAR") ||
-                                serviceRequsetName1.equalsIgnoreCase("AMBULANCE")) {
-                            getDriverCarAmbETA();
-                        } else {
-                            //   getDriverETA();
-                        }
-                    }
-                }
+//                if (serviceRequsetName != "") {
+//                    if (serviceRequsetName.equalsIgnoreCase("CAR/TRANSFER") ||
+//                            serviceRequsetName.equalsIgnoreCase("AMBULANCE")) {
+//                        getDriverCarAmbETA();
+//                    } else {
+//                        getDriverETA();
+//                    }
+//                } else {
+//                    String serviceRequsetName1 = SharedHelper.getKey(context, "providerServiceType");
+//                    if (serviceRequsetName1 != "") {
+//                        if (serviceRequsetName1.equalsIgnoreCase("CAR") ||
+//                                serviceRequsetName1.equalsIgnoreCase("AMBULANCE")) {
+//                            getDriverCarAmbETA();
+//                        } else {
+//                            //   getDriverETA();
+//                        }
+//                    }
+//                }
 
             }
 
@@ -3315,15 +3337,15 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         if (customDialog != null)
             customDialog.show();*/
         JSONObject object = new JSONObject();
-        String constructedURL1 = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
+        String constructedURL1 = URLHelper.ESTIMATED_FARE_ALL_API + "" +
                 "?s_latitude=" + driver_lat
                 + "&s_longitude=" + driver_longi
                 + "&d_latitude=" + source_lat
                 + "&d_longitude=" + source_lng
                 + "&service_type=" + SharedHelper.getKey(context, "service_type");
 
-        Log.e("constructedURL1", constructedURL1);
-
+//        Log.e("constructedURL1", constructedURL1);
+        Log.e("ESTIMATED_FARE3", constructedURL1);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, constructedURL1, object, new Response.Listener<JSONObject>() {
             @Override
@@ -3413,15 +3435,14 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         if (customDialog != null)
             customDialog.show();*/
         JSONObject object = new JSONObject();
-        String constructedURL1 = URLHelper.ESTIMATED_FARE_DETAILS_API + "" +
+        String constructedURL1 = URLHelper.ESTIMATED_FARE_ALL_API + "" +
                 "?s_latitude=" + driver_lat
                 + "&s_longitude=" + driver_longi
                 + "&d_latitude=" + source_lat
                 + "&d_longitude=" + source_lng
                 + "&service_type=" + SharedHelper.getKey(context, "service_type");
 
-        Log.e("constructedURL1", constructedURL1);
-
+        Log.e("ESTIMATED_FARE4", constructedURL1);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, constructedURL1, object, new Response.Listener<JSONObject>() {
             @Override
