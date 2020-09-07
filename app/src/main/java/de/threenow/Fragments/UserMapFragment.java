@@ -834,8 +834,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             Log.e("onLocationChanged", "from here!2");
 
             if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
-                location.setLatitude(52.5379986);
-                location.setLongitude(13.3640841);
+                location.setLatitude(52.5230588);
+                location.setLongitude(13.4699208);
 
             }
 
@@ -1008,9 +1008,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 }
             }
         });
-        builder.setView(view)
-                .setCancelable(true);
+        builder.setView(view).setCancelable(true);
         final AlertDialog dialog = builder.create();
+
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -3500,6 +3500,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onPause() {
         foreground = false;
         Log.e("lifcycle1", "onPause");
+        if (mGoogleApiClient != null)
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
 
         super.onPause();

@@ -252,9 +252,9 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
                     try {
                         Log.e("222 paymentExample", confirm.toJSONObject().getJSONObject("response").toString());
 
- //                     TODO: send 'confirm' to your server for verification.
- //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
- //                     for more detail
+                        //                     TODO: send 'confirm' to your server for verification.
+                        //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+                        //                     for more detail
                         String paymentType = "PAYPAL";
                         paymentId = confirm.getProofOfPayment().getPaymentId();
                         payNowCard(paymentType);
@@ -376,7 +376,6 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     }
 
 
-
     public void sendRequestPrice() {
         note = noteEditText.getText().toString();
         if (nameschieldCheckbox.isChecked()) {
@@ -394,7 +393,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             object.put("s_address", s_address);
             object.put("d_address", d_address);
             object.put("service_type", Integer.parseInt(serviceId));
-            object.put("distance", Integer.parseInt(distance));
+            object.put("distance", Double.parseDouble(distance));
             object.put("schedule_date", scheduledDate);
             object.put("schedule_time", scheduledTime);
             object.put("payment_mode", payment_mode);
@@ -559,7 +558,7 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
             object.put("s_address", s_address);
             object.put("d_address", d_address);
             object.put("service_type", Integer.parseInt(serviceId));
-            object.put("distance", Integer.parseInt(distance));
+            object.put("distance", Double.parseDouble(distance));
             object.put("schedule_date", scheduledDate);
             object.put("schedule_time", scheduledTime);
             object.put("payment_mode", payment_mode);
@@ -1203,7 +1202,8 @@ public class TripSchedulingActivity extends AppCompatActivity implements View.On
     @Override
     public void onDestroy() {
         try {
-            handleCheckStatus.removeCallbacksAndMessages(null);
+            if (handleCheckStatus != null)
+                handleCheckStatus.removeCallbacksAndMessages(null);
             if (customDialog != null && customDialog.isShowing()) {
                 customDialog.cancel();
             }

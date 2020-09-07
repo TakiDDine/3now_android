@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
+
 import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
@@ -203,7 +205,7 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
                 detailNote.setText(note + "");
         }
 
-        priceTrip.setText(((double) (pr - totalPrice)) + "€");
+        priceTrip.setText(String.format(Locale.ENGLISH, "%.1f", ((double) (pr - totalPrice))) + "€");
         netlPrice.setText(pr + "€");
 
         if (distance != null && !distance.isEmpty() && distance.length() > 0 && !distance.contains("null"))

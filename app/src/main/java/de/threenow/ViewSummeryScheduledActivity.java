@@ -202,7 +202,7 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
         nameTagPrice.setText(0 + "€");
         detailNote.setText(" . . . ");
 
-        priceTrip.setText(((double) (pr - totalPrice)) + "€");
+        priceTrip.setText(String.format(Locale.ENGLISH, "%.1f", ((double) (pr - totalPrice))) + "€");
 
 
     }
@@ -331,12 +331,18 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
                             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.ic_cash_txt), 0, 0, 0);
                         }
 
-                        if (response.optJSONObject(0).optJSONObject("provider").optString("avatar") != null)
-                            Picasso.get().load(URLHelper.base + "storage/app/public/" + response.optJSONObject(0).optJSONObject("provider").optString("avatar"))
-                                    .placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(tripProviderImg);
+                        Log.e("resssponse", response.optJSONObject(0).optJSONObject("provider") + "");
 
-                        tripProviderRating.setRating(Float.parseFloat(response.optJSONObject(0).optJSONObject("provider").optString("rating")));
-                        tripProviderName.setText(response.optJSONObject(0).optJSONObject("provider").optString("first_name"));
+                        if (response.optJSONObject(0).has("provider") &&
+                                response.optJSONObject(0).optJSONObject("provider") != null) {
+                            if (response.optJSONObject(0).optJSONObject("provider").optString("avatar") != null)
+                                Picasso.get().load(URLHelper.base + "storage/app/public/" + response.optJSONObject(0).optJSONObject("provider").optString("avatar"))
+                                        .placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(tripProviderImg);
+
+                            tripProviderRating.setRating(Float.parseFloat(response.optJSONObject(0).optJSONObject("provider").optString("rating")));
+                            tripProviderName.setText(response.optJSONObject(0).optJSONObject("provider").optString("first_name"));
+                        }
+
                         if (response.optJSONObject(0).optString("s_address") == null || response.optJSONObject(0).optString("d_address") == null || response.optJSONObject(0).optString("d_address").equals("") || response.optJSONObject(0).optString("s_address").equals("")) {
 //                            sourceAndDestinationLayout.setVisibility(View.GONE);
                             // viewLayout.setVisibility(View.GONE);
@@ -365,7 +371,7 @@ public class ViewSummeryScheduledActivity extends AppCompatActivity implements V
 //                                Picasso.get().load(serviceObj.optString("image"))
 //                                        .placeholder(R.drawable.loading).error(R.drawable.loading)
 //                                        .into(tripProviderImg);
-                                priceTrip.setText(((double) (pr - totalPrice)) + "€");
+                                priceTrip.setText(String.format(Locale.ENGLISH, "%.1f", ((double) (pr - totalPrice))) + "€");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

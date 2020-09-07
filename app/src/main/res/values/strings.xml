@@ -620,5 +620,6 @@ E-mail : Info@3now.de\n
     <string name="booking_successful_msg">Thanks for your order. You will shortly receive an order confirmation at the email address registered with us. You can see an overview of your booked trips in the main menu under "My trips".</string>
     <string name="hello_team">Hello team</string>
     <string name="send_email">Send Email</string>
+    <string name="complete_as_cash">Complete as cash</string>
 
 </resources>

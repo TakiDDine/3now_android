@@ -2,8 +2,8 @@ package de.threenow.Helper;
 
 public class URLHelper {
 
-//    public static final String base = "https://www.3now-test.com/";
-    public static final String base = "https://www.3now.de/";
+    public static final String base = "https://www.3now-test.com/";
+//    public static final String base = "https://www.3now.de/";
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
     public static final int client_id = 2;
@@ -84,7 +84,7 @@ public class URLHelper {
     // Coupon
     public static final String COUPON_VERIFY = base + "api/user/coupon/verfiy";
     public static final String get_current_Prodiver_Location_calc_distance = base + "/api/user/currentProdiverLocation";
-
+    public static final String COMPLETE_AS_CASH = base + "change/payment/cash";
     public static int count_call_Geocoder = 0;
 
 
