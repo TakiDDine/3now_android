@@ -572,5 +572,6 @@ E-mail : Info@3now.de\n
     <string name="hello_team">Hallo Team</string>
     <string name="send_email">E-Mail senden</string>
     <string name="complete_as_cash">Komplett als Bargeld</string>
+    <string name="coupon">Gutschein</string>
 
 </resources>

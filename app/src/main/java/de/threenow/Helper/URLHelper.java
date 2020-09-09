@@ -41,6 +41,8 @@ public class URLHelper {
     public static final String VALIDZONE = base + "api/user/getvalidzone";
     public static final String CANCEL_REQUEST_API = base + "api/user/cancel/request";
     public static final String PAY_NOW_API = base + "api/user/payment";
+    public static final String PAY_NOW_PAYPAL_API = base + "api/user/payment/paypal";
+
     // new
     public static final String PAY_NOW_SCHEDUL_API = base + "api/user/payment/price";
     public static final String RATE_PROVIDER_API = base + "api/user/rate/provider";

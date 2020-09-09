@@ -89,6 +89,7 @@ public class CouponActivity extends AppCompatActivity {
         setContentView(R.layout.activity_coupon);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.coupon);
         context = CouponActivity.this;
         session_token = SharedHelper.getKey(this, "access_token");
         couponListCardView =  findViewById(R.id.cardListViewLayout);

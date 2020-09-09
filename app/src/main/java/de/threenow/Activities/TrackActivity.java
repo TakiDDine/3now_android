@@ -3851,14 +3851,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     try {
                         Log.e("paymentExample", confirm.toJSONObject().toString(4));
 
-                        // TODO: send 'confirm' to your server for verification.
-                        // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
-                        // for more details.
                         paymentType = "PAYPAL";
                         paymentId = confirm.getProofOfPayment().getPaymentId();
-                        payNowCard();
-//                    JSONObject jsonObject=confirm.toJSONObject().getJSONObject("response");
-//                            addPayment(jsonObject.getString("id"));
+                        payNowPaypal();
+
                     } catch (JSONException e) {
                         Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
                     }
@@ -3955,6 +3951,90 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         }
 
 
+    }
+
+    private void payNowPaypal() {
+        customDialog = new CustomDialog(context);
+        customDialog.setCancelable(false);
+        if (customDialog != null)
+            customDialog.show();
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("request_id", SharedHelper.getKey(context, "request_id"));
+            object.put("total_payment", lblTotalPrice.getText().toString().replace("€", ""));
+//            if (paymentType.contains("PAYPAL")) {
+//                object.put("payment_id", paymentId);
+//            }
+//              object.put("payment_mode", SharedHelper.getKey(getApplicationContext(),"payment_mode"));
+//              object.put("is_paid", isPaid);
+            Log.d(TAG, "2223 payNowCard: " + object.toString(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.PAY_NOW_PAYPAL_API, object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, "2223 onResponse: " + response.toString());
+                utils.print("2223 PayNowRequestResponse", response.toString());
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
+                SharedHelper.putKey(context, "total_amount", "");
+                flowValue = 6;
+                layoutChanges();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
+                String json = "";
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                            try {
+                                utils.displayMessage(getCurrentFocus(), errorObj.optString("message"));
+                            } catch (Exception e) {
+                                utils.displayMessage(getCurrentFocus(), getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+                            refreshAccessToken("PAY_NOW");
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                utils.displayMessage(getCurrentFocus(), json);
+                            } else {
+                                utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                            }
+                        } else if (response.statusCode == 503) {
+                            utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.server_down));
+                        } else {
+                            utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.something_went_wrong));
+                    }
+                } else {
+                    utils.displayMessage(findViewById(R.id.lblTotalPrice), getString(R.string.please_try_again));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
     private void getCardDetailsForPayment(CardInfo cardInfo) {

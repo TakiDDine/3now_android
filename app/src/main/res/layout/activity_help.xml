@@ -129,29 +129,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                app:contentPadding="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/white"
 
-                app:cardBackgroundColor="@color/white">
+                app:contentPadding="@dimen/_10sdp">
 
                 <LinearLayout
                     android:id="@+id/img_faq"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="@dimen/_48sdp"
-                        android:backgroundTint="@color/colorPrimaryDark"
                         android:layout_height="@dimen/_48sdp"
-                        android:background="@drawable/question_answer"/>
+                        android:background="@drawable/question_answer"
+                        android:backgroundTint="@color/colorPrimaryDark" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/_14sdp"
-                        android:paddingTop="@dimen/_4sdp"
-                        android:textColor="@color/blue"
                         android:fontFamily="@font/muli_regular"
-                        android:text="@string/faq"/>
+                        android:paddingTop="@dimen/_4sdp"
+                        android:text="@string/faq"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_14sdp" />
 
                 </LinearLayout>
 
@@ -161,8 +163,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/white"
-
                 app:contentPadding="@dimen/_10sdp">
 
                 <LinearLayout

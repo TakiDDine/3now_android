@@ -174,7 +174,7 @@
         <activity
             android:name=".Activities.CouponActivity"
             android:configChanges="layoutDirection|locale"
-            android:label="Coupon"
+            android:label="@string/coupon"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
