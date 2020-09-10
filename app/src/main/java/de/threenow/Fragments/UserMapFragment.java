@@ -343,6 +343,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private Marker destinationMarker;
     private Marker providerMarker;
     private boolean isDragging;
+    private boolean ClickFiretInTime = true;
+    private boolean ClickFiretInTime2 = true;
 
     public static UserMapFragment newInstance() {
         return new UserMapFragment();
@@ -3951,16 +3953,28 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                     break;
                 case R.id.btnRequestRides:
-                    scheduledDate = "";
-                    scheduledTime = "";
-                    if (!frmSource.getText().toString().equalsIgnoreCase("") &&
-                            !destination.getText().toString().equalsIgnoreCase("") &&
-                            !frmDest.getText().toString().equalsIgnoreCase("")) {
-                        getApproximateFare();
-                        sourceDestLayout.setOnClickListener(new OnClick());
-                    } else {
-                        Toast.makeText(context, getResources().getString(R.string.please_enter_both_pickup_and_drop_locations), Toast.LENGTH_SHORT).show();
+                    if (ClickFiretInTime2){
+                        scheduledDate = "";
+                        scheduledTime = "";
+                        if (!frmSource.getText().toString().equalsIgnoreCase("") &&
+                                !destination.getText().toString().equalsIgnoreCase("") &&
+                                !frmDest.getText().toString().equalsIgnoreCase("")) {
+                            getApproximateFare();
+                            sourceDestLayout.setOnClickListener(new OnClick());
+                        } else {
+                            Toast.makeText(context, getResources().getString(R.string.please_enter_both_pickup_and_drop_locations), Toast.LENGTH_SHORT).show();
+                        }
                     }
+                    ClickFiretInTime2 = false;
+
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ClickFiretInTime2 = true;
+                        }
+                    }, 1000);
+
                     break;
                 case R.id.schedule_ride:
                     if (!frmSource.getText().toString().equalsIgnoreCase("") &&
@@ -4005,7 +4019,21 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     scheduledDate = "";
                     scheduledTime = "";
                     btnRequestRideConfirm.setEnabled(false);
-                    sendRequest();
+
+                    if (ClickFiretInTime){
+                        sendRequest();
+                    }
+                    ClickFiretInTime = false;
+
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            ClickFiretInTime = true;
+                        }
+                    }, 1000);
+
+
                     break;
                 case R.id.btnPayNow:
 //                    sourceDestLayout.setClickable(false);
