@@ -110,7 +110,7 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         thisActivity = this;
         // Initialize the SDK
-        Places.initialize(getApplicationContext(), getString(R.string.google_map_api));
+        Places.initialize(getApplicationContext(), SharedHelper.getKey(CustomGooglePlacesSearch.this, "GOOGLE_KEY_MAPS"));
 
 // Create a new Places client instance
          placesClient = Places.createClient(this);
@@ -538,9 +538,9 @@ public class CustomGooglePlacesSearch extends AppCompatActivity
         urlString.append("&location=");
         urlString.append(latitude + "," + longitude); // append lat long of current location to show nearby results.
         urlString.append("&radius=500&language=en");
-        urlString.append("&key=" + getResources().getString(R.string.google_map_api));
+        urlString.append("&key=" + SharedHelper.getKey(CustomGooglePlacesSearch.this, "GOOGLE_KEY_MAPS"));
 
-        Log.d("FINAL URL:::   ", urlString.toString());
+        Log.d("sFINAL URL:::   ", urlString.toString());
         return urlString.toString();
     }
 

@@ -33,6 +33,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -295,6 +297,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     @BindView(R.id.btnPayNowCash)
     Button btnPayNowCash;
 
+    @BindView(R.id.btn_trips_1)
+    Button btn_trips_1;
+    @BindView(R.id.btn_trips_2)
+    Button btn_trips_2;
+    @BindView(R.id.btn_trips_3)
+    Button btn_trips_3;
+
     //// Rate provider
     @BindView(R.id.lnrRateProvider)
     LinearLayout lnrRateProvider;
@@ -304,6 +313,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     CircleImageView imgProviderRate;
     @BindView(R.id.txtComments)
     EditText txtComments;
+    @BindView(R.id.otherTips)
+    EditText otherTips;
     @BindView(R.id.ratingProviderRate)
     RatingBar ratingProviderRate;
     @BindView(R.id.btnSubmitReview)
@@ -344,6 +355,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     TextView zeroTrink;
 
     String priceTrink = "";
+    private String totalConfirmPayment;
 
     @butterknife.OnClick(R.id.oneTrink)
     void oneTrinkbtnCall() {
@@ -549,6 +561,84 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     @butterknife.OnClick(R.id.btnSubmitReview)
     void btnSubmitReviewClick() {
         submitReviewCall();
+    }
+
+
+    @butterknife.OnClick(R.id.btn_trips_1)
+    void btn_tips_1_Click() {
+        if (btn_trips_1.getTextColors().getDefaultColor() == ContextCompat.getColor(context, R.color.white)) {
+            Log.e("tips", "white");
+            btn_trips_1.setTextColor(ContextCompat.getColor(context, R.color.quantum_googgreenA400));
+            btn_trips_1.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge_green));
+
+            btn_trips_2.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_2.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+
+            btn_trips_3.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_3.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+
+            otherTips.setText("");
+
+            lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + (Double.parseDouble(totalConfirmPayment) + 1) + "");
+
+
+        } else {
+            Log.e("tips", "green");
+            btn_trips_1.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_1.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+            lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
+                    + totalConfirmPayment);
+        }
+    }
+
+    @butterknife.OnClick(R.id.btn_trips_2)
+    void setBtn_trips_2_Click() {
+        if (btn_trips_2.getTextColors().getDefaultColor() == ContextCompat.getColor(context, R.color.white)) {
+            Log.e("tips", "white");
+            btn_trips_2.setTextColor(ContextCompat.getColor(context, R.color.quantum_googgreenA400));
+            btn_trips_2.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge_green));
+
+            btn_trips_1.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_1.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+
+            btn_trips_3.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_3.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+
+            otherTips.setText("");
+
+            lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + (Double.parseDouble(totalConfirmPayment) + 2) + "");
+        } else {
+            Log.e("tips", "green");
+            btn_trips_2.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_2.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+            lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
+                    + totalConfirmPayment);
+        }
+    }
+
+    @butterknife.OnClick(R.id.btn_trips_3)
+    void btn_trips_3_Click() {
+        if (btn_trips_3.getTextColors().getDefaultColor() == ContextCompat.getColor(context, R.color.white)) {
+            Log.e("tips", "white");
+            btn_trips_3.setTextColor(ContextCompat.getColor(context, R.color.quantum_googgreenA400));
+            btn_trips_3.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge_green));
+
+            btn_trips_2.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_2.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+
+            btn_trips_1.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_1.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+
+            otherTips.setText("");
+
+            lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + (Double.parseDouble(totalConfirmPayment) + 3) + "");
+        } else {
+            Log.e("tips", "green");
+            btn_trips_3.setTextColor(ContextCompat.getColor(context, R.color.white));
+            btn_trips_3.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+            lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
+                    + totalConfirmPayment);
+        }
     }
 
 
@@ -1100,6 +1190,38 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 showChooser();
             }
         });
+
+        otherTips.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0) {
+                    lblTotalPrice.setText( SharedHelper.getKey(context, "currency") + "" +
+                            (Double.parseDouble(charSequence.toString()) + Double.parseDouble(totalConfirmPayment)));
+
+                    btn_trips_3.setTextColor(ContextCompat.getColor(context, R.color.white));
+                    btn_trips_3.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+
+                    btn_trips_2.setTextColor(ContextCompat.getColor(context, R.color.white));
+                    btn_trips_2.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+
+                    btn_trips_1.setTextColor(ContextCompat.getColor(context, R.color.white));
+                    btn_trips_1.setBackgroundDrawable(getDrawable(R.drawable.rectangle_edge));
+                }else {
+                    lblTotalPrice.setText( SharedHelper.getKey(context, "currency") + "" +
+                            (Double.parseDouble(totalConfirmPayment)));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
@@ -1201,7 +1323,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onResult(LocationSettingsResult result) {
                 final Status status = result.getStatus();
-
                 switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
@@ -2769,6 +2890,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                     //lblCommision.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("commision"));
                                                     lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
                                                             + payment.optString("total"));
+                                                    totalConfirmPayment = payment.optString("total");
                                                     SharedHelper.putKey(TrackActivity.this, "total_price",
                                                             payment.optString("total"));
                                                 }
@@ -2855,6 +2977,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                             + payment.optString("distance"));
                                                     lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
                                                             + payment.optString("total"));
+                                                    totalConfirmPayment = payment.optString("total");
                                                 }
                                                 JSONObject provider = requestStatusCheckObject.optJSONObject("provider");
                                                 isPaid = requestStatusCheckObject.optString("paid");
@@ -3159,7 +3282,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //            if (!GlobalDataMethods.SourceTripeLat.isEmpty() && !GlobalDataMethods.SourceTripeLong.isEmpty()) {
 //                                lockWhileGet = true;
 
-                            GoogleDirection.withServerKey(getString(R.string.google_map_api))
+                            GoogleDirection.withServerKey(SharedHelper.getKey(TrackActivity.this, "GOOGLE_KEY_MAPS"))
 //                    .from(new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng)))
 
 //                GoogleDirection.withServerKey(getString(R.string.google_map_api))
@@ -4150,7 +4273,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //        Log.e("getCompleteAdd6", "from here!");
 //        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
 
-        GoogleDirection.withServerKey(getString(R.string.google_map_api))
+        GoogleDirection.withServerKey(SharedHelper.getKey(TrackActivity.this, "GOOGLE_KEY_MAPS"))
                 .from(new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng)))
                 .to(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)))
                 .transportMode(TransportMode.DRIVING)

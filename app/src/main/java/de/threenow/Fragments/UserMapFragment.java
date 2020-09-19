@@ -389,6 +389,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -398,6 +399,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 //            getActivity().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         }
+
+
         restInterface = ServiceGenerator.createService(RestInterface.class);
         customDialog = new CustomDialog(getActivity());
         if (activity != null && isAdded()) {
@@ -428,7 +431,44 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 //                Toast.makeText(context, "You have already requested to a trip", Toast.LENGTH_SHORT).show();
             }
         }
+
+        getGoogleMapKey();
+
         return rootView;
+    }
+
+    private void getGoogleMapKey() {
+        JSONObject object = new JSONObject();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLHelper.URL_GOOGLE_KEY_MAPS, object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Log.e("URL_GOOGLE_KEY_MAPS", response.toString());
+                SharedHelper.putKey(context, "GOOGLE_KEY_MAPS", response.optString("key"));
+            }
+        }, error -> {
+            String json = null;
+            String Message;
+            NetworkResponse response = error.networkResponse;
+            Log.e("URL_GOOGLE_KEY_MAPS", error.toString());
+            if (response != null && response.data != null) {
+//                SharedHelper.putKey(context, "loggedIn", "false");
+//                GoToBeginActivity();
+            } else if (error instanceof TimeoutError) {
+                Log.e("URL_GOOGLE_KEY_MAPS", "time out reCall");
+                getGoogleMapKey();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                return headers;
+            }
+        };
+
+        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
     @Override
@@ -1857,13 +1897,13 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 //                            ivNavigation.setVisibility(View.VISIBLE);
                             setValuesForSourceAndDestination();
                         }, error -> {
-                    if ((customDialog != null) && (customDialog.isShowing()))
-                        customDialog.dismiss();
+
                     String json = null;
                     String Message;
                     NetworkResponse response = error.networkResponse;
                     if (response != null && response.data != null) {
-
+                        if ((customDialog != null) && (customDialog.isShowing()))
+                            customDialog.dismiss();
                         try {
                             JSONObject errorObj = new JSONObject(new String(response.data));
 
@@ -1906,6 +1946,23 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         }
 
                     } else {
+                        try {
+                            Log.i(TAG, "getServiceList: " + "else");
+                            if (error instanceof NoConnectionError) {
+                                if ((customDialog != null) && (customDialog.isShowing()))
+                                    customDialog.dismiss();
+                                displayMessage(getString(R.string.oops_connect_your_internet));
+                            } else if (error instanceof NetworkError) {
+                                if ((customDialog != null) && (customDialog.isShowing()))
+                                    customDialog.dismiss();
+                                displayMessage(getString(R.string.oops_connect_your_internet));
+                            } else if (error instanceof TimeoutError) {
+                                getServiceList();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         // utils.displayMessage(getView(), getString(R.string.please_try_again));
 //                        flowValue = 1;
 //                        layoutChanges();
@@ -3465,6 +3522,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private String getUrl(double source_latitude, double source_longitude,
                           double dest_latitude, double dest_longitude) {
 
+
         // Origin of route
         String str_origin = "origin=" + source_latitude + "," + source_longitude;
 
@@ -3473,7 +3531,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
 
         // Sensor enabled
-        String sensor = "sensor=false" + "&key=" + getString(R.string.google_map_api);
+        String sensor = "sensor=false" + "&key=" + SharedHelper.getKey(context, "GOOGLE_KEY_MAPS");
 
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + sensor;
@@ -3497,7 +3555,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         startActivity(intent);
     }
 
-    boolean foreground  = false;
+    boolean foreground = false;
+
     @Override
     public void onPause() {
         foreground = false;
@@ -3953,7 +4012,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                     break;
                 case R.id.btnRequestRides:
-                    if (ClickFiretInTime2){
+                    if (ClickFiretInTime2) {
                         scheduledDate = "";
                         scheduledTime = "";
                         if (!frmSource.getText().toString().equalsIgnoreCase("") &&
@@ -4020,7 +4079,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     scheduledTime = "";
                     btnRequestRideConfirm.setEnabled(false);
 
-                    if (ClickFiretInTime){
+                    if (ClickFiretInTime) {
                         sendRequest();
                     }
                     ClickFiretInTime = false;

@@ -109,7 +109,7 @@ public class FavouritePlaceSearch extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_favourite_place_search);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // Initialize the SDK
-        Places.initialize(getApplicationContext(), getString(R.string.google_map_api));
+        Places.initialize(getApplicationContext(), SharedHelper.getKey(FavouritePlaceSearch.this, "GOOGLE_KEY_MAPS"));
 
 // Create a new Places client instance
          placesClient = Places.createClient(this);
@@ -305,7 +305,7 @@ public class FavouritePlaceSearch extends AppCompatActivity implements View.OnCl
         urlString.append("&location=");
         urlString.append(latitude + "," + longitude); // append lat long of current location to show nearby results.
         urlString.append("&radius=500&language=en");
-        urlString.append("&key=" + getResources().getString(R.string.google_map_api));
+        urlString.append("&key=" + SharedHelper.getKey(FavouritePlaceSearch.this, "GOOGLE_KEY_MAPS"));
 
         Log.d("FINAL URL:::   ", urlString.toString());
         return urlString.toString();
