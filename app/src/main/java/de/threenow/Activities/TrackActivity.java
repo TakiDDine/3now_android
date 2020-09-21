@@ -45,7 +45,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -107,14 +106,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
-import com.google.maps.android.ui.IconGenerator;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
-import com.skyfishjy.library.RippleBackground;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -139,7 +136,6 @@ import java.util.concurrent.TimeoutException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
-import de.threenow.Fragments.RoundCornerDrawable;
 import de.threenow.Helper.ConnectionHelper;
 import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.DataParser;
@@ -149,13 +145,13 @@ import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
 import de.threenow.Models.CardInfo;
 import de.threenow.Models.Driver;
+import de.threenow.Models.GoogleDirectionModel;
 import de.threenow.Models.PaymentRequest;
 import de.threenow.Models.PaymentResponse;
 import de.threenow.Models.RestInterface;
 import de.threenow.Models.ServiceGenerator;
 import de.threenow.R;
 import de.threenow.Utils.GlobalDataMethods;
-import de.threenow.Utils.MapAnimator;
 import de.threenow.Utils.ResponseListener;
 import de.threenow.Utils.Utilities;
 import de.threenow.Utils.Utils;
@@ -215,16 +211,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @BindView(R.id.txtDiscount)
     TextView txtDiscount;
-    //    @BindView(R.id.lblPaymentChange)
-//    TextView lblPaymentChange;
     TextView lblPaymentChange;
     String pickUpLocationName, dropLocationName;
-//    @BindView(R.id.ImgConfrmCabType)
-//    ImageView ImgConfrmCabType;
-//    @BindView(R.id.lblCmfrmSourceAddress)
-//    MyTextView lblCmfrmSourceAddress;
-//    @BindView(R.id.lblCmfrmDestAddress)
-//    MyTextView lblCmfrmDestAddress;
+
 
     /// source dest layout
     @BindView(R.id.imgBack)
@@ -243,8 +232,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     TextView lblNoMatch;
     @BindView(R.id.btnCancelRide)
     Button btnCancelRide;
-//    @BindView(R.id.content)
-//    RippleBackground content;
 
     //// Waiting for provider layout
     @BindView(R.id.lnrProviderAccepted)
@@ -421,76 +408,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         intentChat.putExtra("userName", providerFirstName);
         context.startActivity(intentChat);
     }
-//    @BindView(R.id.lnrSearch)
-//    TextView lnrSearch;
-
-//    class OnClick implements View.OnClickListener {
-//
-//        @Override
-//        public void onClick(View v) {
-//            switch (v.getId()) {
-//
-////                case R.id.btnPayNow:
-////                    payNow();
-////                    break;
-////                case R.id.btnSubmitReview:
-////                    submitReviewCall();
-////                    break;
-////                case R.id.lnrHidePopup:
-////                case R.id.btnDonePopup:
-//////                    lnrHidePopup.setVisibility(View.GONE);
-////                    flowValue = 1;
-////                    layoutChanges();
-////                    click = 1;
-////                    break;
-////                case R.id.btnCancelRide:
-////                    showCancelRideDialog();
-////                    break;
-////                case R.id.btnCancelTrip:
-////                    if (btnCancelTrip.getText().toString().equals(getResources().getString(R.string.cancel_trip)))
-////                        showCancelRideDialog();
-////                    else {
-////                        String shareUrl = URLHelper.REDIRECT_SHARE_URL;
-////                        navigateToShareScreen(shareUrl);
-////                    }
-////                    break;
-////                case R.id.imgSos:
-////                    showSosPopUp();
-////                    break;
-////                case R.id.imgShareRide:
-////                    String url = "http://maps.google.com/maps?q=loc:";
-////                    navigateToShareScreen(url);
-////                    break;
-////                case R.id.imgProvider:
-////                    Intent intent1 = new Intent(activity, ShowProfile.class);
-////                    intent1.putExtra("driver", driver);
-////                    startActivity(intent1);
-////                    break;
-////                case R.id.imgProviderRate:
-////                    Intent intent4 = new Intent(activity, ShowProfile.class);
-////                    intent4.putExtra("driver", driver);
-////                    startActivity(intent4);
-////                    break;
-//
-//
-////                case R.id.mapfocus:
-////                    Double crtLat, crtLng;
-////                    if (!current_lat.equalsIgnoreCase("") && !current_lng.equalsIgnoreCase("")) {
-////                        crtLat = Double.parseDouble(current_lat);
-////                        crtLng = Double.parseDouble(current_lng);
-////
-////                        if (crtLat != null && crtLng != null) {
-////                            LatLng loc = new LatLng(crtLat, crtLng);
-////                            CameraPosition cameraPosition = new CameraPosition.Builder().target(loc).zoom(16).build();
-////                            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-////                            mapfocus.setVisibility(View.INVISIBLE);
-////                        }
-////                    }
-////                    break;
-//
-//            }
-//        }
-//    }
 
     @butterknife.OnClick(R.id.lnrWaitingForProviders)
     void lnrWaitingForProvidersClick() {
@@ -857,9 +774,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
                                 try {
                                     String ms = errorObj.optString("error");
-//                                    if (ms.contains("Ride Scheduled")) {
-//                                        ms = getString(R.string.re_select_time_and_date);
-//                                    }
 
                                     utils.showAlert(this, ms);
                                 } catch (Exception e) {
@@ -897,57 +811,16 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 };
 
         IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-//        try {
-//            if (SharedHelper.getKey(context, "payment_mode").equals("CARD")) {
-//                lblPaymentTypeInvoice.setText();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-//        if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase(getString(R.string.card))) {
-//            payNowCard();
-//        } else {
-//            Log.d(TAG, "btnPayNowClick: " + lblTotalPrice.getText().toString());
-//
-//            PayPalPayment payment = new PayPalPayment(new BigDecimal(lblTotalPrice.getText().toString().replace("€", "").trim()), "EUR", " ",
-//                    PayPalPayment.PAYMENT_INTENT_SALE);
-//            Intent intent = new Intent(TrackActivity.this, PaymentActivity.class);
-//            // send the same configuration for restart resiliency
-//            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, GlobalDataMethods.config);
-//            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-//            startActivityForResult(intent, 0);
-//        }
 
     }
 
     @butterknife.OnClick(R.id.btnPayNow)
     void btnPayNowClick() {
-//        try {
-//            if (SharedHelper.getKey(context, "payment_mode").equals("CARD")) {
-//                lblPaymentTypeInvoice.setText();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase(getString(R.string.card))) {
             payNowCard();
         } else {
             Log.d(TAG, "btnPayNowClick: " + lblTotalPrice.getText().toString());
-            //   confirmFinalPayment(lblTotalPrice.getText().toString());
-//       payNowCard();
-//            PayPalConfiguration config = new PayPalConfiguration()
-            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
-            // or live (ENVIRONMENT_PRODUCTION)
-//                    .clientId("AfkUnyokJW7R1C5ylbjsrST_bw8-qkO8yQSb_bUXtWS6KFrTvPs3IOB4XX7DTJlBiY1InG2q6gz5bmle\n" +
-//                            "PAYPAL_SECRET=EAchM9cqDqo7iCiLZunNnMW2bgAFvAgAVaUdv_hGgoC9ShkIW07br0s8gf9hHjlFnvT-x3DSS7cfX56H\n" +
-//                            "PAYPAL_MODE=sandbox");
-//                    .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
-//                    .clientId(getString(R.string.client_id_paypal));
-//                            +
-//                            getString(R.string.paypal_secret) +
-//                            getString(R.string.paypal_mode));
 
             PayPalPayment payment = new PayPalPayment(new BigDecimal(lblTotalPrice.getText().toString().replace("€", "").trim()), "EUR", " ",
                     PayPalPayment.PAYMENT_INTENT_SALE);
@@ -967,67 +840,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         isInternet = helper.isConnectingToInternet();
         statusCheck();
 
-
-//         <!--3. Waiting For Providers ...-->
-
-//        lnrWaitingForProviders = (RelativeLayout) findViewById(R.id.lnrWaitingForProviders);
-//        lblNoMatch = (TextView) findViewById(R.id.lblNoMatch);
-        //imgCenter =  findViewById(R.id.imgCenter);
-//        btnCancelRide = (Button) findViewById(R.id.btnCancelRide);
-//        content = (RippleBackground) findViewById(R.id.content);
-
-//          <!--4. Driver Accepted ...-->
-
-//        lnrProviderAccepted = findViewById(R.id.);
-//        lnrAfterAcceptedStatus = findViewById(R.id.);
-//        AfterAcceptButtonLayout = findViewById(R.id.);
-//        imgProvider = findViewById(R.id.);
-//        imgServiceRequested = findViewById(R.id.);
-
-//         =(TextView) findViewById(R.id.lblProvider);
-//         =(TextView) findViewById(R.id.lblStatus);
-//         =(TextView) findViewById(R.id.lblETA);
-//         =(TextView) findViewById(R.id.lblSurgePrice);
-//         =(TextView) findViewById(R.id.lblServiceRequested);
-//         =() findViewById(R.id.lblModelNumber);
-//         =() findViewById(R.id.ratingProvider);
-//
-//         =() findViewById(R.id.btnCancelTrip);
-
-
-//           <!--5. Invoice Layout ...-->
-
-//         = findViewById(R.id.lnrInvoice);
-//
-//         = (TextView) findViewById(R.id.lblBasePrice);
-//
-//         = (TextView) findViewById(R.id.lblExtraPrice);
-//
-//         = (TextView) findViewById(R.id.lblTaxPrice);
-//         = (TextView) findViewById(R.id.lblTotalPrice);
-//         = (TextView) findViewById(R.id.lblPaymentTypeInvoice);
-//         = findViewById(R.id.imgPaymentTypeInvoice);
-//         = (Button) findViewById(R.id.btnPayNow);
-
-//          <!--6. Rate provider Layout ...-->
-//
-//         = findViewById(R.id.lnrRateProvider);
-//        lblProviderNameRate = (TextView) findViewById(R.id.);
-//        imgProviderRate = findViewById(R.id.);
-//        txtCommentsRate = findViewById(R.id.);
-//        ratingProviderRate = (RatingBar) findViewById(R.id.);
-//        btnSubmitReview = (Button) findViewById(R.id.);
-
-//
-//        rtlStaticMarker = (RelativeLayout) findViewById(R.id.);
-//        imgDestination = findViewById(R.id.);
-//        btnDone = (Button) findViewById(R.id.);
-//        booking_id = findViewById(R.id.);
-
-//        lnrSearchAnimation = findViewById(R.id.);
-
-
-//        checkStatus();
         checkStatus();
         handleCheckStatus = new Handler();
         //check status every 3 sec
@@ -1066,25 +878,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         slide_up_top = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_top);
         slide_up_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_down);
 
-//        imgBack.setOnClickListener(this);
-//        btnCancelRide.setOnClickListener(new OnClick());
-//        btnCancelTrip.setOnClickListener(new OnClick());
-
-//        btnPayNow.setOnClickListener(new OnClick());
-//        btnSubmitReview.setOnClickListener(new OnClick());
-//        btnDone.setOnClickListener(new OnClick());
-
-//        lblPaymentChange.setOnClickListener(new OnClick());
-//        mapfocus.setOnClickListener(new OnClick());
-//        imgProvider.setOnClickListener(new OnClick());
-//        imgProviderRate.setOnClickListener(new OnClick());
-//        imgSos.setOnClickListener(new OnClick());
-//        imgShareRide.setOnClickListener(new OnClick());
-
-//        lnrProviderAccepted.setOnClickListener(new OnClick());
-//        lnrInvoice.setOnClickListener(new OnClick());
-//        lnrRateProvider.setOnClickListener(new OnClick());
-//        lnrWaitingForProviders.setOnClickListener(new OnClick());
         lblPaymentChange = findViewById(R.id.lblPaymentChanges);
         lblPaymentChange.setOnClickListener(v -> {
             Intent intent1 = new Intent(TrackActivity.this, CouponActivity.class);
@@ -1092,11 +885,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
-//    @butterknife.OnClick(R.id.lblPaymentChange)
-//    void  lblPaymentChangeClick()
-//    {
-//        showChooser();
-//    }
 
     @butterknife.OnClick(R.id.imgBack)
     void imgBackClick() {
@@ -1189,48 +977,17 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     SupportMapFragment mapFragment;
     GoogleMap mMap;
     int value;
-    //    Marker marker;
     Double latitude, longitude;
     String currentAddress;
     GoogleApiClient mGoogleApiClient;
-    //    ImageView mapfocus, shadowBack;
     ImageView destinationBorderImg;
-    //    ImageView imgSos;
-//    ImageView imgShareRide;
-//    TextView lblPaymentType, booking_id;
+
     String scheduledDate = "";
     String scheduledTime = "";
     String cancalReason = "";
-    //    RelativeLayout lnrSearchAnimation;
     //         <!--3. Waiting For Providers ...-->
     LocationRequest mLocationRequest;
-    //    RelativeLayout lnrWaitingForProviders;
-//    TextView lblNoMatch;
-//    ImageView imgCenter;
-//    Button btnCancelRide;
-    RippleBackground rippleBackground;
-    //  <!--4. Driver Accepted ...-->
-//    LinearLayout lnrProviderAccepted, lnrAfterAcceptedStatus, AfterAcceptButtonLayout;
-//    ImageView imgProvider, imgServiceRequested;
-//    TextView lblProvider, lblStatus, lblETA, lblServiceRequested, lblModelNumber, lblSurgePrice;
-//    RatingBar ratingProvider;
-//    Button btnCancelTrip;
-    //  <!--4. Invoice Accepted ...-->
-//    LinearLayout lnrInvoice;
-//    TextView lblBasePrice, lblExtraPrice, lblTaxPrice, lblTotalPrice, lblPaymentTypeInvoice;
-//    ImageView imgPaymentTypeInvoice;
-//    Button btnPayNow;
-    //    <!--6. Rate provider Layout ...-->
-//    LinearLayout lnrRateProvider;
-//    TextView lblProviderNameRate;
-//    ImageView imgProviderRate;
-//    RatingBar ratingProviderRate;
-//    EditText txtCommentsRate;
-//    Button btnSubmitReview;
-    //    <!-- Static marker-->
-//    RelativeLayout rtlStaticMarker;
-//    ImageView imgDestination;
-//    Button btnDone;
+
     CameraPosition cmPosition;
     String current_lat = "", current_lng = "", current_address = "", source_lat = "", source_lng = "", source_address = "",
             dest_lat = "", dest_lng = "", dest_address = "";
@@ -1248,14 +1005,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     TextView lblDis, lblEta, lblApproxAmount, lblApproxAmountDiscount, lblCmfrmSourceAddress, lblCmfrmDestAddress;
     //Animation
     Animation slide_down, slide_up, slide_up_top, slide_up_down;
-    //    MyTextView lblCmfrmSourceAddress, lblCmfrmDestAddress;
-//    ImageView ImgConfrmCabType;
-    boolean isRequestProviderScreen;
-    //    private ImageView imgBack;
+
     private boolean mIsShowing;
     private boolean mIsHiding;
 
-    //    private TextView lblDistancePrice;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -1281,13 +1034,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         context = TrackActivity.this;
         activity = TrackActivity.this;
         ButterKnife.bind(this);
-//        lnrFlow.getBackground().setAlpha(127);
         restInterface = ServiceGenerator.createService(RestInterface.class);
         SharedHelper.putKey(context, "AUTO_CARETAKER_REQ", "");
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
         init();
         //permission to access location
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(getApplicationContext(),
@@ -1298,8 +1047,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             initMap();
             MapsInitializer.initialize(getApplicationContext());
         }
-//            }
-//        }, 500);
+
 
         reqStatus = SharedHelper.getKey(context, "req_status");
         lblPaymentType = findViewById(R.id.lblPaymentType);
@@ -1357,11 +1105,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-
-//        utils.print("onDestroy()=Handler()TrackActvity", "onDestroy");
         handleCheckStatus.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
+
 
     private void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(TrackActivity.this);
@@ -1495,18 +1242,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         alert1.show();
     }
 
-    private void mapClear() {
-        mMap.clear();
-        source_lat = "";
-        source_lng = "";
-        dest_lat = "";
-        dest_lng = "";
-        if (!current_lat.equalsIgnoreCase("") && !current_lng.equalsIgnoreCase("")) {
-            LatLng myLocation = new LatLng(Double.parseDouble(current_lat), Double.parseDouble(current_lng));
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        }
-    }
 
     public void reCreateMap() {
         if (mMap != null) {
@@ -1552,15 +1287,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             Log.e("onLocationChanged", "from here!");
             if ((customDialog != null) && (customDialog.isShowing()))
                 customDialog.dismiss();
-//        if (marker != null) {
-//            marker.remove();
-//        }
+
             if (location != null && location.getLatitude() != 0 && location.getLongitude() != 0) {
-//            MarkerOptions markerOptions = new MarkerOptions()
-//                    .anchor(0.5f, 0.75f)
-//                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
-//                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_currentlocation));
-//            marker = mMap.addMarker(markerOptions);
 
 
                 current_lat = "" + location.getLatitude();
@@ -1605,29 +1333,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
         utils.print("Current marker", "Zoom Level " + mMap.getCameraPosition().zoom);
         cmPosition = mMap.getCameraPosition();
-//        if (marker != null) {
-//            if (!mMap.getProjection().getVisibleRegion().latLngBounds.contains(marker.getPosition())) {
-//                utils.print("Current marker", "Current Marker is not visible");
-//                if (flowValue != 1 && flowValue != 2) {
-//                    mapfocus.setVisibility(View.GONE);
-//                    if (mapfocus.getVisibility() == View.INVISIBLE) {
-//                        mapfocus.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            } else {
-//                if (flowValue != 1 && flowValue != 2) {
-//                    utils.print("Current marker", "Current Marker is visible");
-//                    if (mapfocus.getVisibility() == View.VISIBLE) {
-//                        mapfocus.setVisibility(View.INVISIBLE);
-//                    }
-//                    if (mMap.getCameraPosition().zoom < 16.0f) {
-//                        if (mapfocus.getVisibility() == View.INVISIBLE) {
-//                            mapfocus.setVisibility(View.VISIBLE);
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
     @Override
@@ -1810,9 +1515,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     void layoutChanges() {
         try {
 
-//                lnrSearchAnimation.startAnimation(slide_up_down);
-//                lnrSearchAnimation.setVisibility(View.VISIBLE);
-//            } else
             if (lnrInvoice.getVisibility() == View.VISIBLE) {
                 lnrInvoice.startAnimation(slide_down);
             } else if (lnrRateProvider.getVisibility() == View.VISIBLE) {
@@ -1843,20 +1545,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                 destinationBorderImg.setVisibility(View.GONE);
                 imgBack.setVisibility(View.VISIBLE);
-//                lnrRequestProviders.startAnimation(slide_up);
-//                lnrRequestProviders.setVisibility(View.VISIBLE);
-//                if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
-//                    if (lineView != null && chkWallet != null) {
-//                        lineView.setVisibility(View.VISIBLE);
-//                        chkWallet.setVisibility(View.VISIBLE);
-//                    }
-//                } else {
-//                    if (lineView != null && chkWallet != null) {
-//                        lineView.setVisibility(View.GONE);
-//                        chkWallet.setVisibility(View.GONE);
-//                    }
-//                }
-//                chkWallet.setChecked(false);
+
                 if (sourceMarker != null && destinationMarker != null) {
                     sourceMarker.setDraggable(true);
                     destinationMarker.setDraggable(true);
@@ -1864,10 +1553,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
             } else if (flowValue == 2) {
 
-
-//                chkWallet.setChecked(false);
-//                lnrApproximate.startAnimation(slide_up);
-//                lnrApproximate.setVisibility(View.VISIBLE);
                 if (sourceMarker != null && destinationMarker != null) {
                     sourceMarker.setDraggable(false);
                     destinationMarker.setDraggable(false);
@@ -1960,12 +1645,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     public void submitReviewCall() {
 
-//        if (!(priceTrink.equals("0") && priceTrink.length() == 0)) {
-//            payNowPaypalOrCard(priceTrink);
-//        } else {
-//            trinkDone = true;
-//        }
-
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
@@ -1990,9 +1669,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
-
-                // destination.setText("");
-                // frmDest.setText("");
 
                 SharedHelper.putKey(context, "service_type_Car_Ambulance", "");
 
@@ -2069,34 +1745,12 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             Intent goMain = new Intent(activity, MainActivity.class);
             goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.startActivity(goMain);
+            stopHandler();
 
         }
 
     }
 
-    void payNowPaypalOrCard(String Price) {
-        // --
-        if (paymentType.equalsIgnoreCase("CARD")) {
-            payNowCard("CARD", Price);
-        } else {
-            Log.e("222 payNowPaypal", "btnPayNowClick: " + Price);
-
-            try {
-
-                PayPalPayment payment = new PayPalPayment(new BigDecimal(Price.replace("€", "")), "EUR", " ",
-                        PayPalPayment.PAYMENT_INTENT_SALE);
-                Intent intent = new Intent(TrackActivity.this, PaymentActivity.class);
-                // send the same configuration for restart resiliency
-                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, GlobalDataMethods.config);
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-                startActivityForResult(intent, 012);
-
-            } catch (Exception e) {
-                Log.e("222 payNowPaypal", e.getMessage());
-            }
-        }
-
-    }
 
     public void payNowCard(String paymentType, String Price) {
         // --
@@ -2304,24 +1958,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         });
         dialog.show();
 
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        View view = LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null);
-//        final EditText reasonEtxt = view.findViewById(R.id.reason_etxt);
-//        Button submitBtn = view.findViewById(R.id.submit_btn);
-//        builder.setIcon(R.drawable.appicon)
-//                .setTitle(R.string.app_name)
-//                .setView(view)
-//                .setCancelable(true);
-//        final AlertDialog dialog = builder.create();
-//        submitBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                cancalReason = reasonEtxt.getText().toString();
-//                cancelRequest();
-//                dialog.dismiss();
-//            }
-//        });
-//        dialog.show();
     }
 
     public void payNowBacked(String merchantReqId,
@@ -2336,9 +1972,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             object.put("request_id", SharedHelper.getKey(context, "request_id"));
             object.put("m_id", merchantReqId);
             object.put("c_id", checkOutReqId);
-//            object.put("total_payment", SharedHelper.getKey(context, "total_amount"));
-            //object.put("payment_mode", paymentMode);
-            // object.put("is_paid", isPaid);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2462,93 +2096,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
-    private void confirmFinalPayment(String totalFee) {
-        customDialog = new CustomDialog(context);
-        customDialog.setCancelable(false);
-        if (customDialog != null)
-            customDialog.show();
-        JSONObject object = new JSONObject();
-        try {
-            object.put("total_amount", lblTotalPrice.getText().toString());
-            object.put("req_id", SharedHelper.getKey(getApplicationContext(), "request_id"));
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLHelper.PAY_NOW_API, object, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
-                if (response != null) {
-                    try {
-                        String status = response.getString("status");
-                        if (status.equalsIgnoreCase("1")) {
-                            //  paymentShowDialog(response.optString("message"));
-                        } else {
-                            //   paymentErrorShowDialog(response.optString("message"));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                String json = null;
-                String Message;
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
-
-                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                            try {
-                                utils.showAlert(context, errorObj.optString("message"));
-                            } catch (Exception e) {
-                                utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                            }
-                        } else if (response.statusCode == 401) {
-                            //  refreshAccessToken("INSURANCE_LIST");
-                        } else if (response.statusCode == 422) {
-                            //  json = trimMessage(new String(response.data));
-                            if (json != "" && json != null) {
-                                utils.showAlert(context, json);
-                            } else {
-                                utils.showAlert(context, context.getString(R.string.please_try_again));
-                            }
-                        } else if (response.statusCode == 503) {
-                            utils.showAlert(context, context.getString(R.string.server_down));
-                        } else {
-                            utils.showAlert(context, context.getString(R.string.please_try_again));
-                        }
-                    } catch (Exception e) {
-                        utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                    }
-
-                } else {
-                    utils.showAlert(context, context.getString(R.string.please_try_again));
-                }
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-                return headers;
-            }
-        };
-        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-    }
 
     public void cancelRequest() {
         customDialog = new CustomDialog(context);
@@ -2582,6 +2129,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 activity.startActivity(goMain);
                 activity.finish();
+                stopHandler();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -2605,6 +2153,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                 goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 activity.startActivity(goMain);
                                 activity.finish();
+                                stopHandler();
                             } catch (Exception e) {
 //                                utils.displayMessage(getCurrentFocus(), getString(R.string.something_went_wrong));
                             }
@@ -2719,9 +2268,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     private void checkStatus() {
         try {
 
-//            Log.e("done_aboood", "checkStatus");
-//            getDurationForRoute();
-
             utils.print("Handler", "Inside");
             if (isInternet) {
 
@@ -2799,10 +2345,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                 }
                                 pickUpLocationName = requestStatusCheckObject.optString("s_address");
                                 dropLocationName = requestStatusCheckObject.optString("d_address");
-//                                setValuesForSourceAndDestination();
 
-
-                                // surge price
                                 if (requestStatusCheckObject.optString("surge").equalsIgnoreCase("1")) {
                                     lblSurgePrice.setVisibility(View.VISIBLE);
                                 } else {
@@ -2868,8 +2411,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                         .placeholder(R.drawable.car_select).error(R.drawable.car_select)
                                                         .into(imgServiceRequested);
                                                 ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
-//                                                lblDis.setText(service_type.optString("distance")+" km");
-//                                                lblEta.setText(service_type.optString("minute")+" min");
 
                                                 setPricesIfDiscount(service_type.optString("fixed"));
 
@@ -2925,9 +2466,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 Picasso.get().load(URLHelper.base + service_type.optString("image")).placeholder(R.drawable.car_select).error(R.drawable.car_select).into(imgServiceRequested);
                                                 ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
 
-//                                                lblDis.setText(service_type.optString("distance")+" km");
-//                                                lblEta.setText(service_type.optString("minute")+" min");
-//                                                lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
                                                 setPricesIfDiscount(service_type.optString("fixed"));
 
                                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
@@ -2973,9 +2511,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 Picasso.get().load(URLHelper.base + service_type.optString("image")).placeholder(R.drawable.car_select).error(R.drawable.car_select).into(imgServiceRequested);
                                                 ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
 
-//                                                lblDis.setText(service_type.optString("distance")+" km");
-//                                                lblEta.setText(service_type.optString("minute")+" min");
-//                                                lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
                                                 setPricesIfDiscount(service_type.optString("fixed"));
                                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                                 lblCmfrmDestAddress.setText(dropLocationName);
@@ -3090,14 +2625,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                                         case "COMPLETED":
                                             layoutdriverstatus.setVisibility(View.GONE);
-//                                            driveraccepted.setVisibility(View.GONE);
-//                                            driverArrived.setVisibility(View.GONE);
-//                                            driverPicked.setVisibility(View.GONE);
-//                                            driverCompleted.setVisibility(View.VISIBLE);
-//                                            txtdriveraccpted.setText(getString(R.string.arriving));
-//                                            imgarrived.setImageResource(R.drawable.arriveddisable);
-//                                            imgPicked.setImageResource(R.drawable.pickeddisable);
-//                                            imgDropped.setImageResource(R.drawable.complete);
+
                                             strTag = "";
                                             try {
                                                 if (requestStatusCheckObject.optJSONObject("payment") != null) {
@@ -3157,9 +2685,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                 if ("ACCEPTED".equals(status) || "STARTED".equals(status) ||
                                         "ARRIVED".equals(status) || "PICKEDUP".equals(status) || "DROPPED".equals(status)) {
                                     Log.e("min_daa", "from here ||");
-//                                    utils.print("Livenavigation", "" + status);
-//                                    utils.print("Destination Current Lat", "" + requestStatusCheckObject.getJSONObject("provider").optString("latitude"));
-//                                    utils.print("Destination Current Lng", "" + requestStatusCheckObject.getJSONObject("provider").optString("longitude"));
+
                                     liveNavigation(status, requestStatusCheckObject.getJSONObject("provider").optString("latitude"),
                                             requestStatusCheckObject.getJSONObject("provider").optString("longitude"));
                                 }
@@ -3171,21 +2697,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             SharedHelper.putKey(context, "current_status", "");
                             if (scheduledDate != null && scheduledTime != null && !scheduledDate.equalsIgnoreCase("")
                                     && !scheduledTime.equalsIgnoreCase("")) {
-                               /* Toast.makeText(context, getString(R.string.schdule_accept), Toast.LENGTH_SHORT).show();
-                                if (scheduleTrip){
-                                    Intent intent = new Intent(activity,HistoryActivity.class);
-                                    intent.putExtra("tag","upcoming");
-                                    startActivity(intent);
-                                }*/
+
                             } else {
 
                                 strTag = "";
                                 PreviousStatus = "";
                                 flowValue = 0;
-                             /*
-                            layoutChanges();
-                            mMap.clear();
-                            mapClear();*/
+
                                 if (GlobalDataMethods.newScheduleRequest) {
                                     GlobalDataMethods.newScheduleRequest = false;
                                     Intent output = new Intent();
@@ -3195,6 +2713,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     Toast.makeText(context, getString(R.string.no_drivers_found), Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(activity, MainActivity.class);
                                     startActivity(intent);
+                                    stopHandler();
                                 }
                             }
                         } else if (PreviousStatus.equalsIgnoreCase("STARTED")) {
@@ -3204,33 +2723,27 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             PreviousStatus = "";
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
-                           /* flowValue = 0;
-                            layoutChanges();
-                            mMap.clear();
-                            mapClear();*/
+                            stopHandler();
+
                         } else if (PreviousStatus.equalsIgnoreCase("ARRIVED")) {
                             SharedHelper.putKey(context, "current_status", "");
                             Toast.makeText(context, getString(R.string.driver_busy), Toast.LENGTH_SHORT).show();
                             strTag = "";
                             PreviousStatus = "";
-                           /* flowValue = 0;
-                            layoutChanges();
-                            mMap.clear();
-                            mapClear();*/
+
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
+                            stopHandler();
                         } else if (PreviousStatus.equalsIgnoreCase("SEARCHING") && response.optJSONObject("data") != null
                                 && response.optJSONArray("data").length() > 0) {
                             Toast.makeText(context, getString(R.string.no_drivers_found), Toast.LENGTH_SHORT).show();
                             strTag = "";
                             PreviousStatus = "";
                             flowValue = 0;
-                             /*
-                            layoutChanges();
-                            mMap.clear();
-                            mapClear();*/
+
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
+                            stopHandler();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -3252,9 +2765,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         HashMap<String, String> headers = new HashMap<>();
                         headers.put("X-Requested-With", "XMLHttpRequest");
-//                        utils.print("Authorization", "" +
-//                                SharedHelper.getKey(context, "token_type")
-//                                + " " + SharedHelper.getKey(context, "access_token"));
+
 
                         headers.put("Authorization", "" +
                                 SharedHelper.getKey(context, "token_type")
@@ -3275,29 +2786,20 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
+    private void stopHandler() {
+        try {
+            if (SharedHelper.getKey(context, "req_status").length() == 0 && handleCheckStatus != null) {
+                handleCheckStatus.removeCallbacksAndMessages(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void setPricesIfDiscount(String fixed) {
 
         lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + fixed);
         sendToServerCoupon();
-
-//        if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
-//            lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//
-//            double discount = Double.parseDouble(fixed)
-//                    - (GlobalDataMethods.coupon_discount_str);
-//
-//            if (discount < 0) {
-//                discount = 0;
-//            }
-//            lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
-//                    String.format(Locale.ENGLISH, "%.2f", discount));
-//            lblApproxAmountDiscount.setVisibility(View.VISIBLE);
-//        } else {
-//            lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-//            lblApproxAmountDiscount.setText("");
-//            lblApproxAmountDiscount.setVisibility(View.GONE);
-//
-//        }
 
     }
 
@@ -3384,7 +2886,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     boolean lockWhileGet = false;
-    String previousDriverLat, previousDriverLong;
 
     public void getDurationForRoute() {
         try {
@@ -3405,23 +2906,11 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             Double driver_lat = Double.parseDouble(responseObject.getJSONObject("provider").getString("latitude"));
                             Double driver_longi = Double.parseDouble(responseObject.getJSONObject("provider").getString("longitude"));
 
-//                            Log.e("getCompleteAdd2", "from here!");
-//                            Log.e("driver_location", utils.getCompleteAddressString(context, driver_lat, driver_longi));
-//                            if (!(previousDriverLat.equals(driverLat) && previousDriverLong.equals(driverLong) && lockWhileGet)) {
-//                                previousDriverLat = driverLat;
-//                                previousDriverLong = driverLong;
-
                             Log.e("done_aboood11", source_lat + " / " + source_lng);
-//            if (!GlobalDataMethods.SourceTripeLat.isEmpty() && !GlobalDataMethods.SourceTripeLong.isEmpty()) {
-//                                lockWhileGet = true;
 
                             GoogleDirection.withServerKey(SharedHelper.getKey(TrackActivity.this, "GOOGLE_KEY_MAPS"))
-//                    .from(new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng)))
-
-//                GoogleDirection.withServerKey(getString(R.string.google_map_api))
                                     .from(new LatLng(driver_lat, driver_longi))// driver loc
                                     .to(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)))
-//                        .to(new LatLng(Double.parseDouble(GlobalDataMethods.SourceTripeLat), Double.parseDouble(GlobalDataMethods.SourceTripeLong)))// source me
                                     .transportMode(TransportMode.DRIVING)
                                     .execute(new DirectionCallback() {
 
@@ -3449,7 +2938,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                                 .replace(",", ".")
                                                                 .trim());
 
-//                                totalDistance =0;
                                                         if (leg.getDuration().getText().contains("day")) {
                                                             Log.v("splitday", leg.getDuration().getText().split("day")[0] + " ");
                                                             totalDuration = totalDuration + 24 * 60 * Integer.parseInt(leg.getDuration().getText()
@@ -3511,9 +2999,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                             Log.e("done_aboood", "Failure " + t.getMessage());
                                         }
                                     });
-//            }
 
-//                            }
 
                         } catch (JSONException e) {
                             Log.e("GoogleDirection", "from here!");
@@ -3581,30 +3067,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             e.printStackTrace();
         }
 
-//        LatLng DriverLocation = providerMarker.getPosition();
-//        Double driver_lat = DriverLocation.latitude;
-//        Double driver_longi = DriverLocation.longitude;
-
-//        Double driver_lat = 52.5230588;
-//        Double driver_longi = 13.4699208;
-
-
-//        Log.e("condition", previousDriverLat + " == " + driverLat);
-//        Log.e("condition", previousDriverLong + " == " + driverLong);
-//        Log.e("getCompleteAdd3", "from here!");
-//        Log.e("user_location", utils.getCompleteAddressString(context, Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)) + "");
-//        Log.e("getCompleteAdd4", "from here!");
-//        Log.e("user_location", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
-//        Log.e("driver_location", utils.getCompleteAddressString(context, Double.parseDouble(driverLat), Double.parseDouble(driverLong)) + "");
-//        Log.e("condition",GlobalDataMethods.SourceTripeLat +"  //  " + GlobalDataMethods.SourceTripeLong);
-
-//        if (confirmDialog != null && confirmDialog.isShowing() &&
-//                (GlobalDataMethods.SourceTripeLat.isEmpty() || GlobalDataMethods.SourceTripeLong.isEmpty())){
-//            GlobalDataMethods.SourceTripeLat = source_lat;
-//            GlobalDataMethods.SourceTripeLong = dest_lng;
-//
-//        }
-
 
     }
 
@@ -3612,7 +3074,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     TextView tvDone;
 
     private void showStartedDialog(JSONObject requestStatusCheckObject) {
-//        getDurationForRoute();
 
         confirmDialog = new Dialog(TrackActivity.this);
         confirmDialog.setContentView(R.layout.confirm_ride_dialog);
@@ -3665,14 +3126,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             .error(R.drawable.car_select).into(imgServiceRequested);
                     ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
 
-//                    lblDis.setText(service_type.optString("distance")+" km");
-//                    lblEta.setText(service_type.optString("minute")+" min");
-//                    lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + service_type.optString("fixed"));
                     setPricesIfDiscount(service_type.optString("fixed"));
 
                     lblCmfrmSourceAddress.setText(pickUpLocationName);
                     lblCmfrmDestAddress.setText(dropLocationName);
-                    //lnrAfterAcceptedStatus.setVisibility(View.GONE);
 
                     AfterAcceptButtonLayout.setVisibility(View.VISIBLE);
                     flowValue = 4;
@@ -3690,8 +3147,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
             }
         });
-//        Log.e("done_aboood", "tvDone");
-//        getDurationForRoute();
 
 
     }
@@ -3718,241 +3173,11 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 markerOptions.rotation(rotation * (180.0f / (float) Math.PI));
                 providerMarker.remove();
                 providerMarker = mMap.addMarker(markerOptions);
-                String serviceRequsetName = SharedHelper.getKey(context, "service_type_Car_Ambulance");
-//                if (serviceRequsetName != "") {
-//                    if (serviceRequsetName.equalsIgnoreCase("CAR/TRANSFER") ||
-//                            serviceRequsetName.equalsIgnoreCase("AMBULANCE")) {
-//                        getDriverCarAmbETA();
-//                    } else {
-//                        getDriverETA();
-//                    }
-//                } else {
-//                    String serviceRequsetName1 = SharedHelper.getKey(context, "providerServiceType");
-//                    if (serviceRequsetName1 != "") {
-//                        if (serviceRequsetName1.equalsIgnoreCase("CAR") ||
-//                                serviceRequsetName1.equalsIgnoreCase("AMBULANCE")) {
-//                            getDriverCarAmbETA();
-//                        } else {
-//                            //   getDriverETA();
-//                        }
-//                    }
-//                }
 
             }
 
 
         }
-
-    }
-
-    // car and ambulance live driver ETA calculation
-    public void getDriverCarAmbETA() {
-        //Toast.makeText(getActivity(),providerMarker.getPosition().toString(),Toast.LENGTH_SHORT).show();
-        LatLng DriverLocation = providerMarker.getPosition();
-        Double driver_lat = DriverLocation.latitude;
-        Double driver_longi = DriverLocation.longitude;
-
-        Log.e("TAG", "DRIVER LOCATION:" + driver_lat + "," + driver_longi);
-
-        /*customDialog = new CustomDialog(context);
-        customDialog.setCancelable(false);
-        if (customDialog != null)
-            customDialog.show();*/
-        JSONObject object = new JSONObject();
-        String constructedURL1 = URLHelper.ESTIMATED_FARE_ALL_API + "" +
-                "?s_latitude=" + driver_lat
-                + "&s_longitude=" + driver_longi
-                + "&d_latitude=" + source_lat
-                + "&d_longitude=" + source_lng
-                + "&service_type=" + SharedHelper.getKey(context, "service_type");
-
-//        Log.e("constructedURL1", constructedURL1);
-        Log.e("ESTIMATED_FARE3", constructedURL1);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, constructedURL1, object, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                //Log.e("TAG","Driver APi response"+response);
-                if (response != null) {
-                    if (!response.optString("time").equalsIgnoreCase("")) {
-                        ETA = response.optString("time");
-                    } else {
-                        ETA = "--";
-                    }
-                    //Log.e(TAG,"ETA: "+ETA);
-
-
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-//                if ((customDialog != null) && (customDialog.isShowing()))
-//                    customDialog.dismiss();
-                String json = null;
-                String Message;
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
-
-                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                            try {
-                                utils.showAlert(context, errorObj.optString("message"));
-                            } catch (Exception e) {
-                                utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                            }
-                        } else if (response.statusCode == 401) {
-                            refreshAccessToken("APPROXIMATE_RATE");
-                        } else if (response.statusCode == 422) {
-                            json = trimMessage(new String(response.data));
-                            if (json != "" && json != null) {
-                                utils.showAlert(context, json);
-                            } else {
-                                utils.showAlert(context, context.getString(R.string.please_try_again));
-                            }
-                        } else if (response.statusCode == 503) {
-                            utils.showAlert(context, context.getString(R.string.server_down));
-                        } else {
-                            utils.showAlert(context, context.getString(R.string.please_try_again));
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        // if something goes working then it will show automatically show its commented
-                        Log.e(this.getClass().getName(), "getDriverCarAmbETA()->onErrorResponse()=Exception" + e.getMessage());
-                        //utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                    }
-
-                } else {
-                    utils.showAlert(context, context.getString(R.string.please_try_again));
-                }
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-                return headers;
-            }
-        };
-
-        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-
-    }
-
-    // caretaker driver live naivgation eta
-    public void getDriverETA() {
-        //Toast.makeText(getActivity(),providerMarker.getPosition().toString(),Toast.LENGTH_SHORT).show();
-        LatLng DriverLocation = providerMarker.getPosition();
-        Double driver_lat = DriverLocation.latitude;
-        Double driver_longi = DriverLocation.longitude;
-
-        Log.e("TAG", "DRIVER LOCATION:" + driver_lat + "," + driver_longi);
-
-        /*customDialog = new CustomDialog(context);
-        customDialog.setCancelable(false);
-        if (customDialog != null)
-            customDialog.show();*/
-        JSONObject object = new JSONObject();
-        String constructedURL1 = URLHelper.ESTIMATED_FARE_ALL_API + "" +
-                "?s_latitude=" + driver_lat
-                + "&s_longitude=" + driver_longi
-                + "&d_latitude=" + source_lat
-                + "&d_longitude=" + source_lng
-                + "&service_type=" + SharedHelper.getKey(context, "service_type");
-
-        Log.e("ESTIMATED_FARE4", constructedURL1);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, constructedURL1, object, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                //Log.e("TAG","Driver APi response"+response);
-                if (response != null) {
-                    if (!response.optString("time").equalsIgnoreCase("")) {
-                        ETA = response.optString("time");
-                    } else {
-                        ETA = "--";
-                    }
-                    //Log.e(TAG,"ETA: "+ETA);
-
-//                        utils.print("ApproximateResponse", response.toString());
-//                        SharedHelper.putKey(context, "estimated_fare", response.optString("estimated_fare"));
-//                        SharedHelper.putKey(context, "distance", response.optString("distance"));
-//                        SharedHelper.putKey(context, "eta_time", response.optString("time"));
-//                        SharedHelper.putKey(context, "surge", response.optString("surge"));
-//                        SharedHelper.putKey(context, "surge_value", response.optString("surge_value"));
-//                        setValuesForApproximateLayout();
-//                        double wallet_balance = response.optDouble("wallet_balance");
-//                        SharedHelper.putKey(context, "wallet_balance", "" + response.optDouble("wallet_balance"));
-//
-//                        if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
-//                            lineView.setVisibility(View.VISIBLE);
-//                            chkWallet.setVisibility(View.VISIBLE);
-//                        } else {
-//                            lineView.setVisibility(View.GONE);
-//                            chkWallet.setVisibility(View.GONE);
-//                        }
-//                        flowValue = 2;
-//                        layoutChanges();
-
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-//                if ((customDialog != null) && (customDialog.isShowing()))
-//                    customDialog.dismiss();
-                String json = null;
-                String Message;
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
-
-                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                            try {
-                                utils.showAlert(context, errorObj.optString("message"));
-                            } catch (Exception e) {
-                                utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                            }
-                        } else if (response.statusCode == 401) {
-                            refreshAccessToken("APPROXIMATE_RATE");
-                        } else if (response.statusCode == 422) {
-                            json = trimMessage(new String(response.data));
-                            if (json != "" && json != null) {
-                                utils.showAlert(context, json);
-                            } else {
-                                utils.showAlert(context, context.getString(R.string.please_try_again));
-                            }
-                        } else if (response.statusCode == 503) {
-                            utils.showAlert(context, context.getString(R.string.server_down));
-                        } else {
-                            utils.showAlert(context, context.getString(R.string.please_try_again));
-                        }
-
-                    } catch (Exception e) {
-                        utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                    }
-
-                } else {
-                    utils.showAlert(context, context.getString(R.string.please_try_again));
-                }
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-                return headers;
-            }
-        };
-
-        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
 
     }
 
@@ -4140,35 +3365,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             }
         }
 
-
-
-      /*  if (requestCode == PAY_NOW_REQUEST_CODE){
-            if (resultCode == Activity.RESULT_OK) {
-
-                // Toast.makeText(activity, "card profile", Toast.LENGTH_SHORT).show();
-                String result = data.getStringExtra("paymentSuccessful");
-
-                String serviceRequsetName1 = SharedHelper.getKey(context, "service_type_Car_Ambulance");
-
-                if (serviceRequsetName1.equalsIgnoreCase("CAR/TRANSFER") || serviceRequsetName1.equalsIgnoreCase("AMBULANCE")) {
-                    sendRequestCarAmbulance();
-                } else {
-
-                    SharedHelper.putKey(context, "name", "");
-                    scheduledDate = "";
-                    scheduledEndDate = "";
-                    scheduledTime = "";
-                    scheduledEndTime = "";
-                    sendRequest();
-                }
-            }
-            else if (resultCode == Activity.RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-
-        }
-*/
-
         if (requestCode == 5555) {
             if (resultCode == Activity.RESULT_OK) {
                 CardInfo cardInfo = data.getParcelableExtra("card_info");
@@ -4219,11 +3415,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         try {
             object.put("request_id", SharedHelper.getKey(context, "request_id"));
             object.put("total_payment", lblTotalPrice.getText().toString().replace("€", ""));
-//            if (paymentType.contains("PAYPAL")) {
-//                object.put("payment_id", paymentId);
-//            }
-//              object.put("payment_mode", SharedHelper.getKey(getApplicationContext(),"payment_mode"));
-//              object.put("is_paid", isPaid);
+
             Log.d(TAG, "2223 payNowCard: " + object.toString(1));
         } catch (Exception e) {
             e.printStackTrace();
@@ -4303,8 +3495,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             btnPayNow.setVisibility(View.GONE);
             btnPayNowCash.setVisibility(View.GONE);
         } else {
-//            SharedHelper.putKey(context, "card_id", cardInfo.getCardId());
-//            SharedHelper.putKey(context, "payment_mode", "M-Pesa");
             SharedHelper.putKey(context, "payment_mode", "CARD");
             imgPaymentType.setImageResource(R.mipmap.ic_launcher);
             lblPaymentType.setText(cardInfo.getLastFour());
@@ -4401,10 +3591,20 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private void trackPickToDest() throws Exception {
 
-//        Log.e("getCompleteAdd5", "from here!");
-//        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)) + "");
-//        Log.e("getCompleteAdd6", "from here!");
-//        Log.e("loc_trackPiT", utils.getCompleteAddressString(context, Double.parseDouble(source_lat), Double.parseDouble(source_lng)) + "");
+        Log.v("rawBody_direction", "from: " + Double.parseDouble(source_lat) + " / " + Double.parseDouble(source_lng)
+                + "\n" +
+                "to: " + Double.parseDouble(dest_lat) + " / " + Double.parseDouble(dest_lng));
+
+        if (GlobalDataMethods.googleDirectionModelHashMap.size() > 0) {
+            GoogleDirectionModel googleDirectionModel = GlobalDataMethods.googleDirectionModelHashMap.get(Double.parseDouble(source_lat) + " / " + Double.parseDouble(source_lng)
+                    + " // " + Double.parseDouble(dest_lat) + " / " + Double.parseDouble(dest_lng));
+
+            if (googleDirectionModel != null){
+                Log.e("onDirectionSuccessOk","from hash map");
+                onDirectionSuccessOk(googleDirectionModel.getDirection(), googleDirectionModel.getRawBody());
+                return;
+            }
+        }
 
         GoogleDirection.withServerKey(SharedHelper.getKey(TrackActivity.this, "GOOGLE_KEY_MAPS"))
                 .from(new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng)))
@@ -4414,140 +3614,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                     @Override
                     public void onDirectionSuccess(Direction direction, String rawBody) {
-                        if (direction.isOK()) {
-                            try {
-                                Log.v("rawBody", rawBody + "");
-                                Log.v("direction", direction + "");
+                        Log.e("onDirectionSuccessOk","from Google");
+                        GoogleDirectionModel googleDirectionModel = new GoogleDirectionModel(direction, rawBody);
 
-                                float totalDistance = 0;
-                                int totalDuration = 0;
-                                mMap.clear();
-                                Route route = direction.getRouteList().get(0);
-                                int legCount = route.getLegList().size();
-                                for (int index = 0; index < legCount; index++) {
-                                    Leg leg = route.getLegList().get(index);
+                        GlobalDataMethods.googleDirectionModelHashMap.put(Double.parseDouble(source_lat) + " / " + Double.parseDouble(source_lng)
+                                + " // " + Double.parseDouble(dest_lat) + " / " + Double.parseDouble(dest_lng), googleDirectionModel);
 
-                                    totalDistance = totalDistance + Float.parseFloat(leg.getDistance().getText().replace("km", "").replace("m", "").trim());
-
-//                                totalDistance =0;
-                                    if (leg.getDuration().getText().contains("hour")) {
-                                        Log.v("splithour", leg.getDuration().getText().split("hour")[0] + " ");
-                                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
-                                                .split("hour")[0].trim());
-
-                                    } else if (leg.getDuration().getText().contains("hours")) {
-                                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
-                                                .split("hours")[0].trim().replace("m", ""));
-                                    } else if (leg.getDuration().getText().contains("mins")) {
-                                        totalDuration = totalDuration + Integer.parseInt(leg.getDuration().getText()
-                                                .replace("hour", "").replace("mins", "").replace("m", "").trim());
-                                    } else {
-                                        totalDuration = totalDuration + 0;
-                                    }
-
-
-                                    if (reqStatus.equals("PICKEDUP") || reqStatus.equals("DROPPED")) {
-                                        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.user_markers);
-                                        Bitmap icon1 = BitmapFactory.decodeResource(getResources(), R.drawable.provider);
-                                        mMap.addMarker(new MarkerOptions()
-                                                .icon(BitmapDescriptorFactory.fromBitmap(icon1))
-                                                .rotation(360)
-                                                .flat(true)
-                                                .anchor(0.5f, 0.5f)
-                                                .position(leg.getStartLocation().getCoordination()));
-                                        if (index == legCount - 1) {
-                                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon)).position(leg.getEndLocation().getCoordination()));
-                                        }
-                                        List<Step> stepList = leg.getStepList();
-                                        ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(TrackActivity.this, stepList, 3, Color.BLACK, 2, Color.GRAY);
-                                        for (PolylineOptions polylineOption : polylineOptionList) {
-                                            mMap.addPolyline(polylineOption);
-                                        }
-                                        if (pickUpLocationName != null) {
-                                        }
-
-                                        if (dest_address != null) {
-                                            View marker_view2 = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(com.gsanthosh91.decoderoutekey.R.layout.custom_marker, null);
-                                            TextView addressDes = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.addressTxt);
-                                            TextView etaTxt = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.etaTxt);
-                                            etaTxt.setVisibility(View.VISIBLE);
-                                            addressDes.setText(dropLocationName);
-                                            if (totalDuration > 60) {
-                                                etaTxt.setText(convertHours(totalDuration));
-                                            } else {
-                                                etaTxt.setText(totalDuration + " mins");
-                                            }
-                                            etaDur = totalDuration + "";
-                                            MarkerOptions marker_opt_des = new MarkerOptions().position(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
-                                            marker_opt_des.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_view2))).anchor(0.00f, 0.20f);
-                                            destinationMarker = mMap.addMarker(marker_opt_des);
-                                        }
-                                    } else {
-                                        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.destination_marker);
-                                        Bitmap icon1 = BitmapFactory.decodeResource(getResources(), R.drawable.user_markers);
-                                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon1)).position(leg.getStartLocation().getCoordination()));
-                                        if (index == legCount - 1) {
-                                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon)).position(leg.getEndLocation().getCoordination()));
-                                        }
-                                        List<Step> stepList = leg.getStepList();
-                                        ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(TrackActivity.this, stepList, 3, Color.BLACK, 2, Color.GRAY);
-                                        for (PolylineOptions polylineOption : polylineOptionList) {
-                                            mMap.addPolyline(polylineOption);
-                                        }
-                                        if (pickUpLocationName != null) {
-                                        }
-
-                                        if (dest_address != null) {
-                                            View marker_view2 = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(com.gsanthosh91.decoderoutekey.R.layout.custom_marker, null);
-                                            TextView addressDes = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.addressTxt);
-                                            TextView etaTxt = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.etaTxt);
-                                            etaTxt.setVisibility(View.VISIBLE);
-                                            addressDes.setText(pickUpLocationName);
-                                            if (totalDuration > 60) {
-                                                etaTxt.setText(convertHours(totalDuration));
-                                            } else {
-                                                etaTxt.setText(totalDuration + " mins");
-                                            }
-
-                                            etaDur = totalDuration + "";
-                                            MarkerOptions marker_opt_des = new MarkerOptions().position(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
-                                            marker_opt_des.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_view2))).anchor(0.00f, 0.20f);
-                                            destinationMarker = mMap.addMarker(marker_opt_des);
-                                        }
-                                    }
-
-                                }
-
-                                mMap.setOnCameraIdleListener(() -> {
-                                    if (sourceMarker != null) {
-                                        String lat = String.valueOf(sourceLatLng.latitude);
-                                        String lng = String.valueOf(sourceLatLng.longitude);
-                                        if (((lat != null) && !lat.equals("") && !lat.isEmpty() && !lat.equalsIgnoreCase("0,0")) &&
-                                                ((lng != null) && !lng.equals("") && !lng.isEmpty() && !lng.equalsIgnoreCase("0,0"))) {
-                                            Point PickupPoint = mMap.getProjection().toScreenLocation(new LatLng(sourceLatLng.latitude, sourceLatLng.longitude));
-                                            sourceMarker.setAnchor(PickupPoint.x < dpToPx(context, 200) ? 0.00f : 1.00f, PickupPoint.y < dpToPx(context, 100) ? 0.20f : 1.20f);
-                                        }
-
-                                    }
-                                    if (destinationMarker != null) {
-                                        if (((dest_lat != null) && !dest_lat.equals("") && !dest_lat.isEmpty() && !dest_lat.equalsIgnoreCase("0,0")) &&
-                                                ((dest_lng != null) && !dest_lng.equals("") && !dest_lng.isEmpty() && !dest_lng.equalsIgnoreCase("0,0"))) {
-                                            Point PickupPoint = mMap.getProjection().toScreenLocation(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
-                                            destinationMarker.setAnchor(PickupPoint.x < dpToPx(context, 200) ? 0.00f : 1.00f, PickupPoint.y < dpToPx(context, 100) ? 0.20f : 1.20f);
-                                        }
-                                    }
-                                });
-
-                                Log.e("min_km", "from trackPickToDest");
-                                lblCmfrmSourceAddress.setText(pickUpLocationName);
-                                lblDis.setText(totalDistance + " km");
-                                lblEta.setText(totalDuration + " Min");
-//                                GlobalDataMethods.GTotalDuration = totalDuration;
-                                setCameraWithCoordinationBounds(route);
-                            } catch (Exception e) {
-                                Log.e("error", e.getMessage());
-                            }
-                        }
+                        onDirectionSuccessOk(direction, rawBody);
                     }
 
                     @Override
@@ -4556,6 +3629,143 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     }
                 });
 
+    }
+
+    private void onDirectionSuccessOk(Direction direction, String rawBody) {
+        if (direction.isOK()) {
+            try {
+                Log.v("rawBody", rawBody + "");
+                Log.v("direction", direction + "");
+
+                float totalDistance = 0;
+                int totalDuration = 0;
+                mMap.clear();
+                Route route = direction.getRouteList().get(0);
+                int legCount = route.getLegList().size();
+                for (int index = 0; index < legCount; index++) {
+                    Leg leg = route.getLegList().get(index);
+
+                    totalDistance = totalDistance + Float.parseFloat(leg.getDistance().getText().replace("km", "").replace("m", "").trim());
+
+//                                totalDistance =0;
+                    if (leg.getDuration().getText().contains("hour")) {
+                        Log.v("splithour", leg.getDuration().getText().split("hour")[0] + " ");
+                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
+                                .split("hour")[0].trim());
+
+                    } else if (leg.getDuration().getText().contains("hours")) {
+                        totalDuration = totalDuration + 60 * Integer.parseInt(leg.getDuration().getText()
+                                .split("hours")[0].trim().replace("m", ""));
+                    } else if (leg.getDuration().getText().contains("mins")) {
+                        totalDuration = totalDuration + Integer.parseInt(leg.getDuration().getText()
+                                .replace("hour", "").replace("mins", "").replace("m", "").trim());
+                    } else {
+                        totalDuration = totalDuration + 0;
+                    }
+
+
+                    if (reqStatus.equals("PICKEDUP") || reqStatus.equals("DROPPED")) {
+                        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.user_markers);
+                        Bitmap icon1 = BitmapFactory.decodeResource(getResources(), R.drawable.provider);
+                        mMap.addMarker(new MarkerOptions()
+                                .icon(BitmapDescriptorFactory.fromBitmap(icon1))
+                                .rotation(360)
+                                .flat(true)
+                                .anchor(0.5f, 0.5f)
+                                .position(leg.getStartLocation().getCoordination()));
+                        if (index == legCount - 1) {
+                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon)).position(leg.getEndLocation().getCoordination()));
+                        }
+                        List<Step> stepList = leg.getStepList();
+                        ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(TrackActivity.this, stepList, 3, Color.BLACK, 2, Color.GRAY);
+                        for (PolylineOptions polylineOption : polylineOptionList) {
+                            mMap.addPolyline(polylineOption);
+                        }
+                        if (pickUpLocationName != null) {
+                        }
+
+                        if (dest_address != null) {
+                            View marker_view2 = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(com.gsanthosh91.decoderoutekey.R.layout.custom_marker, null);
+                            TextView addressDes = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.addressTxt);
+                            TextView etaTxt = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.etaTxt);
+                            etaTxt.setVisibility(View.VISIBLE);
+                            addressDes.setText(dropLocationName);
+                            if (totalDuration > 60) {
+                                etaTxt.setText(convertHours(totalDuration));
+                            } else {
+                                etaTxt.setText(totalDuration + " mins");
+                            }
+                            etaDur = totalDuration + "";
+                            MarkerOptions marker_opt_des = new MarkerOptions().position(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
+                            marker_opt_des.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_view2))).anchor(0.00f, 0.20f);
+                            destinationMarker = mMap.addMarker(marker_opt_des);
+                        }
+                    } else {
+                        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.destination_marker);
+                        Bitmap icon1 = BitmapFactory.decodeResource(getResources(), R.drawable.user_markers);
+                        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon1)).position(leg.getStartLocation().getCoordination()));
+                        if (index == legCount - 1) {
+                            mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromBitmap(icon)).position(leg.getEndLocation().getCoordination()));
+                        }
+                        List<Step> stepList = leg.getStepList();
+                        ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(TrackActivity.this, stepList, 3, Color.BLACK, 2, Color.GRAY);
+                        for (PolylineOptions polylineOption : polylineOptionList) {
+                            mMap.addPolyline(polylineOption);
+                        }
+                        if (pickUpLocationName != null) {
+                        }
+
+                        if (dest_address != null) {
+                            View marker_view2 = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(com.gsanthosh91.decoderoutekey.R.layout.custom_marker, null);
+                            TextView addressDes = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.addressTxt);
+                            TextView etaTxt = marker_view2.findViewById(com.gsanthosh91.decoderoutekey.R.id.etaTxt);
+                            etaTxt.setVisibility(View.VISIBLE);
+                            addressDes.setText(pickUpLocationName);
+                            if (totalDuration > 60) {
+                                etaTxt.setText(convertHours(totalDuration));
+                            } else {
+                                etaTxt.setText(totalDuration + " mins");
+                            }
+
+                            etaDur = totalDuration + "";
+                            MarkerOptions marker_opt_des = new MarkerOptions().position(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
+                            marker_opt_des.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(context, marker_view2))).anchor(0.00f, 0.20f);
+                            destinationMarker = mMap.addMarker(marker_opt_des);
+                        }
+                    }
+
+                }
+
+                mMap.setOnCameraIdleListener(() -> {
+                    if (sourceMarker != null) {
+                        String lat = String.valueOf(sourceLatLng.latitude);
+                        String lng = String.valueOf(sourceLatLng.longitude);
+                        if (((lat != null) && !lat.equals("") && !lat.isEmpty() && !lat.equalsIgnoreCase("0,0")) &&
+                                ((lng != null) && !lng.equals("") && !lng.isEmpty() && !lng.equalsIgnoreCase("0,0"))) {
+                            Point PickupPoint = mMap.getProjection().toScreenLocation(new LatLng(sourceLatLng.latitude, sourceLatLng.longitude));
+                            sourceMarker.setAnchor(PickupPoint.x < dpToPx(context, 200) ? 0.00f : 1.00f, PickupPoint.y < dpToPx(context, 100) ? 0.20f : 1.20f);
+                        }
+
+                    }
+                    if (destinationMarker != null) {
+                        if (((dest_lat != null) && !dest_lat.equals("") && !dest_lat.isEmpty() && !dest_lat.equalsIgnoreCase("0,0")) &&
+                                ((dest_lng != null) && !dest_lng.equals("") && !dest_lng.isEmpty() && !dest_lng.equalsIgnoreCase("0,0"))) {
+                            Point PickupPoint = mMap.getProjection().toScreenLocation(new LatLng(Double.parseDouble(dest_lat), Double.parseDouble(dest_lng)));
+                            destinationMarker.setAnchor(PickupPoint.x < dpToPx(context, 200) ? 0.00f : 1.00f, PickupPoint.y < dpToPx(context, 100) ? 0.20f : 1.20f);
+                        }
+                    }
+                });
+
+                Log.e("min_km", "from trackPickToDest");
+                lblCmfrmSourceAddress.setText(pickUpLocationName);
+                lblDis.setText(totalDistance + " km");
+                lblEta.setText(totalDuration + " Min");
+//                                GlobalDataMethods.GTotalDuration = totalDuration;
+                setCameraWithCoordinationBounds(route);
+            } catch (Exception e) {
+                Log.e("error", e.getMessage());
+            }
+        }
     }
 
     private void setCameraWithCoordinationBounds(Route route) {
@@ -4587,81 +3797,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         int hours = runtime / 60;
         int minutes = runtime % 60; // 5 in this case.
         return hours + "h " + minutes + " m";
-    }
-
-    private View getInfoWindow(String distance, String duration, boolean isMyLocation) {
-        View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents,
-                (FrameLayout) this.findViewById(R.id.provider_map), false);
-        TextView tv_desc = infoWindow.findViewById(R.id.tv_desc);
-        LinearLayout info_window_time = infoWindow.findViewById(R.id.info_window_time);
-        TextView tv_distance = infoWindow.findViewById(R.id.tv_distance);
-        TextView tv_title = infoWindow.findViewById(R.id.tv_title);
-        TextView tv_duration = infoWindow.findViewById(R.id.tv_duration);
-        ImageView imgNavigate = infoWindow.findViewById(R.id.imgNavigate);
-
-
-        if (isMyLocation) {
-            info_window_time.setVisibility(View.VISIBLE);
-            tv_title.setVisibility(View.VISIBLE);
-            tv_duration.setText(duration);
-            //   imageView.setImageResource(R.drawable.amu_bubble_mask);
-            tv_distance.setText(distance);
-            tv_title.setText(getString(R.string.my_location));
-            tv_desc.setText(pickUpLocationName);
-            tv_desc.setMaxLines(1);
-        } else {
-            tv_desc.setMaxLines(2);
-            tv_desc.setText(dropLocationName);
-            info_window_time.setVisibility(View.GONE);
-            tv_title.setVisibility(View.GONE);
-        }
-        return infoWindow;
-    }
-
-    private void startAnim(ArrayList<LatLng> routeList) {
-        if (mMap != null && routeList.size() > 1) {
-            MapAnimator.getInstance().animateRoute(mMap, routeList);
-        } else {
-            Toast.makeText(context, getResources().getString(R.string.map_not_ready), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void addIcon(View infoWindow, boolean isMyLocation,
-                         LatLng pickUpCoordinates, LatLng dropCoordinates) {
-        IconGenerator iconFactory = new IconGenerator(context);
-        iconFactory.setContentView(infoWindow);
-        iconFactory.setBackground(new RoundCornerDrawable());
-        Bitmap icon = iconFactory.makeIcon();
-        MarkerOptions markerOptions;
-        if (isMyLocation) {
-            markerOptions = new MarkerOptions().
-                    icon(BitmapDescriptorFactory.fromBitmap(icon)).
-                    position(pickUpCoordinates);
-            Marker sourceMarker = mMap.addMarker(markerOptions);
-            sourceMarker.setFlat(true);
-
-            // sourceMarkerID = sourceMarker.getId();
-            if (pickUpCoordinates.latitude > dropCoordinates.latitude &&
-                    pickUpCoordinates.longitude > dropCoordinates.longitude) {
-                sourceMarker.setAnchor(1.0f, 1.0f);
-            } else {
-                sourceMarker.setAnchor(0.0f, 0.0f);
-            }
-        } else {
-            markerOptions = new MarkerOptions().
-                    icon(BitmapDescriptorFactory.fromBitmap(icon)).
-                    position(dropCoordinates);
-            Marker destinationMarker = mMap.addMarker(markerOptions);
-            destinationMarker.setFlat(true);
-            // destinationMarkerID = destinationMarker.getId();
-            if (pickUpCoordinates.latitude > dropCoordinates.latitude &&
-                    pickUpCoordinates.longitude > dropCoordinates.longitude) {
-                destinationMarker.setAnchor(0.0f, 0.0f);
-            } else {
-                destinationMarker.setAnchor(1.0f, 1.0f);
-            }
-        }
-
     }
 
     private String downloadUrl(String strUrl) throws IOException {
@@ -4813,7 +3948,3 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 }
-
-
-
-

@@ -6,9 +6,15 @@ import android.view.WindowManager;
 
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
+import java.util.HashMap;
+
+import de.threenow.Models.GoogleDirectionModel;
+
 public class GlobalDataMethods {
 
     public static String lastConstructedURLSuccess;
+
+    public static HashMap<String, GoogleDirectionModel> googleDirectionModelHashMap = new HashMap<>();
 
     public static void setWindowFlag(Activity activity, final int bits, boolean on) {
         Window win = activity.getWindow();
