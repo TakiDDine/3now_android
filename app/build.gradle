@@ -7,10 +7,19 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\planet\\.android\\debug.keystore')
+            storeFile file('C:\\Users\\Administrator\\.android\\debug.keystore')
             keyAlias = 'androiddebugkey'
             keyPassword 'android'
             storePassword 'android'
+        }
+
+
+            config {
+                storeFile file('C:\\Users\\Administrator\\Desktop\\key3Now.jks')
+                storePassword '3NowApp2020'
+                keyPassword '3NowApp2020'
+                keyAlias 'key3now'
+
         }
     }
     compileSdkVersion 28
@@ -18,8 +27,8 @@ android {
         applicationId "de.threenow"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.0.0.6"
+        versionCode 14
+        versionName "1.0.0.14"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -32,6 +41,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 
