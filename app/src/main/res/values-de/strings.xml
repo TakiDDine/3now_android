@@ -573,5 +573,6 @@ E-mail : Info@3now.de\n
     <string name="send_email">E-Mail senden</string>
     <string name="complete_as_cash">Komplett als Bargeld</string>
     <string name="coupon">Gutschein</string>
+    <string name="your_tips_for_driver">Ihre Tipps für den Fahrer</string>
 
 </resources>

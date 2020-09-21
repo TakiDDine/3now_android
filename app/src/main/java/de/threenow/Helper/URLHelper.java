@@ -74,8 +74,8 @@ public class URLHelper {
     public static final String COUPON_VERIFY = base + "api/user/coupon/verfiy";
     public static final String get_current_Prodiver_Location_calc_distance = base + "/api/user/currentProdiverLocation";
     public static final String COMPLETE_AS_CASH = base + "change/payment/cash";
-
     public static final String URL_GOOGLE_KEY_MAPS = base + "web/google-keys";
+    public static final String ADD_TIPS = base + "api/user/tips";
 
     public static int count_call_Geocoder = 0;
 
