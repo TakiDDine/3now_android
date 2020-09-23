@@ -416,8 +416,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         // Android M Permission check
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                     } else {
-                        initMap();
                         MapsInitializer.initialize(getActivity());
+                        initMap();
                         customDialog.dismiss();
                         customDialog.cancel();
                     }
@@ -842,6 +842,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         if (mMap == null) {
             FragmentManager fm = getChildFragmentManager();
             mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.provider_map);
+            Log.d(TAG, "onMapReady");
             mapFragment.getMapAsync(this);
         }
         if (mMap != null) {
@@ -1463,8 +1464,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
                     //Toast.makeText(SignInActivity.this, "PERMISSION_GRANTED", Toast.LENGTH_SHORT).show();
-                    initMap();
                     MapsInitializer.initialize(getActivity());
+                    initMap();
                 } /*else {
                     showPermissionReqDialog();
                 }*/
