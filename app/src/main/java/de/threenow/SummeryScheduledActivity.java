@@ -206,7 +206,7 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
         }
 
         priceTrip.setText(String.format(Locale.ENGLISH, "%.1f", ((double) (pr - totalPrice))) + "€");
-        netlPrice.setText(pr + "€");
+        netlPrice.setText(String.format(Locale.ENGLISH, "%.1f", ((double) (pr))) + "€");
 
         if (distance != null && !distance.isEmpty() && distance.length() > 0 && !distance.contains("null"))
             tvDistance.setText(distance + " km");
@@ -223,7 +223,6 @@ public class SummeryScheduledActivity extends AppCompatActivity implements View.
             creditCardNbr.setText("");
             creditCardNbr.setCompoundDrawablesWithIntrinsicBounds((R.drawable.ic_cash_txt), 0, 0, 0);
         }
-
 
     }
 
