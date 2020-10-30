@@ -1,7 +1,6 @@
 package de.threenow.Fragments;
 
 import android.Manifest;
-import android.accounts.NetworkErrorException;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -105,10 +104,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.JsonObject;
 import com.google.maps.android.ui.IconGenerator;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.skyfishjy.library.RippleBackground;
 import com.squareup.picasso.Picasso;
 
@@ -131,7 +127,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -1731,135 +1726,243 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     private void sendToServerCoupon() {
 
-//        customDialog = new CustomDialog(context);
-//        customDialog.setCancelable(false);
-//        if (customDialog != null)
-//            customDialog.show();
-        Log.e("coupon_from", "UserMapFrag");
-        JsonObject json = new JsonObject();
-        json.addProperty("user_id", SharedHelper.getKey(context, "id"));
-        json.addProperty("coupon", GlobalDataMethods.coupon_gd_str);
 
-        Ion.with(this)
-                .load(URLHelper.COUPON_VERIFY)
-                .addHeader("X-Requested-With", "XMLHttpRequest")
-                .addHeader("Authorization", SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"))
-                .setJsonObjectBody(json)
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<com.koushikdutta.ion.Response<String>>() {
+        JSONObject object = new JSONObject();
+        try {
+            object.put("user_id", SharedHelper.getKey(context, "id"));
+            object.put("coupon", GlobalDataMethods.coupon_gd_str);
+            Log.e("coupon_from", object.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
+                URLHelper.COUPON_VERIFY,
+                object,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onCompleted(Exception e, com.koushikdutta.ion.Response<String> response) {
+                    public void onResponse(JSONObject response) {
+
+                        utils.print("AddCouponRes", "" + response.toString());
                         try {
-                            if ((customDialog != null) && (customDialog.isShowing()))
-                                customDialog.dismiss();
-                            // response contains both the headers and the string result
-                            if (e != null) {
-                                if (e instanceof NetworkErrorException) {
-                                    displayMessage(getString(R.string.oops_connect_your_internet));
+                            JSONObject jsonObject = response;
+
+                            if (jsonObject.optString("success").equals("coupon available")) {
+                                ((TextView) rootView.findViewById(R.id.lblPromo)).setText(getResources().getString(R.string.promo_code_applied));
+
+                                lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+                                double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
+                                        - (GlobalDataMethods.coupon_discount_str);
+
+                                if (discount < 0) {
+                                    discount = 0;
                                 }
-                                if (e instanceof TimeoutException) {
-                                    sendToServerCoupon();
-                                }
-                                return;
+                                lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
+                                        String.format(Locale.ENGLISH, "%.2f", discount));
+                                lblApproxAmountDiscount.setVisibility(View.VISIBLE);
+
+
+                            } else {// coupoun used
+                                coupon_gd_str = "";
+                                coupon_discount_str = 0d;
+                                lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                                lblApproxAmountDiscount.setText("");
+                                lblApproxAmountDiscount.setVisibility(View.GONE);
                             }
-                            if (response.getHeaders().code() == 200) {
-                                utils.print("AddCouponRes", "" + response.getResult());
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.getResult());
-
-                                    if (jsonObject.optString("success").equals("coupon available")) {
-                                        ((TextView) rootView.findViewById(R.id.lblPromo)).setText(getResources().getString(R.string.promo_code_applied));
-
-                                        lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-                                        double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
-                                                - (GlobalDataMethods.coupon_discount_str);
-
-                                        if (discount < 0) {
-                                            discount = 0;
-                                        }
-                                        lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
-                                                String.format(Locale.ENGLISH, "%.2f", discount));
-                                        lblApproxAmountDiscount.setVisibility(View.VISIBLE);
 
 
-                                    } else {// coupoun used
-                                        coupon_gd_str = "";
-                                        coupon_discount_str = 0d;
-                                        lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-                                        lblApproxAmountDiscount.setText("");
-                                        lblApproxAmountDiscount.setVisibility(View.GONE);
-                                    }
-
-
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-                            } else {
-
-                                utils.print("AddCouponErr", "" + response.getResult());
-                                if (response.getHeaders().code() == 401) {
-                                    refreshAccessToken("SEND_TO_SERVER");
-                                }
-//                                else
-//                                    Toast.makeText(context, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
-                            }
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }
+
                     }
-                });
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if ((customDialog != null) && customDialog.isShowing())
+                    customDialog.dismiss();
+                Log.e(this.getClass().getName(), "Error_Favourite" + error.getMessage());
+
+                String json = null;
+                String Message;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+//                                    refreshAccessToken();
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        sendToServerCoupon();
+                    }
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
+
 
     }
+
 
     private void getCards() {
-        Ion.with(getActivity())
-                .load(URLHelper.CARD_PAYMENT_LIST)
-                .addHeader("X-Requested-With", "XMLHttpRequest")
-                .addHeader("Authorization",
-                        SharedHelper.getKey(context, "token_type") + " "
-                                + SharedHelper.getKey(context, "access_token"))
-                .asString()
-                .withResponse()
-                .setCallback((e, response) -> {
-                    // response contains both the headers and the string result
-                    e.printStackTrace();
-                    try {
-                        if (response.getHeaders().code() == 200) {
-                            try {
-                                JSONArray jsonArray = new JSONArray(response.getResult());
-                                if (jsonArray.length() > 0) {
-                                    CardInfo cardInfo = new CardInfo();
-                                    cardInfo.setCardId("CASH");
-                                    cardInfo.setCardType("CASH");
-                                    cardInfo.setLastFour("CASH");
-                                    cardInfoArrayList.add(cardInfo);
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject cardObj = jsonArray.getJSONObject(i);
-                                        cardInfo = new CardInfo();
-                                        cardInfo.setCardId(cardObj.optString("card_id"));
-                                        cardInfo.setCardType(cardObj.optString("brand"));
-                                        cardInfo.setLastFour(cardObj.optString("last_four"));
-                                        cardInfoArrayList.add(cardInfo);
-                                    }
-                                }
 
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    } catch (Exception e2) {
-                        e2.printStackTrace();
-                        CardInfo cardInfo = new CardInfo();
-                        cardInfo.setCardId("CASH");
-                        cardInfo.setCardType("CASH");
-                        cardInfo.setLastFour("CASH");
-                        cardInfoArrayList.add(cardInfo);
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("user_id", SharedHelper.getKey(context, "id"));
+            object.put("coupon", GlobalDataMethods.coupon_gd_str);
+            Log.e("coupon_from", object.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
+                URLHelper.CARD_PAYMENT_LIST,
+                object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        utils.print("getCards", "" + response.toString());
+//                        try {
+//                                try {
+//                                    JSONArray jsonArray = response;
+//                                    if (jsonArray.length() > 0) {
+//                                        CardInfo cardInfo = new CardInfo();
+//                                        cardInfo.setCardId("CASH");
+//                                        cardInfo.setCardType("CASH");
+//                                        cardInfo.setLastFour("CASH");
+//                                        cardInfoArrayList.add(cardInfo);
+//                                        for (int i = 0; i < jsonArray.length(); i++) {
+//                                            JSONObject cardObj = jsonArray.getJSONObject(i);
+//                                            cardInfo = new CardInfo();
+//                                            cardInfo.setCardId(cardObj.optString("card_id"));
+//                                            cardInfo.setCardType(cardObj.optString("brand"));
+//                                            cardInfo.setLastFour(cardObj.optString("last_four"));
+//                                            cardInfoArrayList.add(cardInfo);
+//                                        }
+//                                    }
+//
+//                                } catch (JSONException e1) {
+//                                    e1.printStackTrace();
+//                                }
+//
+//                        } catch (Exception e2) {
+//                            e2.printStackTrace();
+//                            CardInfo cardInfo = new CardInfo();
+//                            cardInfo.setCardId("CASH");
+//                            cardInfo.setCardType("CASH");
+//                            cardInfo.setLastFour("CASH");
+//                            cardInfoArrayList.add(cardInfo);
+//                        }
+
                     }
-                });
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if ((customDialog != null) && customDialog.isShowing())
+                    customDialog.dismiss();
+                Log.e(this.getClass().getName(), "Error_Favourite" + error.getMessage());
+
+                String json = null;
+                String Message;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+//                                    refreshAccessToken();
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        sendToServerCoupon();
+                    }
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
+
 
     }
+
 
     public void getServiceList() {
 
@@ -3572,8 +3675,23 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onResume() {
         foreground = true;
+
         if (mGoogleApiClient != null)
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
+
+
+//        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
+//        } else if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
+//            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyFilepath);
+//
+//            mGoogleApiClient = new GoogleApiClient.Builder(context)
+//                    .addConnectionCallbacks(this)
+//                    .addOnConnectionFailedListener(this)
+//                    .addApi(LocationServices.API)
+//                    .build();
+//
+//        }
 
 
         Log.e("lifcycle1", "onResume");

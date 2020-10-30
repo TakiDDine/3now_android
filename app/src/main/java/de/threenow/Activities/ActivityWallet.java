@@ -1,6 +1,5 @@
 package de.threenow.Activities;
 
-import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -32,12 +31,9 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +42,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.LocaleManager;
@@ -57,6 +52,8 @@ import de.threenow.Models.CardInfo;
 import de.threenow.R;
 import de.threenow.Utils.MyBoldTextView;
 import de.threenow.Utils.Utilities;
+
+import static de.threenow.IlyftApplication.trimMessage;
 
 public class ActivityWallet extends AppCompatActivity implements View.OnClickListener {
 
@@ -168,57 +165,109 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
         wallet_card.setVisibility(View.VISIBLE);
         add_money_card.setVisibility(View.VISIBLE);
 
-        getBalance();
-        getCards(false);
+        try {
+            //aboooood
+            getBalance();
+            getCards(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void getBalance() {
-        if ((customDialog != null))
-            customDialog.show();
-        Ion.with(this)
-                .load(URLHelper.UserProfile)
-                .addHeader("X-Requested-With", "XMLHttpRequest")
-                .addHeader("Authorization", SharedHelper.getKey(ActivityWallet.this, "token_type") + " " + session_token)
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> response) {
-                        // response contains both the headers and the string result
-                        if ((customDialog != null) && customDialog.isShowing())
-                            customDialog.dismiss();
-                        if (e != null) {
-                            if (e instanceof TimeoutException) {
-                                displayMessage(getString(R.string.please_try_again));
-                            }
-                            if (e instanceof NetworkErrorException) {
-                                getBalance();
-                            }
-                            return;
-                        }
-                        if (response != null) {
-                            if (response.getHeaders().code() == 200) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.getResult());
-                                    currency = jsonObject.optString("currency");
-                                    balance_tv.setText(jsonObject.optString("currency") + jsonObject.optString("wallet_balance"));
-                                    SharedHelper.putKey(context, "wallet_balance", jsonObject.optString("wallet_balance"));
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-                            } else {
-                                if ((customDialog != null) && customDialog.isShowing())
-                                    customDialog.dismiss();
-                                if (response.getHeaders().code() == 401) {
-                                    refreshAccessToken("GET_BALANCE");
-                                }
-                            }
-                        } else {
 
+        if (customDialog != null)
+            customDialog.show();
+
+        JSONObject object = new JSONObject();
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET,
+                URLHelper.UserProfile,
+                object,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.e("GET_BALANCE", "" + response.toString());
+                        if ((customDialog != null) && (customDialog.isShowing()))
+                            customDialog.dismiss();
+
+                        try {
+                            JSONObject jsonObject = response;
+                            currency = jsonObject.optString("currency");
+                            balance_tv.setText(jsonObject.optString("currency") + jsonObject.optString("wallet_balance"));
+                            SharedHelper.putKey(context, "wallet_balance", jsonObject.optString("wallet_balance"));
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
                         }
                     }
-                });
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if ((customDialog != null) && customDialog.isShowing())
+                    customDialog.dismiss();
+                Log.e(this.getClass().getName(), "Error_GET_BALANCE" + error.getMessage());
+
+                String json = null;
+                String Message;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+                            refreshAccessToken("GET_BALANCE");
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        getBalance();
+                    }
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
+
+
     }
+
 
     private void refreshAccessToken(final String tag) {
 
@@ -237,7 +286,7 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(JSONObject response) {
 
-                utils.print("SignUpResponse", response.toString());
+                Log.e("SignUpResponse", response.toString());
                 SharedHelper.putKey(context, "access_token", response.optString("access_token"));
                 SharedHelper.putKey(context, "refresh_token", response.optString("refresh_token"));
                 SharedHelper.putKey(context, "token_type", response.optString("token_type"));
@@ -289,61 +338,109 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
+
     private void getCards(final boolean showLoading) {
         loading = showLoading;
-        if (loading) {
-            if (customDialog != null)
+        if (showLoading) {
+            if ((customDialog != null) && (customDialog.isShowing()))
                 customDialog.show();
         }
-        Ion.with(this)
-                .load(URLHelper.CARD_PAYMENT_LIST)
-                .addHeader("X-Requested-With", "XMLHttpRequest")
-                .addHeader("Authorization", SharedHelper.getKey(ActivityWallet.this, "token_type") + " " + session_token)
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
-                    @Override
-                    public void onCompleted(Exception e, Response<String> response) {
-                        // response contains both the headers and the string result
-                        if (response != null) {
-                            if (showLoading) {
-                                if ((customDialog != null) && (customDialog.isShowing()))
-                                    customDialog.dismiss();
-                            }
-                            if (e != null) {
-                                if (e instanceof TimeoutException) {
-                                    displayMessage(getString(R.string.please_try_again));
-                                }
-                                if (e instanceof NetworkErrorException) {
-                                    getCards(showLoading);
-                                }
-                                return;
-                            }
-                            if (response.getHeaders().code() == 200) {
-                                try {
-                                    JSONArray jsonArray = new JSONArray(response.getResult());
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject cardObj = jsonArray.getJSONObject(i);
-                                        CardInfo cardInfo = new CardInfo();
-                                        cardInfo.setCardId(cardObj.optString("card_id"));
-                                        cardInfo.setCardType(cardObj.optString("brand"));
-                                        cardInfo.setLastFour(cardObj.optString("last_four"));
-                                        cardInfoArrayList.add(cardInfo);
-                                    }
 
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
-                            } else {
-                                if (response.getHeaders().code() == 401) {
-                                    refreshAccessToken("GET_CARDS");
-                                }
+        JSONArray object = new JSONArray();
+
+        JsonArrayRequest objectRequest = new JsonArrayRequest(Request.Method.GET,
+                URLHelper.CARD_PAYMENT_LIST,
+                object,
+                new com.android.volley.Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        Log.e("getCards", "" + response.toString());
+                        if (showLoading) {
+                            if ((customDialog != null) && (customDialog.isShowing()))
+                                customDialog.dismiss();
+                        }
+                        try {
+                            JSONArray jsonArray =response;
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject cardObj = jsonArray.getJSONObject(i);
+                                CardInfo cardInfo = new CardInfo();
+                                cardInfo.setCardId(cardObj.optString("card_id"));
+                                cardInfo.setCardType(cardObj.optString("brand"));
+                                cardInfo.setLastFour(cardObj.optString("last_four"));
+                                cardInfoArrayList.add(cardInfo);
                             }
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
                         }
                     }
-                });
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if ((customDialog != null) && customDialog.isShowing())
+                    customDialog.dismiss();
+                Log.e(this.getClass().getName(), "Error_getCards" + error.getMessage());
+
+                String json = null;
+                String Message;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+                            refreshAccessToken("GET_CARDS");
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        getCards(showLoading);
+                    }
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
+
 
     }
+
 
     @Override
     public void onClick(View view) {
@@ -455,66 +552,111 @@ public class ActivityWallet extends AppCompatActivity implements View.OnClickLis
         builderSingle.show();
     }
 
+
     private void addMoney(final CardInfo cardInfo) {
+
         if (customDialog != null)
             customDialog.show();
 
-        JsonObject json = new JsonObject();
-        json.addProperty("card_id", cardInfo.getCardId());
-        json.addProperty("amount", money_et.getText().toString());
+        JSONObject object = new JSONObject();
+        try {
+            object.put("card_id", cardInfo.getCardId());
+            object.put("amount", money_et.getText().toString());
+            Log.e("addMoney", object.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        Ion.with(this)
-                .load(URLHelper.addCardUrl)
-                .addHeader("X-Requested-With", "XMLHttpRequest")
-                .addHeader("Authorization", SharedHelper.getKey(ActivityWallet.this, "token_type") + " " + session_token)
-                .setJsonObjectBody(json)
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
+                URLHelper.addCardUrl,
+                object,
+                new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
-                    public void onCompleted(Exception e, Response<String> response) {
-                        // response contains both the headers and the string result
+                    public void onResponse(JSONObject response) {
+
+                        Log.e("AddCouponRes", "" + response.toString());
                         if ((customDialog != null) && (customDialog.isShowing()))
                             customDialog.dismiss();
-                        if (e != null) {
-                            if (e instanceof TimeoutException) {
-                                displayMessage(getString(R.string.please_try_again));
-                            }
-                            if (e instanceof NetworkErrorException) {
-                                addMoney(cardInfo);
-                            }
-                            return;
-                        }
 
-                        if (response.getHeaders().code() == 200) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response.getResult());
-                                Toast.makeText(ActivityWallet.this, jsonObject.optString("message"), Toast.LENGTH_SHORT).show();
-                                JSONObject userObj = jsonObject.getJSONObject("user");
-                                balance_tv.setText(currency + userObj.optString("wallet_balance"));
-                                SharedHelper.putKey(context, "wallet_balance", jsonObject.optString("wallet_balance"));
-                                money_et.setText("");
-                                if ((customDialog != null) && (customDialog.isShowing()))
-                                    customDialog.dismiss();
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-                        } else {
+                        try {
+                            JSONObject jsonObject = response;
+                            Toast.makeText(ActivityWallet.this, jsonObject.optString("message"), Toast.LENGTH_SHORT).show();
+                            JSONObject userObj = jsonObject.getJSONObject("user");
+                            balance_tv.setText(currency + userObj.optString("wallet_balance"));
+                            SharedHelper.putKey(context, "wallet_balance", jsonObject.optString("wallet_balance"));
+                            money_et.setText("");
                             if ((customDialog != null) && (customDialog.isShowing()))
                                 customDialog.dismiss();
-                            try {
-                                if (response != null && response.getHeaders() != null) {
-                                    if (response.getHeaders().code() == 401) {
-                                        refreshAccessToken("ADD_MONEY");
-                                    }
-                                }
-                            } catch (Exception exception) {
-                                e.printStackTrace();
-                            }
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
                         }
                     }
-                });
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if ((customDialog != null) && customDialog.isShowing())
+                    customDialog.dismiss();
+                Log.e(this.getClass().getName(), "Error_Favourite" + error.getMessage());
+
+                String json = null;
+                String Message;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+                            refreshAccessToken("ADD_MONEY");
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        addMoney(cardInfo);
+                    }
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
+
+
     }
+
 
     public void displayMessage(String toastString) {
         Log.e("displayMessage", "" + toastString);

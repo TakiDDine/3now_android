@@ -141,7 +141,7 @@
                     android:background="@drawable/rectangle_edge_fill"
                     android:cursorVisible="true"
                     android:gravity="center"
-                    android:hint="other"
+                    android:hint="@string/other"
                     android:inputType="number"
                     android:textColor="@color/black"
                     android:textColorHint="@color/emoji_gray20"
@@ -175,11 +175,11 @@
                 android:drawablePadding="@dimen/_16sdp"
                 android:fontFamily="@font/muli_semibold"
                 android:gravity="center"
-                android:paddingStart="@dimen/_10sdp"
+                android:paddingStart="@dimen/_5sdp"
                 android:paddingEnd="@dimen/_10sdp"
-                android:text="@string/complete"
+                android:text="@string/confirm"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_11sdp" />
         </LinearLayout>
 
         <View
@@ -201,8 +201,8 @@
                 android:drawableStart="@drawable/right_arrow_new"
                 android:drawablePadding="@dimen/_16sdp"
                 android:fontFamily="@font/muli_semibold"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
                 android:text="@string/complete_as_cash"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10sdp" />

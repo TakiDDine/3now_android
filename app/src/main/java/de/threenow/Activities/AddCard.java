@@ -1,6 +1,5 @@
 package de.threenow.Activities;
 
-import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,11 +21,10 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.braintreepayments.cardform.view.CardForm;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.JsonObject;
-import com.koushikdutta.ion.Ion;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
@@ -37,7 +35,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 import java.util.regex.Pattern;
 
 import de.threenow.Helper.CustomDialog;
@@ -48,6 +45,8 @@ import de.threenow.IlyftApplication;
 import de.threenow.R;
 import de.threenow.Utils.MyButton;
 import de.threenow.Utils.Utilities;
+
+import static de.threenow.IlyftApplication.trimMessage;
 
 public class AddCard extends AppCompatActivity {
 
@@ -265,158 +264,116 @@ public class AddCard extends AppCompatActivity {
                 .setup(AddCard.this);
     }
 
+
     public void addCardToAccount(final String cardToken) {
 
+        if (customDialog != null)
+            customDialog.show();
 
-        JsonObject json = new JsonObject();
-        json.addProperty("stripe_token", cardToken);
-        Log.e("json", json + "");
-        Log.e("token_type", SharedHelper.getKey(AddCard.this, "token_type") + "");
-        Log.e("access_token", SharedHelper.getKey(AddCard.this, "access_token") + "");
-
-        Ion.with(this)
-                .load(URLHelper.ADD_CARD_TO_ACCOUNT_API)
-                .addHeader("X-Requested-With", "XMLHttpRequest")
-                .addHeader("Authorization", SharedHelper.getKey(AddCard.this, "token_type") + " " + SharedHelper.getKey(context, "access_token"))
-                .setJsonObjectBody(json)
-                .asString()
-                .withResponse()
-                .setCallback((e, response) -> {
-                    if (e != null)
-                        Log.e("addcardexception", e.getMessage() + "");
-                    try {
-                        Log.e("cardresponse", response.getResult() + "");
-                    } catch (Exception d) {
-                        d.printStackTrace();
-                    }
-
-                    // response contains both the headers and the string result
-                    if ((customDialog != null) && (customDialog.isShowing()))
-                        customDialog.dismiss();
-
-
-                    if (e != null) {
-                        if (e instanceof NetworkErrorException) {
-                            displayMessage(getString(R.string.please_try_again));
-                        }
-                        if (e instanceof TimeoutException) {
-                            addCardToAccount(cardToken);
-                        }
-                        return;
-                    }
-
-                    if (response != null) {
-                        if (response.getHeaders().code() == 200) {
-                            try {
-                                utils.print("SendRequestResponse", response.toString());
-
-                                JSONObject jsonObject = new JSONObject(response.getResult());
-                                Toast.makeText(AddCard.this, jsonObject.optString("message"), Toast.LENGTH_SHORT).show();
-                                // onBackPressed();
-                                Intent resultIntent = new Intent();
-                                resultIntent.putExtra("isAdded", true);
-                                setResult(Activity.RESULT_OK, resultIntent);
-                                finish();
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
-                            }
-                            customDialog.dismiss();
-                        } else if (response.getHeaders().code() == 401) {
-                            customDialog.dismiss();
-                            refreshAccessToken();
-                        }
-                        try {
-
-                            if (response.getResult().length() > 0) {
-
-                                JSONObject tempError = new JSONObject(response.getResult());
-                                String errStr = tempError.getString("error");
-                                if (errStr.length() > 0)
-                                    displayMessage(errStr);
-                            }
-                        } catch (Exception f) {
-                            f.printStackTrace();
-                        }
-                    }
-                });
-
-       /* JSONObject object = new JSONObject();
-        try{
+        JSONObject object = new JSONObject();
+        try {
             object.put("stripe_token", cardToken);
-
-        }catch (Exception e){
+            Log.e("addCardToAccount", object.toString());
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.ADD_CARD_TO_ACCOUNT_API, object , new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                utils.print("SendRequestResponse",response.toString());
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
-               // onBackPressed();
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("isAdded", true);
-                setResult(Activity.RESULT_OK, resultIntent);
-                finish();
-            }
 
-        }, new Response.ErrorListener() {
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
+                URLHelper.ADD_CARD_TO_ACCOUNT_API,
+                object,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.e("AddCouponRes", "" + response.toString());
+                        if ((customDialog != null) && (customDialog.isShowing()))
+                            customDialog.dismiss();
+
+                        if (response != null) {
+                                try {
+                                    utils.print("SendRequestResponse", response.toString());
+
+                                    JSONObject jsonObject =  (response);
+                                    Toast.makeText(AddCard.this, jsonObject.optString("message"), Toast.LENGTH_SHORT).show();
+                                    // onBackPressed();
+                                    Intent resultIntent = new Intent();
+                                    resultIntent.putExtra("isAdded", true);
+                                    setResult(Activity.RESULT_OK, resultIntent);
+                                    finish();
+                                } catch (Exception e1) {
+                                    e1.printStackTrace();
+                                }
+                                customDialog.dismiss();
+                            }
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null)&& (customDialog.isShowing()))
-                customDialog.dismiss();
+
+                if ((customDialog != null) && customDialog.isShowing())
+                    customDialog.dismiss();
+                Log.e(this.getClass().getName(), "Error_Favourite" + error.getMessage());
+
                 String json = null;
                 String Message;
                 NetworkResponse response = error.networkResponse;
-                if(response != null && response.data != null){
+                if (response != null && response.data != null) {
 
                     try {
                         JSONObject errorObj = new JSONObject(new String(response.data));
 
-                        if(response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500){
-                            try{
-                                displayMessage(errorObj.getString("message"));
-                            }catch (Exception e){
-                                displayMessage(errorObj.optString("error"));
-                                //displayMessage(getString(R.string.something_went_wrong));
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
                             }
-                            utils.print("MyTest",""+errorObj.toString());
-                        }else if(response.statusCode == 401){
+                        } else if (response.statusCode == 401) {
                             refreshAccessToken();
-                        }else if(response.statusCode == 422){
+                        } else if (response.statusCode == 422) {
 
                             json = trimMessage(new String(response.data));
-                            if(json !="" && json != null) {
+                            if (json != "" && json != null) {
                                 displayMessage(json);
-                            }else{
+                            } else {
                                 displayMessage(getString(R.string.please_try_again));
                             }
-                        }else if(response.statusCode == 503){
-                            displayMessage(getString(R.string.server_down));
-                        }else{
-                            displayMessage(getString(R.string.please_try_again));
-                        }
 
-                    }catch (Exception e){
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
                         displayMessage(getString(R.string.something_went_wrong));
                     }
 
-                }else{
-                    displayMessage(getString(R.string.please_try_again));
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        addCardToAccount(cardToken);
+                    }
                 }
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization",""+SharedHelper.getKey(context, "token_type")+" "+SharedHelper.getKey(context, "access_token"));
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
                 return headers;
             }
         };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
 
-        Tranxitcom.wedrive.userlication.getInstance().addToRequestQueue(jsonObjectRequest);*/
+
     }
+
+
+
 
 
     public void displayMessage(String toastString) {

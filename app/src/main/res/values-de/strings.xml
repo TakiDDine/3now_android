@@ -571,8 +571,8 @@ E-mail : Info@3now.de\n
     <string name="booking_successful_msg">Vielen Dank für Ihren Auftrag. Sie erhalten in Kürze eine Auftragsbestätigung auf die bei uns registrierte E-Mailadresse. Eine Übersicht Ihrer gebuchten Fahrten können Sie im Hauptmenü unter dem Punkt \"Meine Fahrten\" einsehen.</string>
     <string name="hello_team">Hallo Team</string>
     <string name="send_email">E-Mail senden</string>
-    <string name="complete_as_cash">Komplett als Bargeld</string>
+    <string name="complete_as_cash">Oder Bargeld zahlen</string>
     <string name="coupon">Gutschein</string>
-    <string name="your_tips_for_driver">Ihre Tipps für den Fahrer</string>
+    <string name="your_tips_for_driver">Ihre Trinkgeld für den Fahrer</string>
 
 </resources>

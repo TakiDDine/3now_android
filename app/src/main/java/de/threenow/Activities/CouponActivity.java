@@ -51,6 +51,8 @@ import de.threenow.R;
 import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.Utilities;
 
+import static de.threenow.IlyftApplication.trimMessage;
+
 public class CouponActivity extends AppCompatActivity {
 
     private EditText coupon_et;
@@ -117,151 +119,244 @@ public class CouponActivity extends AppCompatActivity {
         if (customDialog != null)
             customDialog.show();
 
-        JsonObject json = new JsonObject();
-        json.addProperty("user_id", SharedHelper.getKey(CouponActivity.this,"id"));
-        json.addProperty("coupon", coupon_et.getText().toString());
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("user_id", SharedHelper.getKey(CouponActivity.this, "id"));
+            object.put("coupon", coupon_et.getText().toString());
+            Log.e("coupon_from", object.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         Log.e("coupon_from", "CouponActivity");
-        Ion.with(this)
-                .load(URLHelper.COUPON_VERIFY)
-                .addHeader("X-Requested-With", "XMLHttpRequest")
-                .addHeader("Authorization", SharedHelper.getKey(CouponActivity.this, "token_type") + " " + session_token)
-                .setJsonObjectBody(json)
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
+
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
+                URLHelper.COUPON_VERIFY,
+                object,
+                new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
-                    public void onCompleted(Exception e, Response<String> response) {
+                    public void onResponse(JSONObject response) {
+
+                        if ((customDialog != null) && customDialog.isShowing())
+                            customDialog.dismiss();
+
+
+                        utils.print("AddCouponRes", "" + response);
                         try {
-                            if ((customDialog != null) && (customDialog.isShowing()))
-                                customDialog.dismiss();
-                            // response contains both the headers and the string result
-                            if (e != null) {
-                                if (e instanceof NetworkErrorException) {
-                                    displayMessage(getString(R.string.oops_connect_your_internet));
-                                }
-                                if (e instanceof TimeoutException) {
-                                    sendToServerCoupon();
-                                }
-                                return;
-                            }
-                            if (response.getHeaders().code() == 200) {
-                                utils.print("AddCouponRes", "" + response.getResult());
+                            JSONObject jsonObject = response;
+
+                            if (jsonObject.optString("success").equals("coupon available")) {
+                                GlobalDataMethods.coupon_gd_str = coupon_et.getText().toString();
                                 try {
-                                    JSONObject jsonObject = new JSONObject(response.getResult());
-
-                                    if (jsonObject.optString("success").equals("coupon available")) {
-                                        GlobalDataMethods.coupon_gd_str = coupon_et.getText().toString();
-                                        try {
-                                            GlobalDataMethods.coupon_discount_str = Double.parseDouble(jsonObject.optString("discount"));
-                                        }catch (Exception d){
-                                            GlobalDataMethods.coupon_discount_str = 0d;
-                                        }
-                                        Intent intent = new Intent();
-                                        setResult(RESULT_OK, intent);
-
-                                        Toast.makeText(CouponActivity.this, getString(R.string.coupon_added), Toast.LENGTH_SHORT).show();
-                                        finish();
-//                                        couponListCardView.setVisibility(View.GONE);
-//                                        getCoupon();
-                                    }
-
-//                                    else if (jsonObject.optString("code").equals("promocode_expired")) {
-//                                        Toast.makeText(CouponActivity.this, getString(R.string.expired_coupon), Toast.LENGTH_SHORT).show();
-//                                    } else if (jsonObject.optString("code").equals("promocode_already_in_use")) {
-//                                        Toast.makeText(CouponActivity.this, getString(R.string.already_in_use_coupon), Toast.LENGTH_SHORT).show();
-//                                    }
-
-                                    else {
-                                        Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
+                                    GlobalDataMethods.coupon_discount_str = Double.parseDouble(jsonObject.optString("discount"));
+                                }catch (Exception d){
+                                    GlobalDataMethods.coupon_discount_str = 0d;
                                 }
-                            } else {
-                                if ((customDialog != null) && (customDialog.isShowing()))
-                                    customDialog.dismiss();
-                                utils.print("AddCouponErr", "" + response.getResult());
-                                if (response.getHeaders().code() == 401) {
-                                    refreshAccessToken("SEND_TO_SERVER");
-                                } else
-                                    Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
+
+                                Toast.makeText(CouponActivity.this, getString(R.string.coupon_added), Toast.LENGTH_SHORT).show();
+                                finish();
+
                             }
+
+                            else {
+                                Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
+                            }
+
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }
+
                     }
-                });
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if ((customDialog != null) && customDialog.isShowing())
+                    customDialog.dismiss();
+                Log.e(this.getClass().getName(), "Error_Favourite" + error.getMessage());
+
+                String json = null;
+                String Message;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+                            refreshAccessToken("SEND_TO_SERVER");
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        sendToServerCoupon();
+                    }
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
+
 
     }
 
+
+
     private void sendToServer() {
+
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
         if (customDialog != null)
             customDialog.show();
-        JsonObject json = new JsonObject();
-        json.addProperty("promocode", coupon_et.getText().toString());
-        Ion.with(this)
-                .load(URLHelper.ADD_COUPON_API)
-                .addHeader("X-Requested-With", "XMLHttpRequest")
-                .addHeader("Authorization", SharedHelper.getKey(CouponActivity.this, "token_type") + " " + session_token)
-                .setJsonObjectBody(json)
-                .asString()
-                .withResponse()
-                .setCallback(new FutureCallback<Response<String>>() {
+
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("promocode", coupon_et.getText().toString());
+            Log.e("coupon_from", object.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("coupon_from", "CouponActivity");
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
+                URLHelper.ADD_COUPON_API,
+                object,
+                new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
-                    public void onCompleted(Exception e, Response<String> response) {
+                    public void onResponse(JSONObject response) {
+
+                        if ((customDialog != null) && customDialog.isShowing())
+                            customDialog.dismiss();
+
+
+                        utils.print("sendToServer", "" + response);
                         try {
-                            if ((customDialog != null) && (customDialog.isShowing()))
-                                customDialog.dismiss();
-                            // response contains both the headers and the string result
-                            if (e != null) {
-                                if (e instanceof NetworkErrorException) {
-                                    displayMessage(getString(R.string.oops_connect_your_internet));
-                                }
-                                if (e instanceof TimeoutException) {
-                                    sendToServer();
-                                }
-                                return;
-                            }
-                            if (response.getHeaders().code() == 200) {
-                                utils.print("AddCouponRes", "" + response.getResult());
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.getResult());
-                                    if (jsonObject.optString("code").equals("promocode_applied")) {
-                                        Intent intent = new Intent();
-                                        setResult(RESULT_OK, intent);
+                            JSONObject jsonObject =  response;
+                            if (jsonObject.optString("code").equals("promocode_applied")) {
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
 //                                        finish();
-                                        Toast.makeText(CouponActivity.this, getString(R.string.coupon_added), Toast.LENGTH_SHORT).show();
-                                        couponListCardView.setVisibility(View.GONE);
-                                        getCoupon();
-                                    } else if (jsonObject.optString("code").equals("promocode_expired")) {
-                                        Toast.makeText(CouponActivity.this, getString(R.string.expired_coupon), Toast.LENGTH_SHORT).show();
-                                    } else if (jsonObject.optString("code").equals("promocode_already_in_use")) {
-                                        Toast.makeText(CouponActivity.this, getString(R.string.already_in_use_coupon), Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e1) {
-                                    e1.printStackTrace();
-                                }
+                                Toast.makeText(CouponActivity.this, getString(R.string.coupon_added), Toast.LENGTH_SHORT).show();
+                                couponListCardView.setVisibility(View.GONE);
+                                getCoupon();
+                            } else if (jsonObject.optString("code").equals("promocode_expired")) {
+                                Toast.makeText(CouponActivity.this, getString(R.string.expired_coupon), Toast.LENGTH_SHORT).show();
+                            } else if (jsonObject.optString("code").equals("promocode_already_in_use")) {
+                                Toast.makeText(CouponActivity.this, getString(R.string.already_in_use_coupon), Toast.LENGTH_SHORT).show();
                             } else {
-                                if ((customDialog != null) && (customDialog.isShowing()))
-                                    customDialog.dismiss();
-                                utils.print("AddCouponErr", "" + response.getResult());
-                                if (response.getHeaders().code() == 401) {
-                                    refreshAccessToken("SEND_TO_SERVER");
-                                } else
                                 Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e1) {
                             e1.printStackTrace();
                         }
+
                     }
-                });
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if ((customDialog != null) && customDialog.isShowing())
+                    customDialog.dismiss();
+                Log.e(this.getClass().getName(), "Error_sendToServer" + error.getMessage());
+
+                String json = null;
+                String Message;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+                            refreshAccessToken("SEND_TO_SERVER");
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        sendToServer();
+                    }
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
+
+
     }
+
+
 
     private void refreshAccessToken(final String tag) {
 
