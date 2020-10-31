@@ -1575,6 +1575,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                 lnrRateProvider.startAnimation(slide_up);
                 lnrRateProvider.setVisibility(View.VISIBLE);
+
                 LayerDrawable drawable = (LayerDrawable) ratingProviderRate.getProgressDrawable();
                 drawable.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 drawable.getDrawable(1).setColorFilter(Color.parseColor("#FFAB00"), PorterDuff.Mode.SRC_ATOP);
@@ -2394,6 +2395,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 //                                                getDurationForRoute(provider.optString("latitude"), provider.optString("longitude"));
 
                                                 SharedHelper.putKey(context, "provider_mobile_no", "" + provider.optString("mobile"));
+                                                SharedHelper.putKey(context, "provider_first_name", "" + provider.optString("first_name"));
                                                 lblProvider.setText(provider.optString("first_name"));
                                                 tvServiceNumber.setText("" + provider_service.getString("service_number"));
                                                 tvServiceModel.setText("" + provider_service.getString("service_model"));
@@ -3147,6 +3149,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     JSONObject service_type = requestStatusCheckObject.getJSONObject("service_type");
                     JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
                     SharedHelper.putKey(context, "provider_mobile_no", "" + provider.optString("mobile"));
+                    SharedHelper.putKey(context, "provider_first_name", "" + provider.optString("first_name"));
                     lblProvider.setText(provider.optString("first_name"));
                     tvServiceNumber.setText("" + provider_service.getString("service_number"));
                     tvServiceModel.setText("" + provider_service.getString("service_model"));
@@ -3355,6 +3358,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        btnPayNow.setEnabled(true);
 
         Log.d(TAG, "onActivityResult: " + requestCode + " result code " + resultCode + " ");
         // closed car and ambulance

@@ -164,6 +164,7 @@ import retrofit2.Callback;
 import static android.content.Context.LOCATION_SERVICE;
 import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 import static de.threenow.IlyftApplication.trimMessage;
+import static de.threenow.Utils.GlobalDataMethods.ShowAdditionalLog;
 import static de.threenow.Utils.GlobalDataMethods.coupon_discount_str;
 import static de.threenow.Utils.GlobalDataMethods.coupon_gd_str;
 
@@ -351,10 +352,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     @Override
     public void onCameraMove() {
+        if (GlobalDataMethods.ShowAdditionalLog)
         utils.print("Current marker", "Zoom Level " + mMap.getCameraPosition().zoom);
         cmPosition = mMap.getCameraPosition();
         if (marker != null) {
             if (!mMap.getProjection().getVisibleRegion().latLngBounds.contains(marker.getPosition())) {
+                if (GlobalDataMethods.ShowAdditionalLog)
                 utils.print("Current marker", "Current Marker is not visible");
                 if (mapfocus.getVisibility() == View.INVISIBLE) {
                     mapfocus.setVisibility(View.VISIBLE);
@@ -869,6 +872,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onLocationChanged(Location location) {
         if (foreground) {
+            if (GlobalDataMethods.ShowAdditionalLog)
             Log.e("onLocationChanged", "from here!2");
 
             if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
@@ -1300,6 +1304,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
     private void updateLocation(LatLng centerLatLng) {
+        if (GlobalDataMethods.ShowAdditionalLog)
         Log.e("count_call_Geocoder4", URLHelper.count_call_Geocoder++ + "");
 
         if (centerLatLng != null) {
@@ -3828,7 +3833,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     .into(ivProviderImg);
         }
 
-        tvProviderName.setText(getResources().getString(R.string.rate_your_trip_with) + proName);
+        tvProviderName.setText(getResources().getString(R.string.rate_your_trip_with) +" "+ proName);
 
         btnRate.setOnClickListener(v -> {
             int rate = (int) rbProvider.getRating();

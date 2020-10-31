@@ -859,14 +859,14 @@
                         android:orientation="vertical"
                         android:paddingTop="@dimen/_35sdp">
 
-
+<!--                        Rajan-->
                         <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/lblProviderName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/muli_semibold"
                             android:gravity="center"
-                            android:text="Rajan"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="@dimen/_14sdp" />
 

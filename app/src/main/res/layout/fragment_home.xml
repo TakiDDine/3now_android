@@ -1177,12 +1177,13 @@
                             app:civ_border_color="@color/white"
                             app:civ_border_width="2dp" />
 
+<!--                        Rajan-->
                         <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/lblProviderName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Rajan"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="@dimen/_14sdp" />
 

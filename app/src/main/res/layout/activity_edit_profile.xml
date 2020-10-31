@@ -44,14 +44,14 @@
             </LinearLayout>
 
 
+<!--            @string/rajan_kumar-->
             <TextView
                 android:id="@+id/txtHeaderName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="center"
                 android:fontFamily="@font/muli_semibold"
-                android:text="@string/rajan_kumar"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="@dimen/_22sdp" />
 
@@ -152,8 +152,7 @@
                     android:maxLines="1"
                     android:padding="@dimen/_8sdp"
                     android:paddingStart="@dimen/_40sdp"
-                    android:text="+917277834909"
-
+                    android:text="@string/phone_number"
                     android:textSize="@dimen/_13sdp" />
             </LinearLayout>
 
