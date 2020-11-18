@@ -9,7 +9,7 @@ public class URLHelper {
     public static final int client_id = 2;
 
     public static final String client_secret = "WifS1rMi3LvuorP1G2UdtKZairUNSH2iMqrKivPf";
-    public static final String STRIPE_TOKEN = "pk_test_69WkPQ5i5k0KwuG08mEazMPO"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO   //pk_live_gGgW4OJ2ulRDPaIeKBypkJEG00DvqnE8Ml
+    public static final String STRIPE_TOKEN = "pk_live_gGgW4OJ2ulRDPaIeKBypkJEG00DvqnE8Ml"; // pk_test_69WkPQ5i5k0KwuG08mEazMPO   //pk_live_gGgW4OJ2ulRDPaIeKBypkJEG00DvqnE8Ml
 
     public static final String image_url_signature = base + "public/";
     public static final String CURRENT_TRIP = base + "api/user/trips/current";

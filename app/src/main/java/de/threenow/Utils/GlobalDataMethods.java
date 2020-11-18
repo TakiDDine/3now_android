@@ -44,7 +44,7 @@ public class GlobalDataMethods {
             // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
             // or live (ENVIRONMENT_PRODUCTION)
             .acceptCreditCards(false)
-            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+            .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
             .clientId("AfoqsgwA-VGO3SuWQG3q4U63L-ggmL6zze-r30PBP_WkmFIQg8F0bE8FP9g5y410-YrfMce_Hg003s0o");
 
 
