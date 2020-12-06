@@ -32,6 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.snackbar.Snackbar;
 import com.vanniktech.emoji.EmojiEditText;
 import com.vanniktech.emoji.EmojiPopup;
@@ -198,7 +199,7 @@ public class UserChatActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 if (Utils.keyboardShown(msgInputText.getRootView())) {
-                    Log.d("keyboard", "keyboard UP");
+//                    Log.d("keyboard", "keyboard UP");
                     if (msgDtoList.size() > 2)
                         recyclerChat.scrollToPosition(chatAppMsgAdapter.getItemCount() - 1);
                 } else {
@@ -214,7 +215,7 @@ public class UserChatActivity extends AppCompatActivity {
                             {e.printStackTrace();}
                         }
                     }, 100);
-                    Log.d("keyboard", "keyboard Down");
+//                    Log.d("keyboard", "keyboard Down");
                 }
             }
         });
@@ -638,86 +639,81 @@ public class UserChatActivity extends AppCompatActivity {
         String url;
         if (providerId != null && userID != null) {
             if (requestId != null) {
-                url = URLHelper.ChatGetMessage + requestId + "&message=" + message + "&provider_id=" + Integer.parseInt(providerId) + "&user_id=" + Integer.parseInt(userID) + "&type=up";
+                url = URLHelper.ChatGetMessage + requestId + "&message=" + message + "&provider_id=" + providerId + "&user_id=" + Integer.parseInt(userID) + "&type=pu";
             } else {
-                url = URLHelper.ChatGetMessage + userID + "@" + providerId + "&message=" + message + "&provider_id=" + Integer.parseInt(providerId) + "&user_id=" + Integer.parseInt(userID) + "&type=up";
+                url = URLHelper.ChatGetMessage + userID + "@" + providerId + "&message=" + message + "&provider_id=" + providerId + "&user_id=" + Integer.parseInt(userID) + "&type=pu";
             }
         } else {
             url = URLHelper.ChatGetMessage + SharedHelper.getKey(context, "current_chat_request_id") + "&message=" + message + "&provider_id=" + SharedHelper.getKey(context, "current_chat_provider_id") +
-                    "&user_id=" + SharedHelper.getKey(context, "current_chat_user_id") + "&type=up";
+                    "&user_id=" + SharedHelper.getKey(context, "current_chat_user_id") + "&type=pu";
         }
 
-        Log.e("msg_firbase", url);
-        //String url ="http://carecrew.care/api/user/firebase/getChat?request_id=73434&message="+message+"&provider_id=111&user_id=120&type=up";
+        Log.v("chatUrl", url + " ");
         JSONObject object = new JSONObject();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, object, new Response.Listener<JSONObject>() {
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.GET, url.replace(" ", "%20"), new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
 //                if ((customDialog != null) && (customDialog.isShowing()))
 //                    customDialog.dismiss();
-                SharedHelper.getKey(context, "current_chat_provider_id");
-                SharedHelper.getKey(context, "current_chat_user_id");
-                SharedHelper.getKey(context, "current_chat_request_id");
-                Log.e("TAG+up", "chatListResponse+up" + response.toString());
+
+                Log.e("TAG+pu", "chatListResponse+pu" + response.toString());
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error", error.toString() + "error");
+        }, (Response.ErrorListener) error -> {
+            Log.e("error", error.toString() + "error");
 //                if ((customDialog != null) && (customDialog.isShowing()))
 //                    customDialog.dismiss();
-                String json = null;
-                String Message;
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
+            String json = null;
+            String Message;
+            NetworkResponse response = error.networkResponse;
+            if (response != null && response.data != null) {
+                try {
+                    Log.e("error", new String(response.data) + "");
+                    JSONObject errorObj = new JSONObject(new String(response.data));
 
-                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                            try {
-                                displayMessage(errorObj.optString("message"));
-                            } catch (Exception e) {
-                                displayMessage(getString(R.string.something_went_wrong));
-                            }
-                        } else if (response.statusCode == 401) {
-                            try {
-                                if (errorObj.optString("message").equalsIgnoreCase("invalid_token")) {
-                                    refreshAccessToken();
-                                } else {
-                                    displayMessage(errorObj.optString("message"));
-                                }
-                            } catch (Exception e) {
-                                displayMessage(getString(R.string.something_went_wrong));
-                            }
-
-                        } else if (response.statusCode == 422) {
-
-                            json = trimMessage(new String(response.data));
-                            if (json != "" && json != null) {
-                                displayMessage(json);
+                    if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                        try {
+                            displayMessage(errorObj.optString("message"));
+                        } catch (Exception e) {
+                            displayMessage(getString(R.string.something_went_wrong));
+                        }
+                    } else if (response.statusCode == 401) {
+                        try {
+                            if (errorObj.optString("message").equalsIgnoreCase("invalid_token")) {
+                                refreshAccessToken();
                             } else {
-                                displayMessage(getString(R.string.please_try_again));
+                                displayMessage(errorObj.optString("message"));
                             }
+                        } catch (Exception e) {
+                            displayMessage(getString(R.string.something_went_wrong));
+                        }
 
+                    } else if (response.statusCode == 422) {
+
+                        json = trimMessage(new String(response.data));
+                        if (json != "" && json != null) {
+                            displayMessage(json);
                         } else {
                             displayMessage(getString(R.string.please_try_again));
                         }
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        displayMessage(getString(R.string.something_went_wrong));
+                    } else {
+                        displayMessage(getString(R.string.please_try_again));
                     }
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayMessage(getString(R.string.something_went_wrong));
+                }
 
-                } else {
-                    if (error instanceof NoConnectionError) {
-                        displayMessage(getString(R.string.oops_connect_your_internet));
-                    } else if (error instanceof NetworkError) {
-                        displayMessage(getString(R.string.oops_connect_your_internet));
-                    } else if (error instanceof TimeoutError) {
-                        getChatDetails();
-                    }
+
+            } else {
+                if (error instanceof NoConnectionError) {
+                    displayMessage(getString(R.string.oops_connect_your_internet));
+                } else if (error instanceof NetworkError) {
+                    displayMessage(getString(R.string.oops_connect_your_internet));
+                } else if (error instanceof TimeoutError) {
+                    getChatDetails();
                 }
             }
         }) {
@@ -725,7 +721,7 @@ public class UserChatActivity extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization", "" + SharedHelper.getKey(UserChatActivity.this, "token_type") + " " + SharedHelper.getKey(UserChatActivity.this, "access_token"));
+                headers.put("Authorization", "Bearer " + SharedHelper.getKey(context, "access_token"));
                 return headers;
             }
         };

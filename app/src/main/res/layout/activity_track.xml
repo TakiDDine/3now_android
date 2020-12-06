@@ -160,12 +160,30 @@
                                 android:background="@drawable/call_new" />
 
 
-                            <ImageButton
-                                android:id="@+id/btnChat"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                android:background="@drawable/chat" />
+                            <RelativeLayout
+                                android:layout_width="@dimen/_44sdp"
+                                android:layout_height="@dimen/_44sdp"
+                                android:layout_marginEnd="@dimen/_7sdp">
+
+                                <ImageButton
+                                    android:id="@+id/btnChat"
+                                    android:layout_width="@dimen/_30sdp"
+                                    android:layout_height="@dimen/_30sdp"
+                                    android:layout_marginEnd="@dimen/_7sdp"
+                                    android:background="@drawable/chat" />
+
+                                <TextView
+                                    android:id="@+id/new_message_tv"
+                                    android:layout_width="@dimen/_12sdp"
+                                    android:layout_height="@dimen/_12sdp"
+                                    android:background="@drawable/round_shape"
+                                    android:backgroundTint="#FF0000"
+                                    android:gravity="center"
+                                    android:text="!"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/_8sdp"
+                                    android:visibility="gone" />
+                            </RelativeLayout>
 
 
                         </LinearLayout>
@@ -502,8 +520,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="@dimen/_2sdp"
-                            android:visibility="gone"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
@@ -555,9 +573,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone"
                             android:layout_marginTop="@dimen/_2sdp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <de.threenow.Utils.MyBoldTextView
                                 android:layout_width="match_parent"
@@ -859,7 +877,7 @@
                         android:orientation="vertical"
                         android:paddingTop="@dimen/_35sdp">
 
-<!--                        Rajan-->
+                        <!--                        Rajan-->
                         <de.threenow.Utils.MyBoldTextView
                             android:id="@+id/lblProviderName"
                             android:layout_width="match_parent"
@@ -934,7 +952,6 @@
                             android:textSize="@dimen/_11sdp" />
 
                         <TextView
-                            android:visibility="gone"
                             android:id="@+id/textView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -943,10 +960,10 @@
                             android:layout_marginBottom="@dimen/_5sdp"
                             android:text="Trinkgeld"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_15sdp" />
+                            android:textSize="@dimen/_15sdp"
+                            android:visibility="gone" />
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:id="@+id/linearLayout7"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -954,6 +971,7 @@
                             android:layout_marginBottom="@dimen/_5sdp"
                             android:gravity="center"
                             android:orientation="horizontal"
+                            android:visibility="gone"
                             app:layout_constraintTop_toBottomOf="@+id/textView4">
 
                             <TextView

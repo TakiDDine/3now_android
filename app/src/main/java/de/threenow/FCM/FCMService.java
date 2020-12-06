@@ -5,6 +5,7 @@ package de.threenow.FCM;
  */
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -26,6 +27,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.List;
 
 import de.threenow.Activities.MainActivity;
+import de.threenow.Activities.TrackActivity;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.R;
 import de.threenow.calender.Utils;
@@ -47,35 +49,43 @@ public class FCMService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(Tag, remoteMessage.getData().toString());
-        Log.v(Tag+"Image", remoteMessage.getNotification().getImageUrl()+" ");
+        Log.v(Tag + "Image", remoteMessage.getNotification().getImageUrl() + " ");
         String msg_type = remoteMessage.getNotification().getTitle();
         Log.d(Tag, msg_type);
-        if(msg_type!=null) {
+        if (msg_type != null) {
             Log.d(Tag, "!=null");
             if (msg_type.equalsIgnoreCase("chat")) {
                 Log.d(Tag, "msg_type == chat");
                 Log.d(Tag, getTopAppName() + "");
-            if (getTopAppName().equals(UserChatActivity.class.getName())) {
-                Log.d(Tag,  "if");
-                Intent intent = new Intent();
-                intent.putExtra("message", remoteMessage.getNotification().getBody());
-                intent.setAction("com.my.app.onMessageReceived");
-                sendBroadcast(intent);
-                Log.v(Tag + "message", remoteMessage.getNotification().getImageUrl()+" ");
+                if (getTopAppName().equals(UserChatActivity.class.getName())) {
+                    Log.d(Tag, "if");
+                    Intent intent = new Intent();
+                    intent.putExtra("message", remoteMessage.getNotification().getBody());
+                    intent.setAction("com.my.app.onMessageReceived");
+                    sendBroadcast(intent);
+                    Log.v(Tag + "message", remoteMessage.getNotification().getImageUrl() + " ");
 
-            } else {
-                Log.d(Tag,  "else");
-                handleNotification(remoteMessage);
-            }
-            }
-            else if (msg_type.contains("admin"))
-            {
-                String title=remoteMessage.getNotification().getTitle();
-                String message=remoteMessage.getNotification().getBody();
+                } else if (getTopAppName().equals(TrackActivity.class.getName())) {
+                    Log.d(Tag, "if");
+                    Intent intent = new Intent();
+                    intent.putExtra("message", remoteMessage.getNotification().getBody());
+                    intent.setAction("com.my.app.onMessageReceived.TrackActivity");
+                    sendBroadcast(intent);
+                    Log.v(Tag + "message", remoteMessage.getNotification().getImageUrl() + " ");
+
+                    handleNotification(remoteMessage);
+
+                } else {
+                    Log.d(Tag, "else");
+                    handleNotification(remoteMessage);
+                }
+            } else if (msg_type.contains("admin")) {
+                String title = remoteMessage.getNotification().getTitle();
+                String message = remoteMessage.getNotification().getBody();
                 String click_action = "com.quickridejadriver.providers.TARGETNOTIFICATION";
-                Intent intent =new Intent(click_action);
+                Intent intent = new Intent(click_action);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
                 NotificationCompat.Builder notifiBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
                 notifiBuilder.setContentTitle(title);
                 notifiBuilder.setContentText(message);
@@ -83,10 +93,9 @@ public class FCMService extends FirebaseMessagingService {
                 notifiBuilder.setAutoCancel(true);
                 notifiBuilder.setContentIntent(pendingIntent);
 
-                NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify(0,notifiBuilder.build());
-            }
-            else if (msg_type.equalsIgnoreCase("Videochat")) {
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(0, notifiBuilder.build());
+            } else if (msg_type.equalsIgnoreCase("Videochat")) {
                 Log.e("callVideochat", "callVideochat");
                 // handleNotification(remoteMessage.getNotification().getBody(),remoteMessage.getNotification().getClickAction());
                 if (getTopAppName().equals(MainActivity.class.getName())) {
@@ -130,9 +139,6 @@ public class FCMService extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
     }
-
-
-
 
 
     //This method is only generating push notification
@@ -194,7 +200,7 @@ public class FCMService extends FirebaseMessagingService {
     private void sendNotification(String notificationTitle, String notificationBody, String requestId, String userName) {
         Intent intent = new Intent(this, UserChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Log.e(TAG, "Notification JSON " + requestId+userName+ notificationBody);
+        Log.e(TAG, "Notification JSON " + requestId + userName + notificationBody);
         try {
             String title = notificationTitle;
             String message = notificationBody;
@@ -204,12 +210,21 @@ public class FCMService extends FirebaseMessagingService {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* TripRequest code */, intent, PendingIntent.FLAG_ONE_SHOT);
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.drawable.ic_message_icon)
                     .setContentTitle(title)
                     .setContentText(message)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
-                    .setContentIntent(pendingIntent);
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setFullScreenIntent(pendingIntent,true)
+                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                    .setGroup("Chat_Group_User")
+                    .setGroupSummary(false);
+
+            if(Build.VERSION.SDK_INT> Build.VERSION_CODES.KITKAT)
+            {
+                notificationBuilder.setCategory(Notification.CATEGORY_MESSAGE);
+            }
 
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -218,12 +233,15 @@ public class FCMService extends FirebaseMessagingService {
                 int importance = NotificationManager.IMPORTANCE_HIGH;
                 NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, title, importance);
                 notificationChannel.enableLights(true);
-                notificationChannel.setLightColor(Color.RED);
+                notificationChannel.setLightColor(Color.BLUE);
                 notificationChannel.enableVibration(true);
-                notificationBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+//                notificationChannel.setImportance(NotificationManager.IMPORTANCE_HIGH);
+//                notificationBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                notificationManager = getSystemService(NotificationManager.class);
                 notificationManager.createNotificationChannel(notificationChannel);
+
             }
-            assert notificationManager != null;
+//            assert notificationManager != null;
             notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
 
         } catch (Exception e) {

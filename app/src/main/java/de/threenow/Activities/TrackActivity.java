@@ -6,9 +6,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -36,6 +38,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -317,6 +320,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     ImageButton btnCall;
     @BindView(R.id.btnChat)
     ImageButton btnChat;
+    @BindView(R.id.new_message_tv)
+    TextView new_message_tv;
     String current_chat_requestID = "";
     String currentProviderID = "";
     String userID = "";
@@ -395,7 +400,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @butterknife.OnClick(R.id.btnChat)
     void callbtnChat() {
-
+        new_message_tv.setVisibility(View.GONE);
         Intent intentChat = new Intent(context, UserChatActivity.class);
         intentChat.putExtra("requestId", current_chat_requestID);
         intentChat.putExtra("providerId", currentProviderID);
@@ -922,6 +927,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         if (mGoogleApiClient != null)
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
         super.onResume();
+        registerReceiver(receiver, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(receiver);
     }
 
     @Override
@@ -1097,8 +1109,40 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     AddTips();
             }
         });
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("com.my.app.onMessageReceived.TrackActivity");
+        receiver = new MyBroadcastReceiver();
     }
 
+    private IntentFilter intentFilter;
+    private MyBroadcastReceiver receiver;
+
+    public class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //  Bundle extras = intent.getExtras();
+            String message = intent.getExtras().getString("message");
+            Log.e("messsgae", message + "messsage");
+            if (message != null) {
+                new_message_tv.setVisibility(View.VISIBLE);
+
+                // Get the custom layout view.
+//                View toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
+//                TextView customToastText = toastView.findViewById(R.id.customToastText);
+//                customToastText.setText(message);
+//                // Initiate the Toast instance.
+//                Toast toast = new Toast(getApplicationContext());
+//                // Set custom view in toast.
+//                toast.setView(toastView);
+//                toast.setDuration(Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER, 0,0);
+//                toast.show();
+
+//                Toast.makeText(context, message + " ..", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -1281,6 +1325,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onLocationChanged(Location location) {
         if (foreground) {
+
+            if (URLHelper.syria_change_location)
+                if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
+                    location.setLatitude(52.5230588);
+                    location.setLongitude(13.4699208);
+                }
+
             Log.e("onLocationChanged", "from here!");
             if ((customDialog != null) && (customDialog.isShowing()))
                 customDialog.dismiss();
@@ -3190,7 +3241,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     public void liveNavigation(String status, String lat, String lng) {
         Log.e("LiveNavigation", "ProLat" + lat + " ProLng" + lng);
-        if (!lat.equalsIgnoreCase("") && !lng.equalsIgnoreCase("")) {
+        if (!lat.equalsIgnoreCase("") && !lng.equalsIgnoreCase("")
+        && !lat.equalsIgnoreCase("null") && !lng.equalsIgnoreCase("null")) {
             Double proLat = Double.parseDouble(lat);
             Double proLng = Double.parseDouble(lng);
 
@@ -3258,7 +3310,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
             /***************************************CHANGES HERE TO HIDE SOURCE ADDRESS AND DESTINATION ADDRESS TEXTVIEW***********************************************/
 
-            if (!source_lat.equalsIgnoreCase("") && !source_lng.equalsIgnoreCase("")) {
+            if (!source_lat.equalsIgnoreCase("") && !source_lng.equalsIgnoreCase("")
+            && !source_lat.equalsIgnoreCase("null") && !source_lng.equalsIgnoreCase("null")) {
                 sourceLatLng = new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng));
             }
             if (!dest_lat.equalsIgnoreCase("") && !dest_lng.equalsIgnoreCase("") && dest_lat != null && dest_lng != null) {

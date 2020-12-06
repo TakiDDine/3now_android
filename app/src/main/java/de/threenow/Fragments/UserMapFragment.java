@@ -875,6 +875,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             if (GlobalDataMethods.ShowAdditionalLog)
             Log.e("onLocationChanged", "from here!2");
 
+            if (URLHelper.syria_change_location)
             if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
                 location.setLatitude(52.5230588);
                 location.setLongitude(13.4699208);
@@ -2106,7 +2107,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     + "&d_latitude=" + dest_lat
                     + "&d_longitude=" + dest_lng;
 
-            Log.e("ESTIMATED_FARE5", GlobalDataMethods.lastConstructedURLSuccess.equals(constructedURL) + " / " + responseSameOld);
+            Log.e("ESTIMATED_FARE5", GlobalDataMethods.lastConstructedURLSuccess
+                    .equals(constructedURL) + " / " +
+                    responseSameOld);
 
             if (GlobalDataMethods.lastConstructedURLSuccess.equals(constructedURL) && responseSameOld != null) {// same
 
@@ -3670,7 +3673,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onPause() {
         foreground = false;
         Log.e("lifcycle1", "onPause");
-        if (mGoogleApiClient != null)
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
 
         super.onPause();

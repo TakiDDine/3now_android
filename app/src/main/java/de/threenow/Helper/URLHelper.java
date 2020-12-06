@@ -78,5 +78,5 @@ public class URLHelper {
 
     public static int count_call_Geocoder = 0;
 
-
+    public static final boolean syria_change_location = false;
 }
