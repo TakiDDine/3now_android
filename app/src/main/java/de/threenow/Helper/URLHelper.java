@@ -2,8 +2,10 @@ package de.threenow.Helper;
 
 public class URLHelper {
 
-//    public static final String base = "https://www.3now-test.com/";
+    //    public static final String base = "https://www.3now-test.com/";
     public static final String base = "https://www.3now.de/";
+//    public static String base = "https://bestdels.com/";
+
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
     public static final int client_id = 2;
@@ -43,8 +45,7 @@ public class URLHelper {
     public static final String GET_HISTORY_API = base + "api/user/trips";
     public static final String GET_HISTORY_DETAILS_API = base + "api/user/trip/details";
     public static final String addCardUrl = base + "api/user/add/money";
-    public static final String COUPON_LIST_API = base + "api/user/promocodes";
-    public static final String ADD_COUPON_API = base + "api/user/promocode/add";
+
 
     public static final String CHANGE_PASSWORD_API = base + "api/user/change/password";
     public static final String UPCOMING_TRIP_DETAILS = base + "api/user/upcoming/trip/details";
@@ -71,6 +72,9 @@ public class URLHelper {
 
     // Coupon
     public static final String COUPON_VERIFY = base + "api/user/coupon/verfiy";
+    public static final String COUPON_LIST_API = base + "api/user/promocodes";
+    public static final String ADD_COUPON_API = base + "api/user/promocode/add";
+
     public static final String get_current_Prodiver_Location_calc_distance = base + "/api/user/currentProdiverLocation";
     public static final String COMPLETE_AS_CASH = base + "change/payment/cash";
     public static final String URL_GOOGLE_KEY_MAPS = base + "web/google-keys";
@@ -78,5 +82,5 @@ public class URLHelper {
 
     public static int count_call_Geocoder = 0;
 
-    public static final boolean syria_change_location = false;
+    public static final boolean syria_change_location = true;
 }

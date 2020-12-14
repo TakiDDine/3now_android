@@ -13,9 +13,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -37,7 +40,6 @@ public class FCMService extends FirebaseMessagingService {
 
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private static final String TAG = "MyFirebaseMsgService";
-    Utils utils = new Utils();
     String Tag = "FCMService";
 
     @Override
@@ -50,15 +52,22 @@ public class FCMService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(Tag, remoteMessage.getData().toString());
         Log.v(Tag + "Image", remoteMessage.getNotification().getImageUrl() + " ");
+
         String msg_type = remoteMessage.getNotification().getTitle();
         Log.d(Tag, msg_type);
+
         if (msg_type != null) {
             Log.d(Tag, "!=null");
+
             if (msg_type.equalsIgnoreCase("chat")) {
+
+                MediaPlayer.create(this, R.raw.come_message).start();
+
                 Log.d(Tag, "msg_type == chat");
                 Log.d(Tag, getTopAppName() + "");
                 if (getTopAppName().equals(UserChatActivity.class.getName())) {
-                    Log.d(Tag, "if");
+
+                    Log.d(Tag, "if_UserChatActivity");
                     Intent intent = new Intent();
                     intent.putExtra("message", remoteMessage.getNotification().getBody());
                     intent.setAction("com.my.app.onMessageReceived");
@@ -66,7 +75,7 @@ public class FCMService extends FirebaseMessagingService {
                     Log.v(Tag + "message", remoteMessage.getNotification().getImageUrl() + " ");
 
                 } else if (getTopAppName().equals(TrackActivity.class.getName())) {
-                    Log.d(Tag, "if");
+                    Log.d(Tag, "if_TrackActivity");
                     Intent intent = new Intent();
                     intent.putExtra("message", remoteMessage.getNotification().getBody());
                     intent.setAction("com.my.app.onMessageReceived.TrackActivity");
@@ -79,6 +88,7 @@ public class FCMService extends FirebaseMessagingService {
                     Log.d(Tag, "else");
                     handleNotification(remoteMessage);
                 }
+
             } else if (msg_type.contains("admin")) {
                 String title = remoteMessage.getNotification().getTitle();
                 String message = remoteMessage.getNotification().getBody();
@@ -198,6 +208,17 @@ public class FCMService extends FirebaseMessagingService {
     }
 
     private void sendNotification(String notificationTitle, String notificationBody, String requestId, String userName) {
+
+        long[] mVibratePattern = new long[]{0, 400};
+        final int[] mAmplitudes = new int[]{0, 128};
+
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(mVibratePattern, mAmplitudes, -1));
+        } else { //deprecated in API 26
+            vibrator.vibrate(mVibratePattern, -1);
+        }
+
         Intent intent = new Intent(this, UserChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Log.e(TAG, "Notification JSON " + requestId + userName + notificationBody);
@@ -216,7 +237,7 @@ public class FCMService extends FirebaseMessagingService {
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setFullScreenIntent(pendingIntent,true)
+                    .setFullScreenIntent(null,true)
                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                     .setGroup("Chat_Group_User")
                     .setGroupSummary(false);
@@ -241,7 +262,7 @@ public class FCMService extends FirebaseMessagingService {
                 notificationManager.createNotificationChannel(notificationChannel);
 
             }
-//            assert notificationManager != null;
+
             notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
 
         } catch (Exception e) {

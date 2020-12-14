@@ -875,12 +875,11 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             if (GlobalDataMethods.ShowAdditionalLog)
             Log.e("onLocationChanged", "from here!2");
 
-            if (URLHelper.syria_change_location)
-            if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {
-                location.setLatitude(52.5230588);
-                location.setLongitude(13.4699208);
-
-            }
+            if (URLHelper.syria_change_location && (location.getLongitude() + "").contains("."))
+                if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {//abood
+                    location.setLatitude(supportChangeLocation(52.5230588, location.getLatitude()));
+                    location.setLongitude(supportChangeLocation(13.4699208, location.getLongitude()));
+                }
 
             if (marker != null) {
                 marker.remove();
@@ -936,6 +935,17 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 updateLocationToAdmin(location.getLatitude() + "", location.getLongitude() + "");
             }
         }
+    }
+
+    private double supportChangeLocation(double real , double sy) {
+        String realStr = Double.valueOf(real).toString();
+        realStr = realStr.substring(0,realStr.indexOf('.'));
+
+        String syStr = Double.valueOf(sy).toString();
+        syStr = syStr.substring(syStr.indexOf('.'));
+
+        return Double.parseDouble(realStr + syStr);
+
     }
 
     private void updateLocationToAdmin(String latitude, String longitude) {
