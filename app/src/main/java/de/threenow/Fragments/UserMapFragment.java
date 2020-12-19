@@ -164,8 +164,7 @@ import retrofit2.Callback;
 import static android.content.Context.LOCATION_SERVICE;
 import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 import static de.threenow.IlyftApplication.trimMessage;
-import static de.threenow.Utils.GlobalDataMethods.ShowAdditionalLog;
-import static de.threenow.Utils.GlobalDataMethods.coupon_discount_str;
+import static de.threenow.Utils.GlobalDataMethods.coupon_discount;
 import static de.threenow.Utils.GlobalDataMethods.coupon_gd_str;
 
 //import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -1699,8 +1698,11 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 //                if (jsonObject.optString("success").equals("coupon available")) {
                 lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
-                        - (GlobalDataMethods.coupon_discount_str);
+                double total = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"));
+
+                GlobalDataMethods.coupon_discount =  GlobalDataMethods.getDiscountCoupon(total);
+
+                double discount = total - (GlobalDataMethods.coupon_discount);
 
                 if (discount < 0) {
                     discount = 0;
@@ -1711,7 +1713,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
             } else {// coupoun used
                 coupon_gd_str = "";
-                coupon_discount_str = 0d;
+                coupon_discount = 0d;
                 lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
                 lblApproxAmountDiscount.setText("");
                 lblApproxAmountDiscount.setVisibility(View.GONE);
@@ -1762,14 +1764,18 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         utils.print("AddCouponRes", "" + response.toString());
                         try {
                             JSONObject jsonObject = response;
+                            GlobalDataMethods.coupon_response = response;
 
                             if (jsonObject.optString("success").equals("coupon available")) {
                                 ((TextView) rootView.findViewById(R.id.lblPromo)).setText(getResources().getString(R.string.promo_code_applied));
 
                                 lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                                double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
-                                        - (GlobalDataMethods.coupon_discount_str);
+                                double total = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"));
+
+                                GlobalDataMethods.coupon_discount =  GlobalDataMethods.getDiscountCoupon(total);
+
+                                double discount = total - (GlobalDataMethods.coupon_discount);
 
                                 if (discount < 0) {
                                     discount = 0;
@@ -1781,7 +1787,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                             } else {// coupoun used
                                 coupon_gd_str = "";
-                                coupon_discount_str = 0d;
+                                coupon_discount = 0d;
                                 lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
                                 lblApproxAmountDiscount.setText("");
                                 lblApproxAmountDiscount.setVisibility(View.GONE);
@@ -3243,8 +3249,11 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
                         view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                        double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
-                                - (GlobalDataMethods.coupon_discount_str);
+                        double total = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"));
+
+                        GlobalDataMethods.coupon_discount =  GlobalDataMethods.getDiscountCoupon(total);
+
+                        double discount = total - (GlobalDataMethods.coupon_discount);
 
                         if (discount < 0) {
                             discount = 0;

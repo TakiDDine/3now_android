@@ -38,7 +38,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
@@ -158,7 +157,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 import static de.threenow.IlyftApplication.trimMessage;
-import static de.threenow.Utils.GlobalDataMethods.coupon_discount_str;
+import static de.threenow.Utils.GlobalDataMethods.coupon_discount;
 import static de.threenow.Utils.GlobalDataMethods.coupon_gd_str;
 
 
@@ -2888,12 +2887,16 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                         try {
 
                             JSONObject jsonObject = response;
+                            GlobalDataMethods.coupon_response = response;
 
                             if (jsonObject.optString("success").equals("coupon available")) {
                                 lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                                double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
-                                        - (GlobalDataMethods.coupon_discount_str);
+                                double total = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"));
+
+                                GlobalDataMethods.coupon_discount =  GlobalDataMethods.getDiscountCoupon(total);
+
+                                double discount = total - (GlobalDataMethods.coupon_discount);
 
                                 if (discount < 0) {
                                     discount = 0;
@@ -2904,7 +2907,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                             } else {// coupoun used
                                 coupon_gd_str = "";
-                                coupon_discount_str = 0d;
+                                coupon_discount = 0d;
                                 lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
                                 lblApproxAmountDiscount.setText("");
                                 lblApproxAmountDiscount.setVisibility(View.GONE);

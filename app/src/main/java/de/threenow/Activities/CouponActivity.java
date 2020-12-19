@@ -27,7 +27,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
@@ -52,6 +51,7 @@ import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.Utilities;
 
 import static de.threenow.IlyftApplication.trimMessage;
+import static de.threenow.Utils.GlobalDataMethods.coupon_discount;
 
 public class CouponActivity extends AppCompatActivity {
 
@@ -82,22 +82,22 @@ public class CouponActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setBackgroundDrawableResource(R.drawable.coupon_bg);
         setContentView(R.layout.activity_coupon);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.coupon);
         context = CouponActivity.this;
         session_token = SharedHelper.getKey(this, "access_token");
-        couponListCardView =  findViewById(R.id.cardListViewLayout);
+        couponListCardView = findViewById(R.id.cardListViewLayout);
         coupon_list_view = (ListView) findViewById(R.id.coupon_list_view);
-        coupon_et =  findViewById(R.id.coupon_et);
-        apply_button =  findViewById(R.id.apply_button);
+        coupon_et = findViewById(R.id.coupon_et);
+        apply_button = findViewById(R.id.apply_button);
         apply_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,49 +129,46 @@ public class CouponActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         Log.e("coupon_from", "CouponActivity");
-
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
                 URLHelper.COUPON_VERIFY,
                 object,
-                new com.android.volley.Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+                response -> {
 
-                        if ((customDialog != null) && customDialog.isShowing())
-                            customDialog.dismiss();
+                    if ((customDialog != null) && customDialog.isShowing())
+                        customDialog.dismiss();
 
 
-                        utils.print("AddCouponRes", "" + response);
-                        try {
-                            JSONObject jsonObject = response;
+                    utils.print("AddCouponRes", "" + response);
+                    try {
+                        JSONObject jsonObject = response;
 
-                            if (jsonObject.optString("success").equals("coupon available")) {
-                                GlobalDataMethods.coupon_gd_str = coupon_et.getText().toString();
-                                try {
-                                    GlobalDataMethods.coupon_discount_str = Double.parseDouble(jsonObject.optString("discount"));
-                                }catch (Exception d){
-                                    GlobalDataMethods.coupon_discount_str = 0d;
-                                }
-                                Intent intent = new Intent();
-                                setResult(RESULT_OK, intent);
+                        if (jsonObject.optString("success").equals("coupon available")) {
 
-                                Toast.makeText(CouponActivity.this, getString(R.string.coupon_added), Toast.LENGTH_SHORT).show();
-                                finish();
+                            GlobalDataMethods.coupon_gd_str = coupon_et.getText().toString();
 
+                            try {
+                                GlobalDataMethods.coupon_response = response;
+                                coupon_discount = Double.parseDouble(jsonObject.optString("discount"));
+                            } catch (Exception d) {
+                                coupon_discount = 0d;
                             }
 
-                            else {
-                                Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
-                            }
 
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
+                            setResult(RESULT_OK, new Intent());
+
+                            Toast.makeText(CouponActivity.this, getString(R.string.coupon_added), Toast.LENGTH_SHORT).show();
+                            finish();
+
+                        } else {
+                            Toast.makeText(CouponActivity.this, getString(R.string.not_vaild_coupon), Toast.LENGTH_SHORT).show();
                         }
 
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
                     }
+
                 }, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -239,7 +236,6 @@ public class CouponActivity extends AppCompatActivity {
     }
 
 
-
     private void sendToServer() {
 
         customDialog = new CustomDialog(context);
@@ -270,7 +266,7 @@ public class CouponActivity extends AppCompatActivity {
 
                         utils.print("sendToServer", "" + response);
                         try {
-                            JSONObject jsonObject =  response;
+                            JSONObject jsonObject = response;
                             if (jsonObject.optString("code").equals("promocode_applied")) {
                                 Intent intent = new Intent();
                                 setResult(RESULT_OK, intent);
@@ -355,7 +351,6 @@ public class CouponActivity extends AppCompatActivity {
 
 
     }
-
 
 
     private void refreshAccessToken(final String tag) {

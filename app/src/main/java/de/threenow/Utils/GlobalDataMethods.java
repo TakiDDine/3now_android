@@ -6,6 +6,8 @@ import android.view.WindowManager;
 
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import de.threenow.Models.GoogleDirectionModel;
@@ -35,7 +37,30 @@ public class GlobalDataMethods {
     public static String SourceTripeLong = "";
 
     public static String coupon_gd_str = "";
-    public static Double coupon_discount_str = 0d;
+    public static Double coupon_discount = 0d;
+    public static JSONObject coupon_response;
+
+
+    public static Double getDiscountCoupon(Double total){
+
+        String discount_type = coupon_response.optString("discount_type");
+        Double discount_value = Double.parseDouble(coupon_response.optString("discount_value"));
+        Double maxDiscount = Double.parseDouble(coupon_response.optString("maxDiscount"));
+
+        if (discount_type.contains("percent")){
+            coupon_discount = total * discount_value /100;
+        }
+
+        coupon_discount = Math.min(coupon_discount, maxDiscount);
+
+        if (total > coupon_discount) {
+//            coupon_discount = total - coupon_discount;
+        }else
+            coupon_discount = total;
+
+        return new Long(Math.round(coupon_discount * 10) / 10).doubleValue();
+
+    }
 
     public static boolean ShowAdditionalLog = false; // if (GlobalDataMethods.ShowAdditionalLog)
 

@@ -4,7 +4,7 @@ public class URLHelper {
 
     //    public static final String base = "https://www.3now-test.com/";
     public static final String base = "https://www.3now.de/";
-//    public static String base = "https://bestdels.com/";
+//    public static String base = "https://www.bestdels.com/";
 
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
