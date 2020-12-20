@@ -41,22 +41,22 @@ public class GlobalDataMethods {
     public static JSONObject coupon_response;
 
 
-    public static Double getDiscountCoupon(Double total){
+    public static Double getDiscountCoupon(Double total) {
 
         String discount_type = coupon_response.optString("discount_type");
         Double discount_value = Double.parseDouble(coupon_response.optString("discount_value"));
         Double maxDiscount = Double.parseDouble(coupon_response.optString("maxDiscount"));
 
-        if (discount_type.contains("percent")){
-            coupon_discount = total * discount_value /100;
+        if (discount_type.contains("percent")) {
+            coupon_discount = total * discount_value / 100;
         }
 
         coupon_discount = Math.min(coupon_discount, maxDiscount);
 
         if (total > coupon_discount) {
 //            coupon_discount = total - coupon_discount;
-        }else
-            coupon_discount = total;
+        } else
+            coupon_discount = 0d;
 
         return new Long(Math.round(coupon_discount * 10) / 10).doubleValue();
 
