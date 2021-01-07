@@ -1326,7 +1326,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         if (foreground) {
 
             if (URLHelper.syria_change_location && (location.getLongitude() + "").contains("."))
-                if ((location.getLongitude() + "").contains("36.") && (location.getLatitude() + "").contains("34.")) {//abood
+                if ((location.getLongitude() + "").contains("32.") && (location.getLatitude() + "").contains("15.")) {//abood
                     location.setLatitude(supportChangeLocation(52.5230588, location.getLatitude()));
                     location.setLongitude(supportChangeLocation(13.4699208, location.getLongitude()));
                 }
@@ -2637,8 +2637,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                     lblPaymentType.setEnabled(false);
                                                     imgPaymentTypeInvoice.setImageResource(R.drawable.money_icon);
                                                     lblPaymentTypeInvoice.setText(getResources().getString(R.string.cash));
-                                                } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CASH")
-                                                        && wallet.equalsIgnoreCase("1")) {
+                                                } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("WALLET")) {
                                                     btnPayNow.setVisibility(View.GONE);
                                                     btnPayNowCash.setVisibility(View.GONE);
                                                     flowValue = 5;

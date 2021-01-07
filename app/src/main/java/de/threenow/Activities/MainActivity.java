@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements
     private TextView legal_id, agb_id, footer_item_impressum;
     private TextView footer_item_version;
 
-    LinearLayout home_ll_id, prfile_header_menu, ll_payment, ll_track, ll_notification, ll_yourtrips, ll_wallet, ll_help, ll_contact;
+    LinearLayout free_rides_ll_id, prfile_header_menu, ll_payment, ll_track, ll_notification, ll_yourtrips, ll_wallet, ll_help, ll_contact;
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements
         txtName = findViewById(R.id.usernameTxt);
         txtWebsite = findViewById(R.id.status_txt);
         imgProfile = findViewById(R.id.img_profile);
-        home_ll_id = findViewById(R.id.home_ll_id);
+        free_rides_ll_id = findViewById(R.id.free_rides_ll_id);
         prfile_header_menu = findViewById(R.id.prfile_header_menu);
         ll_payment = findViewById(R.id.ll_payment);
         ll_track = findViewById(R.id.ll_track);
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements
         ll_help.setOnClickListener(this);
         ll_contact.setOnClickListener(this);
         prfile_header_menu.setOnClickListener(this);
-        home_ll_id.setOnClickListener(this);
+        free_rides_ll_id.setOnClickListener(this);
 
 //        navHeader.setOnClickListener(view -> startActivity(new Intent(activity, Profile.class)));
 
@@ -782,11 +782,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.home_ll_id:
+            case R.id.free_rides_ll_id:
                 drawer.closeDrawers();
-                startActivity(new Intent(MainActivity.this, MainActivity.class));
-                finish();
-
+                startActivity(new Intent(MainActivity.this, FreeRidesActivity.class));
                 break;
 
             case R.id.prfile_header_menu:

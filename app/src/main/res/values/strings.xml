@@ -5,7 +5,7 @@
 
     <!--Google map-->
     <string name="google_map_api" translatable="false">AIzaSyAXQ-hcsJo0IPJbPJsHlmUTxKZ4tkHS5ZE</string>
-<!--    <string name="google_map_api" translatable="false">AIzaSyA46FtsnG098mBxXAEoWI5crGDeU4QGjSU</string>-->
+    <!--    <string name="google_map_api" translatable="false">AIzaSyA46FtsnG098mBxXAEoWI5crGDeU4QGjSU</string>-->
 
 
     <!--facebook-->
@@ -623,5 +623,9 @@ E-mail : Info@3now.de\n
     <string name="complete_as_cash">Complete as cash</string>
     <string name="coupon">coupon</string>
     <string name="your_tips_for_driver">Your tips for driver</string>
+    <string name="freifahrten">Free rides</string>
+    <string name="info_invite">Invite your friend to try our service and receive € 10 in credit</string>
+    <string name="how_does_it_work"><u>How does it work ?</u></string>
+    <string name="invitation_code">Invitation code</string>
 
 </resources>

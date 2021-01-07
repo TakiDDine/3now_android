@@ -574,5 +574,9 @@ E-mail : Info@3now.de\n
     <string name="complete_as_cash">Oder Bargeld zahlen</string>
     <string name="coupon">Gutschein</string>
     <string name="your_tips_for_driver">Ihre Trinkgeld für den Fahrer</string>
+    <string name="freifahrten">Freifahrten</string>
+    <string name="info_invite">Laden Sie Ihren Freund ein, unseren Service zu testen, und Sie erhalten 10 € Gutschrift</string>
+    <string name="how_does_it_work"><u>Wie funktioniert es ?</u></string>
+    <string name="invitation_code">Einladungscode</string>
 
 </resources>

@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <!--
      The following two permissions are not required to use
      Google Maps Android API v2, but are recommended.
@@ -34,7 +33,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-
     <application
         android:name=".IlyftApplication"
         android:allowBackup="false"
@@ -43,15 +41,18 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:supportsRtl="false"
         android:launchMode="singleTop"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:supportsRtl"
         tools:targetApi="m">
-        <activity android:name=".Activities.ImpressumActivity"></activity>
-        <activity android:name=".Activities.TrinkgeldActivity"></activity>
+        <activity android:name=".Activities.FreeRidesActivity">
+
+        </activity>
+        <activity android:name=".Activities.ImpressumActivity" />
+        <activity android:name=".Activities.TrinkgeldActivity" />
         <activity android:name=".SummeryScheduledActivity" />
         <activity android:name=".ViewSummeryScheduledActivity" />
         <activity android:name=".SendEmailActivity" />
@@ -75,20 +76,7 @@
         <activity
             android:name=".calender.AddOrEditCalendarActivity"
             android:configChanges="layoutDirection|locale" />
-        <!--
-<activity
-            android:name=".calender.CalendarSampleActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop" >
-            &lt;!&ndash;<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
-            </intent-filter>&ndash;&gt;
-        </activity>
-        -->
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -324,10 +312,9 @@
             android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.facebook.accountkit.ClientToken"
-            android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" />
-<!--        <meta-data-->
-<!--            android:name="io.fabric.ApiKey"-->
-<!--            android:value="382cf003634c80b059946b0cd12ecd9c215c37da" />-->
+            android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" /> <!-- <meta-data -->
+        <!-- android:name="io.fabric.ApiKey" -->
+        <!-- android:value="382cf003634c80b059946b0cd12ecd9c215c37da" /> -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
