@@ -80,7 +80,8 @@ public class URLHelper {
     public static final String URL_GOOGLE_KEY_MAPS = base + "web/google-keys";
     public static final String ADD_TIPS = base + "api/user/tips";
 
-    public static int count_call_Geocoder = 0;
+    public static final String INVITE_PRICE = base + "invite/price";
 
+    public static int count_call_Geocoder = 0;
     public static final boolean syria_change_location = true;
 }
