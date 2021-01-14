@@ -76,7 +76,7 @@ public class FreeRidesActivity extends AppCompatActivity {
             Intent intent = new Intent(android.content.Intent.ACTION_SEND);
             intent.setType("text/plain");
             intent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey,\n" +
-                    "hilf mir einen " + tv_invite_price.getText().toString() + " € Gutschein bei 3Now zu erhalten, dafür musst du aber meinen Code nützen :" + code);
+                    "hilf mir einen " + tv_invite_price.getText().toString() + " Gutschein bei 3Now zu erhalten, dafür musst du aber meinen Code nützen :" + code);
             startActivity(Intent.createChooser(intent, code));
         });
 
