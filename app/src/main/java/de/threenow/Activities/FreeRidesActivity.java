@@ -39,9 +39,9 @@ public class FreeRidesActivity extends AppCompatActivity {
 
     Button btn_invite;
 
-    String code = "";
+    String code = "", i_price;
 
-    TextView invite_price;
+    TextView tv_invite_price, tv_how_it_work, tv_info_invite;
 
     Context context;
 
@@ -60,9 +60,13 @@ public class FreeRidesActivity extends AppCompatActivity {
 
         backArrow = findViewById(R.id.backArrow);
         btn_invite = findViewById(R.id.btn_invite);
-        invite_price = findViewById(R.id.invite_price);
+        tv_invite_price = findViewById(R.id.invite_price);
+        tv_how_it_work = findViewById(R.id.tv_how_it_work);
+        tv_info_invite = findViewById(R.id.tv_info_invite);
 
         backArrow.setOnClickListener(view -> finish());
+
+        tv_how_it_work.setOnClickListener(view -> startActivity(new Intent(context, HowItWorkActivity.class).putExtra("invite_price",i_price)));
 
         code = (new DecimalFormat("#").format(Double.parseDouble(SharedHelper.getKey(context, "id") + "") + 1000000) + "");
 
@@ -71,7 +75,8 @@ public class FreeRidesActivity extends AppCompatActivity {
         btn_invite.setOnClickListener(view -> {
             Intent intent = new Intent(android.content.Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(android.content.Intent.EXTRA_TEXT, code);
+            intent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey,\n" +
+                    "hilf mir einen " + tv_invite_price.getText().toString() + " € Gutschein bei 3Now zu erhalten, dafür musst du aber meinen Code nützen :" + code);
             startActivity(Intent.createChooser(intent, code));
         });
 
@@ -80,14 +85,20 @@ public class FreeRidesActivity extends AppCompatActivity {
 
     private void getInvitePrice() {
         CustomDialog customDialog = new CustomDialog(context);
+        customDialog.setCancelable(false);
         customDialog.show();
         JSONObject object = new JSONObject();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLHelper.INVITE_PRICE, object, response -> {
 
             Log.e("INVITE_PRICE", response.toString());
-            invite_price.setText(response.optString("price") + "€");
-            SharedHelper.putKey(context, "GOOGLE_KEY_MAPS", response.optString("key"));
+
+            i_price = String.format("%,f",Double.parseDouble(response.optString("price"))).replace(",",".") + "";
+            i_price = i_price.substring(0,i_price.indexOf(".")+2);
+
+            tv_invite_price.setText(i_price + "€");
+            tv_info_invite.setText(String.format(getString(R.string.info_invite), i_price));
+
             customDialog.dismiss();
 
         }, error -> {

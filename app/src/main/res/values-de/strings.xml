@@ -574,9 +574,14 @@ E-mail : Info@3now.de\n
     <string name="complete_as_cash">Oder Bargeld zahlen</string>
     <string name="coupon">Gutschein</string>
     <string name="your_tips_for_driver">Ihre Trinkgeld für den Fahrer</string>
-    <string name="freifahrten">Freifahrten</string>
-    <string name="info_invite">Laden Sie Ihren Freund ein, unseren Service zu testen, und Sie erhalten 10 € Gutschrift</string>
-    <string name="how_does_it_work"><u>Wie funktioniert es ?</u></string>
+    <string name="freifahrten">Freunde einladen</string>
+    <string name="info_invite" >Empfehle diese App weiter und erhalte einen %1$s€ Gutschein.</string>
+    <string name="how_does_it_work_ul"><u>Wie funktioniert es ?</u></string>
     <string name="invitation_code">Einladungscode</string>
+    <string name="how_does_it_work">Wie funktioniert es ?</string>
+    <string name="tv1_how_it_work">Wie erhalte ich meinen %1$s€ Gutschein?</string>
+    <string name="tv2_how_it_work">Deinen %1$s€ Gutschein erhältst Du, in dem Du Familienmitglieder, Freunde, Bekannte usw. einlädst, die 3Now App zu installieren und auch zu benutzen.</string>
+    <string name="tv3_how_it_work">Wann kann ich den %1$s€ Gutschein nutzen?</string>
+    <string name="tv4_how_it_work">Du musst nichts weiter tun! Sobald nach der Registrierung zwei Fahrten erfolgreich gebucht und durchgeführt wurden, wird Deinem Konto automatisch das Guthaben von %1$s€ gutgeschrieben. Diese Gutschrift wird dann bei Deiner nächsten Fahrt von dem Fahrpreis abgezogen.</string>
 
 </resources>

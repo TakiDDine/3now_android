@@ -48,9 +48,8 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:supportsRtl"
         tools:targetApi="m">
-        <activity android:name=".Activities.FreeRidesActivity">
-
-        </activity>
+        <activity android:name=".Activities.HowItWorkActivity"></activity>
+        <activity android:name=".Activities.FreeRidesActivity"></activity>
         <activity android:name=".Activities.ImpressumActivity" />
         <activity android:name=".Activities.TrinkgeldActivity" />
         <activity android:name=".SummeryScheduledActivity" />
@@ -76,7 +75,6 @@
         <activity
             android:name=".calender.AddOrEditCalendarActivity"
             android:configChanges="layoutDirection|locale" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

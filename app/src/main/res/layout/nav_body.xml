@@ -89,36 +89,6 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/free_rides_ll_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_33sdp"
-                    android:background="@color/white"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:padding="15dp"
-                        android:src="@drawable/supervised_user_circle" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="@string/freifahrten"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14sdp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="@dimen/_135sdp"
-                    android:layout_height="@dimen/_1sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:background="#EBEBEB"/>
 
                 <LinearLayout
                     android:id="@+id/ll_track"
@@ -274,6 +244,37 @@
                     android:layout_height="@dimen/_1sdp"
                     android:layout_marginStart="@dimen/_20sdp"
                     android:background="#EBEBEB" />
+
+                <LinearLayout
+                    android:id="@+id/free_rides_ll_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_33sdp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:padding="15dp"
+                        android:src="@drawable/supervised_user_circle" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/freifahrten"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_14sdp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/_135sdp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:background="#EBEBEB"/>
 
                 <LinearLayout
                     android:id="@+id/ll_help"
