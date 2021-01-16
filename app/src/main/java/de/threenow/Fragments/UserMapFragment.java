@@ -786,29 +786,18 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
             return false;
         });
-//
-//        try {
-//            String SOURCE_ADDRESS = "" + SharedHelper.getKey(context, "SOURCE_ADDRESS");
-//            String DESTINATION_ADDRESS = "" + SharedHelper.getKey(context, "DESTINATION_ADDRESS");
-//
-//
-//            if (frmSource != null && frmSource.getText().toString().length() == 0 && SOURCE_ADDRESS.length() > 0) {
-//                frmSource.setText(SOURCE_ADDRESS);
-//            }
-//
-//            if (frmDest != null && frmDest.getText().toString().length() == 0 && DESTINATION_ADDRESS.length() > 0) {
-//                frmDest.setText(DESTINATION_ADDRESS);
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
 
         try {
+            chkWallet.setChecked(false);
+
             String p_m = SharedHelper.getKey(context, "payment_mode").toString();
             if (p_m.equalsIgnoreCase("card") && cardInfo.getLastFour().length() > 0) {
                 if (cardInfo.getLastFour().equals("CASH") && SharedHelper.getKey(context, "last_four").length() > 0) {
-
+                    lblPaymentType.setText("xxxx" + SharedHelper.getKey(context, "last_four"));
+                    cardInfo.setLastFour(SharedHelper.getKey(context, "last_four"));
+                }  else if (cardInfo.getLastFour().equals("WALLET") && SharedHelper.getKey(context, "last_four").length() > 0) {
+                    chkWallet.setChecked(true);
                     lblPaymentType.setText("xxxx" + SharedHelper.getKey(context, "last_four"));
                     cardInfo.setLastFour(SharedHelper.getKey(context, "last_four"));
                 } else {
@@ -816,6 +805,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 }
             } else if (p_m.length() > 0 && p_m.equalsIgnoreCase("cash")) {
                 lblPaymentType.setText(getString(R.string.cash));
+            } else if (p_m.length() > 0 && p_m.equalsIgnoreCase("WALLET")) {
+                lblPaymentType.setText(getString(R.string.wallet));
+                chkWallet.setChecked(true);
             } else if (p_m.length() > 0) {
                 lblPaymentType.setText(p_m);
             }
@@ -1155,8 +1147,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 Log.e("wallet_balance_log1", " " + wallet_balance);
                 if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
                     if (lineView != null && chkWallet != null) {
-                        lineView.setVisibility(View.VISIBLE);
-                        chkWallet.setVisibility(View.VISIBLE);
+//                        lineView.setVisibility(View.VISIBLE);
+//                        chkWallet.setVisibility(View.VISIBLE);
                     }
                 } else {
                     if (lineView != null && chkWallet != null) {
@@ -2131,8 +2123,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                     Log.e("wallet_balance_log2", " " + wallet_balance);
                     if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
-                        lineView.setVisibility(View.VISIBLE);
-                        chkWallet.setVisibility(View.VISIBLE);
+//                        lineView.setVisibility(View.VISIBLE);
+//                        chkWallet.setVisibility(View.VISIBLE);
                     } else {
                         lineView.setVisibility(View.GONE);
                         chkWallet.setVisibility(View.GONE);
@@ -2191,8 +2183,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                                                 Log.e("wallet_balance_log3", " " + wallet_balance);
                                                 if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
-                                                    lineView.setVisibility(View.VISIBLE);
-                                                    chkWallet.setVisibility(View.VISIBLE);
+//                                                    lineView.setVisibility(View.VISIBLE);
+//                                                    chkWallet.setVisibility(View.VISIBLE);
                                                 } else {
                                                     lineView.setVisibility(View.GONE);
                                                     chkWallet.setVisibility(View.GONE);
@@ -2401,10 +2393,14 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             object.put("schedule_time", scheduledTime);
 
 
-            if (chkWallet.isChecked()) {
+            chkWallet.setChecked(false);
+
+            if (SharedHelper.getKey(context, "payment_mode").equals("WALLET")) {
+                chkWallet.setChecked(true);
                 object.put("use_wallet", 1);
                 object.put("payment_mode", "WALLET");
             } else {
+                chkWallet.setChecked(false);
                 object.put("use_wallet", 0);
 
                 if (SharedHelper.getKey(context, "payment_mode").equals("CASH")) {
@@ -2725,6 +2721,10 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             SharedHelper.putKey(context, "payment_mode", "CASH");
             //   imgPaymentType.setImageResource(R.drawable.money1);
             lblPaymentType.setText(getResources().getString(R.string.cash));
+        } else if (cardInfo.getLastFour().equals("WALLET")) {
+            SharedHelper.putKey(context, "payment_mode", "WALLET");
+            //   imgPaymentType.setImageResource(R.drawable.money1);
+            lblPaymentType.setText(getResources().getString(R.string.wallet));
         } else if (cardInfo.getLastFour().equals("PAYPAL")) {
             SharedHelper.putKey(context, "payment_mode", "PAYPAL");
             //   imgPaymentType.setImageResource(R.drawable.money1);
@@ -2741,101 +2741,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void payNow() {
         Log.d(TAG, "payNow: " + lblTotalPrice.getText().toString());
         confirmFinalPayment(lblTotalPrice.getText().toString());
-//       
-//        customDialog.setCancelable(false);
-//        if (customDialog != null)
-//            customDialog.show();
-//
-//        JSONObject object = new JSONObject();
-//        try {
-//            object.put("AccountReference", "test");
-//            object.put("Amount", "");
-//            object.put("BusinessShortCode", "");
-//            object.put("CallBackURL",
-//                    "https://spurquoteapp.ga/pusher/pusher.php?title=stk_push&message=result&push_type=individual&regId=null");
-//            object.put("PartyA", "254700000000");
-//            object.put("PartyB", "174379");
-//            object.put("Password", "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMTAxMTkyODQz");
-//            object.put("PhoneNumber", "254700000000");
-//            object.put("Timestamp", "20190101192843");
-//            object.put("TransactionDesc", "test");
-//            object.put("TransactionType", "CustomerPayBillOnline");
-//
-////            object.put("request_id", SharedHelper.getKey(context, "request_id"));
-////            object.put("payment_mode", paymentMode);
-////            object.put("is_paid", isPaid);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        JsonObjectRequest jsonObjectRequest = new
-//                JsonObjectRequest(Request.Method.POST,
-//                        URLHelper.PAYMENT,
-//                        object,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                utils.print("PayNowRequestResponse", response.toString());
-//                                if ((customDialog != null) && (customDialog.isShowing()))
-//                                    customDialog.dismiss();
-//                                flowValue = 6;
-//                                layoutChanges();
-//                            }
-//                        }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        if ((customDialog != null) && (customDialog.isShowing()))
-//                            customDialog.dismiss();
-//                        String json = "";
-//                        NetworkResponse response = error.networkResponse;
-//                        if (response != null && response.data != null) {
-//                            try {
-//                                JSONObject errorObj = new JSONObject(new String(response.data));
-//
-//                                if (response.statusCode == 400 || response.statusCode == 405 ||
-//                                        response.statusCode == 500) {
-//                                    try {
-//                                        utils.displayMessage(getView(), errorObj.optString("message"));
-//                                    } catch (Exception e) {
-//                                        utils.displayMessage(getView(), getString(R.string.something_went_wrong));
-//                                    }
-//                                } else if (response.statusCode == 401) {
-//                                    refreshAccessToken("PAY_NOW");
-//                                } else if (response.statusCode == 422) {
-//
-//                                    json = trimMessage(new String(response.data));
-//                                    if (json != "" && json != null) {
-//                                        utils.displayMessage(getView(), json);
-//                                    } else {
-//                                        utils.displayMessage(getView(), getString(R.string.please_try_again));
-//                                    }
-//                                } else if (response.statusCode == 503) {
-//                                    utils.displayMessage(getView(), getString(R.string.server_down));
-//                                } else {
-//                                    utils.displayMessage(getView(), getString(R.string.please_try_again));
-//                                }
-//
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                                utils.displayMessage(getView(), getString(R.string.something_went_wrong));
-//                            }
-//
-//                        } else {
-//                            utils.displayMessage(getView(), getString(R.string.please_try_again));
-//                        }
-//                    }
-//                }) {
-//                    @Override
-//                    public Map<String, String> getHeaders() throws AuthFailureError {
-//                        HashMap<String, String> headers = new HashMap<String, String>();
-//                        headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type")
-//                                + " " + SharedHelper.getKey(context, "paymentAccessToken"));
-//                        headers.put("X-Requested-With", "XMLHttpRequest");
-//                        return headers;
-//                    }
-//                };
-//
-//        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
     private void mapClear() {
@@ -2888,90 +2793,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         animator.start();
     }
 
-//    public void payNow() {
-//       
-//        customDialog.setCancelable(false);
-//        if (customDialog != null)
-//            customDialog.show();
-//
-//        JSONObject object = new JSONObject();
-//        try {
-//            object.put("request_id", SharedHelper.getKey(context, "request_id"));
-//            object.put("payment_mode", paymentMode);
-//            object.put("is_paid", isPaid);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        JsonObjectRequest jsonObjectRequest = new
-//                JsonObjectRequest(Request.Method.POST,
-//                        URLHelper.PAY_NOW_API,
-//                        object,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                utils.print("PayNowRequestResponse", response.toString());
-//                                if ((customDialog != null) && (customDialog.isShowing()))
-//                                    customDialog.dismiss();
-//                                flowValue = 6;
-//                                layoutChanges();
-//                            }
-//                        }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        if ((customDialog != null) && (customDialog.isShowing()))
-//                            customDialog.dismiss();
-//                        String json = "";
-//                        NetworkResponse response = error.networkResponse;
-//                        if (response != null && response.data != null) {
-//                            try {
-//                                JSONObject errorObj = new JSONObject(new String(response.data));
-//
-//                                if (response.statusCode == 400 || response.statusCode == 405 ||
-//                                        response.statusCode == 500) {
-//                                    try {
-//                                        utils.displayMessage(getView(), errorObj.optString("message"));
-//                                    } catch (Exception e) {
-//                                        utils.displayMessage(getView(), getString(R.string.something_went_wrong));
-//                                    }
-//                                } else if (response.statusCode == 401) {
-//                                    refreshAccessToken("PAY_NOW");
-//                                } else if (response.statusCode == 422) {
-//
-//                                    json = trimMessage(new String(response.data));
-//                                    if (json != "" && json != null) {
-//                                        utils.displayMessage(getView(), json);
-//                                    } else {
-//                                        utils.displayMessage(getView(), getString(R.string.please_try_again));
-//                                    }
-//                                } else if (response.statusCode == 503) {
-//                                    utils.displayMessage(getView(), getString(R.string.server_down));
-//                                } else {
-//                                    utils.displayMessage(getView(), getString(R.string.please_try_again));
-//                                }
-//
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                                utils.displayMessage(getView(), getString(R.string.something_went_wrong));
-//                            }
-//
-//                        } else {
-//                            utils.displayMessage(getView(), getString(R.string.please_try_again));
-//                        }
-//                    }
-//                }) {
-//                    @Override
-//                    public Map<String, String> getHeaders() throws AuthFailureError {
-//                        HashMap<String, String> headers = new HashMap<String, String>();
-//                        headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type")
-//                                + " " + SharedHelper.getKey(context, "access_token"));
-//                        headers.put("X-Requested-With", "XMLHttpRequest");
-//                        return headers;
-//                    }
-//                };
-//
-//        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-//
-//    }
 
     private void hide(final View view) {
         mIsHiding = true;
@@ -3707,8 +3528,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         Log.e("wallet_balance_log4", " " + wallet_balance);
         if (!Double.isNaN(wallet_balance) && wallet_balance > 0) {
             if (lineView != null && chkWallet != null) {
-                lineView.setVisibility(View.VISIBLE);
-                chkWallet.setVisibility(View.VISIBLE);
+//                lineView.setVisibility(View.VISIBLE);
+//                chkWallet.setVisibility(View.VISIBLE);
             }
         } else {
             if (lineView != null && chkWallet != null) {
@@ -4147,17 +3968,25 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         layoutChanges();*/
 
                         Intent i = new Intent(getApplicationContext(), ChoseServiceActivity.class);
+
+                        chkWallet.setChecked(false);
+
+                        if (SharedHelper.getKey(context, "payment_mode").equals("CASH")) {
+                            i.putExtra("payment_mode", SharedHelper.getKey(context, "payment_mode"));
+                        } else if (SharedHelper.getKey(context, "payment_mode").equals("WALLET")) {
+                            i.putExtra("payment_mode", SharedHelper.getKey(context, "payment_mode"));
+                            chkWallet.setChecked(true);
+                        } else {
+                            i.putExtra("payment_mode", SharedHelper.getKey(context, "payment_mode"));
+                            i.putExtra("card_id", SharedHelper.getKey(context, "card_id"));
+                        }
+
                         if (chkWallet.isChecked()) {
                             i.putExtra("use_wallet", 1);
                         } else {
                             i.putExtra("use_wallet", 0);
                         }
-                        if (SharedHelper.getKey(context, "payment_mode").equals("CASH")) {
-                            i.putExtra("payment_mode", SharedHelper.getKey(context, "payment_mode"));
-                        } else {
-                            i.putExtra("payment_mode", SharedHelper.getKey(context, "payment_mode"));
-                            i.putExtra("card_id", SharedHelper.getKey(context, "card_id"));
-                        }
+
                         i.putExtra("s_latitude", source_lat);
                         i.putExtra("s_longitude", source_lng);
                         i.putExtra("d_latitude", dest_lat);

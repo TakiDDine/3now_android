@@ -2640,7 +2640,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
                         android:text="@string/use_wallet_amount"
                         android:textSize="@dimen/_12sdp"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

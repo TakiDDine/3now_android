@@ -67,17 +67,17 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
     private final int ADD_CARD_CODE = 435;
     Activity activity;
     Context context;
-    CustomDialog customDialog;
+    CustomDialog customDialog, customDialogGetBalance;
     ImageView backArrow;
     Button addCard;
     ListView payment_list_view;
     ArrayList<JSONObject> listItems;
     NewPaymentListAdapter paymentAdapter;
-    TextView empty_text;
+    TextView empty_text, balance_tv;
     Utilities utils = new Utilities();
     JSONObject deleteCard = new JSONObject();
     RadioButton chkPayPal;
-    LinearLayout cashLayout, payPal_layout;
+    LinearLayout cashLayout, payPal_layout, wallet_layout;
     LinearLayout layoutStripe;
     //Internet
     ConnectionHelper helper;
@@ -121,6 +121,19 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
                 SharedHelper.putKey(Payment.this, "selectedPaymentMode", "CASH");
                 CardInfo cardInfo = new CardInfo();
                 cardInfo.setLastFour("CASH");
+                Intent intent = new Intent();
+                intent.putExtra("card_info", cardInfo);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        wallet_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedHelper.putKey(Payment.this, "selectedPaymentMode", "WALLET");
+                CardInfo cardInfo = new CardInfo();
+                cardInfo.setLastFour("WALLET");
                 Intent intent = new Intent();
                 intent.putExtra("card_info", cardInfo);
                 setResult(RESULT_OK, intent);
@@ -172,7 +185,109 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
                 return false;
             }
         });
+
+        getBalance();
     }
+
+    private void getBalance() {
+        customDialogGetBalance = new CustomDialog(context);
+        customDialogGetBalance.setCancelable(false);
+
+        if (customDialogGetBalance != null)
+            customDialogGetBalance.show();
+
+        JSONObject object = new JSONObject();
+
+        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET,
+                URLHelper.UserProfile,
+                object,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Log.e("GET_BALANCE", "" + response.toString());
+                        if ((customDialogGetBalance != null) && (customDialogGetBalance.isShowing()))
+                            customDialogGetBalance.dismiss();
+
+                        try {
+                            JSONObject jsonObject = response;
+                            if (Double.parseDouble(jsonObject.optString("wallet_balance")) > 0) {
+                                balance_tv.setText("Ihr Brieftaschenbetrag ist " + jsonObject.optString("currency") + " " + jsonObject.optString("wallet_balance"));
+                                SharedHelper.putKey(context, "wallet_balance", jsonObject.optString("wallet_balance"));
+                                wallet_layout.setVisibility(View.VISIBLE);
+                            } else {
+                                wallet_layout.setVisibility(View.GONE);
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if ((customDialogGetBalance != null) && customDialogGetBalance.isShowing())
+                    customDialogGetBalance.dismiss();
+                Log.e(this.getClass().getName(), "Error_GET_BALANCE" + error.getMessage());
+
+                String json = null;
+                String Message;
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+
+                    try {
+                        JSONObject errorObj = new JSONObject(new String(response.data));
+
+                        if (response.statusCode == 400 || response.statusCode == 405 ||
+                                response.statusCode == 500) {
+                            try {
+                                displayMessage(errorObj.optString("message"));
+                            } catch (Exception e) {
+                                displayMessage(getString(R.string.something_went_wrong));
+                            }
+                        } else if (response.statusCode == 401) {
+                            refreshAccessToken("GET_BALANCE");
+                        } else if (response.statusCode == 422) {
+
+                            json = trimMessage(new String(response.data));
+                            if (json != "" && json != null) {
+                                displayMessage(json);
+                            } else {
+                                displayMessage(getString(R.string.please_try_again));
+                            }
+
+                        } else if (response.statusCode == 503) {
+                            displayMessage(getString(R.string.server_down));
+                        }
+                    } catch (Exception e) {
+                        displayMessage(getString(R.string.something_went_wrong));
+                    }
+
+                } else {
+                    if (error instanceof NoConnectionError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof NetworkError) {
+                        displayMessage(getString(R.string.oops_connect_your_internet));
+                    } else if (error instanceof TimeoutError) {
+                        getBalance();
+                    }
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
+                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
+
+
+    }
+
 
     public void clikDelete(View view, int i, long id) {
 //        Toast.makeText(context, "c", Toast.LENGTH_SHORT).show();
@@ -531,8 +646,10 @@ public class Payment extends AppCompatActivity implements CompoundButton.OnCheck
 //        empty_text =  findViewById(R.id.empty_text);
         helper = new ConnectionHelper(context);
         isInternet = helper.isConnectingToInternet();
-        cashLayout = (LinearLayout) findViewById(R.id.cash_layout);
+        cashLayout = findViewById(R.id.cash_layout);
+        wallet_layout = findViewById(R.id.wallet_layout);
         payPal_layout = findViewById(R.id.payPal_layout);
+        balance_tv = findViewById(R.id.balance_tv);
 
         payPal_layout.setOnClickListener(new View.OnClickListener() {
             @Override
