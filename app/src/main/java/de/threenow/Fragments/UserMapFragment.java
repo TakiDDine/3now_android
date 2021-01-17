@@ -906,7 +906,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                    Log.e("getCompleteAdd7", "from here!");
+                    Log.e("getCompleteAdd7", "from here! latitude: " + latitude + " longitude: " + longitude);
                     currentAddress = utils.getCompleteAddressString(context, latitude, longitude);
                     source_lat = "" + latitude;
                     source_lng = "" + longitude;

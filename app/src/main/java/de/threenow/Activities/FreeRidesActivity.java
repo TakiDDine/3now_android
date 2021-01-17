@@ -66,7 +66,7 @@ public class FreeRidesActivity extends AppCompatActivity {
 
         backArrow.setOnClickListener(view -> finish());
 
-        tv_how_it_work.setOnClickListener(view -> startActivity(new Intent(context, HowItWorkActivity.class).putExtra("invite_price",i_price)));
+        tv_how_it_work.setOnClickListener(view -> startActivity(new Intent(context, HowItWorkActivity.class).putExtra("invite_price", i_price)));
 
         code = (new DecimalFormat("#").format(Double.parseDouble(SharedHelper.getKey(context, "id") + "") + 1000000) + "");
 
@@ -76,7 +76,12 @@ public class FreeRidesActivity extends AppCompatActivity {
             Intent intent = new Intent(android.content.Intent.ACTION_SEND);
             intent.setType("text/plain");
             intent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey,\n" +
-                    "hilf mir einen " + tv_invite_price.getText().toString() + " Gutschein bei 3Now zu erhalten, dafür musst du aber meinen Code nützen :" + code);
+                    "hilf mir einen " + tv_invite_price.getText().toString() +
+                    " Gutschein bei 3Now zu erhalten, dafür musst du aber meinen Code nützen :" + code +
+                    "\n\nAndroid:\n" +
+                    "https://ply.gl/de.threenow\n" +
+                    "\nIOS\n" +
+                    "https://apps.apple.com/nz/app/3now/id1524167394\n");
             startActivity(Intent.createChooser(intent, code));
         });
 
@@ -93,8 +98,10 @@ public class FreeRidesActivity extends AppCompatActivity {
 
             Log.e("INVITE_PRICE", response.toString());
 
-            i_price = String.format("%,f",Double.parseDouble(response.optString("price"))).replace(",",".") + "";
-            i_price = i_price.substring(0,i_price.indexOf(".")+2);
+//            i_price = String.format("%,f", Double.parseDouble(response.optString("price"))).replace(",", ".") + "";
+//            i_price = i_price.substring(0, i_price.indexOf(".") + 2);
+
+            i_price = response.optString("price");
 
             tv_invite_price.setText(i_price + "€");
             tv_info_invite.setText(String.format(getString(R.string.info_invite), i_price));

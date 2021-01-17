@@ -94,7 +94,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
         GoogleApiClient.OnConnectionFailedListener {
     String TAG = "SignUp";
     TextView txtSignIn, txtAgbBtn;
-    EditText etName, etLastName, etEmail, etPassword;
+    EditText etName, etLastName, etEmail, etPassword, etInviteCode;
     Button btnSignUp;
 //    private MaterialSpinner spRegister;
 
@@ -139,6 +139,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
         etLastName = findViewById(R.id.etLastName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        etInviteCode = findViewById(R.id.etInviteCode);
         btnSignUp = findViewById(R.id.btnSignUp);
         txtAgbBtn = findViewById(R.id.txt_agb_btn);
         // btnFb=findViewById(R.id.btnFb);
@@ -595,6 +596,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener,
             object.put("last_name", etLastName.getText().toString());
             object.put("email", etEmail.getText().toString());
             object.put("password", etPassword.getText().toString());
+            object.put("user_code", etInviteCode.getText().toString());
+
             object.put("mobile", SharedHelper.getKey(getApplicationContext(), "mobile_number"));
             object.put("picture", "");
             object.put("social_unique_id", "");
