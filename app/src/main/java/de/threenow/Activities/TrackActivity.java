@@ -287,6 +287,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     Button btn_trips_2;
     @BindView(R.id.btn_trips_3)
     Button btn_trips_3;
+    @BindView(R.id.ll_tips)
+    LinearLayout ll_tips;
 
     //// Rate provider
     @BindView(R.id.lnrRateProvider)
@@ -1375,9 +1377,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
-    private double supportChangeLocation(double real , double sy) {
+    private double supportChangeLocation(double real, double sy) {
         String realStr = Double.valueOf(real).toString();
-        realStr = realStr.substring(0,realStr.indexOf('.'));
+        realStr = realStr.substring(0, realStr.indexOf('.'));
 
         String syStr = Double.valueOf(sy).toString();
         syStr = syStr.substring(syStr.indexOf('.'));
@@ -1629,9 +1631,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 lnrProviderAccepted.setVisibility(View.VISIBLE);
                 layoutdriverstatus.setVisibility(View.VISIBLE);
             } else if (flowValue == 5) {
-
                 lnrInvoice.startAnimation(slide_up);
                 lnrInvoice.setVisibility(View.VISIBLE);
+                if (paymentMode.equals("CASH")) {
+                    ll_tips.setVisibility(View.GONE);
+                } else {
+                    ll_tips.setVisibility(View.VISIBLE);
+                }
             } else if (flowValue == 6) {
 
                 lnrRateProvider.startAnimation(slide_up);
@@ -2893,7 +2899,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                                 double total = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"));
 
-                                GlobalDataMethods.coupon_discount =  GlobalDataMethods.getDiscountCoupon(total);
+                                GlobalDataMethods.coupon_discount = GlobalDataMethods.getDiscountCoupon(total);
 
                                 double discount = total - (GlobalDataMethods.coupon_discount);
 
@@ -3255,7 +3261,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     public void liveNavigation(String status, String lat, String lng) {
         Log.e("LiveNavigation", "ProLat" + lat + " ProLng" + lng);
         if (!lat.equalsIgnoreCase("") && !lng.equalsIgnoreCase("")
-        && !lat.equalsIgnoreCase("null") && !lng.equalsIgnoreCase("null")) {
+                && !lat.equalsIgnoreCase("null") && !lng.equalsIgnoreCase("null")) {
             Double proLat = Double.parseDouble(lat);
             Double proLng = Double.parseDouble(lng);
 
@@ -3324,7 +3330,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             /***************************************CHANGES HERE TO HIDE SOURCE ADDRESS AND DESTINATION ADDRESS TEXTVIEW***********************************************/
 
             if (!source_lat.equalsIgnoreCase("") && !source_lng.equalsIgnoreCase("")
-            && !source_lat.equalsIgnoreCase("null") && !source_lng.equalsIgnoreCase("null")) {
+                    && !source_lat.equalsIgnoreCase("null") && !source_lng.equalsIgnoreCase("null")) {
                 sourceLatLng = new LatLng(Double.parseDouble(source_lat), Double.parseDouble(source_lng));
             }
             if (!dest_lat.equalsIgnoreCase("") && !dest_lng.equalsIgnoreCase("") && dest_lat != null && dest_lng != null) {
