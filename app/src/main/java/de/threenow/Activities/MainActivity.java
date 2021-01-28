@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void loadNavHeader() {
         txtName.setText(SharedHelper.getKey(context, "first_name"));
-        txtWebsite.setText("5");
+        txtWebsite.setText(SharedHelper.getKey(context, "rating"));
         if (!SharedHelper.getKey(context, "picture").equalsIgnoreCase("")
                 && !SharedHelper.getKey(context, "picture")
                 .equalsIgnoreCase(null) && SharedHelper.getKey(context, "picture") != null) {

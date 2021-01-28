@@ -198,6 +198,7 @@ public class SplashScreen extends AppCompatActivity {
                                     SharedHelper.putKey(context, "first_name", response.optString("first_name"));
                                     SharedHelper.putKey(context, "last_name", response.optString("last_name"));
                                     SharedHelper.putKey(context, "email", response.optString("email"));
+                                    SharedHelper.putKey(context, "rating", response.optString("rating").substring(0, response.optString("rating").indexOf(".")));
 
                                     if (response.optString("picture").startsWith("http"))
                                         SharedHelper.putKey(context, "picture", response.optString("picture"));
