@@ -27,8 +27,8 @@ android {
         applicationId "de.threenow"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 17
-        versionName "1.0.0.17"
+        versionCode 22
+        versionName "1.0.0.22"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

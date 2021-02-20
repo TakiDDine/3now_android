@@ -2,9 +2,8 @@ package de.threenow.Helper;
 
 public class URLHelper {
 
-    //    public static final String base = "https://www.3now-test.com/";
     public static final String base = "https://www.3now.de/";
-//    public static String base = "https://www.bestdels.com/";
+//    public static String base = "https://uber.takiddine.co/";
 
     public static final String REDIRECT_URL = base;
     public static final String REDIRECT_SHARE_URL = "http://maps.google.com/maps?q=loc:";
@@ -35,7 +34,7 @@ public class URLHelper {
     public static final String VALIDZONE = base + "api/user/getvalidzone";
     public static final String CANCEL_REQUEST_API = base + "api/user/cancel/request";
     public static final String PAY_NOW_API = base + "api/user/payment";
-    public static final String PAY_NOW_PAYPAL_API = base + "api/user/payment/paypal";
+    public static final String PAY_NOW_PAYPAL_API = base + "api/user/payment/paypal";// دفع للرحلة الفورية
 
     public static final String PAY_NOW_SCHEDUL_API = base + "api/user/payment/price";
     public static final String RATE_PROVIDER_API = base + "api/user/rate/provider";

@@ -1,6 +1,7 @@
 package de.threenow.Activities;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,8 +9,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +23,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,6 +37,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -52,6 +58,8 @@ import de.threenow.Helper.SharedHelper;
 import de.threenow.Helper.URLHelper;
 import de.threenow.IlyftApplication;
 import de.threenow.R;
+import de.threenow.Utils.GlobalDataMethods;
+import de.threenow.Utils.Utilities;
 import de.threenow.chat.UserChatActivity;
 
 import static de.threenow.IlyftApplication.trimMessage;
@@ -67,12 +75,10 @@ public class SplashScreen extends AppCompatActivity {
     String device_token, device_UDID;
     Handler handleCheckStatus;
     int retryCount = 0;
-    AlertDialog alert;
     FirebaseAnalytics firebaseAnalytics;
 
-//    String Consumer_Key = "ojBHda1ppwq9Fdc8lTJ507dNQkfBWAG1";
+    //    String Consumer_Key = "ojBHda1ppwq9Fdc8lTJ507dNQkfBWAG1";
 //    String Consumer_Secret = "Ixy9QVRAnoDrmT1I";
-
     String keys = "ojBHda1ppwq9Fdc8lTJ507dNQkfBWAG1" + ":" + "Ixy9QVRAnoDrmT1I";
 
     @Override
@@ -83,9 +89,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {
-//        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             firebaseAnalytics = FirebaseAnalytics.getInstance(SplashScreen.this);
-//        Crashlytics.getInstance().crash();
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             final NetworkInfo wifiInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             final NetworkInfo mobileInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
@@ -103,7 +107,6 @@ public class SplashScreen extends AppCompatActivity {
             }
 
             if (SharedHelper.getKey(context, "loggedIn").equalsIgnoreCase("true")) {
-
 
                 if (getIntent().getExtras() != null) {
                     try {
@@ -181,97 +184,114 @@ public class SplashScreen extends AppCompatActivity {
     public void getProfile() {
         if (isInternet) {
             retryCount++;
-            Log.v("GetPostAPI", "" +
-                    URLHelper.UserProfile +
-                    "?device_type=android&device_id=" +
-                    device_UDID + "&device_token=" + device_token);
+            String tmp = Utilities.getUtilityInstance().getAppVersion(context);
+            final String version = tmp.substring(tmp.indexOf(" ") + 1);
+            String full_url = URLHelper.UserProfile + "?device_type=android" +
+                    "&device_id=" + device_UDID +
+                    "&device_token=" + device_token +
+                    "&android_version=" + version;
+
+            GlobalDataMethods.URLGetRate = full_url;
+
+            Log.v("GetProfileAPI", full_url);
+
             JSONObject object = new JSONObject();
             JsonObjectRequest jsonObjectRequest = new
-                    JsonObjectRequest(Request.Method.GET,
-                            URLHelper.UserProfile + "?device_type=android&device_id="
-                                    + device_UDID + "&device_token=" + device_token, object,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.v("GetProfile", response.toString());
-                                    SharedHelper.putKey(context, "id", response.optString("id"));
-                                    SharedHelper.putKey(context, "first_name", response.optString("first_name"));
-                                    SharedHelper.putKey(context, "last_name", response.optString("last_name"));
-                                    SharedHelper.putKey(context, "email", response.optString("email"));
-                                    SharedHelper.putKey(context, "rating", response.optString("rating").substring(0, response.optString("rating").indexOf(".")));
+                    JsonObjectRequest(Request.Method.GET, full_url,
+                            object,
+                            response -> {
+                                Log.v("GetProfile", response.toString());
+                                SharedHelper.putKey(context, "id", response.optString("id"));
+                                SharedHelper.putKey(context, "first_name", response.optString("first_name"));
+                                SharedHelper.putKey(context, "last_name", response.optString("last_name"));
+                                SharedHelper.putKey(context, "email", response.optString("email"));
+                                SharedHelper.putKey(context, "rating", response.optString("rating").substring(0,4));
 
-                                    if (response.optString("picture").startsWith("http"))
-                                        SharedHelper.putKey(context, "picture", response.optString("picture"));
-                                    else
-                                        SharedHelper.putKey(context, "picture", URLHelper.base + "storage/app/public/" + response.optString("picture"));
-                                    SharedHelper.putKey(context, "gender", response.optString("gender"));
-                                    SharedHelper.putKey(context, "mobile", response.optString("mobile"));
-                                    SharedHelper.putKey(context, "wallet_balance", response.optString("wallet_balance"));
-                                    SharedHelper.putKey(context, "payment_mode", response.optString("payment_mode"));
-                                    if (!response.optString("currency").equalsIgnoreCase("") && response.optString("currency") != null)
-                                        SharedHelper.putKey(context, "currency", response.optString("currency"));
-                                    else
-                                        SharedHelper.putKey(context, "currency", "€");
-                                    SharedHelper.putKey(context, "sos", response.optString("sos"));
-                                    Log.e(TAG, "onResponse: Sos Call" + response.optString("sos"));
-                                    SharedHelper.putKey(context, "loggedIn", "true");
+                                if (response.optString("picture").startsWith("http"))
+                                    SharedHelper.putKey(context, "picture", response.optString("picture"));
+                                else
+                                    SharedHelper.putKey(context, "picture", URLHelper.base + "storage/app/public/" + response.optString("picture"));
+                                SharedHelper.putKey(context, "gender", response.optString("gender"));
+                                SharedHelper.putKey(context, "mobile", response.optString("mobile"));
+                                SharedHelper.putKey(context, "wallet_balance", response.optString("wallet_balance"));
+                                SharedHelper.putKey(context, "payment_mode", response.optString("payment_mode"));
+                                if (!response.optString("currency").equalsIgnoreCase("") && response.optString("currency") != null)
+                                    SharedHelper.putKey(context, "currency", response.optString("currency"));
+                                else
+                                    SharedHelper.putKey(context, "currency", "€");
+                                SharedHelper.putKey(context, "sos", response.optString("sos"));
+                                Log.e(TAG, "onResponse: Sos Call" + response.optString("sos"));
+                                SharedHelper.putKey(context, "loggedIn", "true");
 
-                                    SharedHelper.putKey(context, "card", response.optString("card"));
-                                    SharedHelper.putKey(context, "paypal", response.optString("paypal"));
-                                    SharedHelper.putKey(context, "cash", response.optString("cash"));
-                                    GoToMainActivity();
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.v("splaherror", error.toString() + "");
-                            if (retryCount < 1) {
-                                getProfile();
-                            } else {
-                                GoToBeginActivity();
-                            }
-                            String json = null;
-                            String Message;
-                            NetworkResponse response = error.networkResponse;
-                            if (response != null && response.data != null) {
+                                SharedHelper.putKey(context, "card", response.optString("card"));
+                                SharedHelper.putKey(context, "paypal", response.optString("paypal"));
+                                SharedHelper.putKey(context, "cash", response.optString("cash"));
 
-                                try {
-                                    JSONObject errorObj = new JSONObject(new String(response.data));
-                                    if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                                        try {
-                                            displayMessage(errorObj.optString("message"));
-                                        } catch (Exception e) {
-                                            displayMessage(getString(R.string.something_went_wrong));
-                                        }
-                                    } else if (response.statusCode == 401) {
-                                        refreshAccessToken();
-                                    } else if (response.statusCode == 422) {
+                                String force_update = response.optString("force_update_version");
+                                String last_version = response.optString("current_version");
 
-                                        json = trimMessage(new String(response.data));
-                                        if (json != "" && json != null) {
-                                            displayMessage(json);
-                                        } else {
-                                            displayMessage(getString(R.string.please_try_again));
-                                        }
+                                SharedHelper.putKey(context, "force_update", force_update + "");
+                                SharedHelper.putKey(context, "last_version", last_version);
+                                SharedHelper.putKey(context, "current_version", version);
 
-                                    } else if (response.statusCode == 503) {
-                                        displayMessage(getString(R.string.server_down));
-                                    }
-                                } catch (Exception e) {
-                                    displayMessage(getString(R.string.something_went_wrong));
-                                }
+                                SharedHelper.putKey(context, "GOOGLE_KEY_MAPS", response.optString("google_keys"));
 
-                            } else {
-                                if (error instanceof NoConnectionError) {
-                                    displayMessage(getString(R.string.oops_connect_your_internet));
-                                } else if (error instanceof NetworkError) {
-                                    displayMessage(getString(R.string.oops_connect_your_internet));
-                                } else if (error instanceof TimeoutError) {
+                                int current_version = Integer.parseInt(version.replace(".", ""));
+                                int last_version_int = Integer.parseInt(last_version.replace(".", ""));
+
+                                if (force_update.contains("true") && last_version_int>current_version)
+                                    showUpdateDialog();
+                                else
+                                    getRunningTripList();
+
+                            }, error -> {
+                                Log.v("splash_error", error.toString() + "");
+                                if (retryCount < 1) {
                                     getProfile();
+                                } else {
+                                    GoToBeginActivity();
                                 }
-                            }
-                        }
-                    }) {
+                                String json = null;
+                                String Message;
+                                NetworkResponse response = error.networkResponse;
+                                if (response != null && response.data != null) {
+
+                                    try {
+                                        JSONObject errorObj = new JSONObject(new String(response.data));
+                                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                                            try {
+                                                displayMessage(errorObj.optString("message"));
+                                            } catch (Exception e) {
+                                                displayMessage(getString(R.string.something_went_wrong));
+                                            }
+                                        } else if (response.statusCode == 401) {
+                                            refreshAccessToken();
+                                        } else if (response.statusCode == 422) {
+
+                                            json = trimMessage(new String(response.data));
+                                            if (json != "" && json != null) {
+                                                displayMessage(json);
+                                            } else {
+                                                displayMessage(getString(R.string.please_try_again));
+                                            }
+
+                                        } else if (response.statusCode == 503) {
+                                            displayMessage(getString(R.string.server_down));
+                                        }
+                                    } catch (Exception e) {
+                                        displayMessage(getString(R.string.something_went_wrong));
+                                    }
+
+                                } else {
+                                    if (error instanceof NoConnectionError) {
+                                        displayMessage(getString(R.string.oops_connect_your_internet));
+                                    } else if (error instanceof NetworkError) {
+                                        displayMessage(getString(R.string.oops_connect_your_internet));
+                                    } else if (error instanceof TimeoutError) {
+                                        getProfile();
+                                    }
+                                }
+                            }) {
                         @Override
                         public Map<String, String> getHeaders() throws AuthFailureError {
                             HashMap<String, String> headers = new HashMap<String, String>();
@@ -304,6 +324,75 @@ public class SplashScreen extends AppCompatActivity {
             builder.show();
         }
 
+    }
+
+    Dialog updateDialog;
+
+    void showUpdateDialog() {
+        updateDialog = new Dialog(context);
+        updateDialog.setContentView(R.layout.update_layout);
+        updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        updateDialog.setCancelable(false);
+
+        TextView tv_update = updateDialog.findViewById(R.id.tv_update);
+        tv_update.setOnClickListener(view -> {
+            final String appPackageName = context.getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+        });
+
+        updateDialog.show();
+
+    }
+
+
+    private void getRunningTripList() {
+
+        JsonArrayRequest jsonArrayRequest = new
+                JsonArrayRequest(URLHelper.CURRENT_TRIP,
+                        response -> {
+                            Log.e("getOnGoingTrip", response.toString());
+                            if (response != null && response.length() > 0) {
+                                Intent intent = new Intent(getApplicationContext(), TrackActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                Log.e("Intent", "" + response.toString());
+                                intent.putExtra("post_value", response.toString());
+                                intent.putExtra("tag", "past_trips");
+                                startActivity(intent);
+                                activity.finish();
+                            } else {
+                                GoToMainActivity();
+                            }
+                        }, error -> {
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.data != null) {
+                    } else {
+
+                        if (error instanceof NoConnectionError) {
+                            displayMessage(getString(R.string.oops_connect_your_internet));
+                        } else if (error instanceof NetworkError) {
+                            displayMessage(getString(R.string.oops_connect_your_internet));
+                        } else if (error instanceof TimeoutError) {
+                            getRunningTripList();
+                        }
+
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("X-Requested-With", "XMLHttpRequest");
+                        headers.put("Authorization", "" + SharedHelper.getKey(context,
+                                "token_type") + " " + SharedHelper.getKey(context,
+                                "access_token"));
+                        return headers;
+                    }
+                };
+
+        IlyftApplication.getInstance().addToRequestQueue(jsonArrayRequest);
     }
 
 
@@ -448,7 +537,7 @@ public class SplashScreen extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 //    private void showDialog()
 //    {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);

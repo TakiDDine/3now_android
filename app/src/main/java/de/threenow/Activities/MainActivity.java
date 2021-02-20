@@ -47,7 +47,6 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -77,8 +76,6 @@ import de.threenow.Utils.Utilities;
 
 import static de.threenow.IlyftApplication.trimMessage;
 
-//import io.fabric.sdk.android.Fabric;
-
 public class MainActivity extends AppCompatActivity implements
         UserMapFragment.HomeFragmentListener,
         ResponseListener, View.OnClickListener {
@@ -86,9 +83,9 @@ public class MainActivity extends AppCompatActivity implements
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
-    private static final int REQUEST_LOCATION = 1450;
     public Context context = MainActivity.this;
     public Activity activity = MainActivity.this;
+
     // index to identify current nav menu item
     public int navItemIndex = 0;
     public String CURRENT_TAG = TAG_HOME;
@@ -101,15 +98,14 @@ public class MainActivity extends AppCompatActivity implements
     private DrawerLayout drawer;
     private View navHeader;
     private ImageView imgProfile;
+    public static ImageView redDrawer;
     private TextView txtWebsite;
     private TextView txtName;
     private Toolbar toolbar;
-    private FloatingActionButton fab;
     // toolbar titles respected to selected nav menu item
-    private String[] activityTitles;
     private Handler mHandler;
     private String notificationMsg;
-    private TextView legal_id, agb_id, footer_item_impressum;
+    private TextView legal_id, agb_id, footer_item_impressum, txt_logout;
     private TextView footer_item_version;
 
     LinearLayout free_rides_ll_id, prfile_header_menu, ll_payment, ll_track, ll_notification, ll_yourtrips, ll_wallet, ll_help, ll_contact;
@@ -141,17 +137,9 @@ public class MainActivity extends AppCompatActivity implements
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
-        legal_id = findViewById(R.id.legal_id);
         footer_item_version = findViewById(R.id.footer_item_version);
         footer_item_version.setText(careUtilities.getAppVersion(context));
 
-        agb_id = findViewById(R.id.agb_id);
-        footer_item_impressum = findViewById(R.id.footer_item_impressum);
-
-        agb_id.setOnClickListener(this);
-        footer_item_impressum.setOnClickListener(this);
-
-        legal_id.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LegalActivity.class)));
 
         // Navigation view header
         navHeader = navigationView.getHeaderView(0);
@@ -162,11 +150,16 @@ public class MainActivity extends AppCompatActivity implements
         prfile_header_menu = findViewById(R.id.prfile_header_menu);
         ll_payment = findViewById(R.id.ll_payment);
         ll_track = findViewById(R.id.ll_track);
+        redDrawer = findViewById(R.id.redDrawer);
         ll_notification = findViewById(R.id.ll_notification);
         ll_yourtrips = findViewById(R.id.ll_yourtrips);
         ll_wallet = findViewById(R.id.ll_wallet);
         ll_help = findViewById(R.id.ll_help);
         ll_contact = findViewById(R.id.ll_contact);
+        legal_id = findViewById(R.id.legal_id);
+        agb_id = findViewById(R.id.agb_id);
+        footer_item_impressum = findViewById(R.id.footer_item_impressum);
+        txt_logout = findViewById(R.id.txt_logout);
 
 
         ll_payment.setOnClickListener(this);
@@ -178,12 +171,12 @@ public class MainActivity extends AppCompatActivity implements
         ll_contact.setOnClickListener(this);
         prfile_header_menu.setOnClickListener(this);
         free_rides_ll_id.setOnClickListener(this);
-
-//        navHeader.setOnClickListener(view -> startActivity(new Intent(activity, Profile.class)));
+        legal_id.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LegalActivity.class)));
+        agb_id.setOnClickListener(this);
+        footer_item_impressum.setOnClickListener(this);
+        txt_logout.setOnClickListener(this);
 
         getPaymetGetWayToken(base64Key);
-
-        activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
 
         // load nav menu header data
         loadNavHeader();
@@ -197,33 +190,9 @@ public class MainActivity extends AppCompatActivity implements
             loadHomeFragment();
         }
 
-//        FirebaseInstanceId.getInstance().getInstanceId()
-//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.e("FirebaseId_getToken", "getInstanceId failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new Instance ID token
-//                        String token = task.getResult().getToken();
-//
-//                        // Log and toast
-//                        Log.e("FirebaseId_getToken", token);
-//                    }
-//                });
     }
 
     private void initPaypal() {
-//        PayPalConfiguration config = new PayPalConfiguration()
-//                // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
-//                // or live (ENVIRONMENT_PRODUCTION)
-//                .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
-//                .clientId(getString(R.string.client_id_paypal) +
-//                        getString(R.string.paypal_secret) +
-//                        getString(R.string.paypal_mode));
-
         Intent intent = new Intent(this, PayPalService.class);
 
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, GlobalDataMethods.config);
@@ -301,113 +270,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setUpNavigationView() {
-        // This method will trigger on item Click of navigation menu
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                //Replacing the main content with ContentFragment Which is our Inbox View;
-                //case R.id.nav_home:
-                //navItemIndex = 0;
-                //CURRENT_TAG = TAG_HOME;
-                //break;
-//                case R.id.nav_payment:
-//                    drawer.closeDrawers();
-//                    startActivity(new Intent(MainActivity.this, Payment.class));
-////                    finish();
-//
-//                    break;
-//                case R.id.nav_home:
-//                    drawer.closeDrawers();
-//                    startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                    finish();
-//
-//                    break;
-//
-//                case R.id.nav_track:
-//                    drawer.closeDrawers();
-//                    //navigateToShareScreen(URLHelper.APP_URL);
-//                    startActivity(new Intent(MainActivity.this, RunningTrip.class));
-//                    break;
-//                case R.id.nav_profile:
-//                    drawer.closeDrawers();
-//                    startActivity(new Intent(MainActivity.this, EditProfile.class));
-//
-//                    break;
-//                case R.id.nav_notification:
-//                    drawer.closeDrawers();
-//                    startActivity(new Intent(MainActivity.this, NotificationTab.class));
-//
-//                    break;
-//
-//                case R.id.nav_yourtrips:
-//                    drawer.closeDrawers();
-//                    SharedHelper.putKey(context, "current_status", "");
-//                    Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-//                    intent.putExtra("tag", "past");
-//                    startActivity(intent);
-//                    return true;
-//                // break;
-//                case R.id.nav_coupon:
-//                    drawer.closeDrawers();
-//                    SharedHelper.putKey(context, "current_status", "");
-//                    startActivity(new Intent(MainActivity.this, CouponActivity.class));
-//                    return true;
-//                case R.id.nav_wallet:
-//                    drawer.closeDrawers();
-//                    SharedHelper.putKey(context, "current_status", "");
-//                    startActivity(new Intent(MainActivity.this, ActivityWallet.class));
-//                    return true;
-//                case R.id.nav_help:
-//                    drawer.closeDrawers();
-//                    SharedHelper.putKey(context, "current_status", "");
-//                    startActivity(new Intent(MainActivity.this, ActivityHelp.class));
-////                        finish();
-//                    break;
-//                case R.id.nav_sos:
-//                    drawer.closeDrawers();
-//                    startActivity(new Intent(MainActivity.this, SosCallActivity.class));
-////                        finish();
-//                    break;
-////                case R.id.nav_share:
-//                case R.id.nav_contact:
-//                    // launch new intent instead of loading fragment
-////                    //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
-////                    navigateToShareScreen(URLHelper.APP_URL);
-//
-//                    // launch new intent instead of loading fragment
-//                    Intent i = new Intent(Intent.ACTION_SEND);
-//                    i.setType("text/html");
-//                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{"Hassanalfakhre@gmail.com"});
-//                    i.putExtra(Intent.EXTRA_SUBJECT, "Contact 3Now");
-//                    startActivity(Intent.createChooser(i, "Send Email"));
-//
-//                    drawer.closeDrawers();
-//                    return true;
-//                case R.id.nav_logout:
-//                    drawer.closeDrawers();
-//                    // launch new intent instead of loading fragment
-//                    //startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
-//                    showLogoutDialog();
-//                    return true;
-//
-//
-//                case R.id.nav_media:
-//                    drawer.closeDrawers();
-//                    startActivity(new Intent(MainActivity.this, MediaHome.class));
-//                    break;
-//                default:
-//                    navItemIndex = 0;
-            }
-            loadHomeFragment();
-
-            return true;
-        });
 
         Menu m = navigationView.getMenu();
 
         for (int i = 0; i < m.size(); i++) {
             MenuItem menuItem = m.getItem(i);
             applyFontToMenuItem(menuItem);
-
         }
 
         ActionBarDrawerToggle actionBarDrawerToggle = new
@@ -705,30 +573,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    public void navigateToShareScreen(String shareUrl) {
-        try {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, shareUrl + " -via " + getString(R.string.app_name));
-            sendIntent.setType("text/plain");
-            startActivity(sendIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, getResources().getString(R.string.share_app_not_found), Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    @Override
     public void getJSONArrayResult(String strTag, JSONArray arrayResponse) {
 
     }
@@ -759,8 +603,6 @@ public class MainActivity extends AppCompatActivity implements
 
     public void logout(View view) {
         drawer.closeDrawers();
-        // launch new intent instead of loading fragment
-        //startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
         showLogoutDialog();
     }
 
@@ -863,7 +705,10 @@ public class MainActivity extends AppCompatActivity implements
                 drawer.closeDrawers();
                 startActivity(new Intent(MainActivity.this, ImpressumActivity.class));
                 break;
-
+            case R.id.txt_logout:
+                drawer.closeDrawers();
+                logout();
+                break;
 
 //            case R.id.ll_logout:
 //                drawer.closeDrawers();

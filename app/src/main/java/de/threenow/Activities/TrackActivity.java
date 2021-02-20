@@ -19,9 +19,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Address;
@@ -35,10 +35,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.Animation;
@@ -61,6 +66,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
@@ -81,6 +87,7 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.facebook.accountkit.AccountKit;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -105,6 +112,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -148,6 +156,7 @@ import de.threenow.Models.PaymentResponse;
 import de.threenow.Models.RestInterface;
 import de.threenow.Models.ServiceGenerator;
 import de.threenow.R;
+import de.threenow.Utils.CustomTypefaceSpan;
 import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.ResponseListener;
 import de.threenow.Utils.Utilities;
@@ -157,13 +166,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 import static de.threenow.IlyftApplication.trimMessage;
-import static de.threenow.Utils.GlobalDataMethods.coupon_discount;
-import static de.threenow.Utils.GlobalDataMethods.coupon_gd_str;
 
 
 public class TrackActivity extends AppCompatActivity implements OnMapReadyCallback,
         LocationListener, GoogleMap.OnMarkerDragListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ResponseListener, GoogleMap.OnCameraMoveListener {
+        GoogleApiClient.OnConnectionFailedListener, ResponseListener, GoogleMap.OnCameraMoveListener, View.OnClickListener {
 
     private static final String TAG = "TrackActivity";
     private static final int REQUEST_LOCATION = 1450;
@@ -200,29 +207,20 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @BindView(R.id.lnrFlow)
     LinearLayout lnrFlow;
-
-    @BindView(R.id.promoLayout)
-    LinearLayout promoLayout;
-    @BindView(R.id.lblDistancePrice)
-    TextView lblDistancePrice;
-
-    @BindView(R.id.txtDiscount)
-    TextView txtDiscount;
-    TextView lblPaymentChange;
     String pickUpLocationName, dropLocationName;
 
 
     /// source dest layout
     @BindView(R.id.imgBack)
     ImageView imgBack;
+    @BindView(R.id.imgMenu)
+    ImageView imgMenu;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
     @BindView(R.id.imgSos)
     ImageView imgSos;
-    @BindView(R.id.imgShareRide)
-    ImageView imgShareRide;
     @BindView(R.id.mapfocus)
     ImageView mapfocus;
-    @BindView(R.id.shadowBack)
-    ImageView shadowBack;
     @BindView(R.id.lnrWaitingForProviders)
     RelativeLayout lnrWaitingForProviders;
     @BindView(R.id.lblNoMatch)
@@ -252,30 +250,18 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @BindView(R.id.lblSurgePrice)
     TextView lblSurgePrice;
-    @BindView(R.id.lblServiceRequested)
-    TextView lblServiceRequested;
-    @BindView(R.id.lblModelNumber)
-    TextView lblModelNumber;
     @BindView(R.id.ratingProvider)
     RatingBar ratingProvider;
+    @BindView(R.id.tv_rate)
+    TextView tv_rate;
     @BindView(R.id.btnCancelTrip)
     Button btnCancelTrip;
 
     /// Invoice layout
     @BindView(R.id.lnrInvoice)
     LinearLayout lnrInvoice;
-    @BindView(R.id.lblBasePrice)
-    TextView lblBasePrice;
-    @BindView(R.id.lblExtraPrice)
-    TextView lblExtraPrice;
-    @BindView(R.id.lblTaxPrice)
-    TextView lblTaxPrice;
     @BindView(R.id.lblTotalPrice)
     TextView lblTotalPrice;
-    @BindView(R.id.lblPaymentTypeInvoice)
-    TextView lblPaymentTypeInvoice;
-    @BindView(R.id.imgPaymentTypeInvoice)
-    ImageView imgPaymentTypeInvoice;
     @BindView(R.id.btnPayNow)
     Button btnPayNow;
     @BindView(R.id.btnPayNowCash)
@@ -306,14 +292,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     @BindView(R.id.btnSubmitReview)
     Button btnSubmitReview;
 
-    @BindView(R.id.rtlStaticMarker)
-    RelativeLayout rtlStaticMarker;
-    @BindView(R.id.imgDestination)
-    ImageView imgDestination;
-    @BindView(R.id.btnDone)
-    Button btnDone;
-    @BindView(R.id.booking_id)
-    TextView booking_id;
     @BindView(R.id.tvPaymentLabel)
     TextView tvPaymentLabel;
 
@@ -327,69 +305,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     String currentProviderID = "";
     String userID = "";
     String providerFirstName = "";
-    String providerLastName = "";
 
-
-    // trinkeld
-    @BindView(R.id.oneTrink)
-    TextView oneTrink;
-    @BindView(R.id.secondTrink)
-    TextView secondTrink;
-    @BindView(R.id.threedTrink)
-    TextView threedTrink;
-    @BindView(R.id.fiveTrink)
-    TextView fiveTrink;
-    @BindView(R.id.zeroTrink)
-    TextView zeroTrink;
-
-    String priceTrink = "";
     private String totalConfirmPayment;
 
-    @butterknife.OnClick(R.id.oneTrink)
-    void oneTrinkbtnCall() {
-        changeColorButtonRadioClick(1);
-        priceTrink = "1";
-    }
-
-    @butterknife.OnClick(R.id.secondTrink)
-    void secondTrinkbtnCall() {
-        changeColorButtonRadioClick(2);
-        priceTrink = "2";
-    }
-
-    @butterknife.OnClick(R.id.threedTrink)
-    void threedTrinkbtnCall() {
-        changeColorButtonRadioClick(3);
-        priceTrink = "3";
-    }
-
-    @butterknife.OnClick(R.id.fiveTrink)
-    void fiveTrinkbtnCall() {
-        changeColorButtonRadioClick(4);
-        priceTrink = "5";
-    }
-
-    @butterknife.OnClick(R.id.zeroTrink)
-    void zeroTrinkbtnCall() {
-        changeColorButtonRadioClick(5);
-        priceTrink = "0";
-    }
-
-
-    private void changeColorButtonRadioClick(int j) {
-        TextView[] textViewArray = {oneTrink, secondTrink, threedTrink, fiveTrink, zeroTrink};
-
-        for (int i = 0; i < textViewArray.length; i++) {
-            if (i == j - 1) {
-                textViewArray[i].setTextColor(getResources().getColor(R.color.white));
-                textViewArray[i].setBackgroundResource(R.drawable.radio_click);
-            } else {
-                textViewArray[i].setTextColor(getResources().getColor(R.color.black));
-                textViewArray[i].setBackgroundResource(R.drawable.radio_not_click);
-            }
-        }
-
-    }
 
     @butterknife.OnClick(R.id.btnCall)
     void callbtnCall() {
@@ -430,12 +348,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     }
 
-    @butterknife.OnClick(R.id.imgShareRide)
-    void imgShareRideClick() {
-        String url = "http://maps.google.com/maps?q=loc:";
-        navigateToShareScreen(url);
-    }
-
     @butterknife.OnClick(R.id.imgSos)
     void imgSosClick() {
         showSosPopUp();
@@ -469,11 +381,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 mapfocus.setVisibility(View.INVISIBLE);
             }
         }
-    }
-
-    @butterknife.OnClick(R.id.btnDone)
-    void btnDoneClick() {
-
     }
 
     @butterknife.OnClick(R.id.btnSubmitReview)
@@ -815,12 +722,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     }
 
+
     @butterknife.OnClick(R.id.btnPayNow)
     void btnPayNowClick() {
 
         btnPayNow.setEnabled(false);
 
-        if (lblPaymentTypeInvoice.getText().toString().equalsIgnoreCase(getString(R.string.card))) {
+        if (SharedHelper.getKey(context,"selectedPaymentMode").equalsIgnoreCase(getString(R.string.card))) {
             payNowCard();
         } else {
             Log.d(TAG, "btnPayNowClick: " + lblTotalPrice.getText().toString());
@@ -835,6 +743,15 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         }
 
     }
+
+    private View navHeader;
+    private ImageView imgProfile;
+    public static ImageView redDrawer;
+    private TextView txtWebsite;
+    private TextView txtName;
+    private NavigationView navigationView;
+    LinearLayout free_rides_ll_id, prfile_header_menu, ll_payment, ll_track, ll_notification, ll_yourtrips, ll_wallet, ll_help, ll_contact;
+    TextView agb_id, footer_item_impressum, txt_logout;
 
     private void init() {
 
@@ -881,11 +798,164 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         slide_up_top = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_top);
         slide_up_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up_down);
 
-        lblPaymentChange = findViewById(R.id.lblPaymentChanges);
-        lblPaymentChange.setOnClickListener(v -> {
-            Intent intent1 = new Intent(TrackActivity.this, CouponActivity.class);
-            startActivity(intent1);
-        });
+        navigationView = findViewById(R.id.nav_view);
+
+        // Navigation view header
+        navHeader = navigationView.getHeaderView(0);
+        txtName = findViewById(R.id.usernameTxt);
+        txtWebsite = findViewById(R.id.status_txt);
+        imgProfile = findViewById(R.id.img_profile);
+        free_rides_ll_id = findViewById(R.id.free_rides_ll_id);
+        prfile_header_menu = findViewById(R.id.prfile_header_menu);
+        ll_payment = findViewById(R.id.ll_payment);
+        ll_track = findViewById(R.id.ll_track);
+        redDrawer = findViewById(R.id.redDrawer);
+        ll_notification = findViewById(R.id.ll_notification);
+        ll_yourtrips = findViewById(R.id.ll_yourtrips);
+        ll_wallet = findViewById(R.id.ll_wallet);
+        ll_help = findViewById(R.id.ll_help);
+        ll_contact = findViewById(R.id.ll_contact);
+        agb_id = findViewById(R.id.agb_id);
+        footer_item_impressum = findViewById(R.id.footer_item_impressum);
+        txt_logout = findViewById(R.id.txt_logout);
+
+        ll_payment.setOnClickListener(this);
+        ll_track.setOnClickListener(this);
+        ll_notification.setOnClickListener(this);
+        ll_yourtrips.setOnClickListener(this);
+        ll_wallet.setOnClickListener(this);
+        ll_help.setOnClickListener(this);
+        ll_contact.setOnClickListener(this);
+        prfile_header_menu.setOnClickListener(this);
+        free_rides_ll_id.setOnClickListener(this);
+        agb_id.setOnClickListener(this);
+        footer_item_impressum.setOnClickListener(this);
+        txt_logout.setOnClickListener(this);
+
+        Menu m = navigationView.getMenu();
+
+        for (int i = 0; i < m.size(); i++) {
+            MenuItem menuItem = m.getItem(i);
+            applyFontToMenuItem(menuItem);
+        }
+
+        loadHomeFragment();
+        loadNavHeader();
+    }
+
+    private void loadHomeFragment() {
+        SharedHelper.putKey(context, "current_status", "");
+
+        //Closing drawer on item click
+        drawer.closeDrawers();
+        // refresh toolbar menu
+        invalidateOptionsMenu();
+
+    }
+
+    private void loadNavHeader() {
+        txtName.setText(SharedHelper.getKey(context, "first_name"));
+        txtWebsite.setText(SharedHelper.getKey(context, "rating"));
+        if (!SharedHelper.getKey(context, "picture").equalsIgnoreCase("")
+                && !SharedHelper.getKey(context, "picture")
+                .equalsIgnoreCase(null) && SharedHelper.getKey(context, "picture") != null) {
+            Picasso.get().load(SharedHelper.getKey(context, "picture"))
+                    .placeholder(R.drawable.ic_dummy_user)
+                    .error(R.drawable.ic_dummy_user)
+                    .into(imgProfile);
+        } else {
+            Picasso.get().load(R.drawable.ic_dummy_user)
+                    .placeholder(R.drawable.ic_dummy_user)
+                    .error(R.drawable.ic_dummy_user)
+                    .into(imgProfile);
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.free_rides_ll_id:
+                drawer.closeDrawers();
+                startActivity(new Intent(context, FreeRidesActivity.class));
+                break;
+
+            case R.id.prfile_header_menu:
+                drawer.closeDrawers();
+                startActivity(new Intent(activity, Profile.class));
+                break;
+
+
+            case R.id.ll_payment:
+                drawer.closeDrawers();
+                startActivity(new Intent(context, Payment.class));
+                break;
+
+
+            case R.id.ll_track:
+                drawer.closeDrawers();
+                startActivity(new Intent(context, RunningTrip.class));
+                break;
+
+
+            case R.id.ll_notification:
+                drawer.closeDrawers();
+                startActivity(new Intent(context, NotificationTab.class));
+                break;
+
+            case R.id.ll_yourtrips:
+                drawer.closeDrawers();
+                SharedHelper.putKey(context, "current_status", "");
+                Intent intent = new Intent(context, HistoryActivity.class);
+                intent.putExtra("tag", "past");
+                startActivity(intent);
+                break;
+
+
+            case R.id.ll_wallet:
+                drawer.closeDrawers();
+                SharedHelper.putKey(context, "current_status", "");
+                startActivity(new Intent(context, ActivityWallet.class));
+                break;
+
+            case R.id.ll_help:
+                drawer.closeDrawers();
+                SharedHelper.putKey(context, "current_status", "");
+                startActivity(new Intent(context, ActivityHelp.class));
+                break;
+
+
+            case R.id.ll_contact:
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/html");
+                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"Hassanalfakhre@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Contact 3Now");
+                startActivity(Intent.createChooser(i, "Send Email"));
+                drawer.closeDrawers();
+                break;
+
+            case R.id.agb_id:
+                drawer.closeDrawers();
+                startActivity(new Intent(context, AgbActivity.class));
+                break;
+
+            case R.id.footer_item_impressum:
+                drawer.closeDrawers();
+                startActivity(new Intent(context, ImpressumActivity.class));
+                break;
+
+            case R.id.txt_logout:
+                drawer.closeDrawers();
+                logout();
+                break;
+        }
+    }
+
+    private void applyFontToMenuItem(MenuItem mi) {
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Muli-Regular.ttf");
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
     }
 
 
@@ -898,13 +968,20 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 .setMessage(getResources().getString(R.string.are_you_sure_you_want_to_close_flight_tracking))
                 .setIcon(R.mipmap.ic_launcher_round)
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+//                    Intent intent = new Intent(this, MainActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
                     finish();
                 })
                 .setNegativeButton(android.R.string.no, null).show();
 
+    }
+
+
+    @butterknife.OnClick(R.id.imgMenu)
+    void imgMenuClick() {
+        if (drawer != null)
+            drawer.openDrawer(Gravity.LEFT);
     }
 
     boolean foreground = false;
@@ -933,8 +1010,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     @Override
     protected void onStop() {
-        super.onStop();
         unregisterReceiver(receiver);
+        super.onStop();
     }
 
     @Override
@@ -959,22 +1036,14 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         if (btnCancelTrip.getText().toString().equals(getResources()
                 .getString(R.string.cancel_trip)))
             showCancelRideDialog();
-        else {
-            String shareUrl = URLHelper.REDIRECT_SHARE_URL;
-            navigateToShareScreen(shareUrl);
-        }
+
     }
 
-    private void showChooser() {
-        Intent intent = new Intent(TrackActivity.this, Payment.class);
-        startActivityForResult(intent, 5555);
-    }
 
     RestInterface restInterface;
     Call<PaymentResponse> paymentResponseCall;
     Activity activity;
     Context context;
-    String ETA;
     String isPaid = "", paymentMode = "";
     Utilities utils = new Utilities();
     int flowValue = 0;
@@ -1011,8 +1080,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     Marker destinationMarker;
     Marker providerMarker;
     AlertDialog alert;
-    TextView lblPaymentType, txtpaiddriver;
-    TextView lblDis, lblEta, lblApproxAmount, lblApproxAmountDiscount, lblCmfrmSourceAddress, lblCmfrmDestAddress;
+    TextView txtpaiddriver;
+    TextView lblDis, lblEta, lblApproxAmountDiscount, lblCmfrmSourceAddress, lblCmfrmDestAddress;
     //Animation
     Animation slide_down, slide_up, slide_up_top, slide_up_down;
 
@@ -1060,22 +1129,11 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
 
         reqStatus = SharedHelper.getKey(context, "req_status");
-        lblPaymentType = findViewById(R.id.lblPaymentType);
-        txtpaiddriver = findViewById(R.id.txtpaiddriver);
         lblDis = findViewById(R.id.lblDis);
         lblEta = findViewById(R.id.lblEta);
-        lblApproxAmount = findViewById(R.id.lblApproxAmount);
         lblApproxAmountDiscount = findViewById(R.id.lblApproxAmountDiscount);
         lblCmfrmSourceAddress = findViewById(R.id.lblCmfrmSourceAddress);
         lblCmfrmDestAddress = findViewById(R.id.lblCmfrmDestAddress);
-
-
-        lblPaymentType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChooser();
-            }
-        });
 
         otherTips.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1148,6 +1206,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     protected void onDestroy() {
         handleCheckStatus.removeCallbacksAndMessages(null);
+        dismissProgressDialog();
         super.onDestroy();
     }
 
@@ -1556,20 +1615,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         mGoogleApiClient.connect();
     }
 
-    public void navigateToShareScreen(String shareUrl) {
-        try {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            String name = SharedHelper.getKey(context, "first_name");
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "GoCab-" + "Mr/Mrs." + name + " would like to share a trip with you at " +
-                    shareUrl + current_lat + "," + current_lng);
-            sendIntent.setType("text/plain");
-            startActivity(sendIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, getResources().getString(R.string.share_app_not_found), Toast.LENGTH_SHORT).show();
-        }
-    }
 
     // layout changes
     void layoutChanges() {
@@ -1587,10 +1632,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             lnrProviderAccepted.setVisibility(View.GONE);
             lnrInvoice.setVisibility(View.GONE);
             lnrRateProvider.setVisibility(View.GONE);
-            rtlStaticMarker.setVisibility(View.GONE);
 
 
-            shadowBack.setVisibility(View.GONE);
             txtComments.setText("");
             if (flowValue == 0) {
 
@@ -1659,17 +1702,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                         feedBackRating = String.valueOf((int) rating);
                     }
                 });
-            } else if (flowValue == 7) {
-//
-//                ScheduleLayout.startAnimation(slide_up);
-//                ScheduleLayout.setVisibility(View.VISIBLE);
-            } else if (flowValue == 8) {
-                // clear all views
-                shadowBack.setVisibility(View.GONE);
-            } else if (flowValue == 9) {
-
-                rtlStaticMarker.setVisibility(View.VISIBLE);
-                shadowBack.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1801,21 +1833,76 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void goAfterRateAndTrink() {
+        customDialog = new CustomDialog(context);
+        customDialog.show();
 
-        if (rateDone && trinkDone) {
+        JSONObject object = new JSONObject();
+        JsonObjectRequest jsonObjectRequest = new
+                JsonObjectRequest(Request.Method.GET, GlobalDataMethods.URLGetRate,
+                        object,
+                        response -> {
+                            Log.v("GetProfile", response.toString());
+                            SharedHelper.putKey(context, "id", response.optString("id"));
+                            SharedHelper.putKey(context, "first_name", response.optString("first_name"));
+                            SharedHelper.putKey(context, "last_name", response.optString("last_name"));
+                            SharedHelper.putKey(context, "email", response.optString("email"));
+                            SharedHelper.putKey(context, "rating", response.optString("rating").substring(0, 4));
 
-            rateDone = false;
-//            trinkDone = false;
+                            if (response.optString("picture").startsWith("http"))
+                                SharedHelper.putKey(context, "picture", response.optString("picture"));
+                            else
+                                SharedHelper.putKey(context, "picture", URLHelper.base + "storage/app/public/" + response.optString("picture"));
+                            SharedHelper.putKey(context, "gender", response.optString("gender"));
+                            SharedHelper.putKey(context, "mobile", response.optString("mobile"));
+                            SharedHelper.putKey(context, "wallet_balance", response.optString("wallet_balance"));
+                            SharedHelper.putKey(context, "payment_mode", response.optString("payment_mode"));
+                            if (!response.optString("currency").equalsIgnoreCase("") && response.optString("currency") != null)
+                                SharedHelper.putKey(context, "currency", response.optString("currency"));
+                            else
+                                SharedHelper.putKey(context, "currency", "€");
+                            SharedHelper.putKey(context, "sos", response.optString("sos"));
+                            Log.e(TAG, "onResponse: Sos Call" + response.optString("sos"));
+                            SharedHelper.putKey(context, "loggedIn", "true");
 
-            Intent goMain = new Intent(activity, MainActivity.class);
-            goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            activity.startActivity(goMain);
-            stopHandler();
+                            SharedHelper.putKey(context, "card", response.optString("card"));
+                            SharedHelper.putKey(context, "paypal", response.optString("paypal"));
+                            SharedHelper.putKey(context, "cash", response.optString("cash"));
 
-        }
+                            customDialog.dismiss();
+                            if (rateDone && trinkDone) {
+                                rateDone = false;
+                                Intent goMain = new Intent(activity, MainActivity.class);
+                                goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                activity.startActivity(goMain);
+                                stopHandler();
+                                activity.finish();
+                            }
+
+                        }, error -> {
+                    customDialog.dismiss();
+                    if (rateDone && trinkDone) {
+                        rateDone = false;
+                        //            trinkDone = false;
+                        Intent goMain = new Intent(activity, MainActivity.class);
+                        goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        activity.startActivity(goMain);
+                        stopHandler();
+                        activity.finish();
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("X-Requested-With", "XMLHttpRequest");
+                        headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
+                        return headers;
+                    }
+                };
+
+        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+
 
     }
-
 
     public void payNowCard(String paymentType, String Price) {
         // --
@@ -2193,68 +2280,47 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 Intent goMain = new Intent(activity, MainActivity.class);
                 goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 activity.startActivity(goMain);
-                activity.finish();
                 stopHandler();
+                activity.finish();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
-                String json = null;
-                String Message;
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
-                    flowValue = 4;
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
+        }, error -> {
+            if ((customDialog != null) && (customDialog.isShowing()))
+                customDialog.dismiss();
+            NetworkResponse response = error.networkResponse;
+            if (response != null && response.data != null) {
+                flowValue = 4;
+                try {
 
-                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                            try {
-//                                utils.displayMessage(getCurrentFocus(), errorObj.optString("message"));
-                                flowValue = 0;
-                                PreviousStatus = "";
-                                Intent goMain = new Intent(activity, MainActivity.class);
-                                goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                activity.startActivity(goMain);
-                                activity.finish();
-                                stopHandler();
-                            } catch (Exception e) {
-//                                utils.displayMessage(getCurrentFocus(), getString(R.string.something_went_wrong));
-                            }
-                            layoutChanges();
-                        } else if (response.statusCode == 401) {
-                            refreshAccessToken("CANCEL_REQUEST");
-                        } else if (response.statusCode == 422) {
-
-                            json = trimMessage(new String(response.data));
-                            if (json != "" && json != null) {
-//                                utils.displayMessage(getCurrentFocus(), json);
-                            } else {
-//                                utils.displayMessage(getCurrentFocus(), getString(R.string.please_try_again));
-                            }
+                    if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                        try {
+                            flowValue = 0;
                             PreviousStatus = "";
                             Intent goMain = new Intent(activity, MainActivity.class);
                             goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             activity.startActivity(goMain);
                             activity.finish();
-                        } else if (response.statusCode == 503) {
-//                            utils.displayMessage(getCurrentFocus(), getString(R.string.server_down));
-                            layoutChanges();
-                        } else {
-//                            utils.displayMessage(getCurrentFocus(), getString(R.string.please_try_again));
-                            layoutChanges();
+                            stopHandler();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-
-                    } catch (Exception e) {
-//                        utils.displayMessage(getCurrentFocus(), getString(R.string.something_went_wrong));
+                        layoutChanges();
+                    } else if (response.statusCode == 401) {
+                        refreshAccessToken("CANCEL_REQUEST");
+                    } else if (response.statusCode == 422) {
+                        PreviousStatus = "";
+                        Intent goMain = new Intent(activity, MainActivity.class);
+                        goMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        activity.startActivity(goMain);
+                        activity.finish();
+                    } else {
                         layoutChanges();
                     }
-
-                } else {
-//                    utils.displayMessage(getCurrentFocus(), getString(R.string.please_try_again));
+                } catch (Exception e) {
                     layoutChanges();
                 }
+
+            } else {
+                layoutChanges();
             }
         }) {
             @Override
@@ -2302,6 +2368,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     payNow();
                 } else if (tag.equalsIgnoreCase("ADD_TIPS")) {
                     AddTips();
+                } else if (tag.equalsIgnoreCase("logout")) {
+                    logout();
                 }
 
             }
@@ -2459,32 +2527,25 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 JSONObject service_type = requestStatusCheckObject.getJSONObject("service_type");
                                                 JSONObject provider_service = requestStatusCheckObject.getJSONObject("provider_service");
 
-//                                                getDurationForRoute(provider.optString("latitude"), provider.optString("longitude"));
-
                                                 SharedHelper.putKey(context, "provider_mobile_no", "" + provider.optString("mobile"));
                                                 SharedHelper.putKey(context, "provider_first_name", "" + provider.optString("first_name"));
                                                 lblProvider.setText(provider.optString("first_name"));
                                                 tvServiceNumber.setText("" + provider_service.getString("service_number"));
                                                 tvServiceModel.setText("" + provider_service.getString("service_model"));
-//                                                imgProvider.getBackground().setAlpha(127);
+
                                                 if (provider.optString("avatar").startsWith("http"))
                                                     Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
                                                 else
                                                     Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
-                                                lblServiceRequested.setText(service_type.optString("name"));
-                                                lblModelNumber.setText(provider_service.optString("service_model") + "\n" + provider_service.optString("service_number"));
                                                 Picasso.get().load(service_type.optString("image"))
                                                         .placeholder(R.drawable.car_select).error(R.drawable.car_select)
                                                         .into(imgServiceRequested);
+
                                                 ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
-
-                                                setPricesIfDiscount(service_type.optString("fixed"));
-
+                                                tv_rate.setText(provider.optString("rating").substring(0, 4));
 
                                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                                 lblCmfrmDestAddress.setText(dropLocationName);
-                                                //lnrAfterAcceptedStatus.setVisibility(View.GONE);
-
                                                 AfterAcceptButtonLayout.setVisibility(View.VISIBLE);
                                                 show(lnrProviderAccepted);
                                                 flowValue = 9;
@@ -2527,12 +2588,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                     Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
                                                 else
                                                     Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
-                                                lblServiceRequested.setText(service_type.optString("name"));
-                                                lblModelNumber.setText(provider_service.optString("service_model") + "\n" + provider_service.optString("service_number"));
                                                 Picasso.get().load(URLHelper.base + service_type.optString("image")).placeholder(R.drawable.car_select).error(R.drawable.car_select).into(imgServiceRequested);
                                                 ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
-
-                                                setPricesIfDiscount(service_type.optString("fixed"));
+                                                tv_rate.setText(provider.optString("rating").substring(0, 4));
 
                                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                                 lblCmfrmDestAddress.setText(dropLocationName);
@@ -2572,18 +2630,14 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                     Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
                                                 else
                                                     Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
-                                                lblServiceRequested.setText(service_type.optString("name"));
-                                                lblModelNumber.setText(provider_service.optString("service_model") + "\n" + provider_service.optString("service_number"));
                                                 Picasso.get().load(URLHelper.base + service_type.optString("image")).placeholder(R.drawable.car_select).error(R.drawable.car_select).into(imgServiceRequested);
                                                 ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
-
-                                                setPricesIfDiscount(service_type.optString("fixed"));
+                                                tv_rate.setText(provider.optString("rating").substring(0, 4));
                                                 lblCmfrmSourceAddress.setText(pickUpLocationName);
                                                 lblCmfrmDestAddress.setText(dropLocationName);
 
 
                                                 imgSos.setVisibility(View.VISIBLE);
-                                                //imgShareRide.setVisibility(View.VISIBLE);
 
                                                 btnCancelTrip.setText(getString(R.string.share));
                                                 AfterAcceptButtonLayout.setVisibility(View.VISIBLE);
@@ -2606,22 +2660,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                             once = true;
                                             strTag = "";
                                             imgSos.setVisibility(View.VISIBLE);
-                                            lblPaymentType.setEnabled(false);
-                                            //imgShareRide.setVisibility(View.VISIBLE);
+
                                             try {
                                                 JSONObject provider = requestStatusCheckObject.optJSONObject("provider");
                                                 if (requestStatusCheckObject.optJSONObject("payment") != null) {
                                                     JSONObject payment = requestStatusCheckObject.optJSONObject("payment");
                                                     isPaid = requestStatusCheckObject.optString("paid");
                                                     paymentMode = requestStatusCheckObject.optString("payment_mode");
-                                                    lblBasePrice.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("fixed"));
-                                                    lblTaxPrice.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("tax"));
-                                                    lblDistancePrice.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("distance"));
-                                                    if (payment.optString("discount") != null) {
-                                                        promoLayout.setVisibility(View.VISIBLE);
-                                                        txtDiscount.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("discount"));
-                                                    }
-                                                    //lblCommision.setText(SharedHelper.getKey(context, "currency") + "" + payment.optString("commision"));
                                                     lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
                                                             + payment.optString("total"));
                                                     totalConfirmPayment = payment.optString("total");
@@ -2630,44 +2675,28 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 }
                                                 if (requestStatusCheckObject.optString("booking_id") != null &&
                                                         !requestStatusCheckObject.optString("booking_id").equalsIgnoreCase("")) {
-                                                    booking_id.setText(requestStatusCheckObject.optString("booking_id"));
                                                     tvPaymentLabel.setText(SharedHelper.getKey(TrackActivity.this, "first_name").split(",")[0] + " owes");
-                                                } else {
-                                                    booking_id.setVisibility(View.GONE);
                                                 }
                                                 if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CASH")) {
                                                     btnPayNow.setVisibility(View.GONE);
                                                     btnPayNowCash.setVisibility(View.GONE);
                                                     flowValue = 5;
                                                     layoutChanges();
-                                                    lblPaymentType.setEnabled(false);
-                                                    imgPaymentTypeInvoice.setImageResource(R.drawable.money_icon);
-                                                    lblPaymentTypeInvoice.setText(getResources().getString(R.string.cash));
                                                 } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("WALLET")) {
                                                     btnPayNow.setVisibility(View.GONE);
                                                     btnPayNowCash.setVisibility(View.GONE);
                                                     flowValue = 5;
                                                     layoutChanges();
-                                                    lblPaymentType.setEnabled(false);
-                                                    imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                    lblPaymentTypeInvoice.setText(getResources().getString(R.string.cash_and_wallet));
                                                 } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CARD")) {
                                                     btnPayNow.setVisibility(View.VISIBLE);
                                                     btnPayNowCash.setVisibility(View.VISIBLE);
                                                     flowValue = 5;
                                                     layoutChanges();
-                                                    imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                    lblPaymentTypeInvoice.setText(getResources().getString(R.string.card));
-                                                    lblPaymentType.setEnabled(false);
                                                 } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("PAYPAL")) {
                                                     btnPayNow.setVisibility(View.VISIBLE);
                                                     btnPayNowCash.setVisibility(View.VISIBLE);
                                                     flowValue = 5;
                                                     layoutChanges();
-                                                    imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                    lblPaymentTypeInvoice.setText("PAYPAL");
-                                                    lblPaymentType.setText("PAYPAL");
-                                                    lblPaymentType.setEnabled(false);
                                                     txtpaiddriver.setVisibility(View.GONE);
                                                 } else if (isPaid.equalsIgnoreCase("1")) {
                                                     btnPayNow.setVisibility(View.GONE);
@@ -2695,12 +2724,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                             try {
                                                 if (requestStatusCheckObject.optJSONObject("payment") != null) {
                                                     JSONObject payment = requestStatusCheckObject.optJSONObject("payment");
-                                                    lblBasePrice.setText(SharedHelper.getKey(context, "currency") + ""
-                                                            + payment.optString("fixed"));
-                                                    lblTaxPrice.setText(SharedHelper.getKey(context, "currency") + ""
-                                                            + payment.optString("tax"));
-                                                    lblDistancePrice.setText(SharedHelper.getKey(context, "currency") + ""
-                                                            + payment.optString("distance"));
                                                     lblTotalPrice.setText(SharedHelper.getKey(context, "currency") + ""
                                                             + payment.optString("total"));
                                                     totalConfirmPayment = payment.optString("total");
@@ -2709,20 +2732,15 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                 isPaid = requestStatusCheckObject.optString("paid");
                                                 paymentMode = requestStatusCheckObject.optString("payment_mode");
                                                 imgSos.setVisibility(View.GONE);
-                                                //imgShareRide.setVisibility(View.GONE);
-                                                // lblCommision.setText(payment.optString("commision"));
+
                                                 if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CASH")) {
                                                     flowValue = 5;
                                                     layoutChanges();
                                                     btnPayNow.setVisibility(View.GONE);
                                                     btnPayNowCash.setVisibility(View.GONE);
-                                                    imgPaymentTypeInvoice.setImageResource(R.drawable.money_icon);
-                                                    lblPaymentTypeInvoice.setText(getResources().getString(R.string.cash));
                                                 } else if (isPaid.equalsIgnoreCase("0") && paymentMode.equalsIgnoreCase("CARD")) {
                                                     flowValue = 5;
                                                     layoutChanges();
-                                                    imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                    lblPaymentTypeInvoice.setText(getResources().getString(R.string.card));
                                                     btnPayNow.setVisibility(View.VISIBLE);
                                                     btnPayNowCash.setVisibility(View.VISIBLE);
                                                 } else if (isPaid.equalsIgnoreCase("1")) {
@@ -2735,8 +2753,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                         Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.loading).error(R.drawable.ic_dummy_user).into(imgProviderRate);
                                                     flowValue = 6;
                                                     layoutChanges();
-                                                    //imgPaymentTypeInvoice.setImageResource(R.drawable.visa);
-                                                    // lblPaymentTypeInvoice.setText("CARD");
                                                 }
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -2756,7 +2772,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
-//                                utils.displayMessage(findViewById(R.id.imgBack), getString(R.string.something_went_wrong));
                             }
                         } else if (PreviousStatus.equalsIgnoreCase("SEARCHING")) {
                             SharedHelper.putKey(context, "current_status", "");
@@ -2779,6 +2794,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                     Intent intent = new Intent(activity, MainActivity.class);
                                     startActivity(intent);
                                     stopHandler();
+                                    finish();
                                 }
                             }
                         } else if (PreviousStatus.equalsIgnoreCase("STARTED")) {
@@ -2789,6 +2805,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
                             stopHandler();
+                            finish();
 
                         } else if (PreviousStatus.equalsIgnoreCase("ARRIVED")) {
                             SharedHelper.putKey(context, "current_status", "");
@@ -2799,6 +2816,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
                             stopHandler();
+                            finish();
                         } else if (PreviousStatus.equalsIgnoreCase("SEARCHING") && response.optJSONObject("data") != null
                                 && response.optJSONArray("data").length() > 0) {
                             Toast.makeText(context, getString(R.string.no_drivers_found), Toast.LENGTH_SHORT).show();
@@ -2809,6 +2827,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             Intent intent = new Intent(activity, MainActivity.class);
                             startActivity(intent);
                             stopHandler();
+                            finish();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -2859,135 +2878,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void setPricesIfDiscount(String fixed) {
-
-        lblApproxAmount.setText(SharedHelper.getKey(TrackActivity.this, "currency") + fixed);
-        sendToServerCoupon();
-
-    }
-
-
-    private void sendToServerCoupon() {
-
-
-        JSONObject object = new JSONObject();
-        try {
-            object.put("user_id", SharedHelper.getKey(context, "id"));
-            object.put("coupon", GlobalDataMethods.coupon_gd_str);
-            Log.e("coupon_from", object.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
-                URLHelper.COUPON_VERIFY,
-                object,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        utils.print("AddCouponRes", "" + response.toString());
-                        try {
-
-                            JSONObject jsonObject = response;
-                            GlobalDataMethods.coupon_response = response;
-
-                            if (jsonObject.optString("success").equals("coupon available")) {
-                                lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
-                                double total = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"));
-
-                                GlobalDataMethods.coupon_discount = GlobalDataMethods.getDiscountCoupon(total);
-
-                                double discount = total - (GlobalDataMethods.coupon_discount);
-
-                                if (discount < 0) {
-                                    discount = 0;
-                                }
-                                lblApproxAmountDiscount.setText(SharedHelper.getKey(context, "currency") + "" +
-                                        String.format(Locale.ENGLISH, "%.2f", discount));
-                                lblApproxAmountDiscount.setVisibility(View.VISIBLE);
-
-                            } else {// coupoun used
-                                coupon_gd_str = "";
-                                coupon_discount = 0d;
-                                lblApproxAmount.setPaintFlags(lblApproxAmount.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-                                lblApproxAmountDiscount.setText("");
-                                lblApproxAmountDiscount.setVisibility(View.GONE);
-                            }
-
-
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                if ((customDialog != null) && customDialog.isShowing())
-                    customDialog.dismiss();
-                Log.e(this.getClass().getName(), "Error_Favourite" + error.getMessage());
-
-                String json = null;
-                String Message;
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
-
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
-
-                        if (response.statusCode == 400 || response.statusCode == 405 ||
-                                response.statusCode == 500) {
-                            try {
-                                displayMessage(errorObj.optString("message"));
-                            } catch (Exception e) {
-                                displayMessage(getString(R.string.something_went_wrong));
-                            }
-                        } else if (response.statusCode == 401) {
-//                                    refreshAccessToken();
-                        } else if (response.statusCode == 422) {
-
-                            json = trimMessage(new String(response.data));
-                            if (json != "" && json != null) {
-                                displayMessage(json);
-                            } else {
-                                displayMessage(getString(R.string.please_try_again));
-                            }
-
-                        } else if (response.statusCode == 503) {
-                            displayMessage(getString(R.string.server_down));
-                        }
-                    } catch (Exception e) {
-                        displayMessage(getString(R.string.something_went_wrong));
-                    }
-
-                } else {
-                    if (error instanceof NoConnectionError) {
-                        displayMessage(getString(R.string.oops_connect_your_internet));
-                    } else if (error instanceof NetworkError) {
-                        displayMessage(getString(R.string.oops_connect_your_internet));
-                    } else if (error instanceof TimeoutError) {
-                        sendToServerCoupon();
-                    }
-                }
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization", "" + SharedHelper.getKey(getApplicationContext(), "token_type") + " "
-                        + SharedHelper.getKey(getApplicationContext(), "access_token"));
-                return headers;
-            }
-        };
-        IlyftApplication.getInstance().addToRequestQueue(objectRequest);
-
-
     }
 
 
@@ -3082,7 +2972,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                         pb_min_da.setVisibility(View.GONE);
 
                                                         new Handler().postDelayed(() -> {
-                                                            tvDone.performClick();
+                                                            if (tvDone != null && confirmDialog != null)
+                                                                tvDone.performClick();
                                                         }, 3000);
                                                     } else {
                                                         Log.e("Dialog", "else");
@@ -3179,6 +3070,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     Dialog confirmDialog;
     TextView tvDone;
 
+    private void dismissProgressDialog() {
+        if (confirmDialog != null && confirmDialog.isShowing()) {
+            confirmDialog.dismiss();
+        }
+    }
+
+
     private void showStartedDialog(JSONObject requestStatusCheckObject) {
 
         confirmDialog = new Dialog(TrackActivity.this);
@@ -3227,13 +3125,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                         Picasso.get().load(provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
                     else
                         Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.optString("avatar")).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(imgProvider);
-                    lblServiceRequested.setText(service_type.optString("name"));
-                    lblModelNumber.setText(provider_service.optString("service_model") + "\n" + provider_service.optString("service_number"));
                     Picasso.get().load(URLHelper.base + service_type.optString("image")).placeholder(R.drawable.car_select)
                             .error(R.drawable.car_select).into(imgServiceRequested);
                     ratingProvider.setRating(Float.parseFloat(provider.optString("rating")));
-
-                    setPricesIfDiscount(service_type.optString("fixed"));
+                    tv_rate.setText(provider.optString("rating").substring(0, 4));
 
                     lblCmfrmSourceAddress.setText(pickUpLocationName);
                     lblCmfrmDestAddress.setText(dropLocationName);
@@ -3488,10 +3383,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
         }
 
-
         if (requestCode == 012) { // pay trink ok paypal
             if (resultCode == Activity.RESULT_OK) {
-
 
                 PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirm != null) {
@@ -3499,12 +3392,9 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                         Log.e("222 paymentExample", confirm.toJSONObject().getJSONObject("response").toString());
 
-// //                     TODO: send 'confirm' to your server for verification.
-// //                     see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
-// //                     for more detail
                         String paymentType = "PAYPAL";
                         paymentId = confirm.getProofOfPayment().getPaymentId();
-                        payNowCard(paymentType, priceTrink);
+                        payNowCard(paymentType, getTips());//priceTrink
 
                     } catch (JSONException e) {
                         Log.e("222 paymentExample", "an extremely unlikely failure occurred: ", e);
@@ -3512,8 +3402,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 }
             } // --
         }
-
-
     }
 
     private void payNowPaypal() {
@@ -3604,13 +3492,11 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         if (cardInfo.getLastFour().equals("CASH")) {
             SharedHelper.putKey(context, "payment_mode", "CASH");
             //  imgPaymentType.setImageResource(R.drawable.money1);
-            lblPaymentType.setText(getResources().getString(R.string.cash));
             btnPayNow.setVisibility(View.GONE);
             btnPayNowCash.setVisibility(View.GONE);
         } else {
             SharedHelper.putKey(context, "payment_mode", "CARD");
             imgPaymentType.setImageResource(R.mipmap.ic_launcher);
-            lblPaymentType.setText(cardInfo.getLastFour());
             btnPayNow.setVisibility(View.VISIBLE);
             btnPayNowCash.setVisibility(View.VISIBLE);
         }
@@ -3976,10 +3862,103 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         return url;
     }
 
-
-    public void payNowCard() {
+    public void logout() {
         customDialog = new CustomDialog(context);
         customDialog.setCancelable(false);
+        if (customDialog != null)
+            customDialog.show();
+        JSONObject object = new JSONObject();
+        try {
+            object.put("id", SharedHelper.getKey(this, "id"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("TrackActivity", "logout: " + object);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.LOGOUT, object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if ((customDialog != null) && (customDialog.isShowing()))
+                    customDialog.dismiss();
+
+                if (!SharedHelper.getKey(TrackActivity.this, "account_kit_token").equalsIgnoreCase("")) {
+                    Log.e("TrackActivity", "Account kit logout: " + SharedHelper.getKey(TrackActivity.this, "account_kit_token"));
+                    AccountKit.logOut();
+                    SharedHelper.putKey(TrackActivity.this, "account_kit_token", "");
+                }
+                SharedHelper.clearSharedPreferences(context);
+
+                if (Locale.getDefault().getDisplayLanguage().length() > 0)
+                    if (Locale.getDefault().getDisplayLanguage().contains("De"))
+                        SharedHelper.putKey(TrackActivity.this, "lang", "de");
+                    else
+                        SharedHelper.putKey(TrackActivity.this, "lang", "en");
+
+
+                Intent goToLogin = new Intent(activity, Login.class);
+                goToLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(goToLogin);
+                finish();
+            }
+        }, error -> {
+            if ((customDialog != null) && (customDialog.isShowing()))
+                customDialog.dismiss();
+            String json = null;
+            String Message;
+            NetworkResponse response = error.networkResponse;
+            if (response != null && response.data != null) {
+                try {
+                    JSONObject errorObj = new JSONObject(new String(response.data));
+                    if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                        try {
+                            displayMessage(errorObj.getString("message"));
+                        } catch (Exception e) {
+                            displayMessage(getString(R.string.something_went_wrong));
+                        }
+                    } else if (response.statusCode == 401) {
+                        refreshAccessToken("logout");
+                    } else if (response.statusCode == 422) {
+                        json = trimMessage(new String(response.data));
+                        if (json != "" && json != null) {
+                            displayMessage(json);
+                        } else {
+                            displayMessage(getString(R.string.please_try_again));
+                        }
+                    } else if (response.statusCode == 503) {
+                        displayMessage(getString(R.string.server_down));
+                    } else {
+                        displayMessage(getString(R.string.please_try_again));
+                    }
+                } catch (Exception e) {
+                    displayMessage(getString(R.string.something_went_wrong));
+                }
+            } else {
+                if (error instanceof NoConnectionError) {
+                    displayMessage(getString(R.string.oops_connect_your_internet));
+                } else if (error instanceof NetworkError) {
+                    displayMessage(getString(R.string.oops_connect_your_internet));
+                } else if (error instanceof TimeoutError) {
+                    logout();
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("X-Requested-With", "XMLHttpRequest");
+                headers.put("Authorization", "Bearer" + " " + SharedHelper.getKey(context, "access_token"));
+                return headers;
+            }
+        };
+        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
+    }
+
+
+    public void payNowCard() {
+        Log.e("method","payNowCard");
+
+        customDialog = new CustomDialog(context);
+        customDialog.setCancelable(false);
+
         if (customDialog != null)
             customDialog.show();
 
@@ -3990,8 +3969,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             if (paymentType.contains("PAYPAL")) {
                 object.put("payment_id", paymentId);
             }
-//              object.put("payment_mode", SharedHelper.getKey(getApplicationContext(),"payment_mode"));
-//              object.put("is_paid", isPaid);
             Log.d(TAG, "2223 payNowCard: " + object.toString(1));
         } catch (Exception e) {
             e.printStackTrace();
@@ -4001,7 +3978,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "2223 onResponse: " + response.toString());
-                utils.print("2223 PayNowRequestResponse", response.toString());
                 if ((customDialog != null) && (customDialog.isShowing()))
                     customDialog.dismiss();
                 SharedHelper.putKey(context, "total_amount", "");

@@ -14,6 +14,8 @@ import de.threenow.Models.GoogleDirectionModel;
 
 public class GlobalDataMethods {
 
+    public static String URLGetRate = "";
+
     public static String lastConstructedURLSuccess;
 
     public static HashMap<String, GoogleDirectionModel> googleDirectionModelHashMap = new HashMap<>();

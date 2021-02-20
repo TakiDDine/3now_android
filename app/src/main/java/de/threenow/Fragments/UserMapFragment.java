@@ -5,20 +5,15 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -28,10 +23,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.Settings;
-import android.text.format.DateUtils;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -45,7 +39,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -53,7 +46,6 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -104,7 +96,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.maps.android.ui.IconGenerator;
 import com.skyfishjy.library.RippleBackground;
 import com.squareup.picasso.Picasso;
 
@@ -118,11 +109,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -134,8 +121,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import de.threenow.Activities.ChoseServiceActivity;
 import de.threenow.Activities.CouponActivity;
 import de.threenow.Activities.CustomGooglePlacesSearch;
+import de.threenow.Activities.MainActivity;
 import de.threenow.Activities.Payment;
-import de.threenow.Activities.ShowProfile;
 import de.threenow.Activities.TrackActivity;
 import de.threenow.Helper.ConnectionHelper;
 import de.threenow.Helper.CustomDialog;
@@ -167,7 +154,6 @@ import static de.threenow.IlyftApplication.trimMessage;
 import static de.threenow.Utils.GlobalDataMethods.coupon_discount;
 import static de.threenow.Utils.GlobalDataMethods.coupon_gd_str;
 
-//import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 public class UserMapFragment extends Fragment implements OnMapReadyCallback, LocationListener,
         GoogleMap.OnMarkerDragListener, GoogleApiClient.ConnectionCallbacks,
@@ -183,9 +169,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     View rootView;
     HomeFragmentListener listener;
     double wallet_balance;
-    String ETA;
     TextView txtSelectedAddressSource;
-    String isPaid = "", paymentMode = "";
     Utilities utils = new Utilities();
     int flowValue = 0;
     DrawerLayout drawer;
@@ -197,7 +181,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     double width;
     String strPickLocation = "", strPickType = "";
     int click = 1;
-    boolean afterToday = false;
     boolean pick_first = true;
     Driver driver;
     //        <!-- Map frame -->
@@ -211,13 +194,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     GoogleApiClient mGoogleApiClient;
     //        <!-- Source and Destination Layout-->
     LinearLayout sourceAndDestinationLayout;
-    FrameLayout frmDestination;
-    TextView destination;
-    ImageView imgMenu, mapfocus, imgBack, shadowBack;
-    View tripLine;
-    ImageView destinationBorderImg;
+    ImageView imgMenu, redMenu, mapfocus, imgBack;
     TextView frmSource, frmDest;
-    //    CardView srcDestLayout;
     LinearLayout sourceDestLayout;
     LinearLayout lnrRequestProviders;
     RecyclerView rcvServiceTypes;
@@ -226,24 +204,16 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     //       <!--1. Request to providers -->
     ImageView imgSos;
-    ImageView imgShareRide;
     TextView lblPaymentType, lblPromo, booking_id;
     //    Button btnRequestRides;
     TextView btnRequestRides;
     String scheduledDate = "";
     String scheduledTime = "";
     String cancalReason = "";
-    LinearLayout lnrHidePopup, lnrProviderPopup, lnrPriceBase, lnrPricemin, lnrPricekm;
     RelativeLayout lnrSearchAnimation;
-    ImageView imgProviderPopup;
 
-    //        <!--1. Driver Details-->
-    TextView lblPriceMin, lblBasePricePopup, lblCapacity,
-            lblServiceName, lblPriceKm, lblCalculationType, lblProviderDesc;
-    Button btnDonePopup;
     LinearLayout lnrApproximate;
     Button btnRequestRideConfirm;
-    Button imgSchedule;
     TextView tvPickUpAddres, tvDropAddres;
     LinearLayout layoutSrcDest;
 
@@ -253,39 +223,17 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     TextView lblType;
     TextView lblApproxAmount, lblApproxAmountDiscount, surgeDiscount, surgeTxt;
     View lineView;
-    LinearLayout ScheduleLayout;
-    TextView scheduleDate;
-    TextView scheduleTime;
-    Button scheduleBtn;
-    DatePickerDialog datePickerDialog;
     LocationRequest mLocationRequest;
-    RelativeLayout lnrWaitingForProviders;
     TextView lblNoMatch;
-    ImageView imgCenter;
 
     //         <!--3. Waiting For Providers ...-->
     Button btnCancelRide;
     RippleBackground rippleBackground;
-    LinearLayout lnrProviderAccepted, lnrAfterAcceptedStatus, AfterAcceptButtonLayout;
-    ImageView imgProvider, imgServiceRequested;
-    TextView lblProvider, lblStatus, lblETA, lblServiceRequested, lblModelNumber, lblSurgePrice;
-    RatingBar ratingProvider;
-    Button btnCall, btnCancelTrip;
-    LinearLayout lnrInvoice;
 
     //         <!--4. Driver Accepted ...-->
     TextView lblBasePrice, lblExtraPrice, lblDistancePrice,
             lblTaxPrice, lblTotalPrice, lblPaymentTypeInvoice;
     ImageView imgPaymentTypeInvoice;
-    Button btnPayNow;
-    LinearLayout lnrRateProvider;
-    TextView lblProviderNameRate;
-
-    //          <!--5. Invoice Layout ...-->
-    ImageView imgProviderRate;
-    RatingBar ratingProviderRate;
-    EditText txtCommentsRate;
-    Button btnSubmitReview;
 
     //          <!--6. Rate provider Layout ...-->
     RelativeLayout rtlStaticMarker;
@@ -305,23 +253,18 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     CustomDialog customDialog;
     TextView tvZoneMsg;
     //MArkers
-    Marker availableProviders;
-    ArrayList<LatLng> points = new ArrayList<LatLng>();
     ArrayList<Marker> lstProviderMarkers = new ArrayList<Marker>();
     AlertDialog alert;
-    ImageButton imgNavigate;
     //Animation
     Animation slide_down, slide_up, slide_up_top, slide_up_down;
     ParserTask parserTask;
     String notificationTxt;
     boolean scheduleTrip = false;
     MapRipple mapRipple;
-    //    Button schedule_ride;
     TextView schedule_ride;
     //  MY INITIALIZATION
     MyTextView lblCmfrmSourceAddress, lblCmfrmDestAddress;
     ImageView ImgConfrmCabType;
-    ImageView ivNavigation;
     ImageView ivTopFav;
     @BindView(R.id.llFlow)
     FrameLayout llFlow;
@@ -333,10 +276,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     private boolean mIsHiding;
     private LatLng sourceLatLng;
     private LatLng destLatLng;
-    // MyTextView serviceItemPrice;
+
     private Marker sourceMarker;
     private Marker destinationMarker;
-    private Marker providerMarker;
     private boolean isDragging;
     private boolean ClickFiretInTime = true;
     private boolean ClickFiretInTime2 = true;
@@ -393,8 +335,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_home, container, false);
             ButterKnife.bind(this, rootView);
-//            getActivity().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         }
 
 
@@ -403,75 +343,46 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         if (activity != null && isAdded()) {
             if (customDialog != null) {
                 customDialog.show();
-                new Handler().postDelayed(() -> {
-                    init(rootView);
-                    //permission to access location
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                            ActivityCompat.checkSelfPermission(getActivity(),
-                                    Manifest.permission.ACCESS_FINE_LOCATION) !=
-                                    PackageManager.PERMISSION_GRANTED) {
-                        // Android M Permission check
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                    } else {
-                        MapsInitializer.initialize(getActivity());
-                        initMap();
-                        customDialog.dismiss();
-                        customDialog.cancel();
-                    }
-                }, 500);
+//                new Handler().postDelayed(() -> {
+                init(rootView);
+                //permission to access location
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                        ActivityCompat.checkSelfPermission(getActivity(),
+                                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                                PackageManager.PERMISSION_GRANTED) {
+                    // Android M Permission check
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    Log.e("if_permissions", "not grant");
+                } else {
+                    Log.e("else_permissions", "grant");
+                    MapsInitializer.initialize(getActivity());
+                    initMap();
+                    customDialog.dismiss();
+                    customDialog.cancel();
+                }
+//                }, 500);
             }
         }
 
         reqStatus = SharedHelper.getKey(context, "req_status");
-        if (reqStatus != null && !reqStatus.equalsIgnoreCase("null") && reqStatus.length() > 0) {
-            if (reqStatus.equalsIgnoreCase("SEARCHING")) {
-//                Toast.makeText(context, "You have already requested to a trip", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        getGoogleMapKey();
 
         return rootView;
     }
 
-    private void getGoogleMapKey() {
-        JSONObject object = new JSONObject();
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLHelper.URL_GOOGLE_KEY_MAPS, object, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                Log.e("URL_GOOGLE_KEY_MAPS", response.toString());
-                SharedHelper.putKey(context, "GOOGLE_KEY_MAPS", response.optString("key"));
-            }
-        }, error -> {
-            String json = null;
-            String Message;
-            NetworkResponse response = error.networkResponse;
-            Log.e("URL_GOOGLE_KEY_MAPS", error.toString());
-            if (response != null && response.data != null) {
-//                SharedHelper.putKey(context, "loggedIn", "false");
-//                GoToBeginActivity();
-            } else if (error instanceof TimeoutError) {
-                Log.e("URL_GOOGLE_KEY_MAPS", "time out reCall");
-                getGoogleMapKey();
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Requested-With", "XMLHttpRequest");
-                return headers;
-            }
-        };
-
-        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
+
+        String current_version_str = SharedHelper.getKey(activity, "current_version");
+        if (current_version_str.length() > 0) {
+            int current_version = Integer.parseInt(current_version_str.replace(".", ""));
+            int last_version = Integer.parseInt(SharedHelper.getKey(activity, "last_version").replace(".", ""));
+            Log.e("last_current_ver", last_version + " " + current_version);
+            if (last_version > current_version)
+                showUpdateDialog();
+        }
     }
 
 
@@ -502,38 +413,31 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         isInternet = helper.isConnectingToInternet();
 
         statusCheck();
+
 //        <!-- Map frame -->
+
         schedule_ride = rootView.findViewById(R.id.schedule_ride);
 
         mapLayout = rootView.findViewById(R.id.mapLayout);
-        drawer = rootView.findViewById(R.id.drawer_layout);
         drawer = activity.findViewById(R.id.drawer_layout);
 
 //        <!-- Source and Destination Layout-->
+
         sourceAndDestinationLayout = rootView.findViewById(R.id.sourceAndDestinationLayout);
         sourceDestLayout = rootView.findViewById(R.id.sourceDestLayout);
         frmSource = rootView.findViewById(R.id.frmSource);
         frmDest = rootView.findViewById(R.id.frmDest);
-        frmDestination = (FrameLayout) rootView.findViewById(R.id.frmDestination);
-        destination = rootView.findViewById(R.id.destination);
         imgMenu = rootView.findViewById(R.id.imgMenu);
+        redMenu = rootView.findViewById(R.id.redMenu);
         imgSos = rootView.findViewById(R.id.imgSos);
-        imgShareRide = rootView.findViewById(R.id.imgShareRide);
         mapfocus = rootView.findViewById(R.id.mapfocus);
         imgBack = rootView.findViewById(R.id.imgBack);
-        shadowBack = rootView.findViewById(R.id.shadowBack);
-//        tripLine = (View) rootView.findViewById(R.id.trip_line);
-        destinationBorderImg = rootView.findViewById(R.id.dest_border_img);
-        imgNavigate = rootView.findViewById(R.id.imgNavigate);
-        ivNavigation = rootView.findViewById(R.id.ivNavigation);
         txtSelectedAddressSource = rootView.findViewById(R.id.txtSelectedAddressSource);
         ivTopFav = rootView.findViewById(R.id.ivTopFav);
 
 //        <!-- Request to providers-->
 
-//        secondLayoutAlpha = rootView.findViewById(R.id.secondLayoutAlpha);
         lnrRequestProviders = rootView.findViewById(R.id.lnrRequestProviders);
-//        secondLayoutAlpha.setAlpha((float) 0.7);
         rcvServiceTypes = rootView.findViewById(R.id.rcvServiceTypes);
         imgPaymentType = rootView.findViewById(R.id.imgPaymentType);
         lblPaymentType = rootView.findViewById(R.id.lblPaymentType);
@@ -544,32 +448,13 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 //        <!--  Driver and service type Details-->
 
         lnrSearchAnimation = rootView.findViewById(R.id.lnrSearch);
-        lnrProviderPopup = rootView.findViewById(R.id.lnrProviderPopup);
-        lnrPriceBase = rootView.findViewById(R.id.lnrPriceBase);
-        lnrPricekm = rootView.findViewById(R.id.lnrPricekm);
-        lnrPricemin = rootView.findViewById(R.id.lnrPricemin);
-        lnrHidePopup = rootView.findViewById(R.id.lnrHidePopup);
-        imgProviderPopup = rootView.findViewById(R.id.imgProviderPopup);
-
-        lblServiceName = rootView.findViewById(R.id.lblServiceName);
-        lblCapacity = rootView.findViewById(R.id.lblCapacity);
-        lblPriceKm = rootView.findViewById(R.id.lblPriceKm);
-        lblPriceMin = rootView.findViewById(R.id.lblPriceMin);
-        lblCalculationType = rootView.findViewById(R.id.lblCalculationType);
-        lblBasePricePopup = rootView.findViewById(R.id.lblBasePricePopup);
-        lblProviderDesc = rootView.findViewById(R.id.lblProviderDesc);
-
-        btnDonePopup = rootView.findViewById(R.id.btnDonePopup);
-
 
 //         <!--2. Approximate Rate ...-->
-
         lnrApproximate = rootView.findViewById(R.id.lnrApproximate);
-        imgSchedule = rootView.findViewById(R.id.imgSchedule);
         tvPickUpAddres = rootView.findViewById(R.id.tvSourcePoint);
         tvDropAddres = rootView.findViewById(R.id.tvDroppoint);
         layoutSrcDest = rootView.findViewById(R.id.layoutSrcDest);
-        chkWallet = (CheckBox) rootView.findViewById(R.id.chkWallet);
+        chkWallet = rootView.findViewById(R.id.chkWallet);
         lblEta = rootView.findViewById(R.id.lblEta);
         lblDis = rootView.findViewById(R.id.lblDis);
         lblType = rootView.findViewById(R.id.lblType);
@@ -578,61 +463,22 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         surgeDiscount = rootView.findViewById(R.id.surgeDiscount);
         surgeTxt = rootView.findViewById(R.id.surge_txt);
         btnRequestRideConfirm = rootView.findViewById(R.id.btnRequestRideConfirm);
-        lineView = (View) rootView.findViewById(R.id.lineView);
-
-        //Schedule Layout
-        ScheduleLayout = rootView.findViewById(R.id.ScheduleLayout);
-        scheduleDate = rootView.findViewById(R.id.scheduleDate);
-        scheduleTime = rootView.findViewById(R.id.scheduleTime);
-        scheduleBtn = rootView.findViewById(R.id.scheduleBtn);
+        lineView = rootView.findViewById(R.id.lineView);
 
 //         <!--3. Waiting For Providers ...-->
-
-        lnrWaitingForProviders = rootView.findViewById(R.id.lnrWaitingForProviders);
         lblNoMatch = rootView.findViewById(R.id.lblNoMatch);
-        //imgCenter =  rootView.findViewById(R.id.imgCenter);
         btnCancelRide = rootView.findViewById(R.id.btnCancelRide);
-        rippleBackground = (RippleBackground) rootView.findViewById(R.id.content);
-
-//          <!--4. Driver Accepted ...-->
-
-        lnrProviderAccepted = rootView.findViewById(R.id.lnrProviderAccepted);
-        lnrAfterAcceptedStatus = rootView.findViewById(R.id.lnrAfterAcceptedStatus);
-        AfterAcceptButtonLayout = rootView.findViewById(R.id.AfterAcceptButtonLayout);
-        imgProvider = rootView.findViewById(R.id.imgProvider);
-        imgServiceRequested = rootView.findViewById(R.id.imgServiceRequested);
-        lblProvider = rootView.findViewById(R.id.lblProvider);
-        lblStatus = rootView.findViewById(R.id.lblStatus);
-        lblETA = rootView.findViewById(R.id.lblETA);
-        lblSurgePrice = rootView.findViewById(R.id.lblSurgePrice);
-        lblServiceRequested = rootView.findViewById(R.id.lblServiceRequested);
-        lblModelNumber = rootView.findViewById(R.id.lblModelNumber);
-        ratingProvider = rootView.findViewById(R.id.ratingProvider);
-        btnCall = rootView.findViewById(R.id.btnCall);
-        btnCancelTrip = rootView.findViewById(R.id.btnCancelTrip);
-
+        rippleBackground = rootView.findViewById(R.id.content);
 
 //           <!--5. Invoice Layout ...-->
 
-        lnrInvoice = rootView.findViewById(R.id.lnrInvoice);
         lblBasePrice = rootView.findViewById(R.id.lblBasePrice);
         lblExtraPrice = rootView.findViewById(R.id.lblExtraPrice);
         lblDistancePrice = rootView.findViewById(R.id.lblDistancePrice);
-        //lblCommision =  rootView.findViewById(R.id.lblCommision);
         lblTaxPrice = rootView.findViewById(R.id.lblTaxPrice);
         lblTotalPrice = rootView.findViewById(R.id.lblTotalPrice);
         lblPaymentTypeInvoice = rootView.findViewById(R.id.lblPaymentTypeInvoice);
         imgPaymentTypeInvoice = rootView.findViewById(R.id.imgPaymentTypeInvoice);
-        btnPayNow = rootView.findViewById(R.id.btnPayNow);
-
-//          <!--6. Rate provider Layout ...-->
-
-        lnrRateProvider = rootView.findViewById(R.id.lnrRateProvider);
-        lblProviderNameRate = rootView.findViewById(R.id.lblProviderName);
-        imgProviderRate = rootView.findViewById(R.id.imgProviderRate);
-        txtCommentsRate = rootView.findViewById(R.id.txtComments);
-        ratingProviderRate = rootView.findViewById(R.id.ratingProviderRate);
-        btnSubmitReview = rootView.findViewById(R.id.btnSubmitReview);
 
 //            <!--Static marker-->
 
@@ -644,13 +490,11 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         lblCmfrmSourceAddress = rootView.findViewById(R.id.lblCmfrmSourceAddress);
         lblCmfrmDestAddress = rootView.findViewById(R.id.lblCmfrmDestAddress);
-        ;
         ImgConfrmCabType = rootView.findViewById(R.id.ImgConfrmCabType);
         tvZoneMsg = rootView.findViewById(R.id.tvZoneMsg);
-        // serviceItemPrice =  rootView.findViewById(R.id.serviceItemPrice);
 
 
-//        getCards();
+//        getCards
         CardInfo cardInfo = new CardInfo();
         cardInfo.setCardId("CASH");
         cardInfo.setCardType("CASH");
@@ -659,16 +503,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         schedule_ride.setOnClickListener(new OnClick());
         btnRequestRides.setOnClickListener(new OnClick());
-        btnDonePopup.setOnClickListener(new OnClick());
-        lnrHidePopup.setOnClickListener(new OnClick());
         btnRequestRideConfirm.setOnClickListener(new OnClick());
         btnCancelRide.setOnClickListener(new OnClick());
-        btnCancelTrip.setOnClickListener(new OnClick());
-        btnCall.setOnClickListener(new OnClick());
-        btnPayNow.setOnClickListener(new OnClick());
-        btnSubmitReview.setOnClickListener(new OnClick());
         btnDone.setOnClickListener(new OnClick());
-        frmDestination.setOnClickListener(new OnClick());
         sourceDestLayout.setOnClickListener(new OnClick());
         frmDest.setOnClickListener(new OnClick());
         lblPaymentType.setOnClickListener(new OnClick());
@@ -676,31 +513,11 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         frmSource.setOnClickListener(new OnClick());
         imgMenu.setOnClickListener(new OnClick());
         mapfocus.setOnClickListener(new OnClick());
-        imgSchedule.setOnClickListener(new OnClick());
         imgBack.setOnClickListener(new OnClick());
-        scheduleBtn.setOnClickListener(new OnClick());
-        scheduleDate.setOnClickListener(new OnClick());
-        scheduleTime.setOnClickListener(new OnClick());
-        imgProvider.setOnClickListener(new OnClick());
-        imgProviderRate.setOnClickListener(new OnClick());
         imgSos.setOnClickListener(new OnClick());
-        imgShareRide.setOnClickListener(new OnClick());
         lblPromo.setOnClickListener(new OnClick());
         lnrRequestProviders.setOnClickListener(new OnClick());
-        lnrProviderPopup.setOnClickListener(new OnClick());
-        ScheduleLayout.setOnClickListener(new OnClick());
         lnrApproximate.setOnClickListener(new OnClick());
-        lnrProviderAccepted.setOnClickListener(new OnClick());
-        lnrInvoice.setOnClickListener(new OnClick());
-        lnrRateProvider.setOnClickListener(new OnClick());
-        lnrWaitingForProviders.setOnClickListener(new OnClick());
-
-//        ivNavigation.setOnClickListener(view -> {
-//            if ((source_lat != null && source_lng != null) &&
-//                    (dest_lat != null && dest_lng != null)) {
-//                redirectMap(source_lat, source_lng, dest_lat, dest_lng);
-//            }
-//        });
 
         ivTopFav.setOnClickListener(view -> saveAddressDialog());
 
@@ -712,19 +529,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         slide_up = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
         slide_up_top = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up_top);
         slide_up_down = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up_down);
-        imgNavigate.setOnClickListener(v -> {
-            Uri naviUri2 = Uri.parse("http://maps.google.com/maps?"
-                    + "saddr=" + source_lat + "," + source_lng
-                    + "&daddr=" + dest_lat + "," + dest_lng);
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, naviUri2);
-            intent.setClassName("com.google.android.apps.maps",
-                    "com.google.android.maps.MapsActivity");
-            startActivity(intent);
-
-
-        });
-
 
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
@@ -751,9 +555,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             }
                         } else {
 
-
                             exitConfirmation();
-
 
                         }
                     } else if (lnrApproximate.getVisibility() == View.VISIBLE) {
@@ -772,11 +574,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         } catch (Exception e) {
                             Log.e("exption", e.getMessage());
                         }
-                    } else if (lnrWaitingForProviders.getVisibility() == View.VISIBLE) {
-                        sourceDestLayout.setVisibility(View.GONE);
-                        flowValue = 1;
-                    } else if (ScheduleLayout.getVisibility() == View.VISIBLE) {
-                        flowValue = 1;
                     } else {
                         exitConfirmation();
                     }
@@ -796,7 +593,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 if (cardInfo.getLastFour().equals("CASH") && SharedHelper.getKey(context, "last_four").length() > 0) {
                     lblPaymentType.setText("xxxx" + SharedHelper.getKey(context, "last_four"));
                     cardInfo.setLastFour(SharedHelper.getKey(context, "last_four"));
-                }  else if (cardInfo.getLastFour().equals("WALLET") && SharedHelper.getKey(context, "last_four").length() > 0) {
+                } else if (cardInfo.getLastFour().equals("WALLET") && SharedHelper.getKey(context, "last_four").length() > 0) {
                     chkWallet.setChecked(true);
                     lblPaymentType.setText("xxxx" + SharedHelper.getKey(context, "last_four"));
                     cardInfo.setLastFour(SharedHelper.getKey(context, "last_four"));
@@ -833,18 +630,19 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.provider_map);
             Log.d(TAG, "onMapReady");
             mapFragment.getMapAsync(this);
-        }
-        if (mMap != null) {
-            setupMap();
-        }
-        new Handler().postDelayed(() -> getServiceList(), 500);
-        // checkStatus();
 
+            new Handler().postDelayed(() -> getServiceList(), 500);
+        } else {
+            getServiceList();
+        }
+        setupMap();
     }
 
     @SuppressWarnings("MissingPermission")
     void setupMap() {
+
         if (mMap != null) {
+            Log.e("setupMap", "if");
             mMap.getUiSettings().setCompassEnabled(false);
             mMap.setBuildingsEnabled(true);
             mMap.setMyLocationEnabled(false);
@@ -852,10 +650,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             mMap.setOnCameraMoveListener(this);
             mMap.getUiSettings().setRotateGesturesEnabled(false);
             mMap.getUiSettings().setTiltGesturesEnabled(false);
-        } else {
-
-            Toast.makeText(activity, getResources().getString(R.string.no_map), Toast.LENGTH_SHORT).show();
         }
+
+//        else {
+//            Log.e("setupMap","else");
+//            Toast.makeText(activity, getResources().getString(R.string.no_map), Toast.LENGTH_SHORT).show();
+//        }
 
 
     }
@@ -971,21 +771,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
-    public void navigateToShareScreen(String shareUrl) {
-        try {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            String name = SharedHelper.getKey(context, "first_name") + " " + SharedHelper.getKey(context, "last_name");
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "TRANXIT-" + "Mr/Mrs." + name + " would like to share a trip with you at " +
-                    shareUrl + current_lat + "," + current_lng);
-            sendIntent.setType("text/plain");
-            startActivity(sendIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, getResources().getString(R.string.share_app_not_found), Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void showSosPopUp() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1004,7 +789,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
 
     private void showCancelRideDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -1081,43 +865,18 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             utils.hideKeypad(getActivity(), getActivity().getCurrentFocus());
             if (lnrApproximate.getVisibility() == View.VISIBLE) {
                 lnrApproximate.startAnimation(slide_down);
-            } else if (ScheduleLayout.getVisibility() == View.VISIBLE) {
-                ScheduleLayout.startAnimation(slide_down);
-            } else if (lnrProviderPopup.getVisibility() == View.VISIBLE) {
-                lnrProviderPopup.startAnimation(slide_down);
-                lnrSearchAnimation.startAnimation(slide_up_down);
-                lnrSearchAnimation.setVisibility(View.VISIBLE);
-            } else if (lnrInvoice.getVisibility() == View.VISIBLE) {
-                lnrInvoice.startAnimation(slide_down);
-            } else if (lnrRateProvider.getVisibility() == View.VISIBLE) {
-                lnrRateProvider.startAnimation(slide_down);
-            } else if (lnrInvoice.getVisibility() == View.VISIBLE) {
-                lnrInvoice.startAnimation(slide_down);
             }
-            if (lnrWaitingForProviders.getVisibility() == View.VISIBLE) {
-                lnrRequestProviders.setVisibility(View.GONE);
-            } else {
-                lnrRequestProviders.setVisibility(View.GONE);
-            }
-            lnrProviderPopup.setVisibility(View.GONE);
+            lnrRequestProviders.setVisibility(View.GONE);
             lnrApproximate.setVisibility(View.GONE);
-            lnrWaitingForProviders.setVisibility(View.GONE);
-            lnrProviderAccepted.setVisibility(View.GONE);
-            lnrInvoice.setVisibility(View.GONE);
-            lnrRateProvider.setVisibility(View.GONE);
-            ScheduleLayout.setVisibility(View.GONE);
             rtlStaticMarker.setVisibility(View.GONE);
             sourceDestLayout.setVisibility(View.GONE);
             imgMenu.setVisibility(View.GONE);
+            redMenu.setVisibility(View.GONE);
             imgBack.setVisibility(View.GONE);
             layoutSrcDest.setVisibility(View.GONE);
-            shadowBack.setVisibility(View.GONE);
-            txtCommentsRate.setText("");
-            scheduleDate.setText("" + context.getString(R.string.sample_date));
-            scheduleTime.setText("" + context.getString(R.string.sample_time));
             if (flowValue == 0) {
                 if (imgMenu.getVisibility() == View.GONE) {
-
+                    redMenu.setVisibility(View.GONE);
                     lnrRequestProviders.setVisibility(View.VISIBLE);
                     frmSource.setOnClickListener(new OnClick());
                     frmDest.setOnClickListener(new OnClick());
@@ -1132,14 +891,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                 sourceDestLayout.setVisibility(View.VISIBLE);
                 imgMenu.setVisibility(View.VISIBLE);
+                showIf();
                 sourceAndDestinationLayout.setVisibility(View.VISIBLE);
 
             } else if (flowValue == 1) {
                 frmSource.setVisibility(View.VISIBLE);
-                destinationBorderImg.setVisibility(View.GONE);
                 sourceDestLayout.setVisibility(View.GONE);
-
-
                 imgBack.setVisibility(View.VISIBLE);
                 layoutSrcDest.setVisibility(View.GONE);
                 lnrRequestProviders.startAnimation(slide_up);
@@ -1185,58 +942,42 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 lnrRequestProviders.setVisibility(View.GONE);
                 imgBack.setVisibility(View.VISIBLE);
                 layoutSrcDest.setVisibility(View.GONE);
-                lnrWaitingForProviders.setVisibility(View.VISIBLE);
                 sourceDestLayout.setVisibility(View.GONE);
                 //sourceAndDestinationLayout.setVisibility(View.GONE);
             } else if (flowValue == 4) {
                 lnrRequestProviders.setVisibility(View.GONE);
                 imgMenu.setVisibility(View.VISIBLE);
+                showIf();
                 sourceDestLayout.setVisibility(View.GONE);
-                lnrProviderAccepted.startAnimation(slide_up);
 
 
-                lnrProviderAccepted.setVisibility(View.VISIBLE);
             } else if (flowValue == 5) {
                 sourceDestLayout.setVisibility(View.GONE);
                 imgMenu.setVisibility(View.VISIBLE);
-                lnrInvoice.startAnimation(slide_up);
-                lnrInvoice.setVisibility(View.VISIBLE);
+                showIf();
             } else if (flowValue == 6) {
                 imgMenu.setVisibility(View.VISIBLE);
-                lnrRateProvider.startAnimation(slide_up);
-                lnrRateProvider.setVisibility(View.VISIBLE);
+                showIf();
                 sourceDestLayout.setVisibility(View.GONE);
-                LayerDrawable drawable = (LayerDrawable) ratingProviderRate.getProgressDrawable();
-                drawable.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                drawable.getDrawable(1).setColorFilter(Color.parseColor("#FFAB00"), PorterDuff.Mode.SRC_ATOP);
-                drawable.getDrawable(2).setColorFilter(Color.parseColor("#FFAB00"), PorterDuff.Mode.SRC_ATOP);
-                ratingProviderRate.setRating(1.0f);
                 feedBackRating = "1";
-                ratingProviderRate.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
-                    if (rating < 1.0f) {
-                        ratingProviderRate.setRating(1.0f);
-                        feedBackRating = "1";
-                    }
-                    feedBackRating = String.valueOf((int) rating);
-                });
-            } else if (flowValue == 7) {
-                imgBack.setVisibility(View.VISIBLE);
-                layoutSrcDest.setVisibility(View.GONE);
-                ScheduleLayout.startAnimation(slide_up);
-                ScheduleLayout.setVisibility(View.VISIBLE);
-                sourceDestLayout.setVisibility(View.GONE);
-                lnrRequestProviders.setVisibility(View.GONE);
-            } else if (flowValue == 8) {
-                // clear all views
-                shadowBack.setVisibility(View.GONE);
             } else if (flowValue == 9) {
                 sourceDestLayout.setVisibility(View.GONE);
                 rtlStaticMarker.setVisibility(View.VISIBLE);
-                shadowBack.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showIf() {
+        if (redMenu != null)
+            if (existTrip && imgMenu.getVisibility() == View.VISIBLE) {
+                redMenu.setVisibility(View.VISIBLE);
+                MainActivity.redDrawer.setVisibility(View.VISIBLE);
+            } else {
+                redMenu.setVisibility(View.GONE);
+                MainActivity.redDrawer.setVisibility(View.GONE);
+            }
     }
 
     @Override
@@ -1436,14 +1177,16 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case 1:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
                     //Toast.makeText(SignInActivity.this, "PERMISSION_GRANTED", Toast.LENGTH_SHORT).show();
                     MapsInitializer.initialize(getActivity());
                     initMap();
-                } /*else {
-                    showPermissionReqDialog();
-                }*/
+                    Log.e("if_permissions_2", "grant");
+                } else {
+//                    showPermissionReqDialog();
+                    Log.e("else_permissions_2", "not grant");
+                }
                 break;
             case 2:
                 Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -1588,56 +1331,42 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         }
 
                         if (dest_address.equalsIgnoreCase("")) {
-                            flowValue = 1;
+                            Log.e("if_dest_address: ", dest_address);
                             frmSource.setText(source_address);
-                            getValidZone();
-//                            getServiceList();
                         } else {
-                            flowValue = 1;
-
+                            Log.e("else_dest_address: ", dest_address);
                             if (cardInfoArrayList.size() > 0) {
                                 getCardDetailsForPayment(cardInfoArrayList.get(0));
                                 sourceDestLayout.setVisibility(View.GONE);
                             }
-                            getValidZone();
-//                            getServiceList();
                         }
-
+                        flowValue = 1;
+                        getValidZone();
                         layoutChanges();
                     }
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // The user canceled the operation.
             }
-        }
-        if (requestCode == ADD_CARD_CODE) {
+        } else if (requestCode == ADD_CARD_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 boolean result = data.getBooleanExtra("isAdded", false);
                 if (result) {
                     getCards();
                 }
             }
-        }
-        if (requestCode == 0000) {
+        } else if (requestCode == 0000) {
             if (resultCode == Activity.RESULT_OK) {
                 lblPromo.setText(getResources().getString(R.string.promo_code_applied));
                 getServiceList();
             }
-        }
-        if (requestCode == 5555) {
+        } else if (requestCode == 5555) {
             if (resultCode == Activity.RESULT_OK) {
                 CardInfo cardInfo = data.getParcelableExtra("card_info");
                 getCardDetailsForPayment(cardInfo);
             }
-        }
-
-        if (requestCode == 10) {
+        } else if (requestCode == 10) {
             String result = data.getStringExtra("paymentSuccessful");
-        }
-        if (requestCode == REQUEST_LOCATION) {
-
-        } else {
-
         }
     }
 
@@ -1718,6 +1447,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Log.e("coupon_from", "UserMapFragment");
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST,
                 URLHelper.COUPON_VERIFY,
@@ -1952,126 +1683,93 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
 
     public void getServiceList() {
+        try {
+            JSONArray response = new JSONArray("[{\"id\":19,\"name\":\"Economy Mercedes C\\/B Klasse\",\"provider_name\":null,\"image\":\"public\\/uploads\\/mercedes-benz-c-klasse-t-modell-2018-schwarz.png\",\"capacity\":\"4\",\"fixed\":\"2.1\",\"price\":0,\"minute\":0,\"distance\":1,\"calculator\":\"MIN\",\"description\":\"Affordable, rides\",\"status\":0,\"bags\":\"3\"},{\"id\":27,\"name\":\"Mercedes Vito\",\"provider_name\":null,\"image\":\"public\\/uploads\\/vw-touran@2x.ac9bb5a8.png\",\"capacity\":\"8\",\"fixed\":\"7.1\",\"price\":0,\"minute\":0,\"distance\":1,\"calculator\":\"MIN\",\"description\":\"xl 8 person\",\"status\":0,\"bags\":\"5\"},{\"id\":32,\"name\":\"Mercedes V-Klasse\",\"provider_name\":null,\"image\":\"public\\/uploads\\/mb_v-klasse-1.png\",\"capacity\":\"7\",\"fixed\":\"17\",\"price\":0,\"minute\":0,\"distance\":1,\"calculator\":\"MIN\",\"description\":\"vip \",\"status\":0,\"bags\":\"7\"}]");
+            currentPostion = 0;
+            Log.e("ServiceListAdapter1", "from here");
+            getESTIMATED_FARE_ALL_API("19", response);
+            getProvidersList(SharedHelper.getKey(context, "service_type"));
+            if (mMap != null)
+                mMap.clear();
+            setValuesForSourceAndDestination();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        customDialog.setCancelable(false);
-
-        if (customDialog != null)
-            customDialog.show();
-
-        JsonArrayRequest jsonArrayRequest = new
-                JsonArrayRequest(URLHelper.GET_SERVICE_LIST_API,
-                        response -> {
-                            utils.print("GetServices", response.toString());
-                            customDialog.dismiss();
-                            customDialog.cancel();
-                            /*if (SharedHelper.getKey(context, "service_type")
-                                    .equalsIgnoreCase("")) {
-                                SharedHelper.putKey(context, "service_type", "" +
-                                        response.optJSONObject(0).optString("id"));
-                            }*/
-                            if ((customDialog != null) && (customDialog.isShowing()))
-                                customDialog.dismiss();
-                            if (response.length() > 0) {
-                                currentPostion = 0;
-                                Log.e("ServiceListAdapter1", "from here");
-//                                ServiceListAdapter serviceListAdapter = new ServiceListAdapter(response);
-//                                rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
-//                                        LinearLayoutManager.VERTICAL, false));
-//                                rcvServiceTypes.setAdapter(serviceListAdapter);
-
-                                getESTIMATED_FARE_ALL_API("19", response);
-                                getProvidersList(SharedHelper.getKey(context, "service_type"));
-                            } else {
-                                // utils.displayMessage(getView(), getString(R.string.no_service));
-                            }
-                            mMap.clear();
-//                            ivNavigation.setVisibility(View.VISIBLE);
-                            setValuesForSourceAndDestination();
-                        }, error -> {
-
-                    String json = null;
-                    String Message;
-                    NetworkResponse response = error.networkResponse;
-                    if (response != null && response.data != null) {
-                        if ((customDialog != null) && (customDialog.isShowing()))
-                            customDialog.dismiss();
-                        try {
-                            JSONObject errorObj = new JSONObject(new String(response.data));
-
-                            if (response.statusCode == 400 ||
-                                    response.statusCode == 405 ||
-                                    response.statusCode == 500) {
-                                try {
-                                    // utils.displayMessage(getView(), errorObj.optString("message"));
-                                } catch (Exception e) {
-                                    //utils.displayMessage(getView(), getString(R.string.something_went_wrong));
-                                }
-//                                flowValue = 1;
-//                                layoutChanges();
-                            } else if (response.statusCode == 401) {
-                                refreshAccessToken("SERVICE_LIST");
-                            } else if (response.statusCode == 422) {
-
-                                json = trimMessage(new String(response.data));
-                                if (json != "" && json != null) {
-                                    //  utils.displayMessage(getView(), json);
-                                } else {
-                                    // utils.displayMessage(getView(), getString(R.string.please_try_again));
-                                }
-//                                flowValue = 1;
-//                                layoutChanges();
-                            } else if (response.statusCode == 503) {
-                                // utils.displayMessage(getView(), getString(R.string.server_down));
-//                                flowValue = 1;
-//                                layoutChanges();
-                            } else {
-                                //utils.displayMessage(getView(), getString(R.string.please_try_again));
-//                                flowValue = 1;
-//                                layoutChanges();
-                            }
-
-                        } catch (Exception e) {
-                            utils.displayMessage(getView(), getString(R.string.something_went_wrong));
-//                            flowValue = 1;
-//                            layoutChanges();
-                        }
-
-                    } else {
-                        try {
-                            Log.i(TAG, "getServiceList: " + "else");
-                            if (error instanceof NoConnectionError) {
-                                if ((customDialog != null) && (customDialog.isShowing()))
-                                    customDialog.dismiss();
-                                displayMessage(getString(R.string.oops_connect_your_internet));
-                            } else if (error instanceof NetworkError) {
-                                if ((customDialog != null) && (customDialog.isShowing()))
-                                    customDialog.dismiss();
-                                displayMessage(getString(R.string.oops_connect_your_internet));
-                            } else if (error instanceof TimeoutError) {
-                                getServiceList();
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        // utils.displayMessage(getView(), getString(R.string.please_try_again));
-//                        flowValue = 1;
-//                        layoutChanges();
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("X-Requested-With", "XMLHttpRequest");
-                        headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " "
-                                + SharedHelper.getKey(context, "access_token"));
-                        return headers;
-                    }
-                };
-
-        IlyftApplication.getInstance().addToRequestQueue(jsonArrayRequest);
-
-        Log.i(TAG, "getServiceList: " + jsonArrayRequest.getUrl());
+//        customDialog.setCancelable(false);
+//
+//        if (customDialog != null)
+//            customDialog.show();
+//
+//        JsonArrayRequest jsonArrayRequest = new
+//                JsonArrayRequest(URLHelper.GET_SERVICE_LIST_API,
+//                        response -> {
+//                            utils.print("GetServices", response.toString());
+//
+//                            if ((customDialog != null) && (customDialog.isShowing()))
+//                                customDialog.dismiss();
+//                            if (response.length() > 0) {
+//                                currentPostion = 0;
+//                                Log.e("ServiceListAdapter1", "from here");
+//
+//                                getESTIMATED_FARE_ALL_API("19", response);
+//                                getProvidersList(SharedHelper.getKey(context, "service_type"));
+//                            }
+//                            if (mMap != null)
+//                                mMap.clear();
+//                            setValuesForSourceAndDestination();
+//                        }, error -> {
+//
+//                    String json = null;
+//                    String Message;
+//                    NetworkResponse response = error.networkResponse;
+//                    if (response != null && response.data != null) {
+//                        if ((customDialog != null) && (customDialog.isShowing()))
+//                            customDialog.dismiss();
+//                        try {
+//
+//                            if (response.statusCode == 401) {
+//                                refreshAccessToken("SERVICE_LIST");
+//                            }
+//
+//                        } catch (Exception e) {
+//                            utils.displayMessage(getView(), getString(R.string.something_went_wrong));
+//                        }
+//
+//                    } else {
+//                        try {
+//                            Log.i(TAG, "getServiceList: " + "else");
+//                            if (error instanceof NoConnectionError) {
+//                                if ((customDialog != null) && (customDialog.isShowing()))
+//                                    customDialog.dismiss();
+//                                displayMessage(getString(R.string.oops_connect_your_internet));
+//                            } else if (error instanceof NetworkError) {
+//                                if ((customDialog != null) && (customDialog.isShowing()))
+//                                    customDialog.dismiss();
+//                                displayMessage(getString(R.string.oops_connect_your_internet));
+//                            } else if (error instanceof TimeoutError) {
+//                                getServiceList();
+//                            }
+//
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                }) {
+//                    @Override
+//                    public Map<String, String> getHeaders() throws AuthFailureError {
+//                        HashMap<String, String> headers = new HashMap<String, String>();
+//                        headers.put("X-Requested-With", "XMLHttpRequest");
+//                        headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " "
+//                                + SharedHelper.getKey(context, "access_token"));
+//                        return headers;
+//                    }
+//                };
+//
+//        IlyftApplication.getInstance().addToRequestQueue(jsonArrayRequest);
+//
+//        Log.i(TAG, "getServiceList: " + jsonArrayRequest.getUrl());
     }
 
     public void getApproximateFare() {
@@ -2258,22 +1956,22 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
     void getProvidersList(String strTag) {
-        String providers_request = URLHelper.GET_PROVIDERS_LIST_API + "?" +
-                "latitude=" + current_lat +
-                "&longitude=" + current_lng +
-                "&service=" + strTag;
-        utils.print("Get all providers", "" + providers_request);
-        utils.print("service_type", "" + SharedHelper.getKey(context, "service_type"));
 
-        for (int i = 0; i < lstProviderMarkers.size(); i++) {
-            lstProviderMarkers.get(i).remove();
-        }
+        if (current_lat.length() > 0) {
+            String providers_request = URLHelper.GET_PROVIDERS_LIST_API + "?" +
+                    "latitude=" + current_lat +
+                    "&longitude=" + current_lng +
+                    "&service=" + strTag;
+            utils.print("Get all providers", "" + providers_request);
+            utils.print("service_type", "" + SharedHelper.getKey(context, "service_type"));
 
-        JsonArrayRequest jsonArrayRequest = new
-                JsonArrayRequest(providers_request,
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
+            for (int i = 0; i < lstProviderMarkers.size(); i++) {
+                lstProviderMarkers.get(i).remove();
+            }
+
+            JsonArrayRequest jsonArrayRequest = new
+                    JsonArrayRequest(providers_request,
+                            response -> {
                                 utils.print("GetProvidersList", response.toString());
                                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                                 for (int i = 0; i < response.length(); i++) {
@@ -2295,7 +1993,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                                     .rotation(rotation)
                                                     .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_provider_marker_icon));
 
-//                        availableProviders = mMap.addMarker(markerOptions);
                                             lstProviderMarkers.add(mMap.addMarker(markerOptions));
 
                                             builder.include(new LatLng(proLat, proLng));
@@ -2306,74 +2003,65 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                     }
                                 }
 
-                                //CameraUpdate cu = null;
-                                //LatLngBounds bounds = builder.build();
-
-//                cu = CameraUpdateFactory.newLatLngBounds(bounds, mapLayout.getWidth(), mapLayout.getWidth(), context.getResources()
-//                        .getDimensionPixelSize(R.dimen._50sdp));
-//                mMap.moveCamera(cu);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 //                customDialog.dismiss();
-                        String json = null;
-                        String Message;
-                        NetworkResponse response = error.networkResponse;
-                        if (response != null && response.data != null) {
+                            String json = null;
+                            String Message;
+                            NetworkResponse response = error.networkResponse;
+                            if (response != null && response.data != null) {
 
-                            try {
-                                JSONObject errorObj = new JSONObject(new String(response.data));
+                                try {
+                                    JSONObject errorObj = new JSONObject(new String(response.data));
 
-                                if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                                    try {
+                                    if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
+                                        try {
 //                                utils.showAlert(context, errorObj.optString("message"));
-                                    } catch (Exception e) {
+                                        } catch (Exception e) {
 //                                utils.showAlert(context, getString(R.string.something_went_wrong));
 
-                                    }
+                                        }
 
-                                } else if (response.statusCode == 401) {
-                                    refreshAccessToken("PROVIDERS_LIST");
-                                } else if (response.statusCode == 422) {
-                                    json = trimMessage(new String(response.data));
-                                    if (json != "" && json != null) {
+                                    } else if (response.statusCode == 401) {
+                                        refreshAccessToken("PROVIDERS_LIST");
+                                    } else if (response.statusCode == 422) {
+                                        json = trimMessage(new String(response.data));
+                                        if (json != "" && json != null) {
 //                                utils.showAlert(context, json);
-                                    } else {
+                                        } else {
 //                                utils.showAlert(context, context.getString(R.string.please_try_again));
+                                        }
+                                    } else if (response.statusCode == 503) {
+//                            utils.showAlert(context, context.getString(R.string.please_try_again));
+                                    } else {
+//                            utils.showAlert(context, context.getString(R.string.please_try_again));
                                     }
-                                } else if (response.statusCode == 503) {
-//                            utils.showAlert(context, context.getString(R.string.please_try_again));
-                                } else {
-//                            utils.showAlert(context, context.getString(R.string.please_try_again));
-                                }
 
-                            } catch (Exception e) {
+                                } catch (Exception e) {
 //                        utils.showAlert(context, context.getString(R.string.something_went_wrong));
 
-                            }
+                                }
 
-                        } else {
+                            } else {
 //                    utils.showAlert(context, context.getString(R.string.no_drivers_found));
+                            }
                         }
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("X-Requested-With", "XMLHttpRequest");
-                        headers.put("Authorization", "Bearer " + SharedHelper.getKey(context, "access_token"));
-                        return headers;
-                    }
-                };
+                    }) {
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("X-Requested-With", "XMLHttpRequest");
+                            headers.put("Authorization", "Bearer " + SharedHelper.getKey(context, "access_token"));
+                            return headers;
+                        }
+                    };
 
-        IlyftApplication.getInstance().addToRequestQueue(jsonArrayRequest);
-
+            IlyftApplication.getInstance().addToRequestQueue(jsonArrayRequest);
+        }
     }
 
     public void sendRequest() {
-
-
         customDialog.setCancelable(false);
         if (customDialog != null)
             customDialog.show();
@@ -2392,7 +2080,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             object.put("schedule_date", scheduledDate);
             object.put("schedule_time", scheduledTime);
 
-
             chkWallet.setChecked(false);
 
             if (SharedHelper.getKey(context, "payment_mode").equals("WALLET")) {
@@ -2402,7 +2089,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             } else {
                 chkWallet.setChecked(false);
                 object.put("use_wallet", 0);
-
                 if (SharedHelper.getKey(context, "payment_mode").equals("CASH")) {
                     object.put("payment_mode", SharedHelper.getKey(context, "payment_mode"));
                 } else {
@@ -2449,14 +2135,14 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                         scheduleTrip = true;
                                     else
                                         scheduleTrip = false;
-                                    // flowValue = 3;
-                                    //layoutChanges();
+
                                     flowValue = 0;
                                     layoutChanges();
 
                                     Intent intent = new Intent(getActivity(), TrackActivity.class);
                                     intent.putExtra("flowValue", 3);
                                     startActivity(intent);
+                                    activity.finish();
                                 }
                             }
                         }, error -> {
@@ -2504,7 +2190,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         HashMap<String, String> headers = new HashMap<String, String>();
                         headers.put("X-Requested-With", "XMLHttpRequest");
-                        headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
+                        headers.put("Authorization", SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
+                        Log.e("headers", headers.toString());
                         return headers;
                     }
                 };
@@ -2618,11 +2305,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             /***************************************CHANGES HERE TO HIDE SOURCE ADDRESS AND DESTINATION ADDRESS TEXTVIEW***********************************************/
 
             if (!dest_lat.equalsIgnoreCase("")) {
-                destination.setText(dest_address);
-//                frmDestination.setVisibility(View.GONE);
-//                sourceDestLayout.setVisibility(View.VISIBLE);
                 frmDest.setText(dest_address);
-
             }
 
             /***************************************CHANGES HERE TO HIDE SOURCE ADDRESS AND DESTINATION ADDRESS TEXTVIEW***********************************************/
@@ -2683,10 +2366,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                 cancelRequest();
                             } else if (tag.equalsIgnoreCase("PROVIDERS_LIST")) {
                                 getProvidersList("");
-                            } else if (tag.equalsIgnoreCase("SUBMIT_REVIEW")) {
-                                submitReviewCall();
-                            } else if (tag.equalsIgnoreCase("PAY_NOW")) {
-                                payNow();
                             }
                         }, error -> {
                     String json = "";
@@ -2736,11 +2415,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             imgPaymentType.setImageResource(R.mipmap.ic_launcher_round);
             lblPaymentType.setText("xxxx" + cardInfo.getLastFour());
         }
-    }
-
-    public void payNow() {
-        Log.d(TAG, "payNow: " + lblTotalPrice.getText().toString());
-        confirmFinalPayment(lblTotalPrice.getText().toString());
     }
 
     private void mapClear() {
@@ -2830,24 +2504,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         animator.start();
     }
 
-    public float getBearing(LatLng oldPosition, LatLng newPosition) {
-        double deltaLongitude = newPosition.longitude - oldPosition.longitude;
-        double deltaLatitude = newPosition.latitude - oldPosition.latitude;
-        double angle = (Math.PI * .5f) - Math.atan(deltaLatitude / deltaLongitude);
-
-        if (deltaLongitude > 0) {
-            return (float) angle;
-        } else if (deltaLongitude < 0) {
-            return (float) (angle + Math.PI);
-        } else if (deltaLatitude < 0) {
-            return (float) Math.PI;
-        }
-
-        return 0.0f;
-    }
-
     public void statusCheck() {
-        final LocationManager manager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        final LocationManager manager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             enableLoc();
@@ -2905,97 +2563,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     }
 
-    public void submitReviewCall() {
-
-        customDialog.setCancelable(false);
-        if (customDialog != null)
-            customDialog.show();
-
-        JSONObject object = new JSONObject();
-        try {
-            object.put("request_id", SharedHelper.getKey(context, "request_id"));
-            object.put("rating", feedBackRating);
-            object.put("comment", "" + txtCommentsRate.getText().toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.e("rate", object.toString());
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URLHelper.RATE_PROVIDER_API, object, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                utils.print("SubmitRequestResponse", response.toString());
-                utils.hideKeypad(context, activity.getCurrentFocus());
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
-//                destination.setText("");
-//                frmDest.setText("");
-                mapClear();
-                flowValue = 0;
-                getProvidersList("");
-                layoutChanges();
-                if (!current_lat.equalsIgnoreCase("") && !current_lng.equalsIgnoreCase("")) {
-                    LatLng myLocation = new LatLng(Double.parseDouble(current_lat), Double.parseDouble(current_lng));
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
-                    mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
-                String json = null;
-                String Message;
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
-
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
-
-                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                            try {
-                                utils.displayMessage(getView(), errorObj.optString("message"));
-                            } catch (Exception e) {
-                                utils.displayMessage(getView(), getString(R.string.something_went_wrong));
-                            }
-
-                        } else if (response.statusCode == 401) {
-                            refreshAccessToken("SUBMIT_REVIEW");
-                        } else if (response.statusCode == 422) {
-
-                            json = trimMessage(new String(response.data));
-                            if (json != "" && json != null) {
-                                utils.displayMessage(getView(), json);
-                            } else {
-                                utils.displayMessage(getView(), getString(R.string.please_try_again));
-                            }
-                        } else if (response.statusCode == 503) {
-                            utils.displayMessage(getView(), getString(R.string.server_down));
-                        } else {
-                            utils.displayMessage(getView(), getString(R.string.please_try_again));
-                        }
-
-                    } catch (Exception e) {
-                        utils.displayMessage(getView(), getString(R.string.something_went_wrong));
-                    }
-
-                } else {
-                    utils.displayMessage(getView(), getString(R.string.please_try_again));
-                }
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-                return headers;
-            }
-        };
-
-        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-    }
 
     String constructedURLOld = "";
     JSONObject responseSameOld;
@@ -3013,20 +2580,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     + "&d_latitude=" + dest_lat
                     + "&d_longitude=" + dest_lng;
 
-
-//            Log.e("ESTIMATED_FARE_check", constructedURLOld.length() + " / " + constructedURLOld.equals(constructedURL) + " " + responseSameOld);
-//            Log.e("ESTIMATED_FARE_check", constructedURLOld);
-//            Log.e("ESTIMATED_FARE_check", constructedURL);
-
-
             if (constructedURLOld.length() > 0 && constructedURLOld.equals(constructedURL) && responseSameOld != null) { // same
                 Log.e("ESTIMATED_FARE2", "same");
                 try {
                     SharedHelper.putKey(context, "distance", responseSameOld.optString("distance"));
                     SharedHelper.putKey(context, "eta_time", " " + responseSameOld.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
                     SharedHelper.putKey(context, "currency", responseSameOld.optString("currency"));
-
-//                                                SharedHelper.putKey(context, "estimated_fare", "25.5");
 
                     SharedHelper.putKey(context, "estimated_fare_19", responseSameOld.getJSONObject("19").optString("fare_price"));
                     SharedHelper.putKey(context, "estimated_fare_27", responseSameOld.getJSONObject("27").optString("fare_price"));
@@ -3066,94 +2625,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else { // new
-
-//                constructedURLOld = constructedURL;
-//                Log.e("ESTIMATED_FARE2", constructedURL);
-////            System.out.println("getNewApproximateFare getNewApproximateFare " + constructedURL);
-//                JSONObject object = new JSONObject();
-//                JsonObjectRequest jsonObjectRequest = new
-//                        JsonObjectRequest(Request.Method.GET,
-//                                constructedURL + "&service_type=" + service_type1,
-//                                object,
-//                                new Response.Listener<JSONObject>() {
-//                                    @Override
-//                                    public void onResponse(JSONObject response) {
-//                                        if (response != null) {
-//                                            if (!response.optString("time").equalsIgnoreCase("")) {
-//                                                try {
-//
-//                                                    GlobalDataMethods.lastConstructedURLSuccess = constructedURL;
-//
-//
-//                                                    responseSameOld = response;
-//
-//                                                    utils.print("NewApproximateResponse", response.toString());
-//
-//                                                    SharedHelper.putKey(context, "distance", response.optString("distance"));
-//                                                    SharedHelper.putKey(context, "eta_time", " " + response.optString("time").replace("mins", "Min ").replace("hours", "Stunden").replace("hour", "Stunden"));
-//                                                    SharedHelper.putKey(context, "currency", response.optString("currency"));
-//
-////                                                SharedHelper.putKey(context, "estimated_fare", "25.5");
-//
-//                                                    SharedHelper.putKey(context, "estimated_fare_19", response.getJSONObject("19").optString("fare_price"));
-//                                                    SharedHelper.putKey(context, "estimated_fare_27", response.getJSONObject("27").optString("fare_price"));
-//                                                    SharedHelper.putKey(context, "estimated_fare_32", response.getJSONObject("32").optString("fare_price"));
-//
-//                                                    switch (service_type1) {
-//                                                        case "19":
-//                                                            SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("19").optString("fare_price"));
-//                                                            break;
-//                                                        case "27":
-//                                                            SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("27").optString("fare_price"));
-//                                                            break;
-//                                                        case "32":
-//                                                            SharedHelper.putKey(context, "estimated_fare", response.getJSONObject("32").optString("fare_price"));
-//                                                            break;
-//                                                    }
-//                                                    view.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
-//                                                    if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
-//                                                        view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//
-//                                                        double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
-//                                                                - (GlobalDataMethods.coupon_discount_str);
-//
-//                                                        if (discount < 0) {
-//                                                            discount = 0;
-//                                                        }
-//                                                        serviceItemPriceCoupon.setText(SharedHelper.getKey(context, "currency") + "" +
-//                                                                String.format(Locale.ENGLISH, "%.2f", discount));
-//                                                    } else {
-//                                                        view.setPaintFlags(view.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-//                                                        serviceItemPriceCoupon.setText("");
-//
-//                                                    }
-//
-//                                                } catch (Exception e) {
-//                                                    e.printStackTrace();
-//                                                }
-//                                            }
-//                                        }
-//
-//                                    }
-//                                }, new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                if ((customDialog != null) && (customDialog.isShowing()))
-//                                    customDialog.dismiss();
-//                            }
-//                        }) {
-//                            @Override
-//                            public Map<String, String> getHeaders() throws AuthFailureError {
-//                                HashMap<String, String> headers = new HashMap<String, String>();
-//                                headers.put("X-Requested-With", "XMLHttpRequest");
-//                                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-////                            Log.i(TAG, "getHeaders param : " + headers.toString());
-//                                return headers;
-//                            }
-//                        };
-//
-//                IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
             }
         }
     }
@@ -3221,24 +2692,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                                 rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
                                                         LinearLayoutManager.VERTICAL, false));
                                                 rcvServiceTypes.setAdapter(serviceListAdapter);
-                                                getProvidersList(SharedHelper.getKey(context, "service_type"));
-//                                            view.setText(SharedHelper.getKey(context, "currency") + "" + SharedHelper.getKey(context, "estimated_fare"));
-//                                            if (coupon_gd_str != null && !coupon_gd_str.equals("") && coupon_gd_str.length() > 0) {
-//                                                view.setPaintFlags(view.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//
-//                                                double discount = Double.parseDouble(SharedHelper.getKey(context, "estimated_fare"))
-//                                                        - (GlobalDataMethods.coupon_discount_str);
-//
-//                                                if (discount < 0) {
-//                                                    discount = 0;
-//                                                }
-//                                                serviceItemPriceCoupon.setText(SharedHelper.getKey(context, "currency") + "" +
-//                                                        String.format(Locale.ENGLISH, "%.2f", discount));
-//                                            } else {
-//                                                view.setPaintFlags(view.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-//                                                serviceItemPriceCoupon.setText("");
-//
-//                                            }
+//                                                getProvidersList(SharedHelper.getKey(context, "service_type"));
+
 
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -3271,7 +2726,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
                     LinearLayoutManager.VERTICAL, false));
             rcvServiceTypes.setAdapter(serviceListAdapter);
-            getProvidersList(SharedHelper.getKey(context, "service_type"));
+//            getProvidersList(SharedHelper.getKey(context, "service_type"));
         }
     }
 
@@ -3285,14 +2740,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    private void startAnim(ArrayList<LatLng> routeList) {
-        if (mMap != null && routeList.size() > 1) {
-            MapAnimator.getInstance().animateRoute(mMap, routeList);
-        } else {
-            Toast.makeText(context, getResources().getString(R.string.map_not_ready), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -3316,8 +2763,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setInterval(3 * 1000); // time seconds
+        mLocationRequest.setFastestInterval(3 * 1000);//
+        mLocationRequest.setSmallestDisplacement(3f);// low changes 3 meters
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -3376,78 +2824,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         return data;
     }
 
-    private View getInfoWindow(String distance, String duration, boolean isMyLocation) {
-        View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents,
-                (FrameLayout) getActivity().findViewById(R.id.provider_map), false);
-        TextView tv_desc = infoWindow.findViewById(R.id.tv_desc);
-        LinearLayout info_window_time = infoWindow.findViewById(R.id.info_window_time);
-        TextView tv_distance = infoWindow.findViewById(R.id.tv_distance);
-        TextView tv_title = infoWindow.findViewById(R.id.tv_title);
-        TextView tv_duration = infoWindow.findViewById(R.id.tv_duration);
-        ImageView imgNavigate = infoWindow.findViewById(R.id.imgNavigate);
-
-        //  ImageView imageView =  infoWindow.findViewById(R.id.iv_scheduled_ride);
-        // distance = distance.toUpperCase();
-
-
-        if (isMyLocation) {
-
-            info_window_time.setVisibility(View.VISIBLE);
-            tv_title.setVisibility(View.VISIBLE);
-            tv_duration.setText(duration);
-            //   imageView.setImageResource(R.drawable.amu_bubble_mask);
-            tv_distance.setText(distance);
-            tv_title.setText(getResources().getString(R.string.my_location));
-            tv_desc.setText(pickUpLocationName);
-            tv_desc.setMaxLines(1);
-        } else {
-            tvDropAddres.setText(dropLocationName);
-            tv_desc.setMaxLines(2);
-            tv_desc.setText(dropLocationName);
-            info_window_time.setVisibility(View.GONE);
-            tv_title.setVisibility(View.GONE);
-        }
-        return infoWindow;
-    }
-
-    private void addIcon(View infoWindow, boolean isMyLocation,
-                         LatLng pickUpCoordinates, LatLng dropCoordinates) {
-        IconGenerator iconFactory = new IconGenerator(context);
-        iconFactory.setContentView(infoWindow);
-        iconFactory.setBackground(new RoundCornerDrawable());
-        Bitmap icon = iconFactory.makeIcon();
-        MarkerOptions markerOptions;
-        if (isMyLocation) {
-            markerOptions = new MarkerOptions().
-                    icon(BitmapDescriptorFactory.fromBitmap(icon)).
-                    position(pickUpCoordinates);
-            Marker sourceMarker = mMap.addMarker(markerOptions);
-            sourceMarker.setFlat(true);
-
-            // sourceMarkerID = sourceMarker.getId();
-            if (pickUpCoordinates.latitude > dropCoordinates.latitude &&
-                    pickUpCoordinates.longitude > dropCoordinates.longitude) {
-                sourceMarker.setAnchor(1.0f, 1.0f);
-            } else {
-                sourceMarker.setAnchor(0.0f, 0.0f);
-            }
-        } else {
-            markerOptions = new MarkerOptions().
-                    icon(BitmapDescriptorFactory.fromBitmap(icon)).
-                    position(dropCoordinates);
-            Marker destinationMarker = mMap.addMarker(markerOptions);
-            destinationMarker.setFlat(true);
-            // destinationMarkerID = destinationMarker.getId();
-            if (pickUpCoordinates.latitude > dropCoordinates.latitude &&
-                    pickUpCoordinates.longitude > dropCoordinates.longitude) {
-                destinationMarker.setAnchor(0.0f, 0.0f);
-            } else {
-                destinationMarker.setAnchor(1.0f, 1.0f);
-            }
-        }
-
-    }
-
     private String getUrl(double source_latitude, double source_longitude,
                           double dest_latitude, double dest_longitude) {
 
@@ -3475,14 +2851,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         return url;
     }
 
-    public void redirectMap(String lat1, String lng1, String lat2, String lng2) {
-//        String urls="http://maps.google.com/maps?saddr="+lat1+","+lng1+"&daddr="+lat2+","+lng2;
-        String urls = "http://maps.google.com/maps?saddr=" + source_address + "&daddr=" + dest_address;
-        Log.e("urls", urls + "urls");
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse(urls));
-        startActivity(intent);
-    }
 
     boolean foreground = false;
 
@@ -3501,23 +2869,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public void onResume() {
         foreground = true;
 
-        if (mGoogleApiClient != null)
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
-
-
-//        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
-//        } else if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
-//            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyFilepath);
-//
-//            mGoogleApiClient = new GoogleApiClient.Builder(context)
-//                    .addConnectionCallbacks(this)
-//                    .addOnConnectionFailedListener(this)
-//                    .addApi(LocationServices.API)
-//                    .build();
-//
-//        }
-
+        try {
+            if (mGoogleApiClient != null)
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this::onLocationChanged);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Log.e("lifcycle1", "onResume");
         super.onResume();
@@ -3539,11 +2896,65 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         }
 
         getPastTripRate();
+        getRunningTripList();
+    }
+
+    boolean existTrip = false;
+
+    private void getRunningTripList() {
+
+        JsonArrayRequest jsonArrayRequest = new
+                JsonArrayRequest(URLHelper.CURRENT_TRIP,
+                        response -> {
+                            utils.print("getOnGoingTrip", response.toString());
+                            if (response != null && response.length() > 0) {
+                                existTrip = true;
+                                showIf();
+                                Intent intent = new Intent(context, TrackActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                Log.e("Intent", "" + response.toString());
+                                intent.putExtra("post_value", response.toString());
+                                intent.putExtra("tag", "past_trips");
+                                startActivity(intent);
+                                activity.finish();
+                            } else {
+                                existTrip = false;
+                                showIf();
+                            }
+                        }, error -> {
+                    existTrip = false;
+                    NetworkResponse response = error.networkResponse;
+                    if (response != null && response.data != null) {
+                    } else {
+
+                        if (error instanceof NoConnectionError) {
+                            displayMessage(getString(R.string.oops_connect_your_internet));
+                        } else if (error instanceof NetworkError) {
+                            displayMessage(getString(R.string.oops_connect_your_internet));
+                        } else if (error instanceof TimeoutError) {
+                            getRunningTripList();
+                        }
+
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("X-Requested-With", "XMLHttpRequest");
+                        headers.put("Authorization", "" + SharedHelper.getKey(context,
+                                "token_type") + " " + SharedHelper.getKey(context,
+                                "access_token"));
+                        return headers;
+                    }
+                };
+
+        IlyftApplication.getInstance().addToRequestQueue(jsonArrayRequest);
     }
 
     String requestWith = "XMLHttpRequest";
 
     void getPastTripRate() {
+        Log.e("Method", "getPastTripRate");
 
         String auth = "Bearer " + SharedHelper.getKey(context, "access_token");
         getUserRateCall = restInterface.getUserRate(requestWith, auth);
@@ -3567,11 +2978,10 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     if (response.body().getUser_rated() != null)
                         Log.e("2225", response.body().getUser_rated() + "");
 
-
 //                    Log.e("2225", response.code() + " " + response.message() + " getPaid: " + response.body().getPaid() + " getRequest_id: " + response.body().getRequest_id() + " getUser_rated: " + response.body().getUser_rated());
                 } catch (Exception e) {
                     Log.e(UserMapFragment.class.getName(), e.getMessage());
-//                    e.printStackTrace();
+                    e.printStackTrace();
 
                 }
                 if (response.code() == 200) {
@@ -3594,17 +3004,39 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     }
 
     Dialog userRateDialog;
+    Dialog updateDialog;
+
+    void showUpdateDialog() {
+        updateDialog = new Dialog(getActivity());
+        updateDialog.setContentView(R.layout.update_layout);
+        updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        ImageView imCross = updateDialog.findViewById(R.id.imCross);
+        imCross.setVisibility(View.VISIBLE);
+        imCross.setOnClickListener(view -> updateDialog.dismiss());
+
+        TextView tv_update = updateDialog.findViewById(R.id.tv_update);
+        tv_update.setOnClickListener(view -> {
+            final String appPackageName = context.getPackageName(); // getPackageName() from Context or Activity object
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+        });
+
+
+        updateDialog.show();
+    }
 
     void showTripRateDialog(String requestId, String proName, String proImage) {
-        userRateDialog = new Dialog(getActivity());
+        Log.e("Method", "showTripRateDialog");
+        userRateDialog = new Dialog(context);
         userRateDialog.setContentView(R.layout.user_rate_dailog);
 
         CircleImageView ivProviderImg;
-        TextView tvProviderName, btnRate, tvSkip;
+        TextView tvProviderName, btnRate;
         RatingBar rbProvider;
         EditText etComment;
-
-        TextView oneTrink, secondTrink, threedTrink, fiveTrink, zeroTrink;
 
 
         userRateDialog.show();
@@ -3613,27 +3045,18 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         ivProviderImg = userRateDialog.findViewById(R.id.ivProviderImg);
         tvProviderName = userRateDialog.findViewById(R.id.tvProviderName);
         btnRate = userRateDialog.findViewById(R.id.btnRate);
-        tvSkip = userRateDialog.findViewById(R.id.tvSkip);
         rbProvider = userRateDialog.findViewById(R.id.rbProvider);
         etComment = userRateDialog.findViewById(R.id.etComment);
 
-        oneTrink = userRateDialog.findViewById(R.id.oneTrink);
-        secondTrink = userRateDialog.findViewById(R.id.secondTrink);
-        threedTrink = userRateDialog.findViewById(R.id.threedTrink);
-        fiveTrink = userRateDialog.findViewById(R.id.fiveTrink);
-        zeroTrink = userRateDialog.findViewById(R.id.zeroTrink);
-
-        TextView[] textViewArray = {oneTrink, secondTrink, threedTrink, fiveTrink, zeroTrink};
-
         rbProvider.setRating(Float.parseFloat("5"));
 
-        if (proImage != null) {
+        if (!proImage.equalsIgnoreCase("null")) {
             Picasso.get().load(URLHelper.image_url_signature + proImage).error(R.drawable.ic_dummy_user).placeholder(R.drawable.ic_dummy_user)
                     .resize(100, 100)
                     .into(ivProviderImg);
         }
 
-        tvProviderName.setText(getResources().getString(R.string.rate_your_trip_with) + " " + proName);
+        tvProviderName.setText(context.getString(R.string.rate_your_trip_with) + " " + proName);
 
         btnRate.setOnClickListener(v -> {
             int rate = (int) rbProvider.getRating();
@@ -3645,37 +3068,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             }
 
         });
-        tvSkip.setOnClickListener(v -> {
-            String rate = String.valueOf(rbProvider.getRating());
-            String com = etComment.getText().toString();
-            postPastTripRate(requestId, 1, com);
-        });
-
-        oneTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 1));
-
-        secondTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 2));
-
-        threedTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 3));
-
-        fiveTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 4));
-
-        zeroTrink.setOnClickListener(v -> changeColorButtonRadioClick(textViewArray, 5));
 
     }
 
-    private void changeColorButtonRadioClick(TextView[] textViewArray, int j) {
-        for (int i = 0; i < textViewArray.length; i++) {
-            if (i == j - 1) {
-                textViewArray[i].setTextColor(getResources().getColor(R.color.white));
-                textViewArray[i].setBackgroundResource(R.drawable.radio_click);
-            } else {
-                textViewArray[i].setTextColor(getResources().getColor(R.color.black));
-                textViewArray[i].setBackgroundResource(R.drawable.radio_not_click);
-            }
-        }
-    }
 
     void postPastTripRate(String requestId, int rating, String comment) {
+        Log.e("Method", "postPastTripRate");
         customDialog.show();
         customDialog.setCancelable(false);
         String auth = "Bearer " + SharedHelper.getKey(context, "access_token");
@@ -3687,20 +3085,23 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                Log.e("s_click_onResponse", response + "");
                 if (response.code() == 200) {
                     if (customDialog != null && customDialog.isShowing()) {
                         customDialog.dismiss();
-                        userRateDialog.cancel();
-                        mMap.clear();
-                        flowValue = 0;
-//                        startActivity(new Intent(context, TrinkgeldActivity.class)); // rate abood
-                        layoutChanges();
                     }
+                    if (userRateDialog != null && userRateDialog.isShowing())
+                        userRateDialog.dismiss();
+                    if (mMap != null)
+                        mMap.clear();
+                    flowValue = 0;
+                    layoutChanges();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("f_click_onResponse", t + "");
                 customDialog.dismiss();
             }
         });
@@ -3723,7 +3124,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 rcvServiceTypes.setLayoutManager(new LinearLayoutManager(activity,
                         LinearLayoutManager.VERTICAL, false));
                 rcvServiceTypes.setAdapter(serviceListAdapter);
-                getProvidersList(SharedHelper.getKey(context, "service_type"));
             } else {
                 utils.displayMessage(getView(), getString(R.string.no_service));
             }
@@ -3893,6 +3293,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
     public interface HomeFragmentListener {
     }
 
+    private long mLastClickTime = 0;
+
     class OnClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -3904,26 +3306,24 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     Intent intent = new Intent(getActivity(), CustomGooglePlacesSearch.class);
                     intent.putExtra("cursor", "source");
                     intent.putExtra("s_address", frmSource.getText().toString());
-                    intent.putExtra("d_address", destination.getText().toString());
                     intent.putExtra("d_address", frmDest.getText().toString());
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
                     break;
 
                 case R.id.sourceDestLayout:
+                case R.id.frmDest:
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
+
+                    // do your magic here
                     Intent intent2 = new Intent(getActivity(), CustomGooglePlacesSearch.class);
                     intent2.putExtra("cursor", "destination");
                     intent2.putExtra("s_address", frmSource.getText().toString());
-                    intent2.putExtra("d_address", destination.getText().toString());
                     intent2.putExtra("d_address", frmDest.getText().toString());
                     startActivityForResult(intent2, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
-                    break;
-                case R.id.frmDest:
-                    Intent intent3 = new Intent(getActivity(), CustomGooglePlacesSearch.class);
-                    intent3.putExtra("cursor", "destination");
-                    intent3.putExtra("s_address", frmSource.getText().toString());
-                    intent3.putExtra("d_address", destination.getText().toString());
-                    intent3.putExtra("d_address", frmDest.getText().toString());
-                    startActivityForResult(intent3, PLACE_AUTOCOMPLETE_REQUEST_CODE_DEST);
                     break;
                 case R.id.lblPaymentType:
 //                    lblPaymentType
@@ -3940,7 +3340,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         scheduledDate = "";
                         scheduledTime = "";
                         if (!frmSource.getText().toString().equalsIgnoreCase("") &&
-                                !destination.getText().toString().equalsIgnoreCase("") &&
                                 !frmDest.getText().toString().equalsIgnoreCase("")) {
                             getApproximateFare();
                             sourceDestLayout.setOnClickListener(new OnClick());
@@ -3950,22 +3349,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     }
                     ClickFiretInTime2 = false;
 
-                    new Handler().postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            ClickFiretInTime2 = true;
-                        }
-                    }, 1000);
+                    new Handler().postDelayed(() -> ClickFiretInTime2 = true, 1000);
 
                     break;
                 case R.id.schedule_ride:
                     if (!frmSource.getText().toString().equalsIgnoreCase("") &&
-                            !destination.getText().toString().equalsIgnoreCase("") &&
                             !frmDest.getText().toString().equalsIgnoreCase("")) {
-//                        getApproximateFare();
-                        /*flowValue = 7;
-                        layoutChanges();*/
 
                         Intent i = new Intent(getApplicationContext(), ChoseServiceActivity.class);
 
@@ -4023,59 +3412,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                             ClickFiretInTime = true;
                         }
                     }, 1000);
-
-
-                    break;
-                case R.id.btnPayNow:
-//                    sourceDestLayout.setClickable(false);
-                    payNow();
-                    break;
-                case R.id.btnSubmitReview:
-//                    sourceDestLayout.setClickable(false);
-                    submitReviewCall();
-                    break;
-                case R.id.lnrHidePopup:
-                case R.id.btnDonePopup:
-                    lnrHidePopup.setVisibility(View.GONE);
-                    flowValue = 1;
-                    layoutChanges();
-                    click = 1;
                     break;
                 case R.id.btnCancelRide:
-//                    sourceDestLayout.setClickable(false);
                     showCancelRideDialog();
-                    break;
-                case R.id.btnCancelTrip:
-                    if (btnCancelTrip.getText().toString().equals(getString(R.string.cancel_trip)))
-                        showCancelRideDialog();
-                    else {
-                        String shareUrl = URLHelper.REDIRECT_SHARE_URL;
-                        navigateToShareScreen(shareUrl);
-                    }
                     break;
                 case R.id.imgSos:
                     showSosPopUp();
-                    break;
-                case R.id.imgShareRide:
-                    String url = "http://maps.google.com/maps?q=loc:";
-                    navigateToShareScreen(url);
-                    break;
-                case R.id.imgProvider:
-                    Intent intent1 = new Intent(activity, ShowProfile.class);
-                    intent1.putExtra("driver", driver);
-                    startActivity(intent1);
-                    break;
-                case R.id.imgProviderRate:
-                    Intent intent4 = new Intent(activity, ShowProfile.class);
-                    intent4.putExtra("driver", driver);
-                    startActivity(intent4);
-                    break;
-                case R.id.btnCall:
-
-                    Intent intentCall = new Intent(Intent.ACTION_DIAL);
-                    intentCall.setData(Uri.parse("tel:" + SharedHelper.getKey(context, "provider_mobile_no")));
-                    startActivity(intentCall);
-
                     break;
                 case R.id.btnDone:
                     pick_first = true;
@@ -4180,12 +3522,9 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         frmDest.setOnClickListener(new OnClick());
                         sourceDestLayout.setOnClickListener(null);
                         if (!current_lat.equalsIgnoreCase("") && !current_lng.equalsIgnoreCase("")) {
-                            destinationBorderImg.setVisibility(View.VISIBLE);
-                            //verticalView.setVisibility(View.GONE);
                             LatLng myLocation = new LatLng(Double.parseDouble(current_lat), Double.parseDouble(current_lng));
                             CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).build();
                             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                            getProvidersList("");
                             sourceDestLayout.setVisibility(View.VISIBLE);
                         }
                     } else if (lnrApproximate.getVisibility() == View.VISIBLE) {
@@ -4193,13 +3532,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         frmSource.setOnClickListener(new OnClick());
                         frmDest.setOnClickListener(new OnClick());
                         sourceDestLayout.setOnClickListener(null);
-                        flowValue = 1;
-                    } else if (lnrWaitingForProviders.getVisibility() == View.VISIBLE) {
-                        sourceDestLayout.setVisibility(View.GONE);
-                        isRequestProviderScreen = false;
-                        flowValue = 1;
-                    } else if (ScheduleLayout.getVisibility() == View.VISIBLE) {
-                        isRequestProviderScreen = false;
                         flowValue = 1;
                     }
                     layoutChanges();
@@ -4228,136 +3560,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                         }
                     }
                     break;
-                case R.id.imgSchedule:
 
-                    break;
-                case R.id.scheduleBtn:
-                    SharedHelper.putKey(context, "name", "");
-                    if ((!scheduledDate.equals("")) && (!scheduledTime.equals(""))) {
-                        Date date = null;
-                        try {
-                            date = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(scheduledDate);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        long milliseconds = date.getTime();
-                        if (!DateUtils.isToday(milliseconds)) {
-                            sendRequest();
-                        } else {
-                            if (utils.checktimings(scheduledTime)) {
-                                sendRequest();
-                            } else {
-                                Toast.makeText(activity, getString(R.string.different_time), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } else {
-                        Toast.makeText(activity, getString(R.string.choose_date_time), Toast.LENGTH_SHORT).show();
-                    }
-
-                    break;
-                case R.id.scheduleDate:
-                    // calender class's instance and get current date , month and year from calender
-                    final Calendar c = Calendar.getInstance();
-                    int mYear = c.get(Calendar.YEAR); // current year
-                    int mMonth = c.get(Calendar.MONTH); // current month
-                    int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                    // date picker dialog
-                    datePickerDialog = new DatePickerDialog(activity,
-                            (view, year, monthOfYear, dayOfMonth) -> {
-
-                                // set day of month , month and year value in the edit text
-                                String choosedMonth = "";
-                                String choosedDate = "";
-                                String choosedDateFormat = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                                scheduledDate = choosedDateFormat;
-                                try {
-                                    choosedMonth = utils.getMonth(choosedDateFormat);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                if (dayOfMonth < 10) {
-                                    choosedDate = "0" + dayOfMonth;
-                                } else {
-                                    choosedDate = "" + dayOfMonth;
-                                }
-                                afterToday = utils.isAfterToday(year, monthOfYear, dayOfMonth);
-                                scheduleDate.setText(choosedDate + " " + choosedMonth + " " + year);
-                            }, mYear, mMonth, mDay);
-                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                    datePickerDialog.getDatePicker().setMaxDate((System.currentTimeMillis() - 1000) + (1000 * 60 * 60 * 24 * 7));
-                    datePickerDialog.show();
-                    break;
-                case R.id.scheduleTime:
-                    Calendar mcurrentTime = Calendar.getInstance();
-                    int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                    int minute = mcurrentTime.get(Calendar.MINUTE);
-                    TimePickerDialog mTimePicker;
-                    mTimePicker = new TimePickerDialog(activity, new TimePickerDialog.OnTimeSetListener() {
-                        int callCount = 0;   //To track number of calls to onTimeSet()
-
-                        @Override
-                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-
-                            if (callCount == 0) {
-                                String choosedHour = "";
-                                String choosedMinute = "";
-                                String choosedTimeZone = "";
-                                String choosedTime = "";
-
-                                scheduledTime = selectedHour + ":" + selectedMinute;
-
-                                if (selectedHour > 12) {
-                                    choosedTimeZone = "PM";
-                                    selectedHour = selectedHour - 12;
-                                    if (selectedHour < 10) {
-                                        choosedHour = "0" + selectedHour;
-                                    } else {
-                                        choosedHour = "" + selectedHour;
-                                    }
-                                } else {
-                                    choosedTimeZone = "AM";
-                                    if (selectedHour < 10) {
-                                        choosedHour = "0" + selectedHour;
-                                    } else {
-                                        choosedHour = "" + selectedHour;
-                                    }
-                                }
-
-                                if (selectedMinute < 10) {
-                                    choosedMinute = "0" + selectedMinute;
-                                } else {
-                                    choosedMinute = "" + selectedMinute;
-                                }
-                                choosedTime = choosedHour + ":" + choosedMinute + " " + choosedTimeZone;
-
-                                if (scheduledDate != "" && scheduledTime != "") {
-                                    Date date = null;
-                                    try {
-                                        date = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).parse(scheduledDate);
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-                                    long milliseconds = date.getTime();
-                                    if (!DateUtils.isToday(milliseconds)) {
-                                        scheduleTime.setText(choosedTime);
-                                    } else {
-                                        if (utils.checktimings(scheduledTime)) {
-                                            scheduleTime.setText(choosedTime);
-                                        } else {
-                                            Toast toast = new Toast(activity);
-                                            toast.makeText(activity, getString(R.string.different_time), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                } else {
-                                    Toast.makeText(activity, getString(R.string.choose_date_time), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                            callCount++;
-                        }
-                    }, hour, minute, false);//Yes 24 hour time
-                    mTimePicker.setTitle("Select Time");
-                    mTimePicker.show();
-                    break;
             }
         }
     }
@@ -4365,13 +3568,10 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
     private class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.MyViewHolder> {
         JSONArray jsonArray;
-        int selectedPosition;
-        private SparseBooleanArray selectedItems;
 
         public ServiceListAdapter(JSONArray array) {
             this.jsonArray = array;
         }
-
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -4397,42 +3597,18 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
 
             if (position == 0) {
-                Picasso.get().load(URLHelper.base + "/8/" + jsonArray
-                        .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car1)
-                        .error(R.drawable.car1).into(holder.serviceImg);
+                holder.serviceImg.setImageDrawable(getResources().getDrawable(R.drawable.car1));
                 holder.bagCapacity.setText("3");
-            }
-
-            if (position == 1) {
-                Picasso.get().cancelRequest(holder.serviceImg);
-
-                Picasso.get().load(URLHelper.base + "/8/" + jsonArray
-                        .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car23)
-                        .error(R.drawable.car23).into(holder.serviceImg);
-
+            } else if (position == 1) {
+                holder.serviceImg.setImageDrawable(getResources().getDrawable(R.drawable.car23));
                 holder.bagCapacity.setText("5");
-            }
-            if (position == 2) {
-                Picasso.get().load(URLHelper.base + "/8/" + jsonArray
-                        .optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car23)
-                        .error(R.drawable.car23).into(holder.serviceImg);
+            } else if (position == 2) {
+                holder.serviceImg.setImageDrawable(getResources().getDrawable(R.drawable.car23));
                 holder.bagCapacity.setText("7");
             }
 
             getNewApproximateFare(jsonArray.optJSONObject(position)
                     .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
-
-//            if (position == 3) {
-//                getNewApproximateFare(jsonArray.optJSONObject(position)
-//                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
-//            }
-//            if (position == 4) {
-//                getNewApproximateFare(jsonArray.optJSONObject(position)
-//                        .optString("id"), holder.serviceItemPrice, holder.serviceItemPriceCoupon);
-//            }
 
 
             if (position == currentPostion) {
@@ -4442,38 +3618,17 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                 holder.selector_background.setBackgroundResource(R.drawable.selected_service_item);
                 holder.serviceItem.setTextColor(getResources().getColor(R.color.text_color_white));
                 holder.serviceCapacity.setText(jsonArray.optJSONObject(position).optString("capacity"));
-//                holder.serviceCapacity.setBackgroundResource(R.drawable.normal_service_item);
-                /*Picasso.get().load(URLHelper.base+jsonArray.optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car_select)
-                        .error(R.drawable.car_select).into(ImgConfrmCabType);*/
-//                getApproximateFareSchedule();
 
             } else {
-                //SharedHelper.putKey(context, "service_type", "" + jsonArray.optJSONObject(position).optString("id"));
-                /*Picasso.get().load(URLHelper.base+jsonArray.optJSONObject(position).optString("image"))
-                        .placeholder(R.drawable.car_select)
-                        .error(R.drawable.car_select).into(holder.serviceImg);*/
                 holder.selector_background.setBackgroundResource(R.drawable.normal_service_item);
-//                holder.selector_background.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 holder.serviceItem.setTextColor(getResources().getColor(R.color.black));
                 holder.serviceCapacity.setText(jsonArray.optJSONObject(position).optString("capacity"));
-
-//                getApproximateFareSchedule();
             }
 
 
             holder.linearLayoutOfList.setTag(position);
 
             holder.linearLayoutOfList.setOnClickListener(view -> {
-                if (position == currentPostion) {
-                    try {
-                        lnrHidePopup.setVisibility(View.VISIBLE);
-                        // showProviderPopup(jsonArray.getJSONObject(position));
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
                 currentPostion = Integer.parseInt(view.getTag().toString());
                 SharedHelper.putKey(context, "service_type", "" + jsonArray.optJSONObject(currentPostion).optString("id"));
                 SharedHelper.putKey(context, "name", "" + jsonArray.optJSONObject(currentPostion).optString("name"));
@@ -4481,7 +3636,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
                 utils.print("service_typeCurrentPosition", "" + SharedHelper.getKey(context, "service_type"));
                 utils.print("Service name", "" + SharedHelper.getKey(context, "name"));
-                getProvidersList(SharedHelper.getKey(context, "service_type"));
+//                getProvidersList(SharedHelper.getKey(context, "service_type"));
             });
         }
 
@@ -4642,13 +3797,6 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                                 .position(destLatLng).draggable(true)
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.square_desti));
                         destinationMarker = mMap.addMarker(destMarker);
-//                    if (sourceLatLng != null && destLatLng != null) {
-//                        View infoWindow = getInfoWindow(distance, duration, true);
-//                        addIcon(infoWindow, true, sourceLatLng, destLatLng);
-//
-//                        infoWindow = getInfoWindow(distance, duration, false);
-//                        addIcon(infoWindow, false, sourceLatLng, destLatLng);
-//                    }
 
                         mMap.setPadding(20, 20, 20, 20);
 
@@ -4701,101 +3849,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         }
     }
 
-    private void confirmFinalPayment(String totalFee) {
-
-        customDialog.setCancelable(false);
-        if (customDialog != null)
-            customDialog.show();
-        JSONObject object = new JSONObject();
-//        try {
-//            object.put("total_amount",lblTotalPrice.getText().toString());
-//            object.put("req_id",SharedHelper.getKey(getApplicationContext(), "request_id"));
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-        String constructedURL1 = URLHelper.base + URLHelper.GET_PAYMENT_CONFIRMATION + totalFee +
-                "?req_id=" + SharedHelper.getKey(getApplicationContext(), "request_id");
-
-        Log.e("paymentConfirmationApi:", constructedURL1);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, constructedURL1, object, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.e("payment_response_", response.toString());
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
-                if (response != null) {
-                    try {
-                        String status = response.getString("status");
-                        if (status.equalsIgnoreCase("1")) {
-                            //  paymentShowDialog(response.optString("message"));
-                        } else {
-                            //   paymentErrorShowDialog(response.optString("message"));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("videoerror", error + "vd");
-                String json = null;
-                String Message;
-                if ((customDialog != null) && (customDialog.isShowing()))
-                    customDialog.dismiss();
-                NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
-
-                        if (response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500) {
-                            try {
-                                utils.showAlert(context, errorObj.optString("message"));
-                            } catch (Exception e) {
-                                utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                            }
-                        } else if (response.statusCode == 401) {
-                            //  refreshAccessToken("INSURANCE_LIST");
-                        } else if (response.statusCode == 422) {
-                            //  json = trimMessage(new String(response.data));
-                            if (json != "" && json != null) {
-                                utils.showAlert(context, json);
-                            } else {
-                                utils.showAlert(context, context.getString(R.string.please_try_again));
-                            }
-                        } else if (response.statusCode == 503) {
-                            utils.showAlert(context, context.getString(R.string.server_down));
-                        } else {
-                            utils.showAlert(context, context.getString(R.string.please_try_again));
-                        }
-
-                    } catch (Exception e) {
-                        utils.showAlert(context, context.getString(R.string.something_went_wrong));
-                    }
-
-                } else {
-                    utils.showAlert(context, context.getString(R.string.please_try_again));
-                }
-
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization", "" + SharedHelper.getKey(context, "token_type") + " " + SharedHelper.getKey(context, "access_token"));
-                return headers;
-            }
-        };
-        IlyftApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-    }
-
 
     public void getValidZone() {
-
 
         customDialog.setCancelable(false);
         if (customDialog != null)

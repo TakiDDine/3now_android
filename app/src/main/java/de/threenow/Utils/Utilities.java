@@ -334,15 +334,19 @@ public class Utilities {
      * @return build version number
      */
     public String getAppVersion(Context context) {
+
         PackageManager manager = context.getPackageManager();
         PackageInfo info = null;
+        String ver = "";
         try {
             info = manager.getPackageInfo(context.getPackageName(), 0);
+            ver = String.format(context.getString(R.string.version), info.versionName);
         } catch (PackageManager.NameNotFoundException ignored) {
             throw new RuntimeException("Could not get package name: " + ignored);
         }
+        Log.e("getAppVersion",ver);
         assert info != null;
-        return String.format(context.getString(R.string.version), info.versionName);
+        return ver;
     }
 
     public static void hideKeyboard(Activity activity) {

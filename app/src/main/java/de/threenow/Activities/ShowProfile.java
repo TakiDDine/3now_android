@@ -20,7 +20,6 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import de.threenow.Helper.ConnectionHelper;
-import de.threenow.Helper.CustomDialog;
 import de.threenow.Helper.LocaleManager;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.Helper.URLHelper;
@@ -31,33 +30,26 @@ public class ShowProfile extends AppCompatActivity {
 
     public Context context = ShowProfile.this;
     public Activity activity = ShowProfile.this;
-    String TAG = "ShowActivity";
-    CustomDialog customDialog;
     ConnectionHelper helper;
     Boolean isInternet;
     ImageView backArrow;
-    TextView email, first_name, last_name, mobile_no, services_provided;
+    TextView email, first_name, last_name, mobile_no;
     ImageView profile_Image;
     RatingBar ratingProvider;
-    String strUserId = "", strServiceRequested = "";
 
     @Override
     protected void attachBaseContext(Context base) {
-
-
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-
-
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleManager.setLocale(this);
-}
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,26 +61,20 @@ public class ShowProfile extends AppCompatActivity {
             getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
         setContentView(R.layout.activity_show_profile);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         findViewByIdandInitialization();
 
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
+        backArrow.setOnClickListener(view -> finish());
     }
 
     public void findViewByIdandInitialization() {
-        email =  findViewById(R.id.email);
-        first_name =  findViewById(R.id.first_name);
-        last_name =  findViewById(R.id.last_name);
-        mobile_no =  findViewById(R.id.mobile_no);
+        email = findViewById(R.id.email);
+        first_name = findViewById(R.id.first_name);
+        last_name = findViewById(R.id.last_name);
+        mobile_no = findViewById(R.id.mobile_no);
         //services_provided =  findViewById(R.id.services_provided);
-        backArrow =  findViewById(R.id.backArrow);
-        profile_Image =  findViewById(R.id.img_profile);
+        backArrow = findViewById(R.id.backArrow);
+        profile_Image = findViewById(R.id.img_profile);
         ratingProvider = (RatingBar) findViewById(R.id.ratingProvider);
         helper = new ConnectionHelper(context);
         isInternet = helper.isConnectingToInternet();
@@ -115,107 +101,13 @@ public class ShowProfile extends AppCompatActivity {
                 ratingProvider.setRating(Float.parseFloat(provider.getRating()));
             else
                 ratingProvider.setRating(1);
-            if (provider.getImg().equalsIgnoreCase("http"))
-                Picasso.get().load(provider.getImg()).memoryPolicy(MemoryPolicy.NO_CACHE).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(profile_Image);
-            else
-                Picasso.get().load(URLHelper.base +"storage/app/public/"+provider.getImg()).memoryPolicy(MemoryPolicy.NO_CACHE).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(profile_Image);
+            if (provider.getImg().equalsIgnoreCase("http")) {
+                Picasso.get().load(provider.getImg()).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(profile_Image);
+            } else if (!provider.getImg().equalsIgnoreCase("null"))
+                Picasso.get().load(URLHelper.base + "storage/app/public/" + provider.getImg()).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(profile_Image);
         }
     }
 
-/*
-    public void getProfile(){
-
-        Log.e("GetPostAPI",""+ URLHelper.USER_PROFILE_API+"?provider_id="+strUserId);
-        JSONObject object = new JSONObject();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URLHelper.USER_PROFILE_API+"?user_id="+strUserId,
-                object , new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject jsonProviderObj) {
-                try {
-                    email.setText(jsonProviderObj.optString("email"));
-                    first_name.setText(jsonProviderObj.optString("first_name"));
-                    last_name.setText(jsonProviderObj.optString("last_name"));
-                    mobile_no.setText(jsonProviderObj.optString("mobile"));
-                    Picasso.with(context).load(URLHelper.base + jsonProviderObj.optString("picture")).memoryPolicy(MemoryPolicy.NO_CACHE).placeholder(R.drawable.ic_dummy_user).error(R.drawable.ic_dummy_user).into(profile_Image);
-                    services_provided.setText(""+strServiceRequested);
-                    ratingProvider.setRating(Float.parseFloat(jsonProviderObj.optString("rating")));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String json = null;
-                String Message;
-                NetworkResponse response = error.networkResponse;
-                if(response != null && response.data != null){
-
-                    try {
-                        JSONObject errorObj = new JSONObject(new String(response.data));
-
-                        if(response.statusCode == 400 || response.statusCode == 405 || response.statusCode == 500){
-                            try{
-                                displayMessage(errorObj.optString("message"));
-                            }catch (Exception e){
-                                displayMessage(getString(R.string.something_went_wrong));
-                            }
-                        }else if(response.statusCode == 401){
-
-                        }else if(response.statusCode == 422){
-
-                            json = trimMessage(new String(response.data));
-                            if(json !="" && json != null) {
-                                displayMessage(json);
-                            }else{
-                                displayMessage(getString(R.string.please_try_again));
-                            }
-
-                        }else if(response.statusCode == 503){
-                            displayMessage(getString(R.string.server_down));
-                        }else{
-                            displayMessage(getString(R.string.please_try_again));
-                        }
-
-                    }catch (Exception e){
-                        displayMessage(getString(R.string.something_went_wrong));
-                    }
-
-                }else{
-                    displayMessage(getString(R.string.please_try_again));
-                }
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Requested-With", "XMLHttpRequest");
-                headers.put("Authorization",""+SharedHelper.getKey(context, "token_type")+" "+SharedHelper.getKey(context, "access_token"));
-                return headers;
-            }
-        };
-
-        XuberApplication.getInstance().addToRequestQueue(jsonObjectRequest);
-
-    }
-
-*/
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
 
     public void displayMessage(String toastString) {
         Toast.makeText(context, toastString + "", Toast.LENGTH_SHORT).show();

@@ -13,7 +13,7 @@
     <string name="action_track">في رحلة الذهاب</string>
     <string name="no_running_Trip">لا في رحلة الذهاب</string>
 
-    <string name="version">ضد</string>
+    <string name="version">v %s</string>
 
     
 
@@ -457,13 +457,6 @@
     <string name="are_you_sure_you_want_to_close_flight_tracking">هل أنت متأكد أنك تريد إغلاق تتبع الرحلة؟</string>
     <string name="impressum">impressum</string>
 
-    <string-array name="nav_item_activity_titles">
-        <item>الصفحة الرئيسية</item>
-        <item>الصور</item>
-        <item>أفلام</item>
-        <item>إشعارات</item>
-        <item>الإعدادات</item>
-    </string-array>
 
     <string name="impressum_txt">
         WEBSITE : 3now.de\n
@@ -484,7 +477,7 @@ Telefon : +49 213 1533 2693\n
 E-mail : Info@3now.de\n
     </string>
     <string name="betrag">Betrag</string>
-    <string name="fahrpreis_ink_16_mwst">Fahrpreis ink. 16% MwSt.</string>
+    <string name="fahrpreis_ink_16_mwst">Fahrpreis ink. 19% MwSt.</string>
     <string name="booking_successful_msg">Vielen Dank für Ihren Auftrag. Sie erhalten in Kürze eine Auftragsbestätigung auf die bei uns registrierte E-Mailadresse. Eine Übersicht Ihrer gebuchten Fahrten können Sie im Hauptmenü unter dem Punkt \"Meine Fahrten\" einsehen.</string>
     <string name="hello_team">Hello team</string>
     <string name="send_email">Send Email</string>
