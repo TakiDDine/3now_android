@@ -624,5 +624,7 @@ E-mail : Info@3now.de\n
     <string name="tv2_how_it_work">Deinen %1$s€ Gutschein erhältst Du, in dem Du Familienmitglieder, Freunde, Bekannte usw. einlädst, die 3Now App zu installieren und auch zu benutzen.</string>
     <string name="tv3_how_it_work">Wann kann ich den %1$s€ Gutschein nutzen?</string>
     <string name="tv4_how_it_work">Du musst nichts weiter tun! Sobald nach der Registrierung zwei Fahrten erfolgreich gebucht und durchgeführt wurden, wird Deinem Konto automatisch das Guthaben von %1$s€ gutgeschrieben. Diese Gutschrift wird dann bei Deiner nächsten Fahrt von dem Fahrpreis abgezogen.</string>
+    <string name="new_version_available">New Version Available</string>
+    <string name="there_is_a_newer_version_available_for_ndownload_please_update_the_app_by_n_visiting_the_play_store">There is a newer version available for \ndownload! please update the app by\n visiting the Play Store</string>
 
 </resources>
