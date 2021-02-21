@@ -16,6 +16,7 @@ import java.util.List;
 
 import de.threenow.Models.CardDetails;
 import de.threenow.R;
+import de.threenow.Utils.GlobalDataMethods;
 import de.threenow.Utils.MyTextView;
 
 

@@ -1,6 +1,7 @@
 package de.threenow.Utils;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -8,6 +9,12 @@ import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 
 import de.threenow.Models.GoogleDirectionModel;
@@ -61,6 +68,47 @@ public class GlobalDataMethods {
             coupon_discount = 0d;
 
         return new Long(Math.round(coupon_discount * 10) / 10).doubleValue();
+
+    }
+
+    public static void registerBug(String ss){
+        try {
+        String s="Debug-infos:";
+        s += "\n OS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")";
+        s += "\n OS API Level: " + android.os.Build.VERSION.SDK_INT;
+        s += "\n Device: " + android.os.Build.DEVICE;
+        s += "\n Model (and Product): " + android.os.Build.MODEL + " ("+ android.os.Build.PRODUCT + ")";
+
+        String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
+
+        String apiToken = "595265935:AAHwZhYl8xgUECCthGV-5FUHvpqjXk_JOpg";//"my_bot_api_token";
+        String chatId = "-568114865";//"@my_channel_name";
+        String text = "" + ss;
+
+        urlString = String.format(urlString, apiToken, chatId, s + "\n" +text);
+
+
+        URL url = null;
+
+            url = new URL(urlString.replace(" ", "%20").replace("\n","%0A%0A"));
+
+            Log.e("registerBug", url.toString());
+
+            URLConnection conn = url.openConnection();
+
+            StringBuilder sb = new StringBuilder();
+            InputStream is = new BufferedInputStream(conn.getInputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String inputLine = "";
+            while ((inputLine = br.readLine()) != null) {
+                sb.append(inputLine);
+            }
+//            String response = sb.toString();
+            // Do what you want with response
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

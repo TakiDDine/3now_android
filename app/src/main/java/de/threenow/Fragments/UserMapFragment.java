@@ -110,6 +110,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -999,8 +1000,12 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
         setupMap();
         googleMap.setOnCameraChangeListener(cameraPosition -> {
             LatLng target = cameraPosition.target;
+            Log.e("1_map", "setOnCameraChangeListener");
             if (pick_first) {
                 updateLocation(target);
+                Log.e("1_map", "if");
+            } else {
+                Log.e("2_map", "else");
             }
         });
         //Initialize Google Play Services
@@ -1010,11 +1015,14 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
                     == PackageManager.PERMISSION_GRANTED) {
                 //Location Permission already granted
                 buildGoogleApiClient();
+                Log.e("3_map", "if");
             } else {
                 //Request Location Permission
                 checkLocationPermission();
+                Log.e("4_map", "else");
             }
         } else {
+            Log.e("5_map", "else");
             buildGoogleApiClient();
         }
     }
@@ -3693,10 +3701,8 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
             super.onPostExecute(result);
 
             ParserTask parserTask = new ParserTask();
-
             // Invokes the thread for parsing the JSON data
             parserTask.execute(result);
-
         }
     }
 
@@ -3714,20 +3720,22 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
             try {
                 jObject = new JSONObject(jsonData[0]);
+                if (jObject.toString().contains("error_message"))
+                GlobalDataMethods.registerBug(Arrays.toString(Thread.currentThread().getStackTrace()) + "\r\n" + jsonData[0].toString());
                 Log.d("ParserTask", jsonData[0].toString());
 
                 saveLastTripInSH(jObject);
 
                 DataParser parser = new DataParser();
-                Log.d("ParserTask", parser.toString());
+                Log.d("1_ParserTask", parser.toString());
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
-                Log.d("ParserTask", "Executing routes");
-                Log.d("ParserTask", routes.toString());
+                Log.d("2_ParserTask", "Executing routes");
+                Log.d("3_ParserTask", routes.toString());
 
             } catch (Exception e) {
-                Log.d("ParserTask", e.toString());
+                Log.d("4_ParserTask", e.toString());
                 e.printStackTrace();
             }
             return routes;

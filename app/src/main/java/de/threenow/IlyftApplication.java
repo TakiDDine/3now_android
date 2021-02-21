@@ -22,6 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -88,6 +90,15 @@ public class IlyftApplication extends Application {
         setLangFirstTime();
         mInstance = this;
         EmojiManager.install(new IosEmojiProvider());
+
+//        Thread.setDefaultUncaughtExceptionHandler((paramThread, paramThrowable) -> {
+//            //Catch your exception
+//            // Without System.exit() this will not work.
+////                System.exit(2);
+//
+//            Log.e("IlyftApplication", paramThrowable.getMessage());
+//        });
+
 //        initCalligraphyConfig();
 //        Fabric fabric = new Fabric.Builder(IlyftApplication.this)
 //                .kits(new Crashlytics())

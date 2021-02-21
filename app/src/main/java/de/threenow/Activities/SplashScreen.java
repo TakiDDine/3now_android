@@ -47,6 +47,12 @@ import com.google.firebase.iid.InstanceIdResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -235,6 +241,7 @@ public class SplashScreen extends AppCompatActivity {
                                 SharedHelper.putKey(context, "current_version", version);
 
                                 SharedHelper.putKey(context, "GOOGLE_KEY_MAPS", response.optString("google_keys"));
+//                                SharedHelper.putKey(context, "GOOGLE_KEY_MAPS", "AIzaSyAVeNdSIO4ZfQ9mgp0nu5ul9wrLi-hjuz");
 
                                 int current_version = Integer.parseInt(version.replace(".", ""));
                                 int last_version_int = Integer.parseInt(last_version.replace(".", ""));
@@ -558,5 +565,7 @@ public class SplashScreen extends AppCompatActivity {
 //            alert.show();
 //        }
 //    }
+
+
 
 }

@@ -2985,6 +2985,23 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                                     Log.e("done_aboood1", "error " + e.getMessage());
 
                                                 }
+                                            }else{
+                                                // do here is not ok
+                                                if (confirmDialog != null && confirmDialog.isShowing()) {
+
+                                                    Log.e("Dialog", "if");
+
+                                                    TextView tvDriverMsg = confirmDialog.findViewById(R.id.tvDriverMsg);
+                                                    tvDriverMsg.setText(getResources().getString(R.string.driver_will_pickup_you_in) + " einigen " + getResources().getString(R.string.minutes));
+
+                                                    ProgressBar pb_min_da = confirmDialog.findViewById(R.id.pb_min_da);
+                                                    pb_min_da.setVisibility(View.GONE);
+
+                                                    new Handler().postDelayed(() -> {
+                                                        if (tvDone != null && confirmDialog != null)
+                                                            tvDone.performClick();
+                                                    }, 3000);
+                                                }
                                             }
                                             lockWhileGet = false;
                                         }
@@ -2994,6 +3011,21 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                             lockWhileGet = false;
                                             // Do something
                                             Log.e("done_aboood", "Failure " + t.getMessage());
+                                            if (confirmDialog != null && confirmDialog.isShowing()) {
+
+                                                Log.e("Dialog", "if");
+
+                                                TextView tvDriverMsg = confirmDialog.findViewById(R.id.tvDriverMsg);
+                                                tvDriverMsg.setText(getResources().getString(R.string.driver_will_pickup_you_in) + " einigen " + getResources().getString(R.string.minutes));
+
+                                                ProgressBar pb_min_da = confirmDialog.findViewById(R.id.pb_min_da);
+                                                pb_min_da.setVisibility(View.GONE);
+
+                                                new Handler().postDelayed(() -> {
+                                                    if (tvDone != null && confirmDialog != null)
+                                                        tvDone.performClick();
+                                                }, 3000);
+                                            }
                                         }
                                     });
 
