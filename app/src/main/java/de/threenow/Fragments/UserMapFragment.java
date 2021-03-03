@@ -3058,7 +3058,7 @@ public class UserMapFragment extends Fragment implements OnMapReadyCallback, Loc
 
         rbProvider.setRating(Float.parseFloat("5"));
 
-        if (!proImage.equalsIgnoreCase("null")) {
+        if (proImage != null && !proImage.equalsIgnoreCase("null")) {
             Picasso.get().load(URLHelper.image_url_signature + proImage).error(R.drawable.ic_dummy_user).placeholder(R.drawable.ic_dummy_user)
                     .resize(100, 100)
                     .into(ivProviderImg);

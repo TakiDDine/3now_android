@@ -353,12 +353,12 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         showSosPopUp();
     }
 
-    @butterknife.OnClick(R.id.imgProviderRate)
-    void imgProviderRateClick() {
-        Intent intent4 = new Intent(activity, ShowProfile.class);
-        intent4.putExtra("driver", driver);
-        startActivity(intent4);
-    }
+//    @butterknife.OnClick(R.id.imgProviderRate)
+//    void imgProviderRateClick() {
+//        Intent intent4 = new Intent(activity, ShowProfile.class);
+//        intent4.putExtra("driver", driver);
+//        startActivity(intent4);
+//    }
 
     @butterknife.OnClick(R.id.imgProvider)
     void imgProviderClick() {

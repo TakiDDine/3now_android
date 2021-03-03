@@ -144,14 +144,14 @@ public class HistoryDetails extends AppCompatActivity {
                 lblTitle.setText(getResources().getString(R.string.upcoming_trips));
             }
         }
-        profileLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HistoryDetails.this, ShowProfile.class);
-                intent.putExtra("driver", driver);
-                startActivity(intent);
-            }
-        });
+//        profileLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(HistoryDetails.this, ShowProfile.class);
+//                intent.putExtra("driver", driver);
+//                startActivity(intent);
+//            }
+//        });
 
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override

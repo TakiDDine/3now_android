@@ -49,14 +49,10 @@ public class OtpVerification extends AppCompatActivity implements OnOtpCompletio
 
     @Override
     protected void attachBaseContext(Context base) {
-
-
         if (SharedHelper.getKey(base, "lang") != null)
             super.attachBaseContext(LocaleManager.setNewLocale(base, SharedHelper.getKey(base, "lang")));
         else
             super.attachBaseContext(LocaleManager.setNewLocale(base, "de"));
-
-
     }
 
     @Override
