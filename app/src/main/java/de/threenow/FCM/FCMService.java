@@ -13,7 +13,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -33,7 +32,6 @@ import de.threenow.Activities.MainActivity;
 import de.threenow.Activities.TrackActivity;
 import de.threenow.Helper.SharedHelper;
 import de.threenow.R;
-import de.threenow.calender.Utils;
 import de.threenow.chat.UserChatActivity;
 
 public class FCMService extends FirebaseMessagingService {
@@ -50,42 +48,48 @@ public class FCMService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.d(Tag, remoteMessage.getData().toString());
-        Log.v(Tag + "Image", remoteMessage.getNotification().getImageUrl() + " ");
+        Log.e(Tag, remoteMessage.getData().toString());
+        Log.e(Tag + "Image", remoteMessage.getNotification().getImageUrl() + " ");
 
         String msg_type = remoteMessage.getNotification().getTitle();
-        Log.d(Tag, msg_type);
+        Log.e(Tag, msg_type);
 
         if (msg_type != null) {
-            Log.d(Tag, "!=null");
+            Log.e(Tag, "!=null");
 
             if (msg_type.equalsIgnoreCase("chat")) {
 
-                MediaPlayer.create(this, R.raw.come_message).start();
+                Intent intente = new Intent("msg");    //action: "msg"
+                intente.setPackage(getPackageName());
+                intente.putExtra("message", remoteMessage.getNotification().getBody());
+                getApplicationContext().sendBroadcast(intente);
 
-                Log.d(Tag, "msg_type == chat");
-                Log.d(Tag, getTopAppName() + "");
+//                MediaPlayer.create(this, R.raw.come_message).start();
+//                startService(new Intent(this, SoundService.class));
+
+                Log.e(Tag, "msg_type == chat");
+                Log.e(Tag, getTopAppName() + "");
                 if (getTopAppName().equals(UserChatActivity.class.getName())) {
 
-                    Log.d(Tag, "if_UserChatActivity");
+                    Log.e(Tag, "if_UserChatActivity");
                     Intent intent = new Intent();
                     intent.putExtra("message", remoteMessage.getNotification().getBody());
                     intent.setAction("com.my.app.onMessageReceived");
                     sendBroadcast(intent);
-                    Log.v(Tag + "message", remoteMessage.getNotification().getImageUrl() + " ");
+                    Log.e(Tag + "message", remoteMessage.getNotification().getImageUrl() + " ");
 
                 } else if (getTopAppName().equals(TrackActivity.class.getName())) {
-                    Log.d(Tag, "if_TrackActivity");
+                    Log.e(Tag, "if_TrackActivity");
                     Intent intent = new Intent();
                     intent.putExtra("message", remoteMessage.getNotification().getBody());
                     intent.setAction("com.my.app.onMessageReceived.TrackActivity");
                     sendBroadcast(intent);
-                    Log.v(Tag + "message", remoteMessage.getNotification().getImageUrl() + " ");
+                    Log.e(Tag + "message", remoteMessage.getNotification().getImageUrl() + " ");
 
                     handleNotification(remoteMessage);
 
                 } else {
-                    Log.d(Tag, "else");
+                    Log.e(Tag, "else");
                     handleNotification(remoteMessage);
                 }
 
@@ -124,12 +128,12 @@ public class FCMService extends FirebaseMessagingService {
                     sendNotification(remoteMessage.getData().get("roomId"), "clicked");
                 }
             } else if (remoteMessage.getData() != null) {
-                Log.v(TAG, "From: " + remoteMessage.getFrom());
-                Log.v(TAG, "Notification Message Body: " + remoteMessage.getData());
+                Log.e(TAG, "From: " + remoteMessage.getFrom());
+                Log.e(TAG, "Notification Message Body: " + remoteMessage.getData());
                 sendNotification(remoteMessage.getData().get("message"));
             } else {
                 sendNotification("test");
-                Log.v(TAG, "Notification Message Body: " + remoteMessage.getData());
+                Log.e(TAG, "Notification Message Body: " + remoteMessage.getData());
             }
         }
     }
@@ -237,13 +241,12 @@ public class FCMService extends FirebaseMessagingService {
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setFullScreenIntent(null,true)
+                    .setFullScreenIntent(null, true)
                     .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
                     .setGroup("Chat_Group_User")
                     .setGroupSummary(false);
 
-            if(Build.VERSION.SDK_INT> Build.VERSION_CODES.KITKAT)
-            {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
                 notificationBuilder.setCategory(Notification.CATEGORY_MESSAGE);
             }
 

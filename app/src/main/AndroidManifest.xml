@@ -323,6 +323,19 @@
             </intent-filter>
         </service>
 
+        <receiver android:name=".FCM.MyBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

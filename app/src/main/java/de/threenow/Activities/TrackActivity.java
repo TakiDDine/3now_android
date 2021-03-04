@@ -1185,20 +1185,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             Log.e("messsgae", message + "messsage");
             if (message != null) {
                 new_message_tv.setVisibility(View.VISIBLE);
-
-                // Get the custom layout view.
-//                View toastView = getLayoutInflater().inflate(R.layout.activity_toast_custom_view, null);
-//                TextView customToastText = toastView.findViewById(R.id.customToastText);
-//                customToastText.setText(message);
-//                // Initiate the Toast instance.
-//                Toast toast = new Toast(getApplicationContext());
-//                // Set custom view in toast.
-//                toast.setView(toastView);
-//                toast.setDuration(Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER, 0,0);
-//                toast.show();
-
-//                Toast.makeText(context, message + " ..", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -1215,11 +1201,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         AlertDialog.Builder builder = new AlertDialog.Builder(TrackActivity.this);
         builder.setMessage(getString(R.string.connect_to_network))
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.connect_to_wifi), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                    }
-                });
+                .setPositiveButton(getString(R.string.connect_to_wifi), (dialog, id) -> startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)));
         if (alert == null) {
             alert = builder.create();
             alert.show();
